@@ -1,34 +1,37 @@
-.PHONY: setup sample-data test lint format smoke health demo clean run-portfolio
+PYTHON ?= python
+
+.PHONY: setup verify sample-data test lint format smoke health demo clean run-portfolio
 
 setup:
-	python -m venv .venv
-	.venv/Scripts/python -m pip install --upgrade pip
-	.venv/Scripts/python -m pip install -r requirements.txt -r requirements-dev.txt
+	$(PYTHON) scripts/setup.py
+
+verify:
+	$(PYTHON) scripts/verify.py
 
 sample-data:
-	python scripts/generate_sample_data.py
+	$(PYTHON) scripts/generate_sample_data.py
 
 test:
-	pytest
+	$(PYTHON) -m pytest
 
 lint:
-	ruff check .
+	$(PYTHON) -m ruff check .
 
 format:
-	black .
-	ruff check --fix .
+	$(PYTHON) -m black .
+	$(PYTHON) -m ruff check --fix .
 
 smoke:
-	python scripts/run_smoke_tests.py
+	$(PYTHON) scripts/run_smoke_tests.py
 
 health:
-	python scripts/check_repo_health.py
+	$(PYTHON) scripts/check_repo_health.py
 
 demo:
 	streamlit run projects/$(PROJECT)/app.py
 
 clean:
-	python -c "import shutil, pathlib; [shutil.rmtree(p, ignore_errors=True) for p in pathlib.Path('.').rglob('__pycache__')]; [shutil.rmtree(p, ignore_errors=True) for p in ['.pytest_cache','.ruff_cache']]"
+	$(PYTHON) -c "import shutil, pathlib; [shutil.rmtree(p, ignore_errors=True) for p in pathlib.Path('.').rglob('__pycache__')]; [shutil.rmtree(p, ignore_errors=True) for p in ['.pytest_cache','.ruff_cache']]"
 
 run-portfolio:
-	python -m http.server 8080 --directory portfolio-site
+	$(PYTHON) -m http.server 8080 --directory portfolio-site

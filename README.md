@@ -6,44 +6,41 @@ This portfolio combines domain-specific AI for the built environment with genera
 
 ## Recommended Review Path For Recruiters
 
-If you are reviewing my portfolio, I recommend starting with these five projects because they show the strongest mix of AI engineering range, product thinking, and my built-environment/embodied AI specialization:
+If you are reviewing my portfolio, I recommend starting with these five projects. They are the strongest signals of applied AI engineering depth; the remaining projects are useful supporting experiments rather than equal flagship claims.
 
+- [AEC Code Compliance RAG Assistant](projects/aec-code-compliance-rag/README.md) - built-environment differentiator with source-grounded retrieval, citations, and compliance-oriented uncertainty handling.
 - [Agentic Research Operations Assistant](projects/agentic-research-ops-assistant/README.md) - planner/executor agent, tool calling, local RAG, citations, and approval checkpoints.
-- [Multimodal VLM Visual QA Assistant](projects/multimodal-vlm-visual-qa/README.md) - VLM product workflow, provider abstraction, structured visual QA output, and mock/provider boundary.
-- [VLA Embodied Agent Simulator](projects/vla-embodied-agent-simulator/README.md) - embodied AI loop from language and state to safe actions.
-- [MLOps Model Serving and Monitoring Platform](projects/mlops-model-serving-monitoring/README.md) - training, serving, drift checks, model metadata, Docker, and tests.
-- [AEC Code Compliance RAG Assistant](projects/aec-code-compliance-rag/README.md) - built-environment differentiator with RAG, citations, and compliance-oriented uncertainty handling.
+- [MLOps Model Serving and Monitoring Platform](projects/mlops-model-serving-monitoring/README.md) - training, model artifacts, FastAPI serving, SQLite inference logs, drift history, Docker, and tests.
+- [LLM Evals and Guardrails Platform](projects/llm-evals-guardrails-platform/README.md) - prompt-injection, structured-output, citation, and regression-style eval checks.
+- [Multimodal VLM Visual QA Assistant](projects/multimodal-vlm-visual-qa/README.md) - VLM product workflow with mock mode plus an optional OpenAI-compatible vision-provider path.
 
 ## Why I Structured This Portfolio This Way
 
 I designed this repository for two kinds of hiring review:
 
-- If you are hiring for general AI engineering, I recommend reviewing the agents, VLM, LLM evals, MLOps, RL, recommender, time-series, and fine-tuning projects.
+- If you are hiring for general AI engineering, I recommend reviewing the agent, MLOps, LLM evals, and VLM projects first.
 - If you are hiring for built-environment, robotics, or embodied AI work, I recommend reviewing the AEC document, BIM QA, construction progress, energy modeling, spatial design, and construction robotics projects.
 - I kept every project runnable locally with synthetic data or mock providers so you can inspect the engineering without needing private datasets, paid APIs, or hidden infrastructure.
 
-## Project Table
+## Flagship Projects
 
-| Project | Skill area | What it proves | Tech stack | Demo command | Resume bullet |
-| --- | --- | --- | --- | --- | --- |
-| [AEC Code Compliance RAG](projects/aec-code-compliance-rag/README.md) | RAG / AEC | Source-grounded LLM workflows | Python, Streamlit, TF-IDF | `streamlit run projects/aec-code-compliance-rag/app.py` | Built a RAG assistant for AEC guidance with chunking, retrieval, citations, and mock LLM fallback. |
-| [Construction Progress CV](projects/construction-progress-cv/README.md) | CV / ML | Progress classification and reporting | Python, scikit-learn, FastAPI | `streamlit run projects/construction-progress-cv/app.py` | Built a construction progress tracker that classifies synthetic site metadata and generates reports. |
-| [BIM Issue Detection Agent](projects/bim-issue-detection-agent/README.md) | Agents / Data QA | Structured design QA automation | Python, pandas, Streamlit | `streamlit run projects/bim-issue-detection-agent/app.py` | Built a BIM QA agent that flags room schedule issues and exports explainable reports. |
-| [AI + AEC Job Fit Analyzer](projects/ai-aec-job-fit-analyzer/README.md) | NLP / Product | Role classification and gap analysis | Python, Streamlit | `streamlit run projects/ai-aec-job-fit-analyzer/app.py` | Built a job-fit analyzer that classifies AI/AEC roles and returns application strategy. |
-| [Building Energy ML](projects/building-energy-ml-pipeline/README.md) | Classic ML | Feature engineering, evaluation, API | Python, scikit-learn, FastAPI | `streamlit run projects/building-energy-ml-pipeline/app.py` | Built an energy prediction pipeline with synthetic data, evaluation, API, and model card. |
-| [Spatial Design Recommender](projects/spatial-design-recommender/README.md) | Recommendations | Explainable spatial design scoring | Python, FastAPI, Streamlit | `streamlit run projects/spatial-design-recommender/app.py` | Built a spatial recommender that scores layout scenarios and suggests design improvements. |
-| [Construction Robot Task Planner](projects/construction-robot-task-planner/README.md) | Embodied AI | Safety-aware robot planning | Python, Streamlit, FastAPI | `streamlit run projects/construction-robot-task-planner/app.py` | Built a construction robot planner with obstacle, payload, and battery constraints. |
-| [Site Robot Safety Monitor](projects/site-robot-safety-monitor/README.md) | Robotics safety | Telemetry risk detection | Python, pandas, FastAPI | `streamlit run projects/site-robot-safety-monitor/app.py` | Built a robot safety monitor that flags proximity, obstacle, payload, and emergency-stop events. |
-| [Multimodal VLM Visual QA](projects/multimodal-vlm-visual-qa/README.md) | VLM / Multimodal | Image QA, schemas, uncertainty | Python, Streamlit, FastAPI | `streamlit run projects/multimodal-vlm-visual-qa/app.py` | Built a multimodal visual QA assistant with VLM provider abstraction and structured JSON extraction. |
-| [Agentic Research Ops](projects/agentic-research-ops-assistant/README.md) | Agentic AI / RAG | Planning, tools, citations, HITL | Python, Streamlit, Pydantic | `streamlit run projects/agentic-research-ops-assistant/app.py` | Built a planner-executor research agent with local RAG, tool calls, citations, and approval checkpoints. |
-| [VLA Embodied Simulator](projects/vla-embodied-agent-simulator/README.md) | VLA / Robotics | Language-state-action planning | Python, Streamlit | `streamlit run projects/vla-embodied-agent-simulator/app.py` | Created a VLA-inspired simulator that maps instructions and grid state into safe actions. |
-| [Reinforcement Learning Portfolio](projects/reinforcement-learning-portfolio/README.md) | RL | Environments, rewards, policy eval | Python, Streamlit | `streamlit run projects/reinforcement-learning-portfolio/app.py` | Implemented RL simulations for inventory control and dynamic pricing with baseline policies. |
-| [Deep Learning Vision Lab](projects/deep-learning-vision-lab/README.md) | DL / CV | Dataset, metrics, inference API | Python, NumPy, FastAPI | `streamlit run projects/deep-learning-vision-lab/app.py` | Built a synthetic defect detection lab with metrics, model card, demo, and API endpoint. |
-| [LLM Evals Guardrails](projects/llm-evals-guardrails-platform/README.md) | LLMOps | Prompt injection and schema checks | Python, Streamlit, FastAPI | `streamlit run projects/llm-evals-guardrails-platform/app.py` | Built an LLM evals platform for prompt injection, structured output, and citation checks. |
-| [MLOps Serving Monitoring](projects/mlops-model-serving-monitoring/README.md) | MLOps | Serving, schema, drift detection | Python, scikit-learn, FastAPI | `streamlit run projects/mlops-model-serving-monitoring/app.py` | Built an MLOps demo with training, FastAPI serving, drift detection, Docker, and tests. |
-| [Recommender Ranking Engine](projects/recommender-system-ranking-engine/README.md) | Recommendations | Ranking, metrics, explanations | Python, scikit-learn, FastAPI | `streamlit run projects/recommender-system-ranking-engine/app.py` | Built a recommender with popularity/content baselines, precision@k, and NDCG@k. |
-| [Time-Series Anomaly Forecasting](projects/time-series-anomaly-forecasting/README.md) | Time-series ML | Forecasting, anomaly alerts | Python, scikit-learn, FastAPI | `streamlit run projects/time-series-anomaly-forecasting/app.py` | Built a time-series forecasting and anomaly-detection system with backtesting metrics. |
-| [Fine-Tuning LoRA Lab](projects/fine-tuning-lora-lab/README.md) | Fine-tuning | Dataset prep and LoRA workflow | Python, Streamlit | `streamlit run projects/fine-tuning-lora-lab/app.py` | Built a compute-aware LoRA workflow with dataset validation, mock trainer, and model card. |
+| Project | Why it is featured | Evidence to inspect |
+| --- | --- | --- |
+| [AEC Code Compliance RAG](projects/aec-code-compliance-rag/README.md) | Strongest niche signal: AI plus built-environment document workflows. | Chunking, retrieval, citations, incomplete-evidence handling, AEC limitations. |
+| [Agentic Research Ops](projects/agentic-research-ops-assistant/README.md) | Practical agent orchestration rather than a generic chatbot. | Planner, tool calls, local document retrieval, citations, approval checkpoint, traces. |
+| [MLOps Serving Monitoring](projects/mlops-model-serving-monitoring/README.md) | Shows operational ML beyond notebook modeling. | Model artifact, FastAPI schema, SQLite inference log, drift-history table, Docker path, tests. |
+| [LLM Evals Guardrails](projects/llm-evals-guardrails-platform/README.md) | Relevant LLMOps skill area with inspectable checks. | Prompt-injection checks, structured-output validation, citation checks, eval result schema. |
+| [Multimodal VLM Visual QA](projects/multimodal-vlm-visual-qa/README.md) | Shows multimodal product workflow and provider boundary. | Image validation, structured VQA schema, mock mode, optional OpenAI-compatible hosted provider. |
+
+## Secondary Experiments
+
+These projects are intentionally presented as supporting experiments. They broaden the portfolio but are not meant to claim specialist-level depth by themselves.
+
+| Area | Projects |
+| --- | --- |
+| Built-environment AI | Construction Progress CV, BIM Issue Detection Agent, Building Energy ML, Spatial Design Recommender, AI + AEC Job Fit Analyzer |
+| Construction robotics / embodied AI | Construction Robot Task Planner, Site Robot Safety Monitor, VLA Embodied Agent Simulator |
+| General ML experiments | Reinforcement Learning Portfolio, Deep Learning Vision Lab, Recommender Ranking Engine, Time-Series Anomaly Forecasting, Fine-Tuning LoRA Lab |
 
 ## AI For The Built Environment
 
@@ -78,16 +75,12 @@ See [docs/skills-matrix.md](docs/skills-matrix.md), [docs/role-to-project-map.md
 ## Quickstart
 
 ```bash
-python -m venv .venv
-.venv\Scripts\activate
-pip install -r requirements.txt -r requirements-dev.txt
-python scripts/generate_sample_data.py
-python scripts/check_repo_health.py
-python scripts/run_smoke_tests.py
-pytest
+python scripts/setup.py
+python scripts/verify.py
 ```
 
-On macOS/Linux, activate with `source .venv/bin/activate`.
+`scripts/setup.py` creates `.venv` using the correct Windows/macOS/Linux path. Use
+`python scripts/setup.py --no-venv` to install into the current Python environment instead.
 
 ## Run Tests And Quality Checks
 
@@ -98,11 +91,14 @@ python scripts/check_repo_health.py
 python scripts/run_smoke_tests.py
 python -m pytest
 python scripts/check_project_docs.py
+python scripts/verify.py
 ```
 
 The Makefile provides the same common checks where `make` is available:
 
 ```bash
+make setup
+make verify
 make health
 make smoke
 make test
@@ -171,7 +167,7 @@ See [docs/project-roadmap.md](docs/project-roadmap.md) and [docs/project-priorit
 ## Synthetic And Mock Notes
 
 - All data is synthetic/demo data unless explicitly stated otherwise.
-- LLM/VLM projects run in mock mode without paid APIs.
+- LLM/VLM projects run in mock mode without paid APIs; the VLM project also supports an optional OpenAI-compatible hosted provider when configured.
 - VLA and robotics projects are simulations, not real robot deployments.
 - Fine-tuning uses a mock training path locally and documents where real GPU training would fit.
 - AEC outputs are not legal, code, engineering, or professional compliance advice.

@@ -9,11 +9,14 @@ sys.path.extend([str(PROJECT_ROOT / "src"), str(REPO_ROOT)])
 
 import streamlit as st
 
-from multimodal_vlm_visual_qa import MockVLMProvider
+from multimodal_vlm_visual_qa import get_vlm_provider
 
 st.set_page_config(page_title="Multimodal VLM Visual QA", page_icon="AI", layout="wide")
 st.title("Multimodal VLM Visual QA Assistant")
-st.caption("Local mock mode by default. No external API key required.")
+st.caption(
+    "Mock mode runs without API keys. Set VLM_PROVIDER=openai and OPENAI_API_KEY "
+    "to use an OpenAI-compatible vision model."
+)
 
 if "history" not in st.session_state:
     st.session_state.history = []
@@ -22,7 +25,7 @@ uploaded = st.file_uploader("Upload an image", type=["png", "jpg", "jpeg", "gif"
 question = st.text_input("Question", "Extract visible issues as structured JSON.")
 
 if st.button("Analyze", type="primary") and uploaded:
-    response = MockVLMProvider().answer(uploaded.getvalue(), question)
+    response = get_vlm_provider().answer(uploaded.getvalue(), question)
     st.session_state.history.append(response.model_dump())
     st.subheader("Answer")
     st.write(response.answer)

@@ -15,9 +15,9 @@ Shared code lives under `shared/`, setup scripts under `scripts/`, docs under `d
 
 Flagship projects:
 
+- AEC Code Compliance RAG Assistant
 - Agentic Research Operations Assistant
 - Multimodal VLM Visual QA Assistant
-- VLA Embodied Agent Simulator
 - MLOps Model Serving and Monitoring Platform
 - LLM Evals and Guardrails Platform
 
@@ -27,7 +27,7 @@ Secondary projects:
 - Deep Learning Vision Lab
 - Recommender System Ranking Engine
 - Time-Series Anomaly Detection and Forecasting
-- AEC Code Compliance RAG Assistant
+- VLA Embodied Agent Simulator
 - BIM Issue Detection Agent
 - Building Energy ML Pipeline
 - Construction robotics projects
@@ -45,7 +45,7 @@ Secondary projects:
 ## Broken Or Incomplete Areas
 
 - GitHub Actions may fail to start because of the account-level GitHub Actions billing lock already observed. This is not a code failure.
-- Some optional integrations are placeholders: real VLM providers, LoRA training on GPU, ROS/robotics stacks, and hosted LLM providers.
+- Some optional integrations remain future work: LoRA training on GPU, ROS/robotics stacks, local VLMs, and hosted LLM providers.
 - Some demos use transparent baselines instead of heavy models to keep local setup fast.
 
 ## Duplicate Code
@@ -68,6 +68,7 @@ Secondary projects:
 
 - Current runnable demos use the existing lightweight dependencies: FastAPI, Streamlit, pandas, NumPy, scikit-learn, Pydantic, pytest, Ruff, and Black.
 - PyTorch, Gymnasium, transformers, and FAISS/Chroma are documented as optional future extensions and are not required for local quick mode.
+- The VLM project now includes an optional OpenAI-compatible hosted provider path, but mock mode remains the default.
 
 ## Commands Checked
 
@@ -81,14 +82,17 @@ Secondary projects:
 - Added repo health and smoke scripts.
 - Added project metadata at `projects/projects.yml`.
 - Added audit, troubleshooting, technical review guide, role map, skills matrix, and roadmap docs.
-- Added shared package placeholders for evals, schemas, and testing.
+- Added initial shared packages for evals, schemas, and testing.
 - Added Makefile commands for setup, test, smoke, health, demo, format, lint, and clean.
 - Updated `.env.example` for mock/local mode.
 - Standardized project README expectations through health checks.
+- Added cross-platform setup/verify scripts.
+- Added optional hosted VLM provider support.
+- Added MLOps model artifact saving, SQLite inference logging, and drift-history persistence.
 
 ## Remaining Recommendations
 
 - Add screenshot or short GIF evidence for the 5 flagship projects.
 - Deepen flagship project internals over time rather than making all projects equally complex.
-- Add SQLite persistence to LLM evals and MLOps logging.
-- Add optional real provider implementations behind the existing mock/provider abstractions.
+- Add SQLite persistence to LLM evals and agent traces.
+- Add local model provider implementations where hardware allows.

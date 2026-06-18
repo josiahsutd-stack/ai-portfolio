@@ -3,7 +3,7 @@
 ## AI Engineer
 
 - Agentic Research Operations Assistant: shows agent orchestration, local RAG, citations, and traces.
-- MLOps Model Serving and Monitoring Platform: shows model serving and monitoring.
+- MLOps Model Serving and Monitoring Platform: shows model serving, artifact metadata, inference logging, and monitoring.
 - Multimodal VLM Visual QA Assistant: shows multimodal product workflow.
 
 Reviewer focus: local testability, mock-safe design, and evidence that the demos are honest engineering prototypes.
@@ -38,7 +38,7 @@ Reviewer focus: tool calling, traceability, deterministic checks, and human appr
 - VLA Embodied Agent Simulator
 - Construction Progress CV Tracker
 
-Reviewer focus: input validation, provider abstraction, uncertainty, and multimodal evaluation.
+Reviewer focus: input validation, provider abstraction, optional hosted VLM path, uncertainty, and multimodal evaluation.
 
 ## Computer Vision Engineer
 
@@ -70,7 +70,7 @@ Reviewer focus: dataset preparation, model adaptation workflow, and local comput
 - LLM Evals and Guardrails Platform
 - Deep Learning Vision Lab
 
-Reviewer focus: APIs, schema checks, CI, monitoring, and drift detection.
+Reviewer focus: APIs, schema checks, CI, model artifacts, SQLite inference logs, monitoring, and drift detection.
 
 ## RL Engineer
 

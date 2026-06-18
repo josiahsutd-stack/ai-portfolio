@@ -29,7 +29,10 @@ def train_churn_model(data: pd.DataFrame):
     preds = model.predict(test[FEATURES])
     return model, {
         "accuracy": round(float(accuracy_score(test["churned"], preds)), 3),
-        "version": "demo-v1",
+        "version": "demo-v2",
+        "features": FEATURES,
+        "train_rows": int(len(train)),
+        "test_rows": int(len(test)),
     }
 
 

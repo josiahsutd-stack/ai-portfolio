@@ -3,13 +3,13 @@ projects:
     slug: aec-code-compliance-rag
     category: AI for the Built Environment
     skill_area: RAG and LLM engineering
-    flagship: false
+    flagship: true
     demo_command: streamlit run projects/aec-code-compliance-rag/app.py
     test_command: pytest tests/test_rag.py
     tech_stack: [Python, Streamlit, scikit-learn]
-    summary: Source-grounded retrieval assistant over synthetic AEC guidance.
+    summary: Source-grounded retrieval assistant over synthetic AEC guidance with citations and incomplete-evidence handling.
     skills: [RAG, retrieval, citations, mock LLM]
-    status: solid
+    status: flagship
     mock_mode_supported: true
     readme_path: projects/aec-code-compliance-rag/README.md
   - name: Construction Progress CV Tracker
@@ -111,8 +111,8 @@ projects:
     demo_command: streamlit run projects/multimodal-vlm-visual-qa/app.py
     test_command: pytest tests/test_general_ai_projects.py
     tech_stack: [Python, Streamlit, FastAPI, Pydantic]
-    summary: Image QA workflow with structured JSON extraction and mock VLM provider.
-    skills: [VLM, multimodal AI, structured outputs]
+    summary: Image QA workflow with structured JSON extraction, mock mode, and optional OpenAI-compatible hosted provider.
+    skills: [VLM, multimodal AI, structured outputs, provider integration]
     status: flagship
     mock_mode_supported: true
     readme_path: projects/multimodal-vlm-visual-qa/README.md
@@ -133,13 +133,13 @@ projects:
     slug: vla-embodied-agent-simulator
     category: General AI Engineering
     skill_area: VLA and robotics simulation
-    flagship: true
+    flagship: false
     demo_command: streamlit run projects/vla-embodied-agent-simulator/app.py
     test_command: pytest tests/test_general_ai_projects.py
     tech_stack: [Python, Streamlit]
     summary: Maps language instructions and grid-world state to safe action plans.
     skills: [VLA, embodied AI, safety constraints]
-    status: flagship
+    status: experimental
     mock_mode_supported: true
     readme_path: projects/vla-embodied-agent-simulator/README.md
   - name: Reinforcement Learning Portfolio
@@ -188,9 +188,9 @@ projects:
     flagship: true
     demo_command: streamlit run projects/mlops-model-serving-monitoring/app.py
     test_command: pytest tests/test_general_ai_projects.py
-    tech_stack: [Python, pandas, scikit-learn, FastAPI, Docker]
-    summary: Training, serving, schema validation, and drift checks over synthetic churn data.
-    skills: [MLOps, model serving, drift detection]
+    tech_stack: [Python, pandas, scikit-learn, FastAPI, SQLite, Docker]
+    summary: Training, serving, schema validation, model artifacts, inference logging, and drift history over synthetic churn data.
+    skills: [MLOps, model serving, drift detection, inference logging]
     status: flagship
     mock_mode_supported: true
     readme_path: projects/mlops-model-serving-monitoring/README.md

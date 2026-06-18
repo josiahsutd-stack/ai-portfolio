@@ -16,10 +16,19 @@ from llm_evals_guardrails_platform import (
 from mlops_model_serving_monitoring import (
     detect_drift,
     generate_churn_data,
+    list_drift_reports,
+    list_prediction_logs,
+    log_prediction,
     predict_churn,
+    record_drift_report,
+    save_model_artifact,
     train_churn_model,
 )
-from multimodal_vlm_visual_qa import MockVLMProvider, validate_image_bytes
+from multimodal_vlm_visual_qa import (
+    MockVLMProvider,
+    OpenAICompatibleVLMProvider,
+    validate_image_bytes,
+)
 from recommender_system_ranking_engine import (
     content_recommend,
     generate_interactions,
@@ -138,6 +147,39 @@ def test_mlops_prediction_schema_and_drift_detection() -> None:
     assert drift["drift_detected"]
 
 
+def test_mlops_artifact_logging_and_drift_history(tmp_path) -> None:
+    data = generate_churn_data(80)
+    model, metrics = train_churn_model(data)
+    artifacts = save_model_artifact(model, metrics, registry_dir=tmp_path / "registry")
+    db_path = tmp_path / "observability.sqlite"
+    payload = {
+        "tenure_months": 12,
+        "monthly_spend": 80,
+        "support_tickets": 3,
+        "usage_score": 0.6,
+    }
+    prediction = predict_churn(model, payload)
+    log_id = log_prediction(
+        payload,
+        prediction,
+        model_version=str(metrics["version"]),
+        db_path=db_path,
+    )
+    drift = detect_drift(data, data.assign(usage_score=data["usage_score"] * 0.1))
+    report_id = record_drift_report(
+        drift,
+        reference_window="reference",
+        current_window="current",
+        db_path=db_path,
+    )
+
+    assert artifacts["model_path"].endswith(".joblib")
+    assert log_id == 1
+    assert report_id == 1
+    assert list_prediction_logs(db_path=db_path)[0]["prediction"] == prediction
+    assert list_drift_reports(db_path=db_path)[0]["drift_detected"]
+
+
 def test_recommender_metrics_and_content_ranking() -> None:
     items, _interactions = generate_interactions()
     ranked = [item["item_id"] for item in content_recommend(items, "multimodal vision vlm", k=3)]
@@ -175,6 +217,61 @@ def test_fine_tuning_dataset_validation_rejects_invalid_rows() -> None:
 def test_vlm_rejects_unsupported_image_type() -> None:
     with pytest.raises(ValueError):
         validate_image_bytes(b"not-an-image")
+
+
+def test_openai_compatible_vlm_provider_parses_schema(monkeypatch) -> None:
+    captured: dict[str, object] = {}
+
+    class FakeResponse:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *_args):
+            return False
+
+        def read(self) -> bytes:
+            return json.dumps(
+                {
+                    "choices": [
+                        {
+                            "message": {
+                                "content": json.dumps(
+                                    {
+                                        "answer": "Visible defect noted.",
+                                        "detected_objects": ["panel"],
+                                        "visible_text": [],
+                                        "defects": ["scratch"],
+                                        "key_values": {"severity": "low"},
+                                        "confidence": 0.71,
+                                        "uncertainty": "Single image only.",
+                                        "observations": ["Provider parsed image."],
+                                    }
+                                )
+                            }
+                        }
+                    ]
+                }
+            ).encode("utf-8")
+
+    def fake_urlopen(request, timeout):
+        captured["url"] = request.full_url
+        captured["timeout"] = timeout
+        captured["body"] = json.loads(request.data.decode("utf-8"))
+        return FakeResponse()
+
+    monkeypatch.setattr("urllib.request.urlopen", fake_urlopen)
+    provider = OpenAICompatibleVLMProvider(
+        api_key="test-key",
+        base_url="https://example.test/v1",
+        model="vision-test",
+    )
+    response = provider.answer(b"\x89PNG\r\n\x1a\nsynthetic", "Find defects")
+
+    assert captured["url"] == "https://example.test/v1/chat/completions"
+    assert captured["body"]["model"] == "vision-test"
+    assert response.provider == "openai-compatible-vlm"
+    assert response.structured_json.defects == ["scratch"]
+    assert response.confidence == 0.71
 
 
 def test_mlops_rejects_missing_prediction_fields() -> None:

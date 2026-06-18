@@ -1,6 +1,6 @@
 # Multimodal VLM Visual QA Assistant
 
-Visual question-answering assistant for image QA, screenshot explanation, defect description, and image-to-structured-JSON extraction. It runs locally in mock mode without API keys.
+Visual question-answering assistant for image QA, screenshot explanation, defect description, and image-to-structured-JSON extraction. It runs locally in mock mode without API keys and can optionally call an OpenAI-compatible hosted vision provider.
 
 ## Problem
 
@@ -15,7 +15,7 @@ streamlit run projects/multimodal-vlm-visual-qa/app.py
 ## Features
 
 - Image upload and question input
-- Mock VLM provider plus local/OpenAI-compatible placeholders
+- Mock VLM provider plus optional OpenAI-compatible hosted provider
 - Structured JSON extraction schema
 - Confidence and uncertainty fields
 - History view
@@ -23,7 +23,7 @@ streamlit run projects/multimodal-vlm-visual-qa/app.py
 
 ## Tech Stack
 
-Python, Streamlit, FastAPI, Pydantic, mock provider abstraction.
+Python, Streamlit, FastAPI, Pydantic, mock provider abstraction, stdlib HTTP client.
 
 ## Architecture
 
@@ -39,24 +39,26 @@ flowchart LR
 ## Limitations
 
 - Mock mode validates workflow but does not perform true visual reasoning.
-- Local VLM and hosted VLM providers are placeholders for future integration.
+- Hosted provider mode requires `VLM_PROVIDER=openai`, `OPENAI_API_KEY`, and access to a vision-capable model.
+- The local VLM provider remains an interface reserved for future on-device models.
 
 ## How I Would Improve This In Production
 
-- Add BLIP/Qwen/SigLIP provider implementations.
+- Add BLIP/Qwen/SigLIP local provider implementations.
 - Add OCR, bounding boxes, and image-region grounding.
 - Add eval sets for visual hallucination and extraction accuracy.
 
 ## What This Proves To Employers
 
-VLM engineering, multimodal product thinking, structured AI outputs, image workflow validation, and honest mock-provider design.
+VLM engineering, multimodal product thinking, structured AI outputs, image workflow validation, optional hosted-provider integration, and honest mock-provider design.
 
 ## Engineering Notes
 
 - The provider abstraction separates the product workflow from the model implementation, so mock, local, and hosted VLM backends can share one schema.
+- The OpenAI-compatible provider builds a real image-plus-text chat-completions request and parses a schema-constrained JSON response when credentials are present.
 - Structured responses include confidence, uncertainty, and evidence fields to avoid turning visual QA into untraceable free text.
 - Mock mode validates uploads, prompts, schemas, and UI/API behavior without claiming true visual reasoning.
-- Production use would require real VLM integration, OCR/region grounding, benchmark image sets, latency tests, and visual hallucination evaluation.
+- Production use would require OCR/region grounding, benchmark image sets, latency tests, and visual hallucination evaluation.
 
 ## Technical Review Discussion Points
 

@@ -4,6 +4,15 @@ This document is written for recruiters and technical reviewers. It summarizes w
 
 ## Flagship Projects
 
+### AEC Code Compliance RAG Assistant
+
+- Review signal: built-environment document assistant with retrieval, citations, and cautious incomplete-evidence handling.
+- Architecture evidence: markdown guidance -> chunking -> local vector-style retrieval -> grounded answer -> source citations.
+- Engineering rationale: source grounding is more important than answer fluency in compliance-adjacent workflows.
+- Limitations to note: synthetic guidance and TF-IDF retrieval; this is not legal, code, or professional compliance advice.
+- Technical question supported: "How is hallucination risk reduced?" Evidence includes citations, retrieved snippets, source scores, and no-evidence fallback behavior.
+- Production extension: public-code/planning document ingestion, embedding retrieval, retrieval evals, and expert review workflow.
+
 ### Agentic Research Operations Assistant
 
 - Review signal: planner-executor agent with local document retrieval, tool calls, citations, memory, and approval checkpoints.
@@ -15,30 +24,21 @@ This document is written for recruiters and technical reviewers. It summarizes w
 
 ### Multimodal VLM Visual QA Assistant
 
-- Review signal: image QA workflow with mock VLM provider, structured JSON, confidence, uncertainty, and validation.
-- Architecture evidence: image bytes -> validator -> provider abstraction -> schema response -> history/UI.
+- Review signal: image QA workflow with mock mode, optional OpenAI-compatible hosted provider, structured JSON, confidence, uncertainty, and validation.
+- Architecture evidence: image bytes -> validator -> provider abstraction -> hosted or mock response -> schema response -> history/UI.
 - Engineering rationale: the workflow separates product behavior from the model dependency.
-- Limitations to note: mock mode validates the interface but does not perform real visual reasoning.
+- Limitations to note: mock mode validates the interface but does not perform real visual reasoning; hosted mode requires a real API key and model access.
 - Technical question supported: "How would this be evaluated?" Evidence to look for includes extraction accuracy, uncertainty calibration, visual hallucination cases, and schema validity.
-- Production extension: OCR, real VLM provider integration, region grounding, and eval image sets.
-
-### VLA Embodied Agent Simulator
-
-- Review signal: language instructions and grid-world state are converted into safe action sequences.
-- Architecture evidence: instruction parser -> safety-aware planner -> environment transitions -> episode trace.
-- Engineering rationale: the simulation tests VLA reasoning shape without hardware risk.
-- Limitations to note: no real robot, ROS, SLAM, or learned policy.
-- Technical question supported: "What is VLA in this portfolio?" Evidence in the project shows a VLA-inspired mapping from language and state/visual observation to actions, limited honestly to simulation.
-- Production extension: Gymnasium wrapper, richer visual renderer, learned policy, and robotics simulator bridge.
+- Production extension: OCR, region grounding, eval image sets, local model backends, and latency testing.
 
 ### MLOps Model Serving and Monitoring Platform
 
-- Review signal: synthetic churn model with training, FastAPI prediction schema, drift checks, and monitoring dashboard.
-- Architecture evidence: synthetic data -> training -> model metrics -> API -> drift report.
+- Review signal: synthetic churn model with training, model artifact, FastAPI prediction schema, SQLite inference logging, drift checks, and monitoring dashboard.
+- Architecture evidence: synthetic data -> training -> model artifact/metadata -> API -> prediction log -> drift report/history.
 - Engineering rationale: the project shows deployment and monitoring shape without external services.
-- Limitations to note: synthetic data and local in-memory model.
-- Technical question supported: "How is model quality monitored?" Evidence to look for includes inference schema checks, drift metrics, model metadata, and the planned path to delayed labels.
-- Production extension: SQLite logging, model registry files, alert thresholds, and retraining workflows.
+- Limitations to note: synthetic data, local model artifact, and lightweight drift checks.
+- Technical question supported: "How is model quality monitored?" Evidence to look for includes inference schema checks, SQLite prediction logs, drift metrics, model metadata, and the planned path to delayed labels.
+- Production extension: MLflow-compatible registry, alert thresholds, retraining workflows, and real delayed labels.
 
 ### LLM Evals and Guardrails Platform
 
@@ -56,6 +56,6 @@ This document is written for recruiters and technical reviewers. It summarizes w
 - Recommender Ranking Engine: popularity versus content-based recommendations, ranking metrics, and product-facing explanations.
 - Time-Series Anomaly Forecasting: moving-average baseline, Isolation Forest, alert thresholds, and time-aware evaluation.
 - Fine-Tuning LoRA Lab: dataset validation, LoRA configuration, mock training, and compute-aware workflow design.
-- AEC RAG Assistant: chunking, retrieval, citations, incomplete-evidence handling, and TF-IDF limitations versus embedding retrieval.
+- VLA Embodied Agent Simulator: language-to-action simulation, state/action traces, and honest hardware limitations.
 - BIM Issue Detection Agent: deterministic rule checks before LLM explanation, issue reports, and AEC coordination workflow fit.
 - Building Energy ML Pipeline: feature engineering, regression evaluation, model card, and energy-domain limitations.

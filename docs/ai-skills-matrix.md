@@ -10,7 +10,7 @@ Legend: **strong** = primary project signal, **medium** = meaningful implementat
 | Streamlit | All demo apps |  |  |
 | PyTorch | Deep Vision planned extension, LoRA workflow |  |  |
 | scikit-learn | MLOps, Recommender, Time-Series | Energy ML |  |
-| transformers | LoRA workflow | VLM provider placeholder |  |
+| transformers | LoRA workflow | Optional future local VLM backend |  |
 | VLM | Multimodal VLM Visual QA |  |  |
 | VLA | VLA Embodied Agent Simulator | Construction Robot Task Planner |  |
 | multimodal AI | VLM Visual QA, VLA Simulator | Construction CV |  |

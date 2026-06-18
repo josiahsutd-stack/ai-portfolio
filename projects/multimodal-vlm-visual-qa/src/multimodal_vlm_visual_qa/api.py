@@ -3,17 +3,19 @@ from __future__ import annotations
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-from .providers import MockVLMProvider
+from .providers import get_vlm_provider
 
 app = FastAPI(title="Multimodal VLM Visual QA")
 
 
 class VQARequest(BaseModel):
-    image_base64_placeholder: str
+    image_base64: str
     question: str
 
 
 @app.post("/analyze")
 def analyze(payload: VQARequest) -> dict[str, object]:
-    image_bytes = b"\x89PNG\r\n\x1a\n" + payload.image_base64_placeholder.encode()
-    return MockVLMProvider().answer(image_bytes, payload.question).model_dump()
+    import base64
+
+    image_bytes = base64.b64decode(payload.image_base64)
+    return get_vlm_provider().answer(image_bytes, payload.question).model_dump()
