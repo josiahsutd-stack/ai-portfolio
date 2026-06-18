@@ -144,6 +144,11 @@ h3 {
   color: #1e231e;
 }
 
+.button--dark {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
 .band {
   padding: clamp(58px, 8vw, 104px) clamp(20px, 5vw, 72px);
 }
@@ -210,6 +215,16 @@ h3 {
   color: var(--white);
 }
 
+.band--ink .project-card {
+  background: #22302c;
+  border-color: rgba(255, 255, 255, 0.14);
+  color: var(--white);
+}
+
+.band--ink .project-card p {
+  color: rgba(255, 255, 255, 0.72);
+}
+
 .band--ink .eyebrow {
   color: var(--gold);
 }
@@ -246,11 +261,54 @@ h3 {
   font-weight: 800;
 }
 
+.simple-page .site-header {
+  color: var(--ink);
+}
+
+.lede--dark {
+  color: var(--muted);
+}
+
+.table-wrap {
+  overflow-x: auto;
+  margin: 28px 0;
+}
+
+.matrix-table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+  background: var(--white);
+}
+
+.matrix-table th,
+.matrix-table td {
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.role-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 30px 0;
+}
+
+.role-grid article {
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+}
+
 @media (max-width: 920px) {
   .project-grid,
   .skill-grid,
   .intro__grid,
-  .contact__grid {
+  .contact__grid,
+  .role-grid {
     grid-template-columns: 1fr;
   }
 
