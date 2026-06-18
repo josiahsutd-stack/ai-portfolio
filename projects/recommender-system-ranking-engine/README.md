@@ -48,3 +48,18 @@ flowchart LR
 
 Recommender systems, embeddings, ranking metrics, applied ML evaluation, and product thinking.
 
+## Engineering Notes
+
+- The engine separates retrieval, ranking, explanation, and metric reporting so each part can be tested and improved independently.
+- Synthetic catalog and interaction data make the demo portable while preserving core recommender decisions.
+- Ranking metrics are included because recommenders should be judged by list quality, not only individual item similarity.
+- Production use would require larger interaction logs, candidate generation, two-tower retrieval, online experiments, feedback loops, and bias monitoring.
+
+## Interview Talking Points
+
+- Explain retrieval versus ranking and why most recommender systems need both.
+- Discuss precision@k, NDCG@k, and when each metric is useful.
+- Walk through how content-based ranking differs from collaborative filtering.
+- Describe how you would run an offline and online evaluation plan.
+- Connect the project to user-facing product decisions, not just model similarity.
+

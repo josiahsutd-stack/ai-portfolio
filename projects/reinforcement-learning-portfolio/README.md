@@ -48,3 +48,18 @@ flowchart LR
 
 RL fundamentals, reward shaping, sequential decision-making, simulation, and applied optimization thinking.
 
+## Engineering Notes
+
+- The project focuses on small environments where state, action, reward, and policy behavior can be inspected without heavy dependencies.
+- Baseline policies make reward tradeoffs visible before introducing DQN, PPO, or other learned agents.
+- The environments are intentionally business-flavored so RL is connected to operational decisions rather than abstract benchmarks only.
+- Production use would require Gymnasium-compatible wrappers, experiment tracking, reproducible seeds, stronger baselines, and safety-aware evaluation.
+
+## Interview Talking Points
+
+- Explain the state, action, reward, and transition design for each environment.
+- Discuss reward shaping and how it can create unintended behavior.
+- Walk through why baseline policies are necessary before deep RL.
+- Describe how you would add PPO/DQN and compare against heuristic policies.
+- Be honest that this is an RL fundamentals portfolio project, not a production RL deployment.
+

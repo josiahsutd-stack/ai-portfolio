@@ -84,3 +84,18 @@ pytest
 - ML pipeline and evaluation basics
 - Reporting automation for construction stakeholders
 - Ability to separate prototype data from production claims
+
+## Engineering Notes
+
+- The current system uses synthetic progress metadata so the workflow can be reviewed without private site photos or labeling dependencies.
+- The classifier is intentionally lightweight, but the app/API boundary mirrors a production CV pipeline: ingest, classify, summarize, and report.
+- The report layer is a key product feature because construction teams need digestible status signals, not just raw predictions.
+- A production version would add image/video ingestion, object detection, calibration across camera locations, privacy review, and schedule-baseline integration.
+
+## Interview Talking Points
+
+- Explain the difference between this metadata prototype and a full visual progress model.
+- Discuss the labeling strategy you would use for site images and progress milestones.
+- Describe how confidence thresholds and human review would reduce operational risk.
+- Walk through the FastAPI and Streamlit split as an engineering/product decision.
+- Connect the project to construction stakeholder needs: schedule, safety, evidence, and reporting.

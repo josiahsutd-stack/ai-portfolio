@@ -91,3 +91,17 @@ pytest tests/test_robot_task_planner.py
 - Ability to model safety, navigation, and operations constraints
 - Practical software packaging around robotics concepts
 
+## Engineering Notes
+
+- The planner models construction tasks as constrained action selection: battery, payload, route risk, restricted zones, and task priority all affect decisions.
+- The grid abstraction is intentionally simple so the safety and planning logic can be reviewed without hiding behind a robotics stack.
+- This is an embodied AI project because it connects environment state, action feasibility, and task goals rather than only producing text.
+- Production use would require ROS 2, navigation stacks, site maps, robot kinematics, perception feeds, simulation validation, and human approval workflows.
+
+## Interview Talking Points
+
+- Explain how construction robotics differs from generic warehouse navigation.
+- Walk through how task feasibility changes with payload, obstacles, and restricted zones.
+- Discuss why simulation and safety gates must come before hardware deployment.
+- Describe how VLA-style language goals could map onto robot actions in a richer system.
+- Position the project as a bridge between AI planning, robotics operations, and construction domain knowledge.

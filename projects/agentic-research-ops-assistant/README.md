@@ -52,3 +52,18 @@ flowchart LR
 
 Agentic AI engineering, tool calling, RAG, workflow orchestration, observability, and human-in-the-loop design.
 
+## Engineering Notes
+
+- The assistant is organized as a planner-executor workflow with a small tool registry, local document search, structured outputs, and approval checkpoints.
+- Deterministic local documents keep the agent auditable and runnable while demonstrating the same control flow needed for external tools.
+- Human-in-the-loop review is treated as part of the system design, not an afterthought, because research agents can easily overreach.
+- Production use would add authenticated connectors, richer retrieval, tool permissioning, persistent traces, retries, and evals for citation quality.
+
+## Interview Talking Points
+
+- Explain the planner, tools, retrieval, and approval loop in order.
+- Discuss how you prevent an agent from making unsupported claims.
+- Walk through how local RAG differs from live web/tool access.
+- Describe observability needs for agent runs: traces, tool calls, citations, and failures.
+- Position the project as practical agent orchestration rather than a generic chatbot.
+

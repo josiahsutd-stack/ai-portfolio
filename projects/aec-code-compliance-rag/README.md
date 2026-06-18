@@ -96,3 +96,18 @@ pytest tests/test_rag.py
 - Source-grounded response design
 - Hallucination mitigation through citation and incomplete-evidence handling
 - Practical AEC workflow framing
+
+## Engineering Notes
+
+- The retrieval path is deliberately transparent: deterministic chunking, TF-IDF scoring, and citation-first answers make it easy to inspect why a response was produced.
+- Mock LLM mode keeps the demo runnable without paid APIs while preserving the same input/output contract a hosted LLM provider would use.
+- The answer flow refuses to overstate certainty when retrieved evidence is weak, which is more important for compliance workflows than producing polished text.
+- Production use would need document ingestion, jurisdiction metadata, clause-level versioning, expert review, and retrieval/eval benchmarks before any code-compliance claims.
+
+## Interview Talking Points
+
+- Explain why source grounding matters more than answer fluency in AEC compliance workflows.
+- Walk through the chunking and retrieval tradeoff between interpretability and semantic recall.
+- Discuss how you would evaluate faithfulness, citation accuracy, and retrieval precision.
+- Describe the mock provider boundary and how a hosted LLM or embedding model would plug in.
+- Be explicit that this is decision support, not professional code advice.

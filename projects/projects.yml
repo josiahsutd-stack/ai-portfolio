@@ -1,0 +1,235 @@
+projects:
+  - name: AEC Code Compliance RAG Assistant
+    slug: aec-code-compliance-rag
+    category: AI for the Built Environment
+    skill_area: RAG and LLM engineering
+    flagship: false
+    demo_command: streamlit run projects/aec-code-compliance-rag/app.py
+    test_command: pytest tests/test_rag.py
+    tech_stack: [Python, Streamlit, scikit-learn]
+    summary: Source-grounded retrieval assistant over synthetic AEC guidance.
+    skills: [RAG, retrieval, citations, mock LLM]
+    status: solid
+    mock_mode_supported: true
+    readme_path: projects/aec-code-compliance-rag/README.md
+  - name: Construction Progress CV Tracker
+    slug: construction-progress-cv
+    category: AI for the Built Environment
+    skill_area: Computer vision workflow and ML classification
+    flagship: false
+    demo_command: streamlit run projects/construction-progress-cv/app.py
+    test_command: pytest
+    tech_stack: [Python, pandas, scikit-learn, FastAPI]
+    summary: Classifies synthetic site-image metadata into construction progress stages.
+    skills: [computer vision workflow, classification, reporting]
+    status: solid
+    mock_mode_supported: true
+    readme_path: projects/construction-progress-cv/README.md
+  - name: BIM Issue Detection Agent
+    slug: bim-issue-detection-agent
+    category: AI for the Built Environment
+    skill_area: Data validation and agentic explanations
+    flagship: false
+    demo_command: streamlit run projects/bim-issue-detection-agent/app.py
+    test_command: pytest tests/test_bim_issues.py
+    tech_stack: [Python, pandas, Streamlit]
+    summary: Flags coordination issues in synthetic BIM room schedules.
+    skills: [data validation, rule engine, explainability]
+    status: solid
+    mock_mode_supported: true
+    readme_path: projects/bim-issue-detection-agent/README.md
+  - name: AI + AEC Job Fit Analyzer
+    slug: ai-aec-job-fit-analyzer
+    category: AI for the Built Environment
+    skill_area: NLP and product thinking
+    flagship: false
+    demo_command: streamlit run projects/ai-aec-job-fit-analyzer/app.py
+    test_command: pytest tests/test_job_fit.py
+    tech_stack: [Python, Streamlit]
+    summary: Classifies AI/AEC job fit and application strategy.
+    skills: [NLP, classification, product thinking]
+    status: solid
+    mock_mode_supported: true
+    readme_path: projects/ai-aec-job-fit-analyzer/README.md
+  - name: Building Energy ML Pipeline
+    slug: building-energy-ml-pipeline
+    category: AI for the Built Environment
+    skill_area: Classical ML
+    flagship: false
+    demo_command: streamlit run projects/building-energy-ml-pipeline/app.py
+    test_command: pytest tests/test_energy_model.py
+    tech_stack: [Python, pandas, scikit-learn, FastAPI]
+    summary: Predicts synthetic building energy intensity from design features.
+    skills: [feature engineering, regression, evaluation]
+    status: solid
+    mock_mode_supported: true
+    readme_path: projects/building-energy-ml-pipeline/README.md
+  - name: Spatial Design Recommendation Engine
+    slug: spatial-design-recommender
+    category: AI for the Built Environment
+    skill_area: Recommendation systems
+    flagship: false
+    demo_command: streamlit run projects/spatial-design-recommender/app.py
+    test_command: pytest tests/test_recommender.py
+    tech_stack: [Python, FastAPI, Streamlit]
+    summary: Scores design scenarios and recommends layout improvements.
+    skills: [recommendations, scoring, explainability]
+    status: solid
+    mock_mode_supported: true
+    readme_path: projects/spatial-design-recommender/README.md
+  - name: Construction Robot Task Planner
+    slug: construction-robot-task-planner
+    category: AI for the Built Environment
+    skill_area: Embodied AI planning
+    flagship: false
+    demo_command: streamlit run projects/construction-robot-task-planner/app.py
+    test_command: pytest tests/test_robot_task_planner.py
+    tech_stack: [Python, Streamlit, FastAPI]
+    summary: Routes construction robots through synthetic site constraints.
+    skills: [robotics, A* planning, safety constraints]
+    status: solid
+    mock_mode_supported: true
+    readme_path: projects/construction-robot-task-planner/README.md
+  - name: Site Robot Safety Monitor
+    slug: site-robot-safety-monitor
+    category: AI for the Built Environment
+    skill_area: Robotics safety monitoring
+    flagship: false
+    demo_command: streamlit run projects/site-robot-safety-monitor/app.py
+    test_command: pytest tests/test_site_robot_safety.py
+    tech_stack: [Python, pandas, FastAPI]
+    summary: Detects safety events in synthetic robot telemetry.
+    skills: [telemetry, anomaly rules, human-robot safety]
+    status: solid
+    mock_mode_supported: true
+    readme_path: projects/site-robot-safety-monitor/README.md
+  - name: Multimodal VLM Visual QA Assistant
+    slug: multimodal-vlm-visual-qa
+    category: General AI Engineering
+    skill_area: VLM and multimodal AI
+    flagship: true
+    demo_command: streamlit run projects/multimodal-vlm-visual-qa/app.py
+    test_command: pytest tests/test_general_ai_projects.py
+    tech_stack: [Python, Streamlit, FastAPI, Pydantic]
+    summary: Image QA workflow with structured JSON extraction and mock VLM provider.
+    skills: [VLM, multimodal AI, structured outputs]
+    status: flagship
+    mock_mode_supported: true
+    readme_path: projects/multimodal-vlm-visual-qa/README.md
+  - name: Agentic Research Operations Assistant
+    slug: agentic-research-ops-assistant
+    category: General AI Engineering
+    skill_area: Agentic AI and RAG
+    flagship: true
+    demo_command: streamlit run projects/agentic-research-ops-assistant/app.py
+    test_command: pytest tests/test_general_ai_projects.py
+    tech_stack: [Python, Streamlit, Pydantic, scikit-learn]
+    summary: Planner-executor agent with tools, citations, memory, and approval checkpoint.
+    skills: [agents, tool calling, RAG, observability]
+    status: flagship
+    mock_mode_supported: true
+    readme_path: projects/agentic-research-ops-assistant/README.md
+  - name: VLA Embodied Agent Simulator
+    slug: vla-embodied-agent-simulator
+    category: General AI Engineering
+    skill_area: VLA and robotics simulation
+    flagship: true
+    demo_command: streamlit run projects/vla-embodied-agent-simulator/app.py
+    test_command: pytest tests/test_general_ai_projects.py
+    tech_stack: [Python, Streamlit]
+    summary: Maps language instructions and grid-world state to safe action plans.
+    skills: [VLA, embodied AI, safety constraints]
+    status: flagship
+    mock_mode_supported: true
+    readme_path: projects/vla-embodied-agent-simulator/README.md
+  - name: Reinforcement Learning Portfolio
+    slug: reinforcement-learning-portfolio
+    category: General AI Engineering
+    skill_area: Reinforcement learning
+    flagship: false
+    demo_command: streamlit run projects/reinforcement-learning-portfolio/app.py
+    test_command: pytest tests/test_general_ai_projects.py
+    tech_stack: [Python, Streamlit]
+    summary: Inventory and pricing environments with baseline policy evaluation.
+    skills: [RL, rewards, simulation]
+    status: experimental
+    mock_mode_supported: true
+    readme_path: projects/reinforcement-learning-portfolio/README.md
+  - name: Deep Learning Vision Lab
+    slug: deep-learning-vision-lab
+    category: General AI Engineering
+    skill_area: Deep learning and computer vision
+    flagship: false
+    demo_command: streamlit run projects/deep-learning-vision-lab/app.py
+    test_command: pytest tests/test_general_ai_projects.py
+    tech_stack: [Python, NumPy, FastAPI, Streamlit]
+    summary: Synthetic defect-detection workflow with metrics and model card.
+    skills: [computer vision, evaluation, model card]
+    status: solid
+    mock_mode_supported: true
+    readme_path: projects/deep-learning-vision-lab/README.md
+  - name: LLM Evals and Guardrails Platform
+    slug: llm-evals-guardrails-platform
+    category: General AI Engineering
+    skill_area: LLMOps and responsible AI
+    flagship: true
+    demo_command: streamlit run projects/llm-evals-guardrails-platform/app.py
+    test_command: pytest tests/test_general_ai_projects.py
+    tech_stack: [Python, Streamlit, FastAPI]
+    summary: Prompt-injection, citation, and structured-output evaluation checks.
+    skills: [evals, guardrails, LLMOps]
+    status: flagship
+    mock_mode_supported: true
+    readme_path: projects/llm-evals-guardrails-platform/README.md
+  - name: MLOps Model Serving and Monitoring Platform
+    slug: mlops-model-serving-monitoring
+    category: General AI Engineering
+    skill_area: MLOps
+    flagship: true
+    demo_command: streamlit run projects/mlops-model-serving-monitoring/app.py
+    test_command: pytest tests/test_general_ai_projects.py
+    tech_stack: [Python, pandas, scikit-learn, FastAPI, Docker]
+    summary: Training, serving, schema validation, and drift checks over synthetic churn data.
+    skills: [MLOps, model serving, drift detection]
+    status: flagship
+    mock_mode_supported: true
+    readme_path: projects/mlops-model-serving-monitoring/README.md
+  - name: Recommender System Ranking Engine
+    slug: recommender-system-ranking-engine
+    category: General AI Engineering
+    skill_area: Recommender systems
+    flagship: false
+    demo_command: streamlit run projects/recommender-system-ranking-engine/app.py
+    test_command: pytest tests/test_general_ai_projects.py
+    tech_stack: [Python, pandas, scikit-learn, FastAPI]
+    summary: Popularity and content-based ranking with ranking metrics.
+    skills: [recommendations, ranking, metrics]
+    status: solid
+    mock_mode_supported: true
+    readme_path: projects/recommender-system-ranking-engine/README.md
+  - name: Time-Series Anomaly Detection and Forecasting
+    slug: time-series-anomaly-forecasting
+    category: General AI Engineering
+    skill_area: Time-series ML
+    flagship: false
+    demo_command: streamlit run projects/time-series-anomaly-forecasting/app.py
+    test_command: pytest tests/test_general_ai_projects.py
+    tech_stack: [Python, pandas, scikit-learn, FastAPI]
+    summary: Forecasts synthetic traffic and detects anomalies.
+    skills: [time-series, anomaly detection, forecasting]
+    status: solid
+    mock_mode_supported: true
+    readme_path: projects/time-series-anomaly-forecasting/README.md
+  - name: Fine-Tuning and LoRA Lab
+    slug: fine-tuning-lora-lab
+    category: General AI Engineering
+    skill_area: Fine-tuning workflow
+    flagship: false
+    demo_command: streamlit run projects/fine-tuning-lora-lab/app.py
+    test_command: pytest tests/test_general_ai_projects.py
+    tech_stack: [Python, Streamlit]
+    summary: Dataset validation, LoRA config, and mock training workflow.
+    skills: [fine-tuning, LoRA, dataset validation]
+    status: experimental
+    mock_mode_supported: true
+    readme_path: projects/fine-tuning-lora-lab/README.md

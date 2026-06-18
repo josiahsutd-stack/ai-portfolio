@@ -91,3 +91,17 @@ pytest tests/test_site_robot_safety.py
 - Ability to translate telemetry into operational decisions
 - Construction robotics specialization beyond generic AI demos
 
+## Engineering Notes
+
+- The monitor treats safety as a streaming decision problem over robot telemetry: proximity, obstacles, load, emergency stops, and zone violations.
+- Rules are transparent so every alert can be explained to a site supervisor or robotics engineer.
+- The project complements the task planner by focusing on runtime monitoring instead of pre-task planning.
+- Production use would require ROS/log ingestion, sensor fusion, calibrated thresholds, alert routing, incident review, and validation against robotics safety standards.
+
+## Interview Talking Points
+
+- Explain the difference between robot task planning and robot safety monitoring.
+- Discuss which telemetry fields matter most for human-robot interaction on construction sites.
+- Walk through how false alarms and missed alerts would be evaluated.
+- Describe how this could integrate with ROS 2 topics, fleet dashboards, or digital twins.
+- Be clear that the current rules are a demo layer, not certified safety logic.

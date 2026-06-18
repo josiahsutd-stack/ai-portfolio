@@ -88,3 +88,18 @@ pytest tests/test_bim_issues.py
 - AI agent design around deterministic tools
 - AEC domain-specific automation
 - Practical explainability for design QA workflows
+
+## Engineering Notes
+
+- The agent centers deterministic checks first, then uses explanation/reporting layers to make issues easier for design teams to review.
+- Mock CSV/JSON exports keep the data model simple while representing realistic BIM coordination artifacts such as room schedules and drawing notes.
+- The design avoids treating the LLM as the source of truth; rules and data checks produce the findings, while explanations help humans triage them.
+- Production use would require IFC/Revit ingestion, issue ownership, model revision tracking, severity calibration, and integration with coordination platforms.
+
+## Interview Talking Points
+
+- Explain why deterministic validation is safer than pure LLM reasoning for BIM QA.
+- Describe how you would map IFC/Revit entities into checkable schemas.
+- Discuss false positives and how issue severity should be calibrated with project teams.
+- Walk through how report generation makes the agent useful in coordination meetings.
+- Position this as an agentic workflow built around tools, evidence, and review.

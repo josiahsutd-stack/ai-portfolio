@@ -50,3 +50,18 @@ flowchart LR
 
 VLA concepts, embodied AI simulation, action planning, robotics safety thinking, and practical environment design.
 
+## Engineering Notes
+
+- The simulator connects language goals, grid-world state, valid actions, and safety checks to demonstrate the core VLA loop in a lightweight form.
+- A rule-based planner is used as a clear baseline before introducing learned policies or perception models.
+- The environment records traces so action choices and failures can be inspected step by step.
+- Production-grade embodied AI would require richer observations, learned policies, simulation benchmarks, ROS/simulator bridges, and hardware safety validation.
+
+## Interview Talking Points
+
+- Explain what "vision-language-action" means and how this project approximates it.
+- Walk through how instructions become actions under state and safety constraints.
+- Discuss why simple environments are valuable for debugging embodied agents.
+- Describe how you would extend this toward Gymnasium, Isaac Sim, Habitat, or ROS 2.
+- Connect the project to your embodied AI specialization and construction robotics interests.
+

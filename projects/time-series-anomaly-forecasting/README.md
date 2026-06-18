@@ -50,3 +50,18 @@ flowchart LR
 
 Time-series ML, anomaly detection, monitoring, forecasting, and applied data science.
 
+## Engineering Notes
+
+- The project combines forecasting and anomaly detection because operational monitoring usually needs both expected trend and alerting logic.
+- Synthetic data keeps the repository lightweight while demonstrating backtesting, thresholds, metrics, and dashboard/API packaging.
+- The baseline is intentionally interpretable so alert behavior can be explained before adding heavier forecasting models.
+- Production use would require richer seasonality handling, data-quality checks, alert routing, incident feedback, and model monitoring over time.
+
+## Interview Talking Points
+
+- Explain the difference between forecasting error and anomaly detection.
+- Discuss how thresholds should be calibrated to avoid noisy alerts.
+- Walk through backtesting and why time-aware splits matter.
+- Describe when you would use statistical baselines, tree models, or deep forecasting models.
+- Connect the project to monitoring use cases in operations, energy, finance, or infrastructure.
+

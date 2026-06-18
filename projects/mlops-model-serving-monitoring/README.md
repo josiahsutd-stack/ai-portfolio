@@ -48,3 +48,18 @@ flowchart LR
 
 MLOps, model serving, monitoring, drift detection, API engineering, and production ML thinking.
 
+## Engineering Notes
+
+- The project demonstrates the operational side of ML: training artifact, version metadata, serving API, metrics, drift checks, and Docker packaging.
+- Synthetic churn data keeps setup simple while preserving the same serving and monitoring patterns used in real systems.
+- Drift detection is intentionally lightweight and explainable so the monitoring signal can be discussed without external infrastructure.
+- Production use would add a persistent model registry, inference logging, feature store or batch pipelines, alerting, and retraining workflows.
+
+## Interview Talking Points
+
+- Walk through the path from training data to deployed prediction endpoint.
+- Explain why schema validation and model metadata matter in ML serving.
+- Discuss what drift detection can and cannot tell you.
+- Describe how you would add MLflow, database-backed logs, and production alerts.
+- Connect the project to reliable ML operations rather than one-off notebook modeling.
+

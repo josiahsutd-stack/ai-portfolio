@@ -1,31 +1,14 @@
 from __future__ import annotations
 
-from pathlib import Path
-
-ROOT = Path(__file__).resolve().parents[1]
-REQUIRED_DOCS = [
-    "README.md",
-    "profile-readme.md",
-    "docs/general-ai-engineering-positioning.md",
-    "docs/ai-skills-matrix.md",
-    "docs/resume-project-bullets-general-ai.md",
-    "docs/recruiter-snippets-general-ai.md",
-    "docs/project-priority-roadmap.md",
-    "portfolio-site/pages/skills-matrix.html",
-    "portfolio-site/pages/recruiter-view.html",
-]
+from check_repo_health import check_required_docs
+from validate_project_readmes import main as validate_readmes
 
 
 def main() -> None:
-    missing = [path for path in REQUIRED_DOCS if not (ROOT / path).exists()]
-    project_missing = [
-        str(project / "README.md")
-        for project in sorted((ROOT / "projects").iterdir())
-        if project.is_dir() and not (project / "README.md").exists()
-    ]
-    if missing or project_missing:
-        details = "\n".join(missing + project_missing)
-        raise SystemExit(f"Missing required documentation:\n{details}")
+    missing = check_required_docs()
+    if missing:
+        raise SystemExit("Missing required documentation:\n" + "\n".join(missing))
+    validate_readmes()
     print("Project documentation checks passed.")
 
 

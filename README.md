@@ -1,8 +1,26 @@
 # Applied and General AI Engineering Portfolio
 
-AI Engineer focused on applied AI systems, LLM agents, multimodal AI, machine learning, and automation, with a unique background in architecture and the built environment.
+AI engineer focused on applied AI systems, LLM agents, multimodal AI, machine learning, and automation - with a unique background in architecture and the built environment.
 
 This portfolio combines domain-specific AI for the built environment with general AI engineering projects across VLMs, agents, reinforcement learning, deep learning, MLOps, recommender systems, time-series ML, and fine-tuning workflows.
+
+## Best Projects To Review First
+
+For a fast technical review, start with these:
+
+- [Agentic Research Operations Assistant](projects/agentic-research-ops-assistant/README.md) - planner/executor agent, tool calling, local RAG, citations, and approval checkpoints.
+- [Multimodal VLM Visual QA Assistant](projects/multimodal-vlm-visual-qa/README.md) - VLM product workflow, provider abstraction, structured visual QA output, and mock/provider boundary.
+- [VLA Embodied Agent Simulator](projects/vla-embodied-agent-simulator/README.md) - embodied AI loop from language and state to safe actions.
+- [MLOps Model Serving and Monitoring Platform](projects/mlops-model-serving-monitoring/README.md) - training, serving, drift checks, model metadata, Docker, and tests.
+- [AEC Code Compliance RAG Assistant](projects/aec-code-compliance-rag/README.md) - built-environment differentiator with RAG, citations, and compliance-oriented uncertainty handling.
+
+## Why This Portfolio Is Structured This Way
+
+The repository is designed for two audiences at once:
+
+- AI hiring teams can review general engineering range across agents, VLMs, LLM evals, MLOps, RL, recommendations, time-series ML, and fine-tuning workflows.
+- Built-environment and robotics teams can see a domain-specific edge across AEC documents, BIM QA, construction progress, energy modeling, spatial design, and embodied AI for construction robotics.
+- Every project stays runnable locally with synthetic data or mock providers so the repository can be tested without private datasets, paid APIs, or hidden infrastructure.
 
 ## Project Table
 
@@ -55,15 +73,17 @@ These projects preserve the differentiator: AI plus architecture, AEC, construct
 
 ## Skills Coverage Matrix
 
-See [docs/ai-skills-matrix.md](docs/ai-skills-matrix.md) and [portfolio-site/pages/skills-matrix.html](portfolio-site/pages/skills-matrix.html).
+See [docs/skills-matrix.md](docs/skills-matrix.md), [docs/role-to-project-map.md](docs/role-to-project-map.md), and [portfolio-site/pages/skills-matrix.html](portfolio-site/pages/skills-matrix.html).
 
-## Local Setup
+## Quickstart
 
 ```bash
 python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt -r requirements-dev.txt
 python scripts/generate_sample_data.py
+python scripts/check_repo_health.py
+python scripts/run_smoke_tests.py
 pytest
 ```
 
@@ -74,9 +94,27 @@ On macOS/Linux, activate with `source .venv/bin/activate`.
 ```bash
 python -m black --check .
 python -m ruff check .
+python scripts/check_repo_health.py
+python scripts/run_smoke_tests.py
 python -m pytest
 python scripts/check_project_docs.py
 ```
+
+The Makefile provides the same common checks where `make` is available:
+
+```bash
+make health
+make smoke
+make test
+```
+
+## Reviewer Guides
+
+- [How to review this portfolio](docs/how-to-review-this-portfolio.md)
+- [Interview prep](docs/interview-prep.md)
+- [Troubleshooting](docs/troubleshooting.md)
+- [Repo audit](docs/repo-audit.md)
+- [Project roadmap](docs/project-roadmap.md)
 
 ## Portfolio Site
 
@@ -127,7 +165,7 @@ Use the same `docker build -f projects/<project>/Dockerfile -t <name> .` pattern
 
 ## Roadmap
 
-See [docs/project-priority-roadmap.md](docs/project-priority-roadmap.md).
+See [docs/project-roadmap.md](docs/project-roadmap.md) and [docs/project-priority-roadmap.md](docs/project-priority-roadmap.md).
 
 ## Synthetic And Mock Notes
 
@@ -143,4 +181,3 @@ See [docs/project-priority-roadmap.md](docs/project-priority-roadmap.md).
 - GitHub: `https://github.com/your-username`
 - LinkedIn: `https://linkedin.com/in/your-name`
 - Email: `your.email@example.com`
-

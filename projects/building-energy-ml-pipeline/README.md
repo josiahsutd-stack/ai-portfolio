@@ -88,3 +88,18 @@ pytest tests/test_energy_model.py
 - Feature engineering and evaluation
 - Local deployment with API and dashboard surfaces
 - Responsible model documentation
+
+## Engineering Notes
+
+- The pipeline is structured like a small production ML service: generate/load data, engineer features, train, evaluate, serve, and document the model.
+- Synthetic energy data makes the repository runnable without proprietary building datasets while preserving the shape of a real modeling workflow.
+- The model card is part of the engineering deliverable because energy predictions can be misused if assumptions and limits are hidden.
+- Production use would require climate data, utility data, occupancy features, uncertainty intervals, drift checks, and validation against public or client datasets.
+
+## Interview Talking Points
+
+- Walk through the full ML lifecycle from features to API serving.
+- Explain which building features are likely predictive and which are proxy variables.
+- Discuss evaluation beyond a single score: residuals, uncertainty, and segment performance.
+- Describe how the model card communicates risk and assumptions.
+- Connect the project to energy analytics, sustainability, and building operations workflows.

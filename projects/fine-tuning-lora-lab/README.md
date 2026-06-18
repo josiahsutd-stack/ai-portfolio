@@ -48,3 +48,18 @@ flowchart LR
 
 Fine-tuning workflow knowledge, dataset preparation, model adaptation planning, evaluation discipline, and responsible compute-aware engineering.
 
+## Engineering Notes
+
+- The lab models the fine-tuning lifecycle: dataset validation, split planning, LoRA configuration, mock training report, and model-card style documentation.
+- Mock training keeps the project runnable on a normal laptop while showing where PEFT/LoRA training would be introduced.
+- The workflow emphasizes dataset quality and evaluation planning because fine-tuning often fails from weak data rather than code alone.
+- Production use would require tokenizer/model loading, GPU training, experiment tracking, held-out evals, artifact storage, and safety review.
+
+## Interview Talking Points
+
+- Explain when you would choose prompting, RAG, fine-tuning, or LoRA.
+- Discuss dataset formatting, deduplication, train/validation splits, and leakage risks.
+- Walk through the LoRA configuration fields and their tradeoffs.
+- Describe the evaluation plan you would require before shipping a fine-tuned model.
+- Be clear that local mock training demonstrates workflow design, not model performance.
+

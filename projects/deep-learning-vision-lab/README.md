@@ -48,3 +48,18 @@ flowchart LR
 
 Deep learning workflow understanding, computer vision evaluation, data generation, and inference packaging.
 
+## Engineering Notes
+
+- The lab is shaped around the deep learning workflow: dataset manifest, preprocessing, metrics, model card, API, and demo.
+- Synthetic data keeps the project lightweight while allowing the repository to show evaluation and packaging discipline.
+- The baseline is deliberately simple so the model interface can be replaced by PyTorch training without restructuring the app.
+- Production use would require real labeled images, CNN/ViT training, augmentation, calibration, latency profiling, and error analysis by defect type.
+
+## Interview Talking Points
+
+- Explain the difference between proving workflow competence and claiming production inspection accuracy.
+- Discuss how you would collect, label, split, and audit a real vision dataset.
+- Walk through the metrics you would report beyond accuracy.
+- Describe how the model card documents assumptions and failure modes.
+- Explain where PyTorch training would slot into the existing architecture.
+

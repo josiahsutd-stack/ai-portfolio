@@ -86,3 +86,18 @@ pytest tests/test_recommender.py
 - Explainable AI for design decisions
 - Built-environment product framing
 - Clear separation between prototype scoring and production optimization
+
+## Engineering Notes
+
+- The recommender uses handcrafted scoring so reviewers can inspect every factor that affects the recommendation.
+- The product surface emphasizes comparisons and explanations because design teams need to understand tradeoffs, not accept a black-box layout score.
+- The project intentionally stops short of geometry generation; it focuses on preference modeling and decision support.
+- Production use would require BIM/geometry ingestion, user preference learning, constraint solving, and validation with designers or planners.
+
+## Interview Talking Points
+
+- Explain why recommendations can be useful before generative floor-plan tooling is introduced.
+- Discuss how spatial constraints, accessibility, daylight, circulation, and adjacency could become features.
+- Walk through how explanations make recommendations credible for designers.
+- Describe the path from handcrafted scoring to learned ranking or multi-objective optimization.
+- Be honest that this prototype scores scenarios rather than generating buildable plans.

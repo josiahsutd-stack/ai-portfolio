@@ -11,3 +11,8 @@ Use these as portfolio-project bullets, not employment-experience bullets.
 - Built an embodied AI construction robot task planner that uses A* search to route robots around synthetic site obstacles while accounting for restricted zones, slow zones, payload, and battery margin.
 - Created a site robot safety monitor that analyzes synthetic construction robot telemetry and flags worker-proximity, obstacle-clearance, restricted-zone, payload-stability, and emergency-stop events.
 - Structured a local AI portfolio monorepo with pytest coverage, Docker support, GitHub Actions, synthetic data generation, and project-level architecture documentation.
+- Built a planner-executor research agent with local RAG, tool calling, citation tracking, memory, human approval checkpoints, and an inspectable JSON trace.
+- Developed a multimodal visual QA demo with image upload, VLM provider abstraction, structured JSON extraction, confidence scoring, and mock/local inference support.
+- Implemented a VLA-inspired embodied-agent simulator that maps language instructions and grid-world observations into safe action sequences with episode replay and success metrics.
+- Created a lightweight LLM evaluation platform for prompt regression testing, citation coverage, structured-output validation, and prompt-injection detection.
+- Built an MLOps demo platform with model training, FastAPI serving, prediction schema validation, drift detection, Docker support, and CI-oriented tests.

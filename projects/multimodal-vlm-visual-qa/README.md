@@ -51,3 +51,18 @@ flowchart LR
 
 VLM engineering, multimodal product thinking, structured AI outputs, image workflow validation, and honest mock-provider design.
 
+## Engineering Notes
+
+- The provider abstraction separates the product workflow from the model implementation, so mock, local, and hosted VLM backends can share one schema.
+- Structured responses include confidence, uncertainty, and evidence fields to avoid turning visual QA into untraceable free text.
+- Mock mode validates uploads, prompts, schemas, and UI/API behavior without claiming true visual reasoning.
+- Production use would require real VLM integration, OCR/region grounding, benchmark image sets, latency tests, and visual hallucination evaluation.
+
+## Interview Talking Points
+
+- Explain why schema design matters for multimodal AI products.
+- Discuss the difference between captioning, VQA, OCR, and structured visual extraction.
+- Walk through how you would test visual hallucination and abstention behavior.
+- Describe how the provider boundary supports hosted and local models.
+- Be explicit about what mock mode proves and what it does not prove.
+

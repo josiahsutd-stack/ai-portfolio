@@ -48,3 +48,18 @@ flowchart LR
 
 LLMOps, guardrails, prompt-injection awareness, structured-output validation, and responsible AI engineering.
 
+## Engineering Notes
+
+- The platform treats evals as a repeatable engineering workflow: cases, checks, findings, metrics, and dashboard/API outputs.
+- Transparent guardrails are used first so failures can be inspected before adding model-graded evals.
+- The scope covers practical LLM risks: prompt injection, unsafe content, missing citations, and invalid structured outputs.
+- Production use would require prompt/version registries, persisted eval history, CI regression gates, red-team datasets, and human review workflows.
+
+## Interview Talking Points
+
+- Explain why LLM evals should run before and after prompt/model changes.
+- Discuss deterministic checks versus model-graded evaluation.
+- Walk through examples of prompt injection and schema failures.
+- Describe how this would become a CI gate for an LLM application.
+- Position guardrails as risk reduction, not a guarantee of perfect safety.
+
