@@ -87,10 +87,3 @@ Use the same `docker build -f projects/<project>/Dockerfile -t <name> .` pattern
 ├── scripts/
 └── tests/
 ```
-
-## Customize Before Publishing
-
-- Replace placeholder name, location, email, LinkedIn, and GitHub links.
-- Add screenshots to each project README after running demos.
-- Add a real resume link only if it is ready and public-safe.
-- Keep project claims as portfolio work unless real production evidence exists.
