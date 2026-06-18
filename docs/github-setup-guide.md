@@ -36,7 +36,7 @@ Copy the contents of `profile-readme.md` into a GitHub profile repository named 
 Suggested GitHub repo description:
 
 ```text
-Applied AI engineering portfolio for built-environment workflows: RAG, BIM QA, CV-style progress tracking, energy ML, and spatial recommendations.
+Applied and embodied AI engineering portfolio for built-environment workflows: RAG, BIM QA, CV-style progress tracking, construction robotics, energy ML, and spatial recommendations.
 ```
 
 ## 6. Topics
@@ -44,6 +44,5 @@ Applied AI engineering portfolio for built-environment workflows: RAG, BIM QA, C
 Suggested topics:
 
 ```text
-ai-engineering rag fastapi streamlit machine-learning computer-vision aec bim construction-tech proptech built-environment
+ai-engineering embodied-ai robotics rag fastapi streamlit machine-learning computer-vision aec bim construction-tech proptech built-environment
 ```
-

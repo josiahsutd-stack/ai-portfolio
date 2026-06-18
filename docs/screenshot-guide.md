@@ -12,6 +12,8 @@ Capture one clean image per project:
 4. Job fit analyzer with an AI plus AEC role selected.
 5. Energy prediction dashboard with metrics and prediction.
 6. Spatial recommender with at least two recommendations expanded.
+7. Construction robot planner with route grid and risk estimate visible.
+8. Site robot safety monitor with risk-event table visible.
 
 ## Quality Notes
 
@@ -19,4 +21,3 @@ Capture one clean image per project:
 - Avoid showing private job descriptions, resumes, client work, or private building data.
 - Keep browser zoom at 100 percent.
 - Crop out unrelated desktop content.
-

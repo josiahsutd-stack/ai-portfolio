@@ -68,3 +68,25 @@ flowchart LR
   D --> E["Explainable actions"]
 ```
 
+## Construction Robot Task Planner
+
+```mermaid
+flowchart LR
+  A["Synthetic construction site map"] --> B["Robot task"]
+  B --> C["A* route planner"]
+  A --> C
+  C --> D["Route steps"]
+  D --> E["Payload and battery risk estimate"]
+  E --> F["Dashboard/API"]
+```
+
+## Site Robot Safety Monitor
+
+```mermaid
+flowchart LR
+  A["Synthetic robot telemetry"] --> B["Telemetry parser"]
+  B --> C["Safety rules"]
+  C --> D["Risk events"]
+  D --> E["Recommended actions"]
+  E --> F["Dashboard/API"]
+```

@@ -2,7 +2,7 @@
 
 ## Short Intro
 
-I am building an applied AI portfolio around AI for the built environment, combining my AI and architecture background with runnable projects in RAG, computer vision workflows, BIM QA, energy prediction, and design automation.
+I am building an applied and embodied AI portfolio around AI for the built environment, combining my AI, architecture, and embodied AI background with runnable projects in RAG, computer vision workflows, BIM QA, construction robotics, energy prediction, and design automation.
 
 ## AEC Code Compliance RAG
 
@@ -24,3 +24,10 @@ I built a scikit-learn pipeline that predicts synthetic building energy intensit
 
 I built an explainable recommendation engine for spatial design scenarios, scoring daylight, circulation, room sizing, and zoning constraints and returning prioritized design actions.
 
+## Construction Robot Task Planner
+
+I built an embodied AI planning demo for construction robots that routes tasks across a synthetic site map while accounting for obstacles, restricted zones, slow zones, payload, and battery margin.
+
+## Site Robot Safety Monitor
+
+I built a construction robot safety-monitoring demo that analyzes synthetic robot telemetry and flags worker proximity, obstacle clearance, restricted-zone speed, payload stability, and emergency-stop events.

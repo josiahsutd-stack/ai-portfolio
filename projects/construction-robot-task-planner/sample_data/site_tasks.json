@@ -1,0 +1,127 @@
+{
+  "note": "Synthetic construction robotics demo data. Not a real robot map.",
+  "site_map": {
+    "width": 12,
+    "height": 9,
+    "obstacles": [
+      [
+        4,
+        1
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        4,
+        3
+      ],
+      [
+        7,
+        4
+      ],
+      [
+        8,
+        4
+      ],
+      [
+        9,
+        4
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        3,
+        6
+      ]
+    ],
+    "restricted_zones": [
+      [
+        6,
+        1
+      ],
+      [
+        7,
+        1
+      ],
+      [
+        6,
+        2
+      ],
+      [
+        7,
+        2
+      ],
+      [
+        10,
+        6
+      ]
+    ],
+    "slow_zones": [
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        8,
+        7
+      ],
+      [
+        9,
+        7
+      ]
+    ],
+    "charging_stations": [
+      [
+        0,
+        0
+      ],
+      [
+        11,
+        8
+      ]
+    ]
+  },
+  "tasks": [
+    {
+      "task_id": "MAT-01",
+      "robot_type": "material_runner",
+      "start": [
+        0,
+        0
+      ],
+      "goal": [
+        10,
+        7
+      ],
+      "payload_kg": 48,
+      "battery_pct": 82,
+      "priority": "high"
+    },
+    {
+      "task_id": "SCAN-02",
+      "robot_type": "reality_capture_quadruped",
+      "start": [
+        1,
+        8
+      ],
+      "goal": [
+        9,
+        1
+      ],
+      "payload_kg": 8,
+      "battery_pct": 57,
+      "priority": "medium"
+    }
+  ]
+}

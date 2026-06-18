@@ -292,6 +292,77 @@ def generate_spatial_scenarios() -> None:
     )
 
 
+def generate_robot_task_planner_data() -> None:
+    payload = {
+        "note": "Synthetic construction robotics demo data. Not a real robot map.",
+        "site_map": {
+            "width": 12,
+            "height": 9,
+            "obstacles": [[4, 1], [4, 2], [4, 3], [7, 4], [8, 4], [9, 4], [2, 6], [3, 6]],
+            "restricted_zones": [[6, 1], [7, 1], [6, 2], [7, 2], [10, 6]],
+            "slow_zones": [[1, 4], [2, 4], [3, 4], [8, 7], [9, 7]],
+            "charging_stations": [[0, 0], [11, 8]],
+        },
+        "tasks": [
+            {
+                "task_id": "MAT-01",
+                "robot_type": "material_runner",
+                "start": [0, 0],
+                "goal": [10, 7],
+                "payload_kg": 48,
+                "battery_pct": 82,
+                "priority": "high",
+            },
+            {
+                "task_id": "SCAN-02",
+                "robot_type": "reality_capture_quadruped",
+                "start": [1, 8],
+                "goal": [9, 1],
+                "payload_kg": 8,
+                "battery_pct": 57,
+                "priority": "medium",
+            },
+        ],
+    }
+    write_json(
+        ROOT / "projects/construction-robot-task-planner/sample_data/site_tasks.json", payload
+    )
+
+
+def generate_site_robot_safety_data() -> None:
+    rows = []
+    zones = ["open deck", "worker corridor", "material laydown", "restricted lift zone"]
+    for minute in range(36):
+        zone = zones[minute % len(zones)]
+        speed = round(random.uniform(0.2, 1.7), 2)
+        worker_distance = round(random.uniform(0.45, 5.5), 2)
+        proximity = round(random.uniform(0.25, 4.0), 2)
+        emergency_stop = minute in {11, 27}
+        if zone == "worker corridor":
+            worker_distance = round(random.uniform(0.35, 1.4), 2)
+        if zone == "restricted lift zone" and minute % 3 == 0:
+            speed = round(random.uniform(1.2, 1.9), 2)
+        rows.append(
+            {
+                "timestamp": f"2026-06-18T09:{minute:02d}:00",
+                "robot_id": random.choice(["quad-scan-01", "cart-runner-02"]),
+                "x_m": round(random.uniform(0, 38), 1),
+                "y_m": round(random.uniform(0, 26), 1),
+                "speed_mps": speed,
+                "nearest_worker_m": worker_distance,
+                "nearest_obstacle_m": proximity,
+                "zone_type": zone,
+                "payload_kg": random.choice([0, 8, 22, 54, 72]),
+                "tilt_deg": round(random.uniform(0, 13), 1),
+                "emergency_stop": emergency_stop,
+            }
+        )
+    pd.DataFrame(rows).to_csv(
+        ROOT / "projects/site-robot-safety-monitor/sample_data/synthetic_robot_telemetry.csv",
+        index=False,
+    )
+
+
 def main() -> None:
     generate_aec_docs()
     generate_construction_progress()
@@ -299,6 +370,8 @@ def main() -> None:
     generate_job_descriptions()
     generate_energy_data()
     generate_spatial_scenarios()
+    generate_robot_task_planner_data()
+    generate_site_robot_safety_data()
     print("Synthetic sample data generated for all portfolio projects.")
 
 

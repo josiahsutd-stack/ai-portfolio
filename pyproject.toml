@@ -7,7 +7,9 @@ pythonpath = [
   "projects/bim-issue-detection-agent/src",
   "projects/ai-aec-job-fit-analyzer/src",
   "projects/building-energy-ml-pipeline/src",
-  "projects/spatial-design-recommender/src"
+  "projects/spatial-design-recommender/src",
+  "projects/construction-robot-task-planner/src",
+  "projects/site-robot-safety-monitor/src"
 ]
 
 [tool.ruff]

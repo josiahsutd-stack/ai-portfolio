@@ -2,7 +2,7 @@
 
 ## Core Positioning Statement
 
-AI Engineer focused on applied AI, LLM systems, computer vision, and automation for real-world built-environment workflows.
+AI Engineer focused on applied AI, embodied AI, LLM systems, computer vision, and automation for real-world built-environment workflows.
 
 ## Target Roles
 
@@ -13,17 +13,20 @@ AI Engineer focused on applied AI, LLM systems, computer vision, and automation 
 - LLM Engineer
 - AI Automation Engineer
 - Computer Vision Engineer
+- Embodied AI Engineer
+- Robotics Software Engineer
+- Construction Robotics Engineer
 - AI Product Engineer
 - AI roles in AEC, construction tech, proptech, BIM, digital twins, computational design, robotics, spatial intelligence, and design automation
 
 ## Narrative
 
-The candidate is not presenting as a junior developer leaving architecture behind. The stronger story is: domain-aware AI engineer who understands built-environment workflows and can translate ambiguous architecture/construction problems into runnable AI software.
+The candidate is not presenting as a junior developer leaving architecture behind. The stronger story is: domain-aware AI engineer who understands built-environment workflows, embodied AI, and construction constraints, and can translate ambiguous architecture/construction problems into runnable AI software.
 
 ## Proof Points To Emphasize
 
 - Built local-first AI demos with synthetic data and clear limitations.
-- Created RAG, ML, CV-style, and recommendation workflows tied to real AEC pain points.
+- Created RAG, ML, CV-style, embodied AI, robotics-planning, and recommendation workflows tied to real AEC pain points.
 - Used production-adjacent practices: tests, Dockerfiles, APIs, CI, model card, documentation.
 - Avoided unsupported claims about employers, clients, or production outcomes.
 
@@ -36,7 +39,6 @@ The candidate is not presenting as a junior developer leaving architecture behin
 
 ## Messaging To Use
 
-- "I build applied AI systems for document intelligence, BIM QA, construction progress, energy prediction, and spatial design workflows."
+- "I build applied and embodied AI systems for document intelligence, BIM QA, construction progress, robotics, energy prediction, and spatial design workflows."
 - "My architecture/AEC background helps me identify high-value AI workflows and design practical interfaces for domain users."
 - "The portfolio projects are synthetic demos, but each one is structured like a real engineering workflow."
-
