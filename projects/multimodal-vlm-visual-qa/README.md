@@ -58,11 +58,11 @@ VLM engineering, multimodal product thinking, structured AI outputs, image workf
 - Mock mode validates uploads, prompts, schemas, and UI/API behavior without claiming true visual reasoning.
 - Production use would require real VLM integration, OCR/region grounding, benchmark image sets, latency tests, and visual hallucination evaluation.
 
-## Interview Talking Points
+## Technical Review Discussion Points
 
-- Explain why schema design matters for multimodal AI products.
-- Discuss the difference between captioning, VQA, OCR, and structured visual extraction.
-- Walk through how you would test visual hallucination and abstention behavior.
-- Describe how the provider boundary supports hosted and local models.
-- Be explicit about what mock mode proves and what it does not prove.
+- Reviewers can assess why schema design matters for multimodal AI products.
+- The project distinguishes captioning, VQA, OCR, and structured visual extraction.
+- The evaluation path should include visual hallucination and abstention behavior.
+- The provider boundary supports hosted, local, and mock model implementations.
+- Mock mode is clearly documented as workflow validation, not real visual reasoning.
 

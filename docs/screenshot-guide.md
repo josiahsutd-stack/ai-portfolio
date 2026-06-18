@@ -1,10 +1,10 @@
-# Screenshot Guide
+# Screenshot Evidence Guide
 
-The portfolio includes working demos but no fabricated screenshots. Add screenshots only after running the apps locally.
+The portfolio includes working demos and avoids fabricated screenshots. Any screenshot evidence should come from actual local demo runs with synthetic data.
 
 ## Recommended Capture Set
 
-Capture one clean image per project:
+The most useful screenshot set for reviewers would show one clean image per project:
 
 1. RAG answer with citations visible.
 2. Construction progress dashboard with metrics and report.
@@ -17,7 +17,7 @@ Capture one clean image per project:
 
 ## Quality Notes
 
-- Use synthetic/demo data only.
-- Avoid showing private job descriptions, resumes, client work, or private building data.
-- Keep browser zoom at 100 percent.
-- Crop out unrelated desktop content.
+- Screenshots should use synthetic/demo data only.
+- Screenshots should not show private job descriptions, resumes, client work, or private building data.
+- Browser zoom should remain at 100 percent for readable review images.
+- Crops should avoid unrelated desktop content.

@@ -96,7 +96,7 @@ def main() -> None:
     required_docs = [
         ROOT / "docs" / "troubleshooting.md",
         ROOT / "docs" / "how-to-review-this-portfolio.md",
-        ROOT / "docs" / "interview-prep.md",
+        ROOT / "docs" / "technical-review-guide.md",
         ROOT / "projects" / "projects.yml",
     ]
     issues = [

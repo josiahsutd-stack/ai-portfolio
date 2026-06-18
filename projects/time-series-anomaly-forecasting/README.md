@@ -57,11 +57,11 @@ Time-series ML, anomaly detection, monitoring, forecasting, and applied data sci
 - The baseline is intentionally interpretable so alert behavior can be explained before adding heavier forecasting models.
 - Production use would require richer seasonality handling, data-quality checks, alert routing, incident feedback, and model monitoring over time.
 
-## Interview Talking Points
+## Technical Review Discussion Points
 
-- Explain the difference between forecasting error and anomaly detection.
-- Discuss how thresholds should be calibrated to avoid noisy alerts.
-- Walk through backtesting and why time-aware splits matter.
-- Describe when you would use statistical baselines, tree models, or deep forecasting models.
-- Connect the project to monitoring use cases in operations, energy, finance, or infrastructure.
+- Reviewers can distinguish forecasting error from anomaly detection.
+- Threshold calibration is presented as the main control for noisy alerts.
+- Backtesting and time-aware splits are part of the evaluation story.
+- The project identifies when statistical baselines, tree models, or deep forecasting models may be appropriate.
+- The workflow connects to monitoring use cases in operations, energy, finance, and infrastructure.
 

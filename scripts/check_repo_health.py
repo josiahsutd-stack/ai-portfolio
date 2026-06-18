@@ -12,7 +12,7 @@ REQUIRED_DOCS = [
     "docs/repo-audit.md",
     "docs/troubleshooting.md",
     "docs/how-to-review-this-portfolio.md",
-    "docs/interview-prep.md",
+    "docs/technical-review-guide.md",
     "docs/skills-matrix.md",
     "docs/role-to-project-map.md",
     "docs/resume-project-bullets.md",
@@ -25,7 +25,7 @@ REQUIRED_README_PATTERNS = {
     "what proves": r"## What This Proves [Tt]o Employers|## What It Proves to Employers",
     "limitations": r"## Limitations",
     "engineering notes": r"## Engineering Notes",
-    "interview talking points": r"## Interview Talking Points",
+    "technical review discussion points": r"## Technical Review Discussion Points",
 }
 GENERIC_PHRASES = [
     "leveraging cutting-edge",

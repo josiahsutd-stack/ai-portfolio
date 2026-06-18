@@ -92,10 +92,10 @@ pytest
 - The report layer is a key product feature because construction teams need digestible status signals, not just raw predictions.
 - A production version would add image/video ingestion, object detection, calibration across camera locations, privacy review, and schedule-baseline integration.
 
-## Interview Talking Points
+## Technical Review Discussion Points
 
-- Explain the difference between this metadata prototype and a full visual progress model.
-- Discuss the labeling strategy you would use for site images and progress milestones.
-- Describe how confidence thresholds and human review would reduce operational risk.
-- Walk through the FastAPI and Streamlit split as an engineering/product decision.
-- Connect the project to construction stakeholder needs: schedule, safety, evidence, and reporting.
+- Reviewers can distinguish the current metadata prototype from a full visual progress model.
+- The project supports discussion of site-image labeling, milestone definitions, and progress taxonomy design.
+- Confidence thresholds and human review are the key risk controls for operational use.
+- The FastAPI and Streamlit split demonstrates separate service and demo surfaces.
+- The project connects ML output to construction stakeholder needs: schedule, safety, evidence, and reporting.

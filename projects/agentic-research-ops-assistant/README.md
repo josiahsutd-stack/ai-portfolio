@@ -59,11 +59,11 @@ Agentic AI engineering, tool calling, RAG, workflow orchestration, observability
 - Human-in-the-loop review is treated as part of the system design, not an afterthought, because research agents can easily overreach.
 - Production use would add authenticated connectors, richer retrieval, tool permissioning, persistent traces, retries, and evals for citation quality.
 
-## Interview Talking Points
+## Technical Review Discussion Points
 
-- Explain the planner, tools, retrieval, and approval loop in order.
-- Discuss how you prevent an agent from making unsupported claims.
-- Walk through how local RAG differs from live web/tool access.
-- Describe observability needs for agent runs: traces, tool calls, citations, and failures.
-- Position the project as practical agent orchestration rather than a generic chatbot.
+- Reviewers can inspect the planner, tools, retrieval, and approval loop in order.
+- The design shows how an agent can reduce unsupported claims through retrieved evidence and citations.
+- The project makes the boundary between local RAG and live web/tool access explicit.
+- Observability needs are represented through traces, tool calls, citations, and failure states.
+- The project is framed as practical agent orchestration rather than a generic chatbot.
 

@@ -96,10 +96,10 @@ pytest tests/test_energy_model.py
 - The model card is part of the engineering deliverable because energy predictions can be misused if assumptions and limits are hidden.
 - Production use would require climate data, utility data, occupancy features, uncertainty intervals, drift checks, and validation against public or client datasets.
 
-## Interview Talking Points
+## Technical Review Discussion Points
 
-- Walk through the full ML lifecycle from features to API serving.
-- Explain which building features are likely predictive and which are proxy variables.
-- Discuss evaluation beyond a single score: residuals, uncertainty, and segment performance.
-- Describe how the model card communicates risk and assumptions.
-- Connect the project to energy analytics, sustainability, and building operations workflows.
+- Reviewers can inspect the full ML lifecycle from feature design to API serving.
+- The feature set supports discussion of predictive building variables and proxy variables.
+- The evaluation path extends beyond one score to residuals, uncertainty, and segment performance.
+- The model card communicates risk, assumptions, and appropriate limits.
+- The project connects ML engineering to energy analytics, sustainability, and building operations workflows.

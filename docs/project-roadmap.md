@@ -2,7 +2,7 @@
 
 ## Flagship Depth
 
-1. Add screenshots and short demo recordings for the 5 flagship projects.
+1. Screenshots and short demo recordings for the 5 flagship projects.
 2. Add SQLite trace persistence to Agentic Research Ops and LLM Evals.
 3. Add real optional VLM provider integration behind the existing provider abstraction.
 4. Add inference logging and drift history to the MLOps platform.
@@ -18,8 +18,7 @@
 
 ## Portfolio Polish
 
-- Replace contact placeholders.
-- Add screenshots/GIFs.
+- Finalize public contact links.
+- Screenshot/GIF evidence from actual local demo runs.
 - Add a short walkthrough video.
 - Keep all claims as portfolio projects unless real deployment evidence exists.
-

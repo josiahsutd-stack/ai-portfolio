@@ -34,13 +34,13 @@ Secondary projects:
 
 ## Issues Found
 
-- Project READMEs had runnable demo commands but did not consistently include `Engineering Notes` or `Interview Talking Points`.
+- Project READMEs had runnable demo commands but did not consistently include `Engineering Notes` or recruiter-facing technical review discussion sections.
 - Documentation was split across older built-environment docs and newer general-AI docs, creating naming overlap.
 - CI workflow existed as `tests.yml`; the preferred structure is `ci.yml`.
 - There was no repo-level health check or smoke test script.
 - The repo needed a recruiter/hiring-manager review guide and troubleshooting guide.
 - The repo had project metadata only in human-readable tables, not a machine-readable file.
-- Several projects are intentionally lightweight; this should be labeled as local-demo or experimental where appropriate.
+- Several projects are intentionally lightweight and are labeled as local-demo or experimental where appropriate.
 
 ## Broken Or Incomplete Areas
 
@@ -80,7 +80,7 @@ Secondary projects:
 
 - Added repo health and smoke scripts.
 - Added project metadata at `projects/projects.yml`.
-- Added audit, troubleshooting, review guide, interview prep, role map, skills matrix, and roadmap docs.
+- Added audit, troubleshooting, technical review guide, role map, skills matrix, and roadmap docs.
 - Added shared package placeholders for evals, schemas, and testing.
 - Added Makefile commands for setup, test, smoke, health, demo, format, lint, and clean.
 - Updated `.env.example` for mock/local mode.
@@ -88,8 +88,7 @@ Secondary projects:
 
 ## Remaining Recommendations
 
-- Add screenshots or short GIFs for the 5 flagship projects.
+- Add screenshot or short GIF evidence for the 5 flagship projects.
 - Deepen flagship project internals over time rather than making all projects equally complex.
 - Add SQLite persistence to LLM evals and MLOps logging.
 - Add optional real provider implementations behind the existing mock/provider abstractions.
-

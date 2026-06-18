@@ -98,10 +98,10 @@ pytest tests/test_site_robot_safety.py
 - The project complements the task planner by focusing on runtime monitoring instead of pre-task planning.
 - Production use would require ROS/log ingestion, sensor fusion, calibrated thresholds, alert routing, incident review, and validation against robotics safety standards.
 
-## Interview Talking Points
+## Technical Review Discussion Points
 
-- Explain the difference between robot task planning and robot safety monitoring.
-- Discuss which telemetry fields matter most for human-robot interaction on construction sites.
-- Walk through how false alarms and missed alerts would be evaluated.
-- Describe how this could integrate with ROS 2 topics, fleet dashboards, or digital twins.
-- Be clear that the current rules are a demo layer, not certified safety logic.
+- Reviewers can distinguish robot task planning from robot safety monitoring.
+- The telemetry schema highlights human-robot interaction signals for construction sites.
+- False alarms and missed alerts are the primary evaluation concerns for future work.
+- The architecture points toward ROS 2 topics, fleet dashboards, and digital twin integration.
+- The current rules are documented as a demo layer, not certified safety logic.

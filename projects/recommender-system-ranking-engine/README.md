@@ -55,11 +55,11 @@ Recommender systems, embeddings, ranking metrics, applied ML evaluation, and pro
 - Ranking metrics are included because recommenders should be judged by list quality, not only individual item similarity.
 - Production use would require larger interaction logs, candidate generation, two-tower retrieval, online experiments, feedback loops, and bias monitoring.
 
-## Interview Talking Points
+## Technical Review Discussion Points
 
-- Explain retrieval versus ranking and why most recommender systems need both.
-- Discuss precision@k, NDCG@k, and when each metric is useful.
-- Walk through how content-based ranking differs from collaborative filtering.
-- Describe how you would run an offline and online evaluation plan.
-- Connect the project to user-facing product decisions, not just model similarity.
+- Reviewers can assess retrieval versus ranking and why recommender systems often need both.
+- Precision@k and NDCG@k are included as list-quality evaluation metrics.
+- The project distinguishes content-based ranking from collaborative filtering.
+- The roadmap points toward offline and online evaluation planning.
+- The recommender is connected to user-facing product decisions, not just model similarity.
 

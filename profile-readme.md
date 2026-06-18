@@ -52,8 +52,8 @@ I can speak both AI engineering and built-environment workflows: documents, draw
 
 ## Links
 
-- Portfolio: `https://your-portfolio-url.example`
-- GitHub: `https://github.com/your-username`
-- LinkedIn: `https://linkedin.com/in/your-name`
-- Email: `your.email@example.com`
+- Portfolio: `https://github.com/josiahsutd-stack/ai-built-environment-portfolio`
+- GitHub: `https://github.com/josiahsutd-stack`
+- LinkedIn: listed in application materials
+- Email: listed in application materials
 

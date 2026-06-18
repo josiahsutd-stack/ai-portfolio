@@ -55,11 +55,11 @@ MLOps, model serving, monitoring, drift detection, API engineering, and producti
 - Drift detection is intentionally lightweight and explainable so the monitoring signal can be discussed without external infrastructure.
 - Production use would add a persistent model registry, inference logging, feature store or batch pipelines, alerting, and retraining workflows.
 
-## Interview Talking Points
+## Technical Review Discussion Points
 
-- Walk through the path from training data to deployed prediction endpoint.
-- Explain why schema validation and model metadata matter in ML serving.
-- Discuss what drift detection can and cannot tell you.
-- Describe how you would add MLflow, database-backed logs, and production alerts.
-- Connect the project to reliable ML operations rather than one-off notebook modeling.
+- Reviewers can trace the path from training data to deployed prediction endpoint.
+- Schema validation and model metadata are shown as core ML serving requirements.
+- Drift detection is documented with its uses and limits.
+- MLflow, database-backed logs, and production alerts are clear production extensions.
+- The project demonstrates reliable ML operations rather than one-off notebook modeling.
 

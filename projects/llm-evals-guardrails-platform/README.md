@@ -55,11 +55,11 @@ LLMOps, guardrails, prompt-injection awareness, structured-output validation, an
 - The scope covers practical LLM risks: prompt injection, unsafe content, missing citations, and invalid structured outputs.
 - Production use would require prompt/version registries, persisted eval history, CI regression gates, red-team datasets, and human review workflows.
 
-## Interview Talking Points
+## Technical Review Discussion Points
 
-- Explain why LLM evals should run before and after prompt/model changes.
-- Discuss deterministic checks versus model-graded evaluation.
-- Walk through examples of prompt injection and schema failures.
-- Describe how this would become a CI gate for an LLM application.
-- Position guardrails as risk reduction, not a guarantee of perfect safety.
+- Reviewers can assess why LLM evals should run before and after prompt/model changes.
+- The project distinguishes deterministic checks from model-graded evaluation.
+- Prompt injection and schema failures are represented as inspectable eval cases.
+- The workflow can become a CI gate for an LLM application.
+- Guardrails are framed as risk reduction, not a guarantee of perfect safety.
 

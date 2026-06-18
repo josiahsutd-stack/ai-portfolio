@@ -111,7 +111,8 @@ make test
 ## Reviewer Guides
 
 - [How to review this portfolio](docs/how-to-review-this-portfolio.md)
-- [Interview prep](docs/interview-prep.md)
+- [Technical review guide](docs/technical-review-guide.md)
+- [Repository review metadata](docs/repository-review-metadata.md)
 - [Troubleshooting](docs/troubleshooting.md)
 - [Repo audit](docs/repo-audit.md)
 - [Project roadmap](docs/project-roadmap.md)
@@ -176,8 +177,8 @@ See [docs/project-roadmap.md](docs/project-roadmap.md) and [docs/project-priorit
 - AEC outputs are not legal, code, engineering, or professional compliance advice.
 - No production users, clients, employers, or performance claims are fabricated.
 
-## Contact Placeholders
+## Contact
 
-- GitHub: `https://github.com/your-username`
-- LinkedIn: `https://linkedin.com/in/your-name`
-- Email: `your.email@example.com`
+- GitHub: `https://github.com/josiahsutd-stack`
+- LinkedIn: listed in application materials
+- Email: listed in application materials

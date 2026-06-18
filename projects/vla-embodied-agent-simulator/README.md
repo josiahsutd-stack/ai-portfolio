@@ -57,11 +57,11 @@ VLA concepts, embodied AI simulation, action planning, robotics safety thinking,
 - The environment records traces so action choices and failures can be inspected step by step.
 - Production-grade embodied AI would require richer observations, learned policies, simulation benchmarks, ROS/simulator bridges, and hardware safety validation.
 
-## Interview Talking Points
+## Technical Review Discussion Points
 
-- Explain what "vision-language-action" means and how this project approximates it.
-- Walk through how instructions become actions under state and safety constraints.
-- Discuss why simple environments are valuable for debugging embodied agents.
-- Describe how you would extend this toward Gymnasium, Isaac Sim, Habitat, or ROS 2.
-- Connect the project to your embodied AI specialization and construction robotics interests.
+- Reviewers can assess how the project approximates a vision-language-action loop.
+- Instructions become actions under state, validity, and safety constraints.
+- The simple environment makes embodied-agent behavior easier to debug and inspect.
+- The architecture can extend toward Gymnasium, Isaac Sim, Habitat, or ROS 2.
+- The project highlights the portfolio's embodied AI specialization and construction robotics direction.
 

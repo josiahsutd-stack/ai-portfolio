@@ -104,10 +104,10 @@ pytest tests/test_rag.py
 - The answer flow refuses to overstate certainty when retrieved evidence is weak, which is more important for compliance workflows than producing polished text.
 - Production use would need document ingestion, jurisdiction metadata, clause-level versioning, expert review, and retrieval/eval benchmarks before any code-compliance claims.
 
-## Interview Talking Points
+## Technical Review Discussion Points
 
-- Explain why source grounding matters more than answer fluency in AEC compliance workflows.
-- Walk through the chunking and retrieval tradeoff between interpretability and semantic recall.
-- Discuss how you would evaluate faithfulness, citation accuracy, and retrieval precision.
-- Describe the mock provider boundary and how a hosted LLM or embedding model would plug in.
-- Be explicit that this is decision support, not professional code advice.
+- Reviewers can assess how the project prioritizes source grounding over answer fluency in AEC compliance workflows.
+- The chunking and retrieval design shows a tradeoff between interpretability and semantic recall.
+- The evaluation path should focus on faithfulness, citation accuracy, and retrieval precision.
+- The mock provider boundary shows where hosted LLMs or embedding models can plug in.
+- The documentation is explicit that this is decision support, not professional code advice.

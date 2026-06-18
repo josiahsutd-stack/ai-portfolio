@@ -4,11 +4,11 @@ Personal career tool that parses job descriptions, classifies role fit, extracts
 
 ## Problem
 
-Candidates pivoting from architecture into AI need to decide which roles fit their background and how to position project evidence without overclaiming.
+Architecture and built-environment professionals moving into AI need a structured way to compare role requirements against project evidence without overclaiming.
 
 ## Why It Matters
 
-This project connects directly to the candidate story: AI engineering, applied AI, and built-environment domain expertise.
+This project demonstrates how AI engineering, applied AI, and built-environment domain expertise can be mapped against real hiring requirements.
 
 ## Demo
 
@@ -36,7 +36,7 @@ Python, Streamlit, deterministic NLP rules, pytest.
 flowchart LR
   A["Job description"] --> B["Normalize and extract skills"]
   B --> C["Role classifier"]
-  B --> D["Candidate skill matcher"]
+  B --> D["Applicant profile skill matcher"]
   C --> E["Fit score"]
   D --> E
   E --> F["Application strategy"]
@@ -44,7 +44,7 @@ flowchart LR
 
 ## How It Works
 
-The analyzer maps job text to skill categories, compares extracted requirements to the candidate's AI plus AEC positioning, and returns a role class with a fit score.
+The analyzer maps job text to skill categories, compares extracted requirements to an applicant profile, and returns a role class with a fit score.
 
 ## Example Output
 
@@ -71,7 +71,7 @@ pytest tests/test_job_fit.py
 ## Limitations
 
 - Uses transparent keyword rules rather than a large NLP model.
-- The resume profile is a placeholder and should be customized.
+- The bundled resume profile is synthetic demo data, not a real private resume.
 - Fit scoring is a decision aid, not a guarantee.
 
 ## How I Would Improve This In Production
@@ -94,10 +94,10 @@ pytest tests/test_job_fit.py
 - Synthetic sample jobs keep the workflow safe to share while demonstrating how AI can organize ambiguous job descriptions.
 - A production version would add resume parsing, LLM evidence extraction, calibrated scoring, prompt/version tracking, and recruiter-message review controls.
 
-## Interview Talking Points
+## Technical Review Discussion Points
 
-- Explain why interpretability matters in career and hiring-adjacent tools.
-- Discuss how you would evaluate role classification quality across AI, ML, and AEC postings.
-- Walk through how portfolio evidence is mapped to job requirements.
-- Describe where an LLM should help and where deterministic rules are preferable.
-- Be clear that fit scores are guidance, not hiring predictions.
+- Reviewers can assess why interpretability matters in career and hiring-adjacent tools.
+- The role classifier can be evaluated across AI, ML, and AEC postings.
+- The project shows how portfolio evidence can be mapped to job requirements.
+- The design separates where an LLM could help from where deterministic rules are preferable.
+- Fit scores are documented as guidance, not hiring predictions.

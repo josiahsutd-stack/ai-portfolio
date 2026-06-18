@@ -6,7 +6,7 @@
 - MLOps Model Serving and Monitoring Platform: shows model serving and monitoring.
 - Multimodal VLM Visual QA Assistant: shows multimodal product workflow.
 
-Interview focus: explain how the demos are local, testable, and mock-safe.
+Reviewer focus: local testability, mock-safe design, and evidence that the demos are honest engineering prototypes.
 
 ## Applied AI Engineer
 
@@ -14,7 +14,7 @@ Interview focus: explain how the demos are local, testable, and mock-safe.
 - BIM Issue Detection Agent
 - Agentic Research Operations Assistant
 
-Interview focus: explain how domain workflows become tools, retrieval, validation, and review loops.
+Reviewer focus: how domain workflows become tools, retrieval, validation, and review loops.
 
 ## LLM Engineer
 
@@ -22,7 +22,7 @@ Interview focus: explain how domain workflows become tools, retrieval, validatio
 - LLM Evals and Guardrails Platform
 - AEC Code Compliance RAG Assistant
 
-Interview focus: retrieval, prompt safety, structured outputs, and eval gates.
+Reviewer focus: retrieval, prompt safety, structured outputs, and eval gates.
 
 ## Agentic AI Engineer
 
@@ -30,7 +30,7 @@ Interview focus: retrieval, prompt safety, structured outputs, and eval gates.
 - BIM Issue Detection Agent
 - LLM Evals and Guardrails Platform
 
-Interview focus: tool calling, traceability, deterministic checks, and human approval.
+Reviewer focus: tool calling, traceability, deterministic checks, and human approval.
 
 ## Multimodal AI Engineer
 
@@ -38,7 +38,7 @@ Interview focus: tool calling, traceability, deterministic checks, and human app
 - VLA Embodied Agent Simulator
 - Construction Progress CV Tracker
 
-Interview focus: input validation, provider abstraction, uncertainty, and multimodal evaluation.
+Reviewer focus: input validation, provider abstraction, uncertainty, and multimodal evaluation.
 
 ## Computer Vision Engineer
 
@@ -46,7 +46,7 @@ Interview focus: input validation, provider abstraction, uncertainty, and multim
 - Construction Progress CV Tracker
 - Multimodal VLM Visual QA Assistant
 
-Interview focus: synthetic data, metrics, model cards, and how to replace baselines with real models.
+Reviewer focus: synthetic data, metrics, model cards, and the path from baseline models to real vision models.
 
 ## ML Engineer
 
@@ -54,7 +54,7 @@ Interview focus: synthetic data, metrics, model cards, and how to replace baseli
 - Building Energy ML Pipeline
 - Time-Series Anomaly Detection and Forecasting
 
-Interview focus: feature engineering, evaluation, serving, drift, and reproducibility.
+Reviewer focus: feature engineering, evaluation, serving, drift, and reproducibility.
 
 ## Deep Learning Engineer
 
@@ -62,7 +62,7 @@ Interview focus: feature engineering, evaluation, serving, drift, and reproducib
 - Fine-Tuning and LoRA Lab
 - Multimodal VLM Visual QA Assistant
 
-Interview focus: dataset preparation, model adaptation workflow, and local compute trade-offs.
+Reviewer focus: dataset preparation, model adaptation workflow, and local compute trade-offs.
 
 ## MLOps Engineer
 
@@ -70,7 +70,7 @@ Interview focus: dataset preparation, model adaptation workflow, and local compu
 - LLM Evals and Guardrails Platform
 - Deep Learning Vision Lab
 
-Interview focus: APIs, schema checks, CI, monitoring, and drift detection.
+Reviewer focus: APIs, schema checks, CI, monitoring, and drift detection.
 
 ## RL Engineer
 
@@ -78,7 +78,7 @@ Interview focus: APIs, schema checks, CI, monitoring, and drift detection.
 - VLA Embodied Agent Simulator
 - Construction Robot Task Planner
 
-Interview focus: environment design, rewards, baselines, and safety constraints.
+Reviewer focus: environment design, rewards, baselines, and safety constraints.
 
 ## Robotics / VLA Engineer
 
@@ -86,7 +86,7 @@ Interview focus: environment design, rewards, baselines, and safety constraints.
 - Construction Robot Task Planner
 - Site Robot Safety Monitor
 
-Interview focus: simulated state/action loops, constraints, telemetry, and honest hardware limitations.
+Reviewer focus: simulated state/action loops, constraints, telemetry, and honest hardware limitations.
 
 ## Data Scientist
 
@@ -94,7 +94,7 @@ Interview focus: simulated state/action loops, constraints, telemetry, and hones
 - Recommender System Ranking Engine
 - Building Energy ML Pipeline
 
-Interview focus: metrics, baselines, synthetic data, and error analysis.
+Reviewer focus: metrics, baselines, synthetic data, and error analysis.
 
 ## AI Product Engineer
 
@@ -102,5 +102,4 @@ Interview focus: metrics, baselines, synthetic data, and error analysis.
 - Agentic Research Operations Assistant
 - AI + AEC Job Fit Analyzer
 
-Interview focus: usable workflows, clear outputs, and graceful mock mode.
-
+Reviewer focus: usable workflows, clear outputs, and graceful mock mode.

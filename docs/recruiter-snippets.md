@@ -1,4 +1,6 @@
-# Recruiter Snippets
+# Recruiter Summary Snippets
+
+These short first-person summaries are written for recruiters and hiring teams who want a quick read on the portfolio's positioning.
 
 ## Broad AI Engineer
 
@@ -19,4 +21,3 @@ I built an MLOps demo platform with synthetic data generation, scikit-learn mode
 ## Robotics / VLA
 
 I built a VLA-inspired embodied-agent simulator plus construction robot planning and safety monitoring demos. They are honest simulations, not real robot deployments, and they focus on state/action loops, constraints, and explainable safety behavior.
-

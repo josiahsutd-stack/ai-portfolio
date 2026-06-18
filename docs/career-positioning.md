@@ -1,4 +1,4 @@
-# Career Positioning
+# Career Positioning Summary
 
 ## Core Positioning Statement
 
@@ -19,25 +19,25 @@ AI Engineer focused on applied AI, embodied AI, LLM systems, computer vision, an
 - AI Product Engineer
 - AI roles in AEC, construction tech, proptech, BIM, digital twins, computational design, robotics, spatial intelligence, and design automation
 
-## Narrative
+## Portfolio Narrative
 
-The candidate is not presenting as a junior developer leaving architecture behind. The stronger story is: domain-aware AI engineer who understands built-environment workflows, embodied AI, and construction constraints, and can translate ambiguous architecture/construction problems into runnable AI software.
+This portfolio presents a domain-aware AI engineer who understands built-environment workflows, embodied AI, and construction constraints, and can translate ambiguous architecture/construction problems into runnable AI software.
 
-## Proof Points To Emphasize
+## Proof Points
 
 - Built local-first AI demos with synthetic data and clear limitations.
 - Created RAG, ML, CV-style, embodied AI, robotics-planning, and recommendation workflows tied to real AEC pain points.
 - Used production-adjacent practices: tests, Dockerfiles, APIs, CI, model card, documentation.
 - Avoided unsupported claims about employers, clients, or production outcomes.
 
-## Messaging To Avoid
+## Claims Not Made
 
-- "I am willing to learn AI."
-- "I built tutorial projects."
-- "I am trying to break into tech."
-- Any claim of production impact that cannot be supported.
+- No claim that these are deployed production systems.
+- No claim of client, employer, or user impact from synthetic demos.
+- No claim that the robotics demos control physical robots.
+- No claim that AEC/code outputs replace professional review.
 
-## Messaging To Use
+## Public Positioning Language
 
 - "I build applied and embodied AI systems for document intelligence, BIM QA, construction progress, robotics, energy prediction, and spatial design workflows."
 - "My architecture/AEC background helps me identify high-value AI workflows and design practical interfaces for domain users."

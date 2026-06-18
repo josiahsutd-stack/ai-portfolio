@@ -55,11 +55,11 @@ Fine-tuning workflow knowledge, dataset preparation, model adaptation planning, 
 - The workflow emphasizes dataset quality and evaluation planning because fine-tuning often fails from weak data rather than code alone.
 - Production use would require tokenizer/model loading, GPU training, experiment tracking, held-out evals, artifact storage, and safety review.
 
-## Interview Talking Points
+## Technical Review Discussion Points
 
-- Explain when you would choose prompting, RAG, fine-tuning, or LoRA.
-- Discuss dataset formatting, deduplication, train/validation splits, and leakage risks.
-- Walk through the LoRA configuration fields and their tradeoffs.
-- Describe the evaluation plan you would require before shipping a fine-tuned model.
-- Be clear that local mock training demonstrates workflow design, not model performance.
+- Reviewers can assess when prompting, RAG, fine-tuning, or LoRA would be the right adaptation strategy.
+- Dataset formatting, deduplication, train/validation splits, and leakage risks are treated as first-class concerns.
+- The LoRA configuration fields expose key adaptation tradeoffs.
+- The documented evaluation plan is required before any fine-tuned model should ship.
+- Local mock training demonstrates workflow design, not model performance.
 

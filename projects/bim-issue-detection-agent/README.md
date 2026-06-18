@@ -96,10 +96,10 @@ pytest tests/test_bim_issues.py
 - The design avoids treating the LLM as the source of truth; rules and data checks produce the findings, while explanations help humans triage them.
 - Production use would require IFC/Revit ingestion, issue ownership, model revision tracking, severity calibration, and integration with coordination platforms.
 
-## Interview Talking Points
+## Technical Review Discussion Points
 
-- Explain why deterministic validation is safer than pure LLM reasoning for BIM QA.
-- Describe how you would map IFC/Revit entities into checkable schemas.
-- Discuss false positives and how issue severity should be calibrated with project teams.
-- Walk through how report generation makes the agent useful in coordination meetings.
-- Position this as an agentic workflow built around tools, evidence, and review.
+- Reviewers can assess why deterministic validation is safer than pure LLM reasoning for BIM QA.
+- The project points toward IFC/Revit entity mapping into checkable schemas.
+- False positives and issue severity are framed as calibration problems with project teams.
+- Report generation makes the agent useful for coordination meetings and issue triage.
+- The system is positioned as an agentic workflow built around tools, evidence, and review.

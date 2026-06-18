@@ -55,11 +55,11 @@ RL fundamentals, reward shaping, sequential decision-making, simulation, and app
 - The environments are intentionally business-flavored so RL is connected to operational decisions rather than abstract benchmarks only.
 - Production use would require Gymnasium-compatible wrappers, experiment tracking, reproducible seeds, stronger baselines, and safety-aware evaluation.
 
-## Interview Talking Points
+## Technical Review Discussion Points
 
-- Explain the state, action, reward, and transition design for each environment.
-- Discuss reward shaping and how it can create unintended behavior.
-- Walk through why baseline policies are necessary before deep RL.
-- Describe how you would add PPO/DQN and compare against heuristic policies.
-- Be honest that this is an RL fundamentals portfolio project, not a production RL deployment.
+- Reviewers can inspect the state, action, reward, and transition design for each environment.
+- Reward shaping is framed as both a design tool and a source of unintended behavior.
+- Baseline policies are included before deep RL to make comparisons meaningful.
+- PPO/DQN are documented as future extensions to compare against heuristic policies.
+- The project is clearly framed as RL fundamentals, not a production RL deployment.
 

@@ -55,11 +55,11 @@ Deep learning workflow understanding, computer vision evaluation, data generatio
 - The baseline is deliberately simple so the model interface can be replaced by PyTorch training without restructuring the app.
 - Production use would require real labeled images, CNN/ViT training, augmentation, calibration, latency profiling, and error analysis by defect type.
 
-## Interview Talking Points
+## Technical Review Discussion Points
 
-- Explain the difference between proving workflow competence and claiming production inspection accuracy.
-- Discuss how you would collect, label, split, and audit a real vision dataset.
-- Walk through the metrics you would report beyond accuracy.
-- Describe how the model card documents assumptions and failure modes.
-- Explain where PyTorch training would slot into the existing architecture.
+- Reviewers can distinguish workflow competence from production inspection accuracy claims.
+- The project supports discussion of collecting, labeling, splitting, and auditing a real vision dataset.
+- The metrics path extends beyond accuracy to error analysis and model behavior.
+- The model card documents assumptions, limitations, and failure modes.
+- PyTorch training can slot into the existing architecture without changing the demo/API shape.
 

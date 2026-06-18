@@ -94,10 +94,10 @@ pytest tests/test_recommender.py
 - The project intentionally stops short of geometry generation; it focuses on preference modeling and decision support.
 - Production use would require BIM/geometry ingestion, user preference learning, constraint solving, and validation with designers or planners.
 
-## Interview Talking Points
+## Technical Review Discussion Points
 
-- Explain why recommendations can be useful before generative floor-plan tooling is introduced.
-- Discuss how spatial constraints, accessibility, daylight, circulation, and adjacency could become features.
-- Walk through how explanations make recommendations credible for designers.
-- Describe the path from handcrafted scoring to learned ranking or multi-objective optimization.
-- Be honest that this prototype scores scenarios rather than generating buildable plans.
+- Reviewers can assess why recommendations are useful before generative floor-plan tooling is introduced.
+- Spatial constraints, accessibility, daylight, circulation, and adjacency are clear feature-extension paths.
+- Explanations make the recommendations more credible for designers and planners.
+- The project shows a path from handcrafted scoring to learned ranking or multi-objective optimization.
+- The prototype is clearly framed as scenario scoring, not buildable plan generation.

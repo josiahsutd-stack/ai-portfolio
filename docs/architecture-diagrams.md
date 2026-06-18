@@ -41,7 +41,7 @@ flowchart LR
 flowchart LR
   A["Job description"] --> B["Skill extraction"]
   B --> C["Role classification"]
-  B --> D["Candidate skill matching"]
+  B --> D["Applicant profile skill matching"]
   C --> E["Fit score"]
   D --> E
   E --> F["Application strategy"]
