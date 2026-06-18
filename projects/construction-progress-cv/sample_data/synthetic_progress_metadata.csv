@@ -1,0 +1,31 @@
+image_id,week,zone,foundation_pct,structure_pct,envelope_pct,mep_pct,interior_pct,handover_pct,safety_observations,weather_delay_days,stage_label
+site_week_01.jpg,1,north wing,8.7,0.0,0.0,0.0,0.0,0.0,2,0,foundation
+site_week_02.jpg,2,north wing,7.9,0.0,0.0,0.0,0.0,0.0,4,0,foundation
+site_week_03.jpg,3,north wing,20.4,0.0,0.0,0.0,0.0,0.0,0,0,foundation
+site_week_04.jpg,4,north wing,20.4,0.0,0.0,0.0,0.0,0.0,4,0,foundation
+site_week_05.jpg,5,podium,35.1,4.1,0.0,0.0,0.0,0.0,1,2,structure
+site_week_06.jpg,6,north wing,39.3,7.9,0.0,0.0,0.0,0.0,1,2,structure
+site_week_07.jpg,7,south wing,41.3,9.8,0.0,0.0,0.0,0.0,1,1,structure
+site_week_08.jpg,8,podium,43.6,11.8,0.0,0.0,0.0,0.0,0,1,structure
+site_week_09.jpg,9,core,62.5,29.1,0.0,0.0,0.0,0.0,0,2,envelope
+site_week_10.jpg,10,podium,63.5,30.0,0.0,0.0,0.0,0.0,0,1,envelope
+site_week_11.jpg,11,core,74.8,40.3,9.9,0.0,0.0,0.0,4,0,envelope
+site_week_12.jpg,12,north wing,79.0,44.1,13.9,2.1,0.0,0.0,1,1,envelope
+site_week_13.jpg,13,south wing,90.0,54.2,24.7,11.5,0.0,0.0,0,2,envelope
+site_week_14.jpg,14,core,84.3,48.9,19.1,6.6,0.0,0.0,1,1,envelope
+site_week_15.jpg,15,core,91.9,55.9,26.5,13.1,0.0,0.0,0,0,mep
+site_week_16.jpg,16,south wing,100.0,64.4,35.5,21.1,0.0,0.0,1,2,mep
+site_week_17.jpg,17,south wing,100.0,67.7,39.1,24.2,0.0,0.0,2,0,mep
+site_week_18.jpg,18,north wing,100.0,71.1,42.7,27.4,3.3,0.0,2,2,mep
+site_week_19.jpg,19,south wing,100.0,77.5,49.5,33.3,10.5,0.0,4,1,mep
+site_week_20.jpg,20,podium,100.0,82.3,54.7,37.9,16.0,0.0,3,2,mep
+site_week_21.jpg,21,south wing,100.0,87.0,59.6,42.2,21.2,0.0,1,1,interior
+site_week_22.jpg,22,podium,100.0,100.0,75.7,56.4,38.3,4.1,4,2,interior
+site_week_23.jpg,23,south wing,100.0,100.0,75.4,56.1,38.0,3.8,4,2,interior
+site_week_24.jpg,24,north wing,100.0,100.0,77.1,57.6,39.7,6.0,0,0,interior
+site_week_25.jpg,25,podium,100.0,100.0,92.0,70.7,55.6,25.9,4,0,handover
+site_week_26.jpg,26,podium,100.0,100.0,94.1,72.6,57.8,28.7,4,1,handover
+site_week_27.jpg,27,north wing,100.0,100.0,100.0,79.8,66.5,39.6,0,1,handover
+site_week_28.jpg,28,core,100.0,100.0,100.0,79.8,66.5,39.6,0,1,handover
+site_week_29.jpg,29,podium,100.0,100.0,100.0,79.8,66.5,39.6,0,1,handover
+site_week_30.jpg,30,south wing,100.0,100.0,100.0,79.8,66.5,39.6,4,0,handover

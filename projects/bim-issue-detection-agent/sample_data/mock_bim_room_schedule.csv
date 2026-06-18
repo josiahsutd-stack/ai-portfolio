@@ -1,0 +1,6 @@
+room_id,room_name,level,area_scheduled,area_model,door_clearance_mm,material_spec,fire_rating_note,accessibility_note,coordination_comment
+A-101,Lobby,01,84.0,83.1,920,porcelain tile,not required,accessible route,
+A-102,,01,20.0,28.8,760,vinyl floor,,,MEP riser conflict unresolved
+A-102,Storage,01,12.0,11.8,810,,,not public,
+B-210,Accessible WC,02,9.2,8.4,780,anti-slip tile,60 min wall,,Door swing clashes with basin clearance
+C-305,Plant Room,03,55.0,54.6,900,sealed concrete,,maintenance access,Fire wall shown without door rating tag

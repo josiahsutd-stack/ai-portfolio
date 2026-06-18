@@ -1,0 +1,26 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = [
+  ".",
+  "projects/aec-code-compliance-rag/src",
+  "projects/construction-progress-cv/src",
+  "projects/bim-issue-detection-agent/src",
+  "projects/ai-aec-job-fit-analyzer/src",
+  "projects/building-energy-ml-pipeline/src",
+  "projects/spatial-design-recommender/src"
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"projects/*/app.py" = ["E402", "I001"]
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]

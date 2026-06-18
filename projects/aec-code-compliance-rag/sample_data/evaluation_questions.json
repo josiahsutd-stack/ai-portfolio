@@ -1,0 +1,29 @@
+[
+  {
+    "question": "What clear width should be checked for high traffic accessible routes?",
+    "expected_source": "mock_aec_guidance.md",
+    "expected_terms": [
+      "1200 mm",
+      "clear width",
+      "accessible routes"
+    ]
+  },
+  {
+    "question": "What should be included for long residential corridors?",
+    "expected_source": "mock_aec_guidance.md",
+    "expected_terms": [
+      "compartmentation",
+      "smoke control",
+      "fire-rated door"
+    ]
+  },
+  {
+    "question": "What daylight risks should west glazing trigger?",
+    "expected_source": "mock_aec_guidance.md",
+    "expected_terms": [
+      "solar gain",
+      "glare",
+      "cooling impact"
+    ]
+  }
+]
