@@ -2,6 +2,8 @@
 
 Planner-executor research agent that breaks a task into tool calls, searches local documents, creates a cited report, stores persistent SQLite traces, evaluates the trace, and requires human approval before finalization.
 
+Supporting flagship project for agentic AI workflow review.
+
 ## Problem
 
 Research agents can be useful only when their plans, tools, citations, and approval checkpoints are inspectable.
@@ -12,11 +14,19 @@ Research agents can be useful only when their plans, tools, citations, and appro
 streamlit run projects/agentic-research-ops-assistant/app.py
 ```
 
+Reviewer artifacts:
+
+- [ARCHITECTURE.md](ARCHITECTURE.md)
+- [LIMITATIONS.md](LIMITATIONS.md)
+- [demo_outputs/example_trace.json](demo_outputs/example_trace.json)
+- [demo_outputs/example_report.md](demo_outputs/example_report.md)
+
 ## Features
 
 - Planner-executor architecture
 - Local document search with TF-IDF retrieval
 - Tool registry with permission-aware planning
+- Explicit planner / tool / executor / memory / reporter / approval-gate separation
 - Citation tracking
 - Structured tool traces with status, attempts, and latency
 - SQLite trace persistence

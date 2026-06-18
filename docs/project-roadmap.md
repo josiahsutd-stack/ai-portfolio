@@ -5,8 +5,8 @@
 1. Add screenshots and a short demo recording for AEC Code Compliance RAG.
 2. Add richer document ingestion to AEC RAG: PDF parsing, real page extraction, and clause metadata.
 3. Expand AEC RAG retrieval evaluation with negative cases, paraphrases, and citation-faithfulness checks.
-4. Add screenshots/GIF evidence from real local runs.
-5. Add Gymnasium compatibility to the VLA/RL projects.
+4. Add screenshots/GIF evidence for the five review-path projects.
+5. Add deeper eval/report artifacts to agent, MLOps, fine-tuning, and VLM.
 
 ## Secondary Project Improvements
 
@@ -22,6 +22,7 @@
 - Added model artifact saving, SQLite prediction logging, and drift-history persistence to the MLOps project.
 - Added SQLite trace persistence, tool metadata, permission-aware planning, and trace evaluation to Agentic Research Ops.
 - Promoted AEC Code Compliance RAG into the primary flagship with retrieval evaluation, citation metadata, architecture docs, demo outputs, and focused tests.
+- Added supporting flagship docs and artifacts for Agentic Research Ops, MLOps, Fine-Tuning LoRA Lab, and Multimodal VLM Visual QA.
 - Added cross-platform `scripts/setup.py`, `scripts/verify.py`, and `make verify`.
 
 ## Portfolio Polish

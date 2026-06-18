@@ -2,6 +2,8 @@
 
 Compute-aware fine-tuning workflow for support-ticket classification with dataset generation, validation, split logic, LoRA config, mock training, and evaluation report.
 
+Supporting flagship project for fine-tuning workflow review. It is intentionally honest: local training is mocked and no model weights are updated.
+
 ## Problem
 
 Fine-tuning projects often fail before training because datasets, validation, compute assumptions, and evaluation are unclear.
@@ -12,13 +14,20 @@ Fine-tuning projects often fail before training because datasets, validation, co
 streamlit run projects/fine-tuning-lora-lab/app.py
 ```
 
+Reviewer docs:
+
+- [DATASET.md](DATASET.md)
+- [EVAL.md](EVAL.md)
+- [LIMITATIONS.md](LIMITATIONS.md)
+
 ## Features
 
 - Instruction dataset generator
-- Dataset validation
-- Train/validation split
+- Dataset validation for missing fields, empty values, labels, and duplicates
+- Train/validation split verification
 - LoRA config structure
 - Mock trainer requiring no GPU
+- Evaluation template for held-out prompts and overfitting risks
 - Clear path for real GPU training
 
 ## Tech Stack
@@ -39,6 +48,7 @@ flowchart LR
 
 - No real heavy fine-tuning is run locally.
 - Mock trainer demonstrates workflow shape, not model adaptation performance.
+- No accuracy, benchmark, or model-quality claim is made.
 
 ## How I Would Improve This In Production
 

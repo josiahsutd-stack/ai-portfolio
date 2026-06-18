@@ -26,13 +26,31 @@ def generate_instruction_dataset() -> list[dict[str, str]]:
 
 def validate_dataset(rows: list[dict[str, str]]) -> dict[str, object]:
     required = {"instruction", "input", "output"}
-    invalid = [
-        idx for idx, row in enumerate(rows) if not required.issubset(row) or not row["output"]
-    ]
+    invalid = []
+    empty_field_rows = []
+    duplicate_rows = []
+    seen: set[tuple[str, str, str]] = set()
+    for idx, row in enumerate(rows):
+        if not required.issubset(row):
+            invalid.append(idx)
+            continue
+        if any(not str(row[field]).strip() for field in required):
+            empty_field_rows.append(idx)
+            invalid.append(idx)
+            continue
+        signature = tuple(
+            str(row[field]).strip().lower() for field in ["instruction", "input", "output"]
+        )
+        if signature in seen:
+            duplicate_rows.append(idx)
+            invalid.append(idx)
+        seen.add(signature)
     labels = sorted({row.get("output", "") for row in rows if row.get("output")})
     return {
         "valid": not invalid and bool(rows),
         "invalid_rows": invalid,
+        "empty_field_rows": empty_field_rows,
+        "duplicate_rows": duplicate_rows,
         "labels": labels,
         "row_count": len(rows),
     }
@@ -41,8 +59,42 @@ def validate_dataset(rows: list[dict[str, str]]) -> dict[str, object]:
 def split_dataset(
     rows: list[dict[str, str]], train_ratio: float = 0.75
 ) -> tuple[list[dict[str, str]], list[dict[str, str]]]:
+    if not 0 < train_ratio < 1:
+        raise ValueError("train_ratio must be between 0 and 1.")
     split = int(len(rows) * train_ratio)
-    return rows[:split], rows[split:]
+    train, validation = rows[:split], rows[split:]
+    if rows and (not train or not validation):
+        raise ValueError("Split must produce non-empty train and validation sets.")
+    return train, validation
+
+
+def build_evaluation_template(
+    rows: list[dict[str, str]], holdout_size: int = 4
+) -> dict[str, object]:
+    _train, validation = split_dataset(rows)
+    holdout = validation[:holdout_size]
+    return {
+        "mode": "template_only_no_model_scoring",
+        "held_out_prompts": [
+            {
+                "instruction": row["instruction"],
+                "input": row["input"],
+                "expected_behavior": f"Classify as `{row['output']}` or explain uncertainty.",
+            }
+            for row in holdout
+        ],
+        "checks": [
+            "exact label match on held-out prompts",
+            "confusion matrix by label",
+            "manual review of uncertain cases",
+            "overfitting check against duplicate or near-duplicate prompts",
+        ],
+        "risks": [
+            "small synthetic dataset is not evidence of real adaptation",
+            "mock training does not update model weights",
+            "real LoRA training needs GPU/VRAM planning and safety review",
+        ],
+    }
 
 
 def mock_lora_train(
@@ -57,7 +109,10 @@ def mock_lora_train(
         "mode": "mock_training_no_gpu_required",
         "base_model": config.base_model,
         "rank": config.rank,
+        "alpha": config.alpha,
+        "task": config.task,
         "train_rows": len(train),
         "validation_rows": len(val),
-        "eval_accuracy_placeholder": 0.78,
+        "metric_status": "not_computed_mock_training",
+        "evaluation_template": build_evaluation_template(rows),
     }

@@ -35,6 +35,20 @@ def _json_from_text(text: str) -> dict[str, object] | None:
     return value if isinstance(value, dict) else None
 
 
+def build_vlm_prompt(question: str, *, image_metadata: dict[str, str] | None = None) -> str:
+    metadata = image_metadata or {}
+    metadata_lines = "\n".join(f"- {key}: {value}" for key, value in sorted(metadata.items()))
+    metadata_block = metadata_lines or "- no additional image metadata supplied"
+    return (
+        "Answer the visual question using only visible evidence in the image.\n"
+        "Return JSON with answer, detected_objects, visible_text, defects, key_values, "
+        "confidence, uncertainty, and observations.\n"
+        "If evidence is missing or uncertain, say so explicitly.\n\n"
+        f"Question: {question.strip() or 'Describe the image cautiously.'}\n\n"
+        f"Image metadata:\n{metadata_block}"
+    )
+
+
 def _response_from_model_text(
     *,
     text: str,
@@ -157,9 +171,11 @@ class OpenAICompatibleVLMProvider:
             f"{base64.b64encode(image_bytes).decode('ascii')}"
         )
         system_prompt = (
-            "You are a cautious visual QA assistant. Return only JSON with keys: "
-            "answer, detected_objects, visible_text, defects, key_values, confidence, "
-            "uncertainty, observations. Do not invent details that are not visible."
+            "You are a cautious visual QA assistant. Do not invent details that are not visible."
+        )
+        user_prompt = build_vlm_prompt(
+            question,
+            image_metadata={"image_type": image_type, "image_fingerprint": digest},
         )
         payload = json.dumps(
             {
@@ -170,7 +186,7 @@ class OpenAICompatibleVLMProvider:
                     {
                         "role": "user",
                         "content": [
-                            {"type": "text", "text": question},
+                            {"type": "text", "text": user_prompt},
                             {"type": "image_url", "image_url": {"url": data_url}},
                         ],
                     },

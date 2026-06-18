@@ -1,0 +1,23 @@
+{
+  "note": "Mock VLM output. This does not represent real visual reasoning.",
+  "question": "Extract defects as JSON",
+  "provider": "mock-vlm",
+  "answer": "Structured visual extraction completed in mock mode.",
+  "structured_json": {
+    "detected_objects": [
+      "image_region",
+      "visual_layout",
+      "png"
+    ],
+    "visible_text": [],
+    "defects": [
+      "possible surface scratch"
+    ],
+    "key_values": {
+      "mode": "mock",
+      "image_fingerprint": "demo"
+    }
+  },
+  "confidence": 0.62,
+  "uncertainty": "Mock mode does not inspect semantic image content; use a real VLM provider for production analysis."
+}

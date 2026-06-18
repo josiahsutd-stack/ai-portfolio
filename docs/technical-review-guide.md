@@ -13,7 +13,7 @@ This document is written for recruiters and technical reviewers. It summarizes w
 - Technical question supported: "How do you evaluate and cite an AEC RAG system?" Evidence includes `EVAL.md`, `ARCHITECTURE.md`, `evaluate_retrieval.py`, `demo_outputs/`, and `tests/test_rag.py`.
 - Production extension: PDF ingestion, clause/version metadata, hybrid retrieval, reranking, answer-faithfulness checks, jurisdiction filters, and expert approval workflow.
 
-## Supporting Strong Projects
+## Supporting Flagship Projects
 
 ### Agentic Research Operations Assistant
 
@@ -24,15 +24,6 @@ This document is written for recruiters and technical reviewers. It summarizes w
 - Technical question supported: "How are hallucinations controlled?" Evidence in the project includes citations, retrieved context, approval checkpoints, tool traces, persisted runs, and eval findings.
 - Production extension: PDF ingestion, web/search connectors, richer memory, role-based tool permissions, and richer eval suites.
 
-### Multimodal VLM Visual QA Assistant
-
-- Review signal: image QA workflow with mock mode, optional OpenAI-compatible hosted provider, structured JSON, confidence, uncertainty, and validation.
-- Architecture evidence: image bytes -> validator -> provider abstraction -> hosted or mock response -> schema response -> history/UI.
-- Engineering rationale: the workflow separates product behavior from the model dependency.
-- Limitations to note: mock mode validates the interface but does not perform real visual reasoning; hosted mode requires a real API key and model access.
-- Technical question supported: "How would this be evaluated?" Evidence to look for includes extraction accuracy, uncertainty calibration, visual hallucination cases, and schema validity.
-- Production extension: OCR, region grounding, eval image sets, local model backends, and latency testing.
-
 ### MLOps Model Serving and Monitoring Platform
 
 - Review signal: synthetic churn model with training, model artifact, FastAPI prediction schema, SQLite inference logging, drift checks, and monitoring dashboard.
@@ -41,6 +32,23 @@ This document is written for recruiters and technical reviewers. It summarizes w
 - Limitations to note: synthetic data, local model artifact, and lightweight drift checks.
 - Technical question supported: "How is model quality monitored?" Evidence to look for includes inference schema checks, SQLite prediction logs, drift metrics, model metadata, and the planned path to delayed labels.
 - Production extension: MLflow-compatible registry, alert thresholds, retraining workflows, and real delayed labels.
+
+### Fine-Tuning and LoRA Lab
+
+- Review signal: dataset validation, split verification, LoRA config planning, mock-training honesty, and held-out eval template.
+- Architecture evidence: synthetic instruction data -> validation -> train/validation split -> LoRA config -> mock training report -> evaluation template.
+- Engineering rationale: adaptation work should start with dataset quality and evaluation design, not a fake training metric.
+- Limitations to note: no tokenizer/model loading, no GPU training, no updated weights, no real accuracy claim.
+- Production extension: PEFT trainer, real model config, held-out eval harness, adapter artifact storage, and safety review.
+
+### Multimodal VLM Visual QA Assistant
+
+- Review signal: image validation, prompt contract, structured output schema, mock provider, and optional hosted provider boundary.
+- Architecture evidence: image bytes -> validator -> prompt builder -> provider -> Pydantic response -> UI/API.
+- Engineering rationale: multimodal apps need schemas and uncertainty before real provider integration.
+- Limitations to note: mock mode validates workflow but does not perform real visual reasoning; hosted mode requires a real API key and model access.
+- Technical question supported: "How would this be evaluated?" Evidence to look for includes extraction accuracy, uncertainty calibration, visual hallucination cases, and schema validity.
+- Production extension: OCR, region grounding, real eval images, visual hallucination tests, and latency monitoring.
 
 ### LLM Evals and Guardrails Platform
 
@@ -58,7 +66,6 @@ This document is written for recruiters and technical reviewers. It summarizes w
 - Deep Learning Vision Lab: synthetic dataset generation, metrics, model-card discipline, and the path from baseline to PyTorch CNN/U-Net.
 - Recommender Ranking Engine: popularity versus content-based recommendations, ranking metrics, and product-facing explanations.
 - Time-Series Anomaly Forecasting: moving-average baseline, Isolation Forest, alert thresholds, and time-aware evaluation.
-- Fine-Tuning LoRA Lab: dataset validation, LoRA configuration, mock training, and compute-aware workflow design.
 - VLA Embodied Agent Simulator: language-to-action simulation, state/action traces, and honest hardware limitations.
 - BIM Issue Detection Agent: deterministic rule checks before LLM explanation, issue reports, and AEC coordination workflow fit.
 - Building Energy ML Pipeline: feature engineering, regression evaluation, model card, and energy-domain limitations.

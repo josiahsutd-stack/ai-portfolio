@@ -11,6 +11,7 @@ import streamlit as st
 
 from mlops_model_serving_monitoring import (
     detect_drift,
+    generate_monitoring_report,
     generate_churn_data,
     list_drift_reports,
     list_prediction_logs,
@@ -40,6 +41,8 @@ st.subheader("Model artifact")
 st.json(artifacts)
 st.subheader("Drift report")
 st.json(drift_report)
+st.subheader("Monitoring report")
+st.json(generate_monitoring_report(data, current, prediction_logs=list_prediction_logs(limit=20)))
 
 st.subheader("Prediction logging")
 with st.form("prediction"):
@@ -56,7 +59,13 @@ if submitted:
         "usage_score": usage,
     }
     prediction = predict_churn(model, payload)
-    log_id = log_prediction(payload, prediction, model_version=str(metrics["version"]))
+    log_id = log_prediction(
+        payload,
+        prediction,
+        model_version=str(metrics["version"]),
+        request_id=f"demo-{len(list_prediction_logs(limit=100)) + 1}",
+        latency_ms=12,
+    )
     st.success(f"Prediction logged as row {log_id}")
     st.json(prediction)
 

@@ -5,14 +5,14 @@
 1. Read the top of `README.md`.
 2. Open `projects/aec-code-compliance-rag/README.md`.
 3. Review `projects/aec-code-compliance-rag/EVAL.md`.
-4. Skim `projects/aec-code-compliance-rag/ARCHITECTURE.md`.
+4. Skim one supporting flagship: agent, MLOps, fine-tuning, or VLM.
 5. Skim `docs/technical-review-guide.md`.
 
 ## 15-Minute Review Path
 
 1. Run `python scripts/verify.py`.
 2. Run the flagship demo: `streamlit run projects/aec-code-compliance-rag/app.py`.
-3. Run the flagship eval: `python projects/aec-code-compliance-rag/evaluate_retrieval.py`.
+3. Run the flagship eval: `python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py`.
 4. Review `projects/projects.yml`.
 5. Inspect `tests/test_rag.py`.
 
@@ -26,12 +26,13 @@
 | Computer Vision / VLM | Multimodal VLM Visual QA, Deep Vision Lab, Construction Progress CV |
 | MLOps | MLOps Platform, LLM Evals Guardrails, Deep Vision Lab |
 | Robotics / VLA | Construction Robot Task Planner, Site Robot Safety Monitor, VLA Simulator as experimental simulation |
+| Fine-tuning workflow | Fine-Tuning LoRA Lab, LLM Evals Guardrails, AEC RAG |
 
 ## How To Run Demos
 
 ```bash
 python scripts/generate_sample_data.py
-python projects/aec-code-compliance-rag/evaluate_retrieval.py
+python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
 streamlit run projects/aec-code-compliance-rag/app.py
 ```
 

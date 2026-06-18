@@ -107,5 +107,23 @@ def test_retrieval_evaluation_reports_section_and_term_coverage() -> None:
     payload = evaluate_retrieval(assistant, cases, k=2)
 
     assert payload["summary"]["recall_at_k"] == 1.0
+    assert payload["summary"]["mean_reciprocal_rank"] == 1.0
     assert payload["summary"]["section_hit_rate"] == 1.0
     assert payload["results"][0]["missing_terms"] == []
+
+
+def test_retrieval_evaluation_scores_no_answer_case() -> None:
+    assistant = RAGAssistant(chunk_text("Door clearances need checking.", source="mock.md"))
+    cases = [
+        RetrievalEvalCase(
+            question="What drone landing pad radius applies to rooftop aircraft operations?",
+            expected_source="__NO_ANSWER__",
+            expected_terms=[],
+            expected_no_answer=True,
+        )
+    ]
+
+    payload = evaluate_retrieval(assistant, cases, k=2)
+
+    assert payload["summary"]["no_answer_accuracy"] == 1.0
+    assert payload["results"][0]["no_answer_correct"]

@@ -15,6 +15,13 @@ This writes:
 - `demo_outputs/retrieval_eval_summary.json`
 - `demo_outputs/retrieval_eval_report.md`
 - `demo_outputs/accessible_route_answer.md`
+- `demo_outputs/no_answer_failure_case.md`
+
+Equivalent wrapper:
+
+```bash
+python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
+```
 
 ## Evaluation Data
 
@@ -40,8 +47,12 @@ The dataset is synthetic and intentionally small. It is useful for regression ch
 | --- | --- |
 | `recall_at_k` | Whether the expected source appears in the top-k retrieved chunks. |
 | `precision_at_k` | Share of retrieved chunks that come from the expected source. |
+| `hit_rate` | Binary retrieval success per case, averaged across cases. |
+| `mean_reciprocal_rank` | Whether the first relevant result appears early in the ranked list. |
 | `section_hit_rate` | Whether the expected section appears in the retrieved chunks. |
 | `citation_coverage` | Share of expected terms present in the retrieved evidence. |
+| `grounding_check_rate` | Lightweight check that retrieved evidence includes expected terms and section. |
+| `no_answer_accuracy` | Whether absent-evidence questions correctly return no retrieved support. |
 
 Because the current corpus has one synthetic markdown file, `precision_at_k` is less informative than it would be in a multi-document corpus. `section_hit_rate` and `citation_coverage` are the more useful reviewer signals in this demo.
 
@@ -51,6 +62,7 @@ Because the current corpus has one synthetic markdown file, `precision_at_k` is 
 - Section targeting for accessibility, fire compartment, daylight, and planning questions.
 - Whether citations preserve chunk IDs and section metadata.
 - Whether retrieval can support answer generation without paid APIs.
+- Whether no-answer questions avoid invented compliance requirements.
 
 ## Known Failure Modes
 
@@ -58,6 +70,7 @@ Because the current corpus has one synthetic markdown file, `precision_at_k` is 
 - TF-IDF can miss semantically related wording if key terms are absent from the query.
 - The current sample set is too small to measure robust accuracy.
 - Citation coverage only checks expected terms in retrieved evidence; it is not full answer faithfulness.
+- The grounding check is lexical and section-based; it is not a semantic entailment model.
 - The demo corpus has synthetic page markers rather than PDF-derived pages.
 
 ## Better Evaluation Next

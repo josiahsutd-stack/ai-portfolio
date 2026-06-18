@@ -16,9 +16,11 @@ from llm_evals_guardrails_platform import (
 from mlops_model_serving_monitoring import (
     detect_drift,
     generate_churn_data,
+    generate_monitoring_report,
     list_drift_reports,
     list_prediction_logs,
     log_prediction,
+    population_stability_index,
     predict_churn,
     record_drift_report,
     save_model_artifact,
@@ -27,6 +29,7 @@ from mlops_model_serving_monitoring import (
 from multimodal_vlm_visual_qa import (
     MockVLMProvider,
     OpenAICompatibleVLMProvider,
+    build_vlm_prompt,
     validate_image_bytes,
 )
 from recommender_system_ranking_engine import (
@@ -167,6 +170,8 @@ def test_mlops_prediction_schema_and_drift_detection() -> None:
 
     assert 0 <= prediction["churn_probability"] <= 1
     assert drift["drift_detected"]
+    assert drift["scores"]["usage_score"]["psi"] > 0
+    assert population_stability_index(data["usage_score"], current["usage_score"]) > 0
 
 
 def test_mlops_artifact_logging_and_drift_history(tmp_path) -> None:
@@ -186,6 +191,8 @@ def test_mlops_artifact_logging_and_drift_history(tmp_path) -> None:
         prediction,
         model_version=str(metrics["version"]),
         db_path=db_path,
+        request_id="req-1",
+        latency_ms=9,
     )
     drift = detect_drift(data, data.assign(usage_score=data["usage_score"] * 0.1))
     report_id = record_drift_report(
@@ -196,9 +203,17 @@ def test_mlops_artifact_logging_and_drift_history(tmp_path) -> None:
     )
 
     assert artifacts["model_path"].endswith(".joblib")
+    assert "metadata_path" in artifacts
     assert log_id == 1
     assert report_id == 1
-    assert list_prediction_logs(db_path=db_path)[0]["prediction"] == prediction
+    logs = list_prediction_logs(db_path=db_path)
+    assert logs[0]["prediction"] == prediction
+    assert logs[0]["request_id"] == "req-1"
+    report = generate_monitoring_report(
+        data, data.assign(usage_score=data["usage_score"] * 0.1), prediction_logs=logs
+    )
+    assert report["prediction_volume"] == 1
+    assert report["latency_ms"]["avg"] == 9
     assert list_drift_reports(db_path=db_path)[0]["drift_detected"]
 
 
@@ -236,9 +251,25 @@ def test_fine_tuning_dataset_validation_rejects_invalid_rows() -> None:
     assert validation["invalid_rows"] == [0]
 
 
+def test_fine_tuning_dataset_validation_rejects_duplicates() -> None:
+    row = {"instruction": "Classify", "input": "same", "output": "billing"}
+    validation = validate_dataset([row, row.copy()])
+
+    assert not validation["valid"]
+    assert validation["duplicate_rows"] == [1]
+
+
 def test_vlm_rejects_unsupported_image_type() -> None:
     with pytest.raises(ValueError):
         validate_image_bytes(b"not-an-image")
+
+
+def test_vlm_prompt_contract_includes_uncertainty_and_metadata() -> None:
+    prompt = build_vlm_prompt("Find defects", image_metadata={"source": "synthetic.png"})
+
+    assert "Return JSON" in prompt
+    assert "uncertain" in prompt.lower()
+    assert "source: synthetic.png" in prompt
 
 
 def test_openai_compatible_vlm_provider_parses_schema(monkeypatch) -> None:

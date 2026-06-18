@@ -113,6 +113,14 @@ def generate_aec_docs() -> None:
                 ],
                 "notes": "Checks planning-review retrieval and citation of missing-assumption handling.",
             },
+            {
+                "question": "What drone landing pad radius applies to rooftop aircraft operations?",
+                "expected_source": "__NO_ANSWER__",
+                "expected_section": None,
+                "expected_terms": [],
+                "expected_no_answer": True,
+                "notes": "Checks that the demo corpus does not invent an aviation requirement absent from the synthetic guidance.",
+            },
         ],
     )
 

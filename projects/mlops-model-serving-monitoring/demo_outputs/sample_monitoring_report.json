@@ -1,0 +1,27 @@
+{
+  "note": "Synthetic local monitoring example. No production traffic is represented.",
+  "report_type": "local_synthetic_monitoring_report",
+  "drift_threshold": 0.2,
+  "prediction_volume": 1,
+  "latency_ms": {
+    "count": 1,
+    "avg": 9,
+    "max": 9
+  },
+  "error_count": 0,
+  "drift": {
+    "drift_detected": true,
+    "drifted_features": [
+      "usage_score"
+    ],
+    "scores": {
+      "usage_score": {
+        "mean_shift": 0.9,
+        "psi": 1.2
+      }
+    }
+  },
+  "warnings": [
+    "Drift detected for usage_score"
+  ]
+}

@@ -31,7 +31,7 @@ From the repository root:
 
 ```bash
 python scripts/generate_sample_data.py
-python projects/aec-code-compliance-rag/evaluate_retrieval.py
+python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
 pytest tests/test_rag.py
 streamlit run projects/aec-code-compliance-rag/app.py
 ```
@@ -57,11 +57,12 @@ Generated reviewer artifacts are in [`demo_outputs/`](demo_outputs/):
 - [`retrieval_eval_summary.json`](demo_outputs/retrieval_eval_summary.json)
 - [`retrieval_eval_report.md`](demo_outputs/retrieval_eval_report.md)
 - [`accessible_route_answer.md`](demo_outputs/accessible_route_answer.md)
+- [`no_answer_failure_case.md`](demo_outputs/no_answer_failure_case.md)
 
 Regenerate them with:
 
 ```bash
-python projects/aec-code-compliance-rag/evaluate_retrieval.py
+python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
 ```
 
 ## Features
@@ -73,6 +74,7 @@ python projects/aec-code-compliance-rag/evaluate_retrieval.py
 - Deterministic no-API answer mode plus optional OpenAI-compatible provider through shared portfolio utilities.
 - Citation formatting with references like `[C1] mock_aec_guidance.md > Accessible Routes`.
 - Retrieval evaluation over sample questions.
+- No-answer evaluation for unsupported compliance questions.
 - Demo output generation for reviewers.
 - Tests covering chunking, retrieval, citations, no-result handling, and eval scoring.
 

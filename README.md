@@ -1,86 +1,92 @@
-# Applied and General AI Engineering Portfolio
+# Applied AI Engineering Portfolio
 
-AI engineer focused on applied AI systems, LLM agents, multimodal AI, machine learning, and automation - with a unique background in architecture and the built environment.
+Applied AI engineer focused on source-grounded LLM systems, agent workflows, local MLOps skeletons, multimodal product interfaces, and built-environment AI.
 
-This portfolio combines domain-specific AI for the built environment with general AI engineering projects across VLMs, agents, reinforcement learning, deep learning, MLOps, recommender systems, time-series ML, and fine-tuning workflows.
+This repository is intentionally local-first: projects run with synthetic data or mock providers so reviewers can inspect engineering structure without private datasets, paid APIs, or hidden services.
 
-## Recommended Review Path For Recruiters
+## Best Projects To Review First
 
-If you are reviewing my portfolio, I recommend starting with the AEC Code Compliance RAG Assistant. It is the primary flagship because it best combines my AI engineering skills with my built-environment background.
+| Project | Hiring signal | What is real | What is mocked or synthetic |
+| --- | --- | --- | --- |
+| [AEC Code Compliance RAG](projects/aec-code-compliance-rag/README.md) | Strongest flagship: RAG, citations, eval, AEC domain fit. | Chunking, metadata, TF-IDF retrieval, citation formatting, eval script, demo outputs, tests. | Synthetic guidance; markdown page markers; no legal/code advice. |
+| [Agentic Research Ops Assistant](projects/agentic-research-ops-assistant/README.md) | Agent orchestration, tool registry, approval gate, traces. | Planner/executor flow, local search, tool traces, SQLite persistence, trace eval. | Local demo docs; deterministic tools; not autonomous web research. |
+| [MLOps Model Serving Monitoring](projects/mlops-model-serving-monitoring/README.md) | Model lifecycle, serving schema, logging, drift report. | Training pipeline, artifact metadata, FastAPI-compatible functions, SQLite logs, PSI-style drift checks. | Synthetic churn data; local registry; no production alerting. |
+| [Fine-Tuning LoRA Lab](projects/fine-tuning-lora-lab/README.md) | Honest adaptation workflow and dataset discipline. | Dataset generation, validation, split checks, LoRA config, eval template. | Training is mocked; no model weights are updated. |
+| [Multimodal VLM Visual QA](projects/multimodal-vlm-visual-qa/README.md) | Multimodal product boundary and structured outputs. | Image validation, prompt contract, schema parsing, mock provider, optional OpenAI-compatible path. | Mock mode does not perform real visual reasoning. |
 
-- [AEC Code Compliance RAG Assistant](projects/aec-code-compliance-rag/README.md) - source-grounded AEC RAG with chunk metadata, retrieval evaluation, citation quality, demo outputs, architecture docs, tests, and explicit limitations.
+## Hiring-Manager Review Path
 
-Strong supporting systems:
+1. Read this README and the limitations below.
+2. Open the AEC flagship: [projects/aec-code-compliance-rag](projects/aec-code-compliance-rag/README.md).
+3. Inspect [AEC EVAL.md](projects/aec-code-compliance-rag/EVAL.md), [AEC ARCHITECTURE.md](projects/aec-code-compliance-rag/ARCHITECTURE.md), and [tests/test_rag.py](tests/test_rag.py).
+4. Review one supporting system depending on role: agent, MLOps, fine-tuning, or VLM.
+5. Run `python scripts/verify.py`.
 
-- [Agentic Research Operations Assistant](projects/agentic-research-ops-assistant/README.md) - planner/executor agent, tool registry, local RAG, citations, approval checkpoints, SQLite trace persistence, and trace evaluation.
-- [MLOps Model Serving and Monitoring Platform](projects/mlops-model-serving-monitoring/README.md) - training, model artifacts, FastAPI serving, SQLite inference logs, drift history, Docker, and tests.
-- [Multimodal VLM Visual QA Assistant](projects/multimodal-vlm-visual-qa/README.md) - VLM product workflow with mock mode plus an optional OpenAI-compatible vision-provider path.
+## 15-Minute Review Guide
 
-## Why I Structured This Portfolio This Way
+```bash
+python scripts/generate_sample_data.py
+python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
+python -m pytest tests/test_rag.py
+streamlit run projects/aec-code-compliance-rag/app.py
+```
 
-I designed this repository for two kinds of hiring review:
+What to inspect:
 
-- If you are hiring for applied AI or LLM engineering, start with the AEC RAG project, then review the agent, MLOps, and VLM projects as supporting range.
-- If you are hiring for built-environment, robotics, or embodied AI work, review the AEC document system first, then BIM QA, construction progress, energy modeling, spatial design, and construction robotics projects.
-- I kept every project runnable locally with synthetic data or mock providers so you can inspect the engineering without needing private datasets, paid APIs, or hidden infrastructure.
+- AEC citations and no-answer behavior.
+- `demo_outputs/` artifacts for generated evidence.
+- The root files `PORTFOLIO_BASELINE_AUDIT.md`, `PORTFOLIO_REVIEW_ROUNDS.md`, and `FINAL_HIRING_MANAGER_REVIEW.md`.
 
-## Flagship Project
+## 60-Minute Technical Review Guide
 
-| Project | Why it is featured | Evidence to inspect |
-| --- | --- | --- |
-| [AEC Code Compliance RAG](projects/aec-code-compliance-rag/README.md) | Best match between applied AI engineering and built-environment domain knowledge. | Chunk metadata, citations, retrieval eval, sample questions, demo outputs, architecture docs, tests, no-result handling, limitations. |
+```bash
+python scripts/verify.py
+python -m pytest
+python -m ruff check .
+python -m black --check .
+python scripts/check_repo_health.py
+python scripts/run_smoke_tests.py
+python scripts/check_project_docs.py
+```
 
-## Secondary Experiments
+Then inspect:
 
-These projects broaden the portfolio and support the main AEC RAG signal.
+- RAG: `projects/aec-code-compliance-rag/src/aec_code_compliance_rag/`
+- Agent traces: `projects/agentic-research-ops-assistant/src/agentic_research_ops_assistant/`
+- MLOps observability: `projects/mlops-model-serving-monitoring/src/mlops_model_serving_monitoring/`
+- Fine-tuning workflow: `projects/fine-tuning-lora-lab/src/fine_tuning_lora_lab/workflow.py`
+- VLM provider boundary: `projects/multimodal-vlm-visual-qa/src/multimodal_vlm_visual_qa/`
 
-| Area | Projects |
+## What Is Implemented Versus Prototype
+
+| Category | Meaning in this repo |
 | --- | --- |
-| Built-environment AI | Construction Progress CV, BIM Issue Detection Agent, Building Energy ML, Spatial Design Recommender, AI + AEC Job Fit Analyzer |
-| Construction robotics / embodied AI | Construction Robot Task Planner, Site Robot Safety Monitor, VLA Embodied Agent Simulator |
-| General AI/ML systems | Agentic Research Ops, MLOps Serving Monitoring, Multimodal VLM Visual QA, LLM Evals Guardrails, Reinforcement Learning Portfolio, Deep Learning Vision Lab, Recommender Ranking Engine, Time-Series Anomaly Forecasting, Fine-Tuning LoRA Lab |
+| Real implementation | Local code paths that run and are tested: retrieval, schema validation, mock providers, artifact writing, trace/log persistence, drift calculations. |
+| Mock provider | Deterministic substitute for an LLM/VLM so the workflow can be tested without paid APIs. |
+| Synthetic data | Generated/demo data with no customer, employer, or private project content. |
+| Prototype | A runnable local skeleton that shows engineering shape but lacks production data, monitoring, security, and scale. |
+| Production-like component | A small local version of a real concern, such as SQLite inference logs, model metadata, citation objects, trace records, eval cases, or drift reports. |
 
-## AI For The Built Environment
+## Skills Demonstrated
 
-These projects preserve the differentiator: AI plus architecture, AEC, construction, BIM, energy, spatial design, and construction robotics.
+- RAG: chunking, metadata, retrieval scoring, citations, evaluation, no-answer handling.
+- LLM applications: provider abstraction, structured outputs, prompt contracts, uncertainty fields.
+- Agents: planning, tool calls, approval gates, traces, persistence, trace evaluation.
+- MLOps: training pipeline, model artifact metadata, inference logging, drift detection, monitoring report.
+- Multimodal AI: image validation, VLM provider boundary, schema parsing, mock/hosted distinction.
+- Fine-tuning workflow: dataset validation, LoRA config planning, eval templates, hardware honesty.
+- Built-environment AI: AEC compliance support, BIM QA, construction robotics/safety simulations.
 
-- AEC Code Compliance RAG Assistant (primary flagship)
-- Construction Progress Computer Vision Tracker
-- BIM / Drawing Issue Detection Agent
-- AI + AEC Job Fit Analyzer
-- Building Energy Prediction ML Pipeline
-- Spatial Design Recommendation Engine
-- Construction Robot Task Planner
-- Site Robot Safety Monitor
-
-## General AI Engineering Projects
-
-- Multimodal VLM Visual QA Assistant
-- Agentic Research Operations Assistant
-- VLA Embodied Agent Simulator
-- Reinforcement Learning Portfolio
-- Deep Learning Vision Lab
-- LLM Evals and Guardrails Platform
-- MLOps Model Serving and Monitoring Platform
-- Recommender System Ranking Engine
-- Time-Series Anomaly Detection and Forecasting
-- Fine-Tuning and LoRA Lab
-
-## Skills Coverage Matrix
-
-See [docs/skills-matrix.md](docs/skills-matrix.md), [docs/role-to-project-map.md](docs/role-to-project-map.md), and [portfolio-site/pages/skills-matrix.html](portfolio-site/pages/skills-matrix.html).
-
-## Quickstart
+## Reproducibility
 
 ```bash
 python scripts/setup.py
 python scripts/verify.py
 ```
 
-`scripts/setup.py` creates `.venv` using the correct Windows/macOS/Linux path. Use
-`python scripts/setup.py --no-venv` to install into the current Python environment instead.
+`scripts/setup.py` creates `.venv` using the correct Windows/macOS/Linux path. Use `python scripts/setup.py --no-venv` to install into the current environment.
 
-## Run Tests And Quality Checks
+## Testing
 
 ```bash
 python -m black --check .
@@ -89,27 +95,55 @@ python scripts/check_repo_health.py
 python scripts/run_smoke_tests.py
 python -m pytest
 python scripts/check_project_docs.py
-python scripts/verify.py
 ```
 
-The Makefile provides the same common checks where `make` is available:
+The GitHub Actions workflow is present in `.github/workflows/ci.yml`. If GitHub does not run it because of an account billing lock, that is an account state issue, not a code/test result. Local verification is the source of truth here.
 
-```bash
-make setup
-make verify
-make health
-make smoke
-make test
-```
+## Experiments And Supporting Projects
 
-## Reviewer Guides
+These broaden the portfolio but should not be treated as equally deep:
 
+- Construction Progress CV Tracker
+- BIM Issue Detection Agent
+- AI + AEC Job Fit Analyzer
+- Building Energy ML Pipeline
+- Spatial Design Recommendation Engine
+- Construction Robot Task Planner
+- Site Robot Safety Monitor
+- VLA Embodied Agent Simulator
+- Reinforcement Learning Portfolio
+- Deep Learning Vision Lab
+- LLM Evals and Guardrails Platform
+- Recommender System Ranking Engine
+- Time-Series Anomaly Detection and Forecasting
+
+## Honest Limitations
+
+- No real users, customers, deployments, adoption, benchmark wins, or paid-client outcomes are claimed.
+- All included datasets are synthetic unless a file explicitly says otherwise.
+- Mock LLM/VLM paths validate workflow behavior, not model intelligence.
+- AEC outputs are not legal, code, engineering, architectural, or professional compliance advice.
+- Fine-tuning does not update real model weights locally.
+- Robotics projects are simulations, not robot hardware deployments.
+- CI may be blocked by GitHub account state even when local tests pass.
+
+## What Not To Infer
+
+- Do not infer production reliability from local demos.
+- Do not infer real-world code-compliance capability from synthetic AEC examples.
+- Do not infer real visual reasoning from mock VLM outputs.
+- Do not infer real LoRA model improvement from the fine-tuning lab.
+- Do not infer senior-level MLOps ownership from the local MLOps skeleton.
+
+## Reviewer Docs
+
+- [Baseline audit](PORTFOLIO_BASELINE_AUDIT.md)
+- [Review rounds](PORTFOLIO_REVIEW_ROUNDS.md)
+- [External portfolio benchmark](EXTERNAL_PORTFOLIO_BENCHMARK.md)
+- [SOTA research notes](SOTA_RESEARCH_NOTES.md)
+- [Final hiring-manager review](FINAL_HIRING_MANAGER_REVIEW.md)
 - [How to review this portfolio](docs/how-to-review-this-portfolio.md)
 - [Technical review guide](docs/technical-review-guide.md)
-- [Repository review metadata](docs/repository-review-metadata.md)
-- [Troubleshooting](docs/troubleshooting.md)
-- [Repo audit](docs/repo-audit.md)
-- [Project roadmap](docs/project-roadmap.md)
 
 ## Portfolio Site
 
@@ -118,58 +152,6 @@ Open [portfolio-site/index.html](portfolio-site/index.html), or run:
 ```bash
 python -m http.server 8080 --directory portfolio-site
 ```
-
-## Docker Example
-
-Build project images from the repository root:
-
-```bash
-docker build -f projects/mlops-model-serving-monitoring/Dockerfile -t ai-portfolio-mlops .
-docker run --rm -p 8000:8000 ai-portfolio-mlops
-```
-
-Use the same `docker build -f projects/<project>/Dockerfile -t <name> .` pattern for projects with Dockerfiles.
-
-## Repository Structure
-
-```text
-.
-|-- profile-readme.md
-|-- portfolio-site/
-|-- projects/
-|   |-- aec-code-compliance-rag/
-|   |-- construction-progress-cv/
-|   |-- bim-issue-detection-agent/
-|   |-- building-energy-ml-pipeline/
-|   |-- construction-robot-task-planner/
-|   |-- multimodal-vlm-visual-qa/
-|   |-- agentic-research-ops-assistant/
-|   |-- vla-embodied-agent-simulator/
-|   |-- reinforcement-learning-portfolio/
-|   |-- deep-learning-vision-lab/
-|   |-- llm-evals-guardrails-platform/
-|   |-- mlops-model-serving-monitoring/
-|   |-- recommender-system-ranking-engine/
-|   |-- time-series-anomaly-forecasting/
-|   `-- fine-tuning-lora-lab/
-|-- shared/
-|-- docs/
-|-- scripts/
-`-- tests/
-```
-
-## Roadmap
-
-See [docs/project-roadmap.md](docs/project-roadmap.md) and [docs/project-priority-roadmap.md](docs/project-priority-roadmap.md).
-
-## Synthetic And Mock Notes
-
-- All data is synthetic/demo data unless explicitly stated otherwise.
-- LLM/VLM projects run in mock mode without paid APIs; the VLM project also supports an optional OpenAI-compatible hosted provider when configured.
-- VLA and robotics projects are simulations, not real robot deployments.
-- Fine-tuning uses a mock training path locally and documents where real GPU training would fit.
-- AEC outputs are not legal, code, engineering, or professional compliance advice.
-- No production users, clients, employers, or performance claims are fabricated.
 
 ## Contact
 

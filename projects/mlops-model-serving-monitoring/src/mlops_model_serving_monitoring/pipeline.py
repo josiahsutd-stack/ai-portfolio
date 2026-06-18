@@ -31,6 +31,12 @@ def train_churn_model(data: pd.DataFrame):
         "accuracy": round(float(accuracy_score(test["churned"], preds)), 3),
         "version": "demo-v2",
         "features": FEATURES,
+        "feature_schema": {feature: "numeric" for feature in FEATURES},
+        "dataset_info": {
+            "source": "synthetic generated churn data",
+            "label": "churned",
+            "row_count": int(len(data)),
+        },
         "train_rows": int(len(train)),
         "test_rows": int(len(test)),
     }

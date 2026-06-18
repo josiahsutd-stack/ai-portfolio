@@ -1,0 +1,8 @@
+{
+  "mode": "mock_training_no_gpu_required",
+  "task": "support_ticket_classification",
+  "base_model": "small-local-or-remote-model-placeholder",
+  "rank": 8,
+  "alpha": 16,
+  "notes": "This config is for local workflow validation only; it does not update model weights."
+}

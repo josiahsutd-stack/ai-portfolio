@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import sqlite3
+import subprocess
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -25,6 +26,20 @@ def utc_now() -> str:
     return datetime.now(UTC).isoformat(timespec="seconds")
 
 
+def current_git_commit() -> str | None:
+    try:
+        result = subprocess.run(
+            ["git", "rev-parse", "--short", "HEAD"],
+            cwd=project_root().parents[1],
+            capture_output=True,
+            check=True,
+            text=True,
+        )
+    except (OSError, subprocess.CalledProcessError):
+        return None
+    return result.stdout.strip() or None
+
+
 def save_model_artifact(
     model: Any,
     metrics: dict[str, Any],
@@ -40,7 +55,11 @@ def save_model_artifact(
     metadata = {
         "version": version,
         "saved_at": utc_now(),
+        "training_timestamp": utc_now(),
         "metrics": metrics,
+        "feature_schema": metrics.get("feature_schema", {}),
+        "dataset_info": metrics.get("dataset_info", {}),
+        "git_commit": current_git_commit(),
         "artifact": model_path.name,
     }
     metadata_path.write_text(json.dumps(metadata, indent=2), encoding="utf-8")
@@ -59,9 +78,12 @@ def init_observability_db(db_path: str | Path | None = None) -> Path:
             CREATE TABLE IF NOT EXISTS prediction_log (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 created_at TEXT NOT NULL,
+                request_id TEXT,
                 model_version TEXT NOT NULL,
                 payload_json TEXT NOT NULL,
-                prediction_json TEXT NOT NULL
+                prediction_json TEXT NOT NULL,
+                latency_ms INTEGER,
+                error_text TEXT
             )
             """)
         conn.execute("""
@@ -74,6 +96,17 @@ def init_observability_db(db_path: str | Path | None = None) -> Path:
                 report_json TEXT NOT NULL
             )
             """)
+        existing_columns = {
+            row[1] for row in conn.execute("PRAGMA table_info(prediction_log)").fetchall()
+        }
+        migrations = {
+            "request_id": "ALTER TABLE prediction_log ADD COLUMN request_id TEXT",
+            "latency_ms": "ALTER TABLE prediction_log ADD COLUMN latency_ms INTEGER",
+            "error_text": "ALTER TABLE prediction_log ADD COLUMN error_text TEXT",
+        }
+        for column, statement in migrations.items():
+            if column not in existing_columns:
+                conn.execute(statement)
     return target
 
 
@@ -83,20 +116,26 @@ def log_prediction(
     *,
     model_version: str,
     db_path: str | Path | None = None,
+    request_id: str | None = None,
+    latency_ms: int | None = None,
+    error_text: str | None = None,
 ) -> int:
     target = init_observability_db(db_path)
     with sqlite3.connect(target) as conn:
         cursor = conn.execute(
             """
             INSERT INTO prediction_log
-                (created_at, model_version, payload_json, prediction_json)
-            VALUES (?, ?, ?, ?)
+                (created_at, request_id, model_version, payload_json, prediction_json, latency_ms, error_text)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 utc_now(),
+                request_id,
                 model_version,
                 json.dumps(payload, sort_keys=True),
                 json.dumps(prediction, sort_keys=True),
+                latency_ms,
+                error_text,
             ),
         )
         return int(cursor.lastrowid)
@@ -109,7 +148,7 @@ def list_prediction_logs(
     with sqlite3.connect(target) as conn:
         rows = conn.execute(
             """
-            SELECT id, created_at, model_version, payload_json, prediction_json
+            SELECT id, created_at, request_id, model_version, payload_json, prediction_json, latency_ms, error_text
             FROM prediction_log
             ORDER BY id DESC
             LIMIT ?
@@ -120,9 +159,12 @@ def list_prediction_logs(
         {
             "id": row[0],
             "created_at": row[1],
-            "model_version": row[2],
-            "payload": json.loads(row[3]),
-            "prediction": json.loads(row[4]),
+            "request_id": row[2],
+            "model_version": row[3],
+            "payload": json.loads(row[4]),
+            "prediction": json.loads(row[5]),
+            "latency_ms": row[6],
+            "error_text": row[7],
         }
         for row in rows
     ]

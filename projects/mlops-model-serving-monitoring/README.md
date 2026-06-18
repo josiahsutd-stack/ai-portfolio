@@ -2,6 +2,8 @@
 
 Synthetic churn-risk MLOps demo with model training, prediction schema, FastAPI serving, model artifact saving, SQLite inference logging, drift-history persistence, and Streamlit monitoring.
 
+Supporting flagship project for local MLOps review.
+
 ## Problem
 
 ML systems need serving, schema checks, logging, drift detection, and model lifecycle thinking beyond notebooks.
@@ -12,14 +14,21 @@ ML systems need serving, schema checks, logging, drift detection, and model life
 streamlit run projects/mlops-model-serving-monitoring/app.py
 ```
 
+Reviewer artifacts:
+
+- [ARCHITECTURE.md](ARCHITECTURE.md)
+- [MONITORING.md](MONITORING.md)
+- [demo_outputs/sample_monitoring_report.json](demo_outputs/sample_monitoring_report.json)
+
 ## Features
 
 - Synthetic churn dataset
 - scikit-learn training pipeline
 - FastAPI `/predict` and `/metrics`
 - SQLite prediction log and drift history
-- Drift detection
-- Model artifact and version metadata
+- Drift detection with mean-shift and PSI-style scores
+- Monitoring report with volume, latency, errors, warnings, and drift summary
+- Model artifact and version metadata with feature schema, dataset info, and git commit when available
 - Dockerfile
 
 ## Tech Stack
@@ -42,6 +51,7 @@ flowchart LR
 
 - Synthetic customer data only.
 - Not a real financial or customer-retention decision system.
+- Local SQLite and artifact files are development scaffolding, not production infrastructure.
 
 ## How I Would Improve This In Production
 

@@ -1,6 +1,6 @@
 # Repository Audit
 
-Audit date: 2026-06-18
+Audit date: 2026-06-19
 
 ## Current Project Structure
 
@@ -17,11 +17,15 @@ Flagship project:
 
 - AEC Code Compliance RAG Assistant
 
-Strong supporting projects:
+Supporting flagship projects:
 
 - Agentic Research Operations Assistant
 - Multimodal VLM Visual QA Assistant
 - MLOps Model Serving and Monitoring Platform
+- Fine-Tuning and LoRA Lab
+
+Secondary projects:
+
 - LLM Evals and Guardrails Platform
 - Reinforcement Learning Portfolio
 - Deep Learning Vision Lab

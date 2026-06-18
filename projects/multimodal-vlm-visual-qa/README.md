@@ -2,6 +2,8 @@
 
 Visual question-answering assistant for image QA, screenshot explanation, defect description, and image-to-structured-JSON extraction. It runs locally in mock mode without API keys and can optionally call an OpenAI-compatible hosted vision provider.
 
+Supporting flagship project for multimodal workflow review. Mock mode validates the product boundary; it does not perform real visual reasoning.
+
 ## Problem
 
 Teams increasingly need products that turn visual inputs into reliable answers and structured records. The hard part is not only model access; it is validation, uncertainty, schemas, history, and fallbacks.
@@ -12,10 +14,17 @@ Teams increasingly need products that turn visual inputs into reliable answers a
 streamlit run projects/multimodal-vlm-visual-qa/app.py
 ```
 
+Reviewer artifacts:
+
+- [LIMITATIONS.md](LIMITATIONS.md)
+- [demo_outputs/mock_vqa_output.json](demo_outputs/mock_vqa_output.json)
+- [demo_outputs/failure_example.md](demo_outputs/failure_example.md)
+
 ## Features
 
 - Image upload and question input
 - Mock VLM provider plus optional OpenAI-compatible hosted provider
+- Tested prompt construction contract
 - Structured JSON extraction schema
 - Confidence and uncertainty fields
 - History view

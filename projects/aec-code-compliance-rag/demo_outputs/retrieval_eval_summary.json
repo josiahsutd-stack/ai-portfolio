@@ -1,11 +1,15 @@
 {
   "summary": {
-    "case_count": 5,
+    "case_count": 6,
     "k": 4,
     "recall_at_k": 1.0,
     "precision_at_k": 1.0,
+    "hit_rate": 1.0,
+    "mean_reciprocal_rank": 1.0,
     "section_hit_rate": 1.0,
-    "citation_coverage": 1.0
+    "citation_coverage": 1.0,
+    "grounding_check_rate": 1.0,
+    "no_answer_accuracy": 1.0
   },
   "results": [
     {
@@ -26,8 +30,12 @@
       ],
       "recall_at_k": 1.0,
       "precision_at_k": 1.0,
+      "hit_rate": 1.0,
+      "reciprocal_rank": 1.0,
       "section_hit": true,
       "citation_coverage": 1.0,
+      "no_answer_correct": false,
+      "simple_grounding_check": true,
       "missing_terms": []
     },
     {
@@ -51,8 +59,12 @@
       ],
       "recall_at_k": 1.0,
       "precision_at_k": 1.0,
+      "hit_rate": 1.0,
+      "reciprocal_rank": 1.0,
       "section_hit": true,
       "citation_coverage": 1.0,
+      "no_answer_correct": false,
+      "simple_grounding_check": true,
       "missing_terms": []
     },
     {
@@ -70,8 +82,12 @@
       ],
       "recall_at_k": 1.0,
       "precision_at_k": 1.0,
+      "hit_rate": 1.0,
+      "reciprocal_rank": 1.0,
       "section_hit": true,
       "citation_coverage": 1.0,
+      "no_answer_correct": false,
+      "simple_grounding_check": true,
       "missing_terms": []
     },
     {
@@ -89,8 +105,12 @@
       ],
       "recall_at_k": 1.0,
       "precision_at_k": 1.0,
+      "hit_rate": 1.0,
+      "reciprocal_rank": 1.0,
       "section_hit": true,
       "citation_coverage": 1.0,
+      "no_answer_correct": false,
+      "simple_grounding_check": true,
       "missing_terms": []
     },
     {
@@ -114,8 +134,29 @@
       ],
       "recall_at_k": 1.0,
       "precision_at_k": 1.0,
+      "hit_rate": 1.0,
+      "reciprocal_rank": 1.0,
       "section_hit": true,
       "citation_coverage": 1.0,
+      "no_answer_correct": false,
+      "simple_grounding_check": true,
+      "missing_terms": []
+    },
+    {
+      "question": "What drone landing pad radius applies to rooftop aircraft operations?",
+      "expected_source": "__NO_ANSWER__",
+      "expected_section": null,
+      "retrieved_chunk_ids": [],
+      "retrieved_sources": [],
+      "retrieved_sections": [],
+      "recall_at_k": 1.0,
+      "precision_at_k": 1.0,
+      "hit_rate": 1.0,
+      "reciprocal_rank": 1.0,
+      "section_hit": true,
+      "citation_coverage": 1.0,
+      "no_answer_correct": true,
+      "simple_grounding_check": true,
       "missing_terms": []
     }
   ]

@@ -1,0 +1,15 @@
+{
+  "mode": "real_training_template_not_run_locally",
+  "library": "Hugging Face PEFT-compatible",
+  "base_model": "replace-with-real-model-id",
+  "requires_gpu": true,
+  "minimum_expected_steps": [
+    "tokenize dataset",
+    "create train/validation split",
+    "configure LoRA target modules",
+    "train adapters",
+    "evaluate held-out prompts",
+    "save adapter artifacts",
+    "document safety and failure cases"
+  ]
+}
