@@ -4,9 +4,9 @@ AI engineer focused on applied AI systems, LLM agents, multimodal AI, machine le
 
 This portfolio combines domain-specific AI for the built environment with general AI engineering projects across VLMs, agents, reinforcement learning, deep learning, MLOps, recommender systems, time-series ML, and fine-tuning workflows.
 
-## Best Projects To Review First
+## Recommended Review Path For Recruiters
 
-For a fast technical review, start with these:
+If you are reviewing my portfolio, I recommend starting with these five projects because they show the strongest mix of AI engineering range, product thinking, and my built-environment/embodied AI specialization:
 
 - [Agentic Research Operations Assistant](projects/agentic-research-ops-assistant/README.md) - planner/executor agent, tool calling, local RAG, citations, and approval checkpoints.
 - [Multimodal VLM Visual QA Assistant](projects/multimodal-vlm-visual-qa/README.md) - VLM product workflow, provider abstraction, structured visual QA output, and mock/provider boundary.
@@ -14,13 +14,13 @@ For a fast technical review, start with these:
 - [MLOps Model Serving and Monitoring Platform](projects/mlops-model-serving-monitoring/README.md) - training, serving, drift checks, model metadata, Docker, and tests.
 - [AEC Code Compliance RAG Assistant](projects/aec-code-compliance-rag/README.md) - built-environment differentiator with RAG, citations, and compliance-oriented uncertainty handling.
 
-## Why This Portfolio Is Structured This Way
+## Why I Structured This Portfolio This Way
 
-The repository is designed for two audiences at once:
+I designed this repository for two kinds of hiring review:
 
-- AI hiring teams can review general engineering range across agents, VLMs, LLM evals, MLOps, RL, recommendations, time-series ML, and fine-tuning workflows.
-- Built-environment and robotics teams can see a domain-specific edge across AEC documents, BIM QA, construction progress, energy modeling, spatial design, and embodied AI for construction robotics.
-- Every project stays runnable locally with synthetic data or mock providers so the repository can be tested without private datasets, paid APIs, or hidden infrastructure.
+- If you are hiring for general AI engineering, I recommend reviewing the agents, VLM, LLM evals, MLOps, RL, recommender, time-series, and fine-tuning projects.
+- If you are hiring for built-environment, robotics, or embodied AI work, I recommend reviewing the AEC document, BIM QA, construction progress, energy modeling, spatial design, and construction robotics projects.
+- I kept every project runnable locally with synthetic data or mock providers so you can inspect the engineering without needing private datasets, paid APIs, or hidden infrastructure.
 
 ## Project Table
 
