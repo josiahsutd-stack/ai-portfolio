@@ -1,12 +1,6 @@
 # AI for the Built Environment Portfolio
 
-Applied AI engineering portfolio for a candidate with a master's background in AI, architecture, and embodied AI, plus experience in building, architecture, and construction workflows.
-
 The repository is designed to be honest, runnable, and recruiter-friendly. It uses synthetic/demo data, local-first AI abstractions, and practical end-to-end workflows instead of tutorial notebooks.
-
-## Positioning
-
-AI Engineer focused on applied AI, embodied AI, LLM systems, computer vision, and automation for real-world built-environment workflows.
 
 ## Featured Projects
 
