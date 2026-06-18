@@ -1,6 +1,5 @@
 # AI for the Built Environment Portfolio
 
-The repository is designed to be honest, runnable, and recruiter-friendly. It uses synthetic/demo data, local-first AI abstractions, and practical end-to-end workflows instead of tutorial notebooks.
 
 ## Featured Projects
 
