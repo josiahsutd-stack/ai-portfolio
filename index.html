@@ -10,6 +10,7 @@
     <header class="site-header">
       <a class="brand" href="#top">Applied AI Portfolio</a>
       <nav aria-label="Main navigation">
+        <a href="#fast-path">Fast Path</a>
         <a href="#built">Built Environment</a>
         <a href="#general">General AI</a>
         <a href="pages/skills-matrix.html">Skills Matrix</a>
@@ -34,7 +35,8 @@
             deep learning, MLOps, and recommender systems.
           </p>
           <div class="hero__actions">
-            <a class="button button--primary" href="#general">General AI projects</a>
+            <a class="button button--primary" href="#fast-path">15-minute reviewer path</a>
+            <a class="button" href="#general">General AI projects</a>
             <a class="button" href="#built">Built-environment projects</a>
           </div>
         </div>
@@ -54,6 +56,45 @@
         </div>
       </section>
 
+      <section class="band band--tight" id="fast-path">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">Portfolio Highlights</p>
+            <h2>Three projects with the clearest engineering signal</h2>
+            <p class="section-copy">
+              These projects show source-grounded AI systems, agent workflows,
+              and MLOps foundations with runnable code, tests, and generated artifacts.
+            </p>
+          </div>
+          <div class="evidence-grid">
+            <article class="evidence-card">
+              <span>01</span>
+              <h3>AEC Code Compliance RAG</h3>
+              <p>Retrieval, citations, no-answer handling, eval cases, and demo outputs.</p>
+              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/aec-code-compliance-rag">Open evidence</a>
+            </article>
+            <article class="evidence-card">
+              <span>02</span>
+              <h3>Agentic Research Ops Assistant</h3>
+              <p>Planner-executor flow, tool traces, approval gates, persistence, and trace eval.</p>
+              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/agentic-research-ops-assistant">Open evidence</a>
+            </article>
+            <article class="evidence-card">
+              <span>03</span>
+              <h3>MLOps Model Serving Monitoring</h3>
+              <p>Schema checks, model metadata, inference logs, drift reports, and monitoring docs.</p>
+              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/mlops-model-serving-monitoring">Open evidence</a>
+            </article>
+          </div>
+          <div class="command-panel" aria-label="Local verification commands">
+            <p class="eyebrow">Run Evidence Locally</p>
+            <code>python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py</code>
+            <code>python -m pytest tests/test_rag.py tests/test_general_ai_projects.py</code>
+            <code>python scripts/verify.py</code>
+          </div>
+        </div>
+      </section>
+
       <section class="band" id="built">
         <div class="container">
           <div class="section-heading">
@@ -61,14 +102,14 @@
             <h2>AI for the Built Environment</h2>
           </div>
           <div class="project-grid">
-            <article class="project-card"><span>01</span><h3>AEC Code Compliance RAG</h3><p>Source-grounded answers over synthetic AEC guidance with citations.</p><a href="../projects/aec-code-compliance-rag/README.md">Project README</a></article>
-            <article class="project-card"><span>02</span><h3>Construction Progress CV</h3><p>Progress-stage classification and automated reporting from site metadata.</p><a href="../projects/construction-progress-cv/README.md">Project README</a></article>
-            <article class="project-card"><span>03</span><h3>BIM Issue Detection Agent</h3><p>Structured room schedule QA with explainable issue reports.</p><a href="../projects/bim-issue-detection-agent/README.md">Project README</a></article>
-            <article class="project-card"><span>04</span><h3>AI + AEC Job Fit Analyzer</h3><p>NLP role classification and targeted application strategy.</p><a href="../projects/ai-aec-job-fit-analyzer/README.md">Project README</a></article>
-            <article class="project-card"><span>05</span><h3>Building Energy ML</h3><p>Feature engineering, evaluation, FastAPI, dashboard, and model card.</p><a href="../projects/building-energy-ml-pipeline/README.md">Project README</a></article>
-            <article class="project-card"><span>06</span><h3>Spatial Design Recommender</h3><p>Explainable layout recommendations for daylight, circulation, and zoning.</p><a href="../projects/spatial-design-recommender/README.md">Project README</a></article>
-            <article class="project-card"><span>07</span><h3>Construction Robot Task Planner</h3><p>Embodied AI route planning with site constraints, payload, and battery risk.</p><a href="../projects/construction-robot-task-planner/README.md">Project README</a></article>
-            <article class="project-card"><span>08</span><h3>Site Robot Safety Monitor</h3><p>Robot telemetry analysis for human-robot work zone safety.</p><a href="../projects/site-robot-safety-monitor/README.md">Project README</a></article>
+            <article class="project-card"><span>01</span><h3>AEC Code Compliance RAG</h3><p>Source-grounded answers over synthetic AEC guidance with citations.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/aec-code-compliance-rag">Project README</a></article>
+            <article class="project-card"><span>02</span><h3>Construction Progress CV</h3><p>Progress-stage classification and automated reporting from site metadata.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/construction-progress-cv">Project README</a></article>
+            <article class="project-card"><span>03</span><h3>BIM Issue Detection Agent</h3><p>Structured room schedule QA with explainable issue reports.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/bim-issue-detection-agent">Project README</a></article>
+            <article class="project-card"><span>04</span><h3>AI + AEC Job Fit Analyzer</h3><p>NLP role classification and targeted application strategy.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/ai-aec-job-fit-analyzer">Project README</a></article>
+            <article class="project-card"><span>05</span><h3>Building Energy ML</h3><p>Feature engineering, evaluation, FastAPI, dashboard, and model card.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/building-energy-ml-pipeline">Project README</a></article>
+            <article class="project-card"><span>06</span><h3>Spatial Design Recommender</h3><p>Explainable layout recommendations for daylight, circulation, and zoning.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/spatial-design-recommender">Project README</a></article>
+            <article class="project-card"><span>07</span><h3>Construction Robot Task Planner</h3><p>Embodied AI route planning with site constraints, payload, and battery risk.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/construction-robot-task-planner">Project README</a></article>
+            <article class="project-card"><span>08</span><h3>Site Robot Safety Monitor</h3><p>Robot telemetry analysis for human-robot work zone safety.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/site-robot-safety-monitor">Project README</a></article>
           </div>
         </div>
       </section>
@@ -80,16 +121,16 @@
             <h2>General AI Engineering Projects</h2>
           </div>
           <div class="project-grid">
-            <article class="project-card"><span>09</span><h3>Multimodal VLM Visual QA</h3><p>Image upload, structured JSON extraction, confidence, and mock VLM provider.</p><a href="../projects/multimodal-vlm-visual-qa/README.md">Project README</a></article>
-            <article class="project-card"><span>10</span><h3>Agentic Research Ops</h3><p>Planner-executor agent with local RAG, tool calls, citations, and approval checkpoints.</p><a href="../projects/agentic-research-ops-assistant/README.md">Project README</a></article>
-            <article class="project-card"><span>11</span><h3>VLA Embodied Simulator</h3><p>Language-state-action planning in a safety-constrained grid world.</p><a href="../projects/vla-embodied-agent-simulator/README.md">Project README</a></article>
-            <article class="project-card"><span>12</span><h3>Reinforcement Learning Portfolio</h3><p>Inventory control and dynamic pricing simulators with policy evaluation.</p><a href="../projects/reinforcement-learning-portfolio/README.md">Project README</a></article>
-            <article class="project-card"><span>13</span><h3>Deep Learning Vision Lab</h3><p>Synthetic defect detection workflow with metrics, model card, demo, and API.</p><a href="../projects/deep-learning-vision-lab/README.md">Project README</a></article>
-            <article class="project-card"><span>14</span><h3>LLM Evals Guardrails</h3><p>Prompt-injection checks, structured-output validation, and citation coverage scoring.</p><a href="../projects/llm-evals-guardrails-platform/README.md">Project README</a></article>
-            <article class="project-card"><span>15</span><h3>MLOps Serving Monitoring</h3><p>Training, FastAPI serving, schema validation, drift detection, and Docker.</p><a href="../projects/mlops-model-serving-monitoring/README.md">Project README</a></article>
-            <article class="project-card"><span>16</span><h3>Recommender Ranking Engine</h3><p>Popularity and content baselines with precision@k and NDCG@k.</p><a href="../projects/recommender-system-ranking-engine/README.md">Project README</a></article>
-            <article class="project-card"><span>17</span><h3>Time-Series Anomaly Forecasting</h3><p>Forecasting baseline, anomaly detection, alert counts, and backtest metrics.</p><a href="../projects/time-series-anomaly-forecasting/README.md">Project README</a></article>
-            <article class="project-card"><span>18</span><h3>Fine-Tuning LoRA Lab</h3><p>Dataset validation, LoRA config, mock trainer, and compute-aware model card.</p><a href="../projects/fine-tuning-lora-lab/README.md">Project README</a></article>
+            <article class="project-card"><span>09</span><h3>Multimodal VLM Visual QA</h3><p>Image upload, structured JSON extraction, confidence, and mock VLM provider.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/multimodal-vlm-visual-qa">Project README</a></article>
+            <article class="project-card"><span>10</span><h3>Agentic Research Ops</h3><p>Planner-executor agent with local RAG, tool calls, citations, and approval checkpoints.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/agentic-research-ops-assistant">Project README</a></article>
+            <article class="project-card"><span>11</span><h3>VLA Embodied Simulator</h3><p>Language-state-action planning in a safety-constrained grid world.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/vla-embodied-agent-simulator">Project README</a></article>
+            <article class="project-card"><span>12</span><h3>Reinforcement Learning Portfolio</h3><p>Inventory control and dynamic pricing simulators with policy evaluation.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/reinforcement-learning-portfolio">Project README</a></article>
+            <article class="project-card"><span>13</span><h3>Deep Learning Vision Lab</h3><p>Synthetic defect detection workflow with metrics, model card, demo, and API.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/deep-learning-vision-lab">Project README</a></article>
+            <article class="project-card"><span>14</span><h3>LLM Evals Guardrails</h3><p>Prompt-injection checks, structured-output validation, and citation coverage scoring.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/llm-evals-guardrails-platform">Project README</a></article>
+            <article class="project-card"><span>15</span><h3>MLOps Serving Monitoring</h3><p>Training, FastAPI serving, schema validation, drift detection, and Docker.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/mlops-model-serving-monitoring">Project README</a></article>
+            <article class="project-card"><span>16</span><h3>Recommender Ranking Engine</h3><p>Popularity and content baselines with precision@k and NDCG@k.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/recommender-system-ranking-engine">Project README</a></article>
+            <article class="project-card"><span>17</span><h3>Time-Series Anomaly Forecasting</h3><p>Forecasting baseline, anomaly detection, alert counts, and backtest metrics.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/time-series-anomaly-forecasting">Project README</a></article>
+            <article class="project-card"><span>18</span><h3>Fine-Tuning LoRA Lab</h3><p>Dataset validation, LoRA config, mock trainer, and compute-aware model card.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/fine-tuning-lora-lab">Project README</a></article>
           </div>
         </div>
       </section>
@@ -110,16 +151,17 @@
         </div>
       </section>
 
-      <section class="band contact" id="contact">
+      <section class="band contact" id="review-links">
         <div class="container contact__grid">
           <div>
-            <p class="eyebrow">Contact</p>
+            <p class="eyebrow">Review Links</p>
             <h2>Built for AI engineering roles across agents, ML, multimodal AI, MLOps, and robotics.</h2>
           </div>
           <div class="contact__links">
-            <a href="https://github.com/your-username">GitHub</a>
-            <a href="https://linkedin.com/in/your-name">LinkedIn</a>
-            <a href="mailto:your.email@example.com">Email</a>
+            <a href="https://github.com/josiahsutd-stack/ai-portfolio">Repository</a>
+            <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/docs/REVIEWER_GUIDE.md">Reviewer Guide</a>
+            <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/docs/technical-review-guide.md">Technical Review Guide</a>
+            <a href="https://github.com/josiahsutd-stack">GitHub Profile</a>
           </div>
         </div>
       </section>

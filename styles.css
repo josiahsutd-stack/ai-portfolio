@@ -38,7 +38,10 @@ a {
   align-items: center;
   justify-content: space-between;
   padding: 18px clamp(18px, 4vw, 56px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(22, 32, 29, 0.9);
   color: var(--white);
+  backdrop-filter: blur(12px);
 }
 
 .brand {
@@ -47,6 +50,7 @@ a {
 
 nav {
   display: flex;
+  flex-wrap: wrap;
   gap: clamp(14px, 3vw, 28px);
   font-size: 0.94rem;
 }
@@ -153,6 +157,11 @@ h3 {
   padding: clamp(58px, 8vw, 104px) clamp(20px, 5vw, 72px);
 }
 
+.band--tight {
+  padding-top: clamp(46px, 6vw, 78px);
+  padding-bottom: clamp(46px, 6vw, 78px);
+}
+
 .container {
   width: min(1180px, 100%);
   margin: 0 auto;
@@ -176,6 +185,63 @@ h3 {
 .section-heading {
   max-width: 760px;
   margin-bottom: 34px;
+}
+
+.section-copy {
+  color: var(--muted);
+  font-size: 1.08rem;
+  line-height: 1.7;
+}
+
+.evidence-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.evidence-card {
+  min-height: 230px;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+}
+
+.evidence-card span {
+  color: var(--clay);
+  font-weight: 800;
+}
+
+.evidence-card p {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.evidence-card a {
+  margin-top: auto;
+  color: var(--moss);
+  font-weight: 800;
+}
+
+.command-panel {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #eef3f0;
+}
+
+.command-panel code {
+  overflow-x: auto;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: var(--ink);
+  color: var(--white);
+  font-size: 0.92rem;
 }
 
 .project-grid {
@@ -305,6 +371,7 @@ h3 {
 
 @media (max-width: 920px) {
   .project-grid,
+  .evidence-grid,
   .skill-grid,
   .intro__grid,
   .contact__grid,
@@ -326,7 +393,7 @@ h3 {
 
   nav {
     width: 100%;
-    justify-content: space-between;
+    justify-content: flex-start;
   }
 
   .hero {
