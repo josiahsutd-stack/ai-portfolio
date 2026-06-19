@@ -34,19 +34,27 @@ def _write_markdown_report(payload: dict[str, object], output_path: Path) -> Non
         f"- Section hit rate: {summary['section_hit_rate']}",
         f"- Citation coverage: {summary['citation_coverage']}",
         f"- Grounding check rate: {summary['grounding_check_rate']}",
+        f"- Status accuracy: {summary['status_accuracy']}",
+        f"- Citation check pass rate: {summary['citation_check_pass_rate']}",
+        f"- Hit@1: {summary['retrieval_hit_at_1']}",
+        f"- Hit@3: {summary['retrieval_hit_at_3']}",
+        f"- Average latency ms: {summary['average_latency_ms']}",
         f"- No-answer accuracy: {summary['no_answer_accuracy']}",
+        f"- Unsupported-scope accuracy: {summary['unsupported_scope_accuracy']}",
         "",
         "## Per-Question Results",
         "",
-        "| Question | Expected section | Retrieved chunks | Recall@k | MRR | Grounding/no-answer check | Missing terms |",
-        "| --- | --- | --- | --- | --- | --- | --- |",
+        "| Question | Expected status | Actual status | Expected section | Retrieved chunks | Recall@k | MRR | Grounding/no-answer check | Missing terms |",
+        "| --- | --- | --- | --- | --- | --- | --- | --- | --- |",
     ]
     for row in rows:
         chunks = ", ".join(row["retrieved_chunk_ids"])
         missing = ", ".join(row["missing_terms"]) or "None"
         lines.append(
-            "| {question} | {section} | {chunks} | {recall} | {mrr} | {grounded} | {missing} |".format(
+            "| {question} | {expected_status} | {actual_status} | {section} | {chunks} | {recall} | {mrr} | {grounded} | {missing} |".format(
                 question=str(row["question"]).replace("|", "\\|"),
+                expected_status=row["expected_status"],
+                actual_status=row["actual_status"],
                 section=str(row["expected_section"]).replace("|", "\\|"),
                 chunks=chunks.replace("|", "\\|"),
                 recall=row["recall_at_k"],
@@ -54,6 +62,43 @@ def _write_markdown_report(payload: dict[str, object], output_path: Path) -> Non
                 grounded=row["simple_grounding_check"],
                 missing=missing.replace("|", "\\|"),
             )
+        )
+    output_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def _write_failure_analysis(payload: dict[str, object], output_path: Path) -> None:
+    failures = [
+        row
+        for row in payload["results"]
+        if not row["status_correct"]
+        or (row["expected_status"] == "answered" and row["recall_at_k"] < 1.0)
+        or not row["citation_check_passed"]
+        or row["missing_terms"]
+    ]
+    lines = [
+        "# AEC RAG Failure Analysis",
+        "",
+        "Synthetic evaluation failures and weak spots. These are not hidden; they are the next engineering work items.",
+        "",
+        f"- Total cases: {payload['summary']['case_count']}",
+        f"- Flagged cases: {len(failures)}",
+        "",
+    ]
+    if not failures:
+        lines.append("No failures were flagged in the current synthetic eval set.")
+    for row in failures[:20]:
+        lines.extend(
+            [
+                f"## {row['question']}",
+                "",
+                f"- Expected status: {row['expected_status']}",
+                f"- Actual status: {row['actual_status']}",
+                f"- Expected source: {row['expected_source']}",
+                f"- Retrieved sources: {', '.join(row['retrieved_sources']) or 'None'}",
+                f"- Missing terms: {', '.join(row['missing_terms']) or 'None'}",
+                f"- Citation check passed: {row['citation_check_passed']}",
+                "",
+            ]
         )
     output_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
@@ -115,7 +160,9 @@ def _write_failure_demo(assistant, output_path: Path) -> None:
 
 def main() -> None:
     docs = sorted((PROJECT_ROOT / "sample_data").glob("*.md"))
-    eval_path = PROJECT_ROOT / "sample_data" / "evaluation_questions.json"
+    eval_path = PROJECT_ROOT / "eval" / "eval_cases.jsonl"
+    if not eval_path.exists():
+        eval_path = PROJECT_ROOT / "sample_data" / "evaluation_questions.json"
     output_dir = PROJECT_ROOT / "demo_outputs"
     output_dir.mkdir(exist_ok=True)
 
@@ -128,8 +175,11 @@ def main() -> None:
         encoding="utf-8",
     )
     _write_markdown_report(payload, output_dir / "retrieval_eval_report.md")
+    _write_failure_analysis(payload, output_dir / "failure_analysis.md")
     _write_answer_demo(assistant, output_dir / "accessible_route_answer.md")
+    _write_answer_demo(assistant, output_dir / "sample_answer_accessible_route.md")
     _write_failure_demo(assistant, output_dir / "no_answer_failure_case.md")
+    _write_failure_demo(assistant, output_dir / "sample_answer_no_evidence.md")
 
     print(json.dumps(payload["summary"], indent=2))
     print(f"Wrote demo outputs to {output_dir}")

@@ -70,7 +70,7 @@ python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
 - Markdown document ingestion from `sample_data/`.
 - Section-aware chunking with overlap.
 - Metadata fields for heading, clause ID, page marker, chunk ID, and word offsets.
-- Local TF-IDF retrieval as an inspectable vector-search stand-in.
+- Local hybrid TF-IDF/BM25 retrieval as an inspectable lexical retrieval baseline.
 - Deterministic no-API answer mode plus optional OpenAI-compatible provider through shared portfolio utilities.
 - Citation formatting with references like `[C1] mock_aec_guidance.md > Accessible Routes`.
 - Retrieval evaluation over sample questions.
@@ -82,13 +82,14 @@ python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
 
 - [`ARCHITECTURE.md`](ARCHITECTURE.md) explains the data flow, module boundaries, metadata contract, and production extension points.
 - [`EVAL.md`](EVAL.md) explains the evaluation dataset, metrics, known failure modes, and how to interpret the sample results.
+- [`LIMITATIONS.md`](LIMITATIONS.md), [`CASE_STUDY.md`](CASE_STUDY.md), and [`SYSTEM_CARD.md`](SYSTEM_CARD.md) define project boundaries and review context.
 
 ## How It Works
 
 1. Synthetic markdown guidance is loaded from `sample_data/`.
 2. The chunker splits by markdown headings and optional page markers such as `<!-- page: 2 -->`.
 3. Each chunk receives traceable metadata: source, section, heading, clause ID, page marker, chunk ID, start word, and end word.
-4. A local TF-IDF store retrieves the top-k chunks for a question.
+4. A local hybrid retriever combines TF-IDF and BM25 results for a question.
 5. The assistant returns an answer only from retrieved evidence and exposes structured citations.
 6. The evaluation script runs sample questions and writes metrics plus demo outputs.
 
@@ -110,7 +111,7 @@ The tests cover:
 
 - The corpus is synthetic and intentionally small.
 - The page values are demo markdown markers, not parsed PDF page numbers.
-- TF-IDF is transparent and local, but weaker than embedding retrieval or hybrid search.
+- TF-IDF and BM25 are transparent and local, but weaker than embedding retrieval or neural reranking.
 - The local answer mode is deterministic and extractive; it is not a real expert model.
 - The project does not validate against live jurisdictions, current building codes, amendments, or professional review requirements.
 - No real project, client, or construction data is included.
@@ -118,13 +119,13 @@ The tests cover:
 ## Next Steps
 
 - Add PDF ingestion with real page extraction and clause-level parsing.
-- Replace or augment TF-IDF with hybrid retrieval: BM25, embeddings, and reranking.
-- Add citation-faithfulness checks that compare answer claims to retrieved evidence.
+- Add embedding retrieval and stronger reranking if local hardware or hosted providers are appropriate.
+- Strengthen citation-faithfulness checks beyond the current deterministic lexical coverage check.
 - Expand the evaluation set with negative questions, ambiguous jurisdiction cases, and adversarial wording.
 - Add versioned document metadata for jurisdiction, code year, issue date, and superseded clauses.
 - Add a reviewer workflow where uncertain answers are routed to a qualified professional.
 
-## What This Demonstrates To Employers
+## Reviewer Signal
 
 - Practical RAG system design for a domain workflow.
 - Source-grounded answer design and citation ergonomics.
@@ -137,12 +138,12 @@ The tests cover:
 - The system uses deterministic chunk IDs and metadata so retrieval results can be inspected and tested.
 - Synthetic page markers are preserved to show the metadata contract that a PDF parser would fill in later.
 - The assistant refuses empty questions and returns a no-evidence response when retrieval has no matching chunks.
-- The local TF-IDF store is chosen for portability and transparency; it is a baseline, not the final retrieval method for a real compliance product.
+- The local hybrid retriever is chosen for portability and transparency; it is a baseline, not the final retrieval method for a real compliance product.
 
 ## Technical Review Discussion Points
 
 - How should retrieval be evaluated before an AEC assistant is trusted by practitioners?
 - What metadata is required for citations to be auditable?
 - Where should expert review sit in a compliance workflow?
-- How would hybrid retrieval, reranking, and citation-faithfulness checks change the architecture?
+- How would embedding retrieval, reranking, and stronger citation-faithfulness checks change the architecture?
 - Which claims can this demo support, and which claims would require real data, legal review, and production monitoring?

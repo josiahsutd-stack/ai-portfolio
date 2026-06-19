@@ -40,11 +40,11 @@ flowchart LR
 - Synthetic image data and simple baseline.
 - No real manufacturing images or production inspection claims.
 
-## How I Would Improve This In Production
+## Deployment-Relevant Extensions
 
 - Add PyTorch CNN/U-Net training, confusion matrices, real defect data, and latency benchmarks.
 
-## What This Demonstrates To Employers
+## Reviewer Signal
 
 Deep learning workflow understanding, computer vision evaluation, data generation, and inference packaging.
 

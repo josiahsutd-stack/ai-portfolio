@@ -74,13 +74,13 @@ pytest tests/test_job_fit.py
 - The bundled resume profile is synthetic demo data, not a real private resume.
 - Fit scoring is a decision aid, not a guarantee.
 
-## How I Would Improve This In Production
+## Deployment-Relevant Extensions
 
 - Add resume upload and structured resume parsing.
 - Add LLM-based evidence mapping from portfolio projects to job requirements.
 - Add cover-letter and recruiter-message drafts with review controls.
 
-## What This Demonstrates To Employers
+## Reviewer Signal
 
 - NLP product thinking
 - Structured classification

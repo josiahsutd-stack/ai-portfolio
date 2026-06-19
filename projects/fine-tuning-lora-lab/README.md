@@ -50,11 +50,11 @@ flowchart LR
 - Mock trainer demonstrates workflow shape, not model adaptation performance.
 - No accuracy, benchmark, or model-quality claim is made.
 
-## How I Would Improve This In Production
+## Deployment-Relevant Extensions
 
 - Add tokenizer, PEFT/LoRA trainer, GPU instructions, model registry, and held-out evaluation.
 
-## What This Demonstrates To Employers
+## Reviewer Signal
 
 Fine-tuning workflow knowledge, dataset preparation, model adaptation planning, evaluation discipline, and responsible compute-aware engineering.
 

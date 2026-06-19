@@ -51,13 +51,13 @@ flowchart LR
 - Hosted provider mode requires `VLM_PROVIDER=openai`, `OPENAI_API_KEY`, and access to a vision-capable model.
 - The local VLM provider remains an interface reserved for future on-device models.
 
-## How I Would Improve This In Production
+## Deployment-Relevant Extensions
 
 - Add BLIP/Qwen/SigLIP local provider implementations.
 - Add OCR, bounding boxes, and image-region grounding.
 - Add eval sets for visual hallucination and extraction accuracy.
 
-## What This Demonstrates To Employers
+## Reviewer Signal
 
 VLM engineering, multimodal product thinking, structured AI outputs, image workflow validation, optional hosted-provider integration, and honest mock-provider design.
 

@@ -75,14 +75,14 @@ pytest tests/test_bim_issues.py
 - Rules are examples and need calibration against local standards.
 - LLM explanations should be reviewed by the project team.
 
-## How I Would Improve This In Production
+## Deployment-Relevant Extensions
 
 - Parse IFC/Revit exports.
 - Add model-difference checks between issue dates.
 - Add owner, discipline, due date, and status fields.
 - Integrate with issue trackers such as BIMcollab or Jira.
 
-## What This Demonstrates To Employers
+## Reviewer Signal
 
 - Structured data validation
 - AI agent design around deterministic tools

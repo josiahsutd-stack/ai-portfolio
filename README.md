@@ -19,6 +19,7 @@ Runnable verification commands:
 ```bash
 python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
 python -m pytest tests/test_rag.py tests/test_general_ai_projects.py
+python scripts/generate_review_artifacts.py
 ```
 
 Proof beyond claims:
@@ -27,6 +28,7 @@ Proof beyond claims:
 - Architecture docs close to the code: [AEC ARCHITECTURE.md](projects/aec-code-compliance-rag/ARCHITECTURE.md), [technical review guide](docs/technical-review-guide.md)
 - Test coverage for retrieval, citations, no-answer handling, agent traces, MLOps metadata, LoRA validation, and VLM prompt contracts.
 - Self-review files that state the weaknesses plainly: [PORTFOLIO_REVIEW_ROUNDS.md](PORTFOLIO_REVIEW_ROUNDS.md), [FINAL_HIRING_MANAGER_REVIEW.md](FINAL_HIRING_MANAGER_REVIEW.md)
+- Claim and ownership controls: [CLAIMS_POLICY.md](docs/CLAIMS_POLICY.md), [AUTHENTICITY_AND_OWNERSHIP.md](docs/AUTHENTICITY_AND_OWNERSHIP.md), [PROJECT_DEPTH_SCORECARD.md](docs/PROJECT_DEPTH_SCORECARD.md)
 
 Hard boundaries: all datasets are synthetic unless stated otherwise; mock LLM/VLM paths test workflow behavior, not model intelligence; AEC outputs are not legal, code, engineering, architectural, or professional compliance advice.
 
@@ -34,7 +36,7 @@ Hard boundaries: all datasets are synthetic unless stated otherwise; mock LLM/VL
 
 | Project | Evidence to inspect | What is real | What is mocked or synthetic |
 | --- | --- | --- | --- |
-| [AEC Code Compliance RAG](projects/aec-code-compliance-rag/README.md) | Primary review project: RAG, citations, eval, and AEC domain fit. | Chunking, metadata, TF-IDF retrieval, citation formatting, eval script, demo outputs, tests. | Synthetic guidance; markdown page markers; no legal/code advice. |
+| [AEC Code Compliance RAG](projects/aec-code-compliance-rag/README.md) | Primary review project: RAG, citations, eval, and AEC domain fit. | Chunking, metadata, hybrid TF-IDF/BM25 retrieval, citation formatting, eval script, demo outputs, tests. | Synthetic guidance; markdown page markers; no legal/code advice. |
 | [Agentic Research Ops Assistant](projects/agentic-research-ops-assistant/README.md) | Agent orchestration, tool registry, approval gate, traces. | Planner/executor flow, local search, tool traces, SQLite persistence, trace eval. | Local demo docs; deterministic tools; not autonomous web research. |
 | [MLOps Model Serving Monitoring](projects/mlops-model-serving-monitoring/README.md) | Model lifecycle, serving schema, logging, drift report. | Training pipeline, artifact metadata, FastAPI-compatible functions, SQLite logs, PSI-style drift checks. | Synthetic churn data; local registry; no production alerting. |
 | [Fine-Tuning LoRA Lab](projects/fine-tuning-lora-lab/README.md) | Honest adaptation workflow and dataset discipline. | Dataset generation, validation, split checks, LoRA config, eval template. | Training is mocked; no model weights are updated. |
@@ -174,6 +176,11 @@ These broaden the portfolio but should not be treated as equally deep:
 - [Final hiring-manager review](FINAL_HIRING_MANAGER_REVIEW.md)
 - [How to review this portfolio](docs/how-to-review-this-portfolio.md)
 - [Technical review guide](docs/technical-review-guide.md)
+- [Reviewer guide](docs/REVIEWER_GUIDE.md)
+- [Claims policy](docs/CLAIMS_POLICY.md)
+- [Authenticity and ownership](docs/AUTHENTICITY_AND_OWNERSHIP.md)
+- [Project depth scorecard](docs/PROJECT_DEPTH_SCORECARD.md)
+- [Upgrade work log](docs/CODEX_UPGRADE_PLAN.md)
 
 ## Portfolio Site
 

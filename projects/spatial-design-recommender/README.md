@@ -73,14 +73,14 @@ pytest tests/test_recommender.py
 - Does not generate floor plans or optimize geometry.
 - Real production use would need project-specific requirements and user validation.
 
-## How I Would Improve This In Production
+## Deployment-Relevant Extensions
 
 - Add multi-objective optimization.
 - Connect to BIM/geometry exports.
 - Add preference learning from designer feedback.
 - Generate option-comparison reports.
 
-## What This Demonstrates To Employers
+## Reviewer Signal
 
 - Recommendation-system thinking
 - Explainable AI for design decisions

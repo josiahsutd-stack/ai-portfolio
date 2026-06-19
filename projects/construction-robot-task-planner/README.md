@@ -76,7 +76,7 @@ pytest tests/test_robot_task_planner.py
 - Does not integrate live perception, ROS, digital twins, or fleet orchestration.
 - Synthetic safety estimates are not a substitute for site-specific robotics safety engineering.
 
-## How I Would Improve This In Production
+## Deployment-Relevant Extensions
 
 - Integrate ROS 2 navigation stacks and site-map updates.
 - Add dynamic obstacles from perception and worker tracking.
@@ -84,7 +84,7 @@ pytest tests/test_robot_task_planner.py
 - Add human approval workflows for restricted-zone crossings.
 - Use simulation before deployment on physical hardware.
 
-## What This Demonstrates To Employers
+## Reviewer Signal
 
 - Embodied AI planning fundamentals
 - Robotics workflow thinking for construction sites

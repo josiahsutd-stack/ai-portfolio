@@ -40,11 +40,11 @@ flowchart LR
 - Lightweight custom environments rather than heavy RL libraries.
 - No production pricing or inventory claims.
 
-## How I Would Improve This In Production
+## Deployment-Relevant Extensions
 
 - Add Gymnasium wrappers, DQN/PPO integrations, experiment tracking, and richer simulations.
 
-## What This Demonstrates To Employers
+## Reviewer Signal
 
 RL fundamentals, reward shaping, sequential decision-making, simulation, and applied optimization thinking.
 

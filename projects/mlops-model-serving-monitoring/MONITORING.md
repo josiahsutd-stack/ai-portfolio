@@ -1,6 +1,6 @@
 # Monitoring
 
-This project includes local monitoring primitives for a synthetic churn model. The goal is to show operational thinking, not production-grade monitoring.
+This project includes local monitoring primitives for a synthetic churn model. The goal is to show operational thinking, not deployed monitoring.
 
 ## What Is Logged
 

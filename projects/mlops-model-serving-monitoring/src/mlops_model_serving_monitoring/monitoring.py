@@ -49,7 +49,17 @@ def detect_drift(
         scores[column] = {"mean_shift": round(mean_shift, 3), "psi": psi}
         if mean_shift > threshold or psi > threshold:
             drifted.append(column)
-    return {"drifted_features": drifted, "scores": scores, "drift_detected": bool(drifted)}
+    top_drifted_features = sorted(
+        drifted,
+        key=lambda column: max(scores[column]["mean_shift"], scores[column]["psi"]),
+        reverse=True,
+    )
+    return {
+        "drifted_features": drifted,
+        "top_drifted_features": top_drifted_features[:3],
+        "scores": scores,
+        "drift_detected": bool(drifted),
+    }
 
 
 def generate_monitoring_report(
@@ -68,6 +78,8 @@ def generate_monitoring_report(
     ]
     return {
         "report_type": "local_synthetic_monitoring_report",
+        "reference_window": "synthetic-reference",
+        "current_window": "synthetic-current",
         "drift_threshold": drift_threshold,
         "prediction_volume": len(logs),
         "latency_ms": {

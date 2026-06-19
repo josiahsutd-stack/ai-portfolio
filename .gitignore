@@ -13,6 +13,7 @@ tmp/
 *.db
 *.pkl
 *.joblib
+projects/mlops-model-serving-monitoring/demo_outputs/model_registry/
 dist/
 build/
 node_modules/

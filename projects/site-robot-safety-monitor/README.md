@@ -76,7 +76,7 @@ pytest tests/test_site_robot_safety.py
 - Rules are simplified and do not replace robotics safety standards.
 - Does not integrate ROS bags, sensor fusion, SLAM maps, or real-time control loops.
 
-## How I Would Improve This In Production
+## Deployment-Relevant Extensions
 
 - Ingest ROS 2 topics, robot logs, and site-zone maps.
 - Add perception-derived worker and obstacle tracks.
@@ -84,7 +84,7 @@ pytest tests/test_site_robot_safety.py
 - Add incident review dashboards and risk trend analysis.
 - Validate thresholds with robotics safety engineers and site teams.
 
-## What This Demonstrates To Employers
+## Reviewer Signal
 
 - Embodied AI safety thinking
 - Human-robot interaction awareness

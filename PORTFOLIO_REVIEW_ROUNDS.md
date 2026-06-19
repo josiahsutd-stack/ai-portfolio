@@ -84,3 +84,13 @@
 - Tests/checks added: `scripts/check_repo_health.py` now enforces the root README recruiter-screen structure so the repo cannot drift back to a vague first page without failing local verification.
 - Remaining weaknesses: screenshots/video proof, real usage evidence, larger AEC eval corpus, hosted VLM evidence, real LoRA training, and hardware robotics evidence are still missing.
 - Final interview verdict: interview for junior/applied AI and AI solutions roles; reject for senior production AI, production compliance-AI ownership, or robotics hardware roles based on this repo alone.
+
+## Round 8 - Repo-Wide Recruiter-Proofing
+
+- Hiring-manager score after full repo cleanup: 7.8 / 10 for junior/applied roles; 4.6 / 10 for senior AI engineering.
+- Major weaknesses found: recurring self-facing headings in project READMEs; stale AEC docs that still described plain TF-IDF retrieval; missing repo-level claim scanner; review artifacts existed for the flagship but not enough generated evidence for the supporting agent and MLOps projects.
+- Credibility fixes made: replaced self-facing README headings with `Reviewer Signal` and `Deployment-Relevant Extensions`; updated AEC docs to match hybrid TF-IDF/BM25 retrieval, metadata, abstention statuses, and citation checks; added claim policy, reviewer guide, ownership note, depth scorecard, ADRs, and artifact-generation automation.
+- Evidence added: 50-case synthetic AEC eval, generated AEC failure/sample-answer outputs, agent trace eval outputs, MLOps eval/drift outputs, and a `scripts/generate_review_artifacts.py` command for reviewers.
+- Tests and checks run: `python scripts/verify.py` passed; full pytest passed with 49 tests; claim scan passed for 72 markdown files; repo health passed for 18 projects; smoke tests passed for 18 importable project modules; ruff and black checks passed.
+- Remaining weaknesses: no real users, no production deployment evidence, no real AEC/legal corpus, no hosted VLM evaluation, no real LoRA training run, no screenshots/video proof, and no hardware robotics deployment evidence.
+- Final interview verdict: stronger junior/applied AI interview signal, especially for RAG plus domain-AI roles; still not enough evidence for senior production AI, production compliance ownership, or robotics hardware roles.

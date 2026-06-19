@@ -18,11 +18,22 @@ REQUIRED_DOCS = [
     "docs/resume-project-bullets.md",
     "docs/recruiter-snippets.md",
     "docs/project-roadmap.md",
+    "docs/REVIEWER_GUIDE.md",
+    "docs/AUTHENTICITY_AND_OWNERSHIP.md",
+    "docs/PROJECT_DEPTH_SCORECARD.md",
+    "docs/CLAIMS_POLICY.md",
+    "docs/CODEX_UPGRADE_PLAN.md",
+    "docs/DEMO_RECORDING_GUIDE.md",
+    "docs/adr/0001-local-first-synthetic-data.md",
+    "docs/adr/0002-aec-rag-as-flagship.md",
+    "docs/adr/0003-mock-provider-boundaries.md",
+    "docs/adr/0004-evaluation-over-claims.md",
+    "docs/adr/0005-flagship-depth-over-project-breadth.md",
     "projects/projects.yml",
 ]
 REQUIRED_README_PATTERNS = {
     "demo command": r"streamlit run projects/.+/app\.py",
-    "what demonstrates": r"## What This Demonstrates [Tt]o Employers|## What It Demonstrates to Employers",
+    "reviewer signal": r"## Reviewer Signal",
     "limitations": r"## Limitations",
     "engineering notes": r"## Engineering Notes",
     "technical review discussion points": r"## Technical Review Discussion Points",
@@ -51,6 +62,7 @@ GENERIC_PHRASES = [
     "powered by advanced ai",
     "state-of-the-art",
     "production-ready",
+    "production-grade",
 ]
 
 
@@ -102,6 +114,8 @@ def check_generic_language() -> list[str]:
         project / "README.md" for project in project_dirs() if (project / "README.md").exists()
     ]
     for path in markdown_files:
+        if path.relative_to(ROOT).as_posix() == "docs/CLAIMS_POLICY.md":
+            continue
         text = path.read_text(encoding="utf-8").lower()
         for phrase in GENERIC_PHRASES:
             if phrase in text:

@@ -1,6 +1,6 @@
 # Research Notes, Not SOTA Claims
 
-These notes summarize research and industry practices that are relevant to the repository. They are used to guide lightweight, local, testable improvements rather than to claim SOTA performance. Items marked `Future only` or `Docs only` are not implemented evidence and should not be presented as incorporated capability.
+These notes summarize research and industry practices that are relevant to the repository. They are used to guide lightweight, local, testable improvements rather than to claim frontier performance. Items marked `Future only` or `Docs only` are not implemented evidence and should not be presented as incorporated capability.
 
 ## RAG
 

@@ -42,11 +42,11 @@ flowchart LR
 - Synthetic data only.
 - Baseline forecasting rather than full production forecasting stack.
 
-## How I Would Improve This In Production
+## Deployment-Relevant Extensions
 
 - Add richer backtesting, seasonality models, alert routing, and data-quality monitoring.
 
-## What This Demonstrates To Employers
+## Reviewer Signal
 
 Time-series ML, anomaly detection, monitoring, forecasting, and applied data science.
 

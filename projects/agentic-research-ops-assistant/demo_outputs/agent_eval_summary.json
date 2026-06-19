@@ -1,0 +1,10 @@
+{
+  "task_count": 6,
+  "traces_written": 6,
+  "citation_rate": 0.5,
+  "approval_gate_rate": 1.0,
+  "unsupported_task_handling": true,
+  "no_evidence_handling": true,
+  "tool_error_handling": true,
+  "passed": true
+}

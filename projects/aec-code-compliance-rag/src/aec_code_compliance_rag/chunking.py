@@ -16,9 +16,16 @@ class DocumentChunk:
     chunk_id: str
     start_word: int
     end_word: int
+    document_id: str = "synthetic-demo"
+    jurisdiction: str = "synthetic-demo"
+    code_year: str = "synthetic"
+    document_version: str = "demo"
+    superseded: bool = False
 
     def metadata(self) -> dict[str, str]:
         return {
+            "source": self.source,
+            "document_id": self.document_id,
             "section": self.section,
             "heading": self.heading,
             "clause_id": self.clause_id,
@@ -26,6 +33,10 @@ class DocumentChunk:
             "chunk_id": self.chunk_id,
             "start_word": str(self.start_word),
             "end_word": str(self.end_word),
+            "jurisdiction": self.jurisdiction,
+            "code_year": self.code_year,
+            "document_version": self.document_version,
+            "superseded": str(self.superseded).lower(),
         }
 
 
@@ -88,6 +99,7 @@ def chunk_text(
     if not text.strip():
         return []
     chunks: list[DocumentChunk] = []
+    metadata = _extract_document_metadata(text, source=source)
     step = max(1, max_words - overlap)
     for section, heading, page, body in _iter_markdown_sections(text, source=source):
         words = body.split()
@@ -112,6 +124,11 @@ def chunk_text(
                         chunk_id=chunk_id,
                         start_word=start,
                         end_word=end,
+                        document_id=metadata["document_id"],
+                        jurisdiction=metadata["jurisdiction"],
+                        code_year=metadata["code_year"],
+                        document_version=metadata["document_version"],
+                        superseded=metadata["superseded"].lower() == "true",
                     )
                 )
             if end == len(words):
@@ -119,6 +136,25 @@ def chunk_text(
             start += step
             index += 1
     return chunks
+
+
+def _extract_document_metadata(text: str, *, source: str) -> dict[str, str]:
+    metadata = {
+        "document_id": Path(source).stem,
+        "jurisdiction": "synthetic-demo",
+        "code_year": "synthetic",
+        "document_version": "demo",
+        "superseded": "false",
+    }
+    for line in text.splitlines()[:40]:
+        match = re.match(r"\s*([a-zA-Z_ -]+):\s*(.+?)\s*$", line)
+        if not match:
+            continue
+        key = match.group(1).strip().lower().replace(" ", "_").replace("-", "_")
+        value = match.group(2).strip()
+        if key in metadata:
+            metadata[key] = value
+    return metadata
 
 
 def load_markdown_chunks(path: str | Path, *, max_words: int = 110) -> list[DocumentChunk]:

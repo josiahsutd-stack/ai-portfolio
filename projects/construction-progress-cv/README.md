@@ -72,13 +72,13 @@ pytest
 - The classifier is intentionally lightweight.
 - Real deployment would need camera calibration, labeling strategy, and privacy controls.
 
-## How I Would Improve This In Production
+## Deployment-Relevant Extensions
 
 - Add object detection for structural elements, PPE, and material stockpiles.
 - Add schedule-baseline comparison.
 - Add confidence calibration and human review queues.
 
-## What This Demonstrates To Employers
+## Reviewer Signal
 
 - Applied computer vision workflow design
 - ML pipeline and evaluation basics

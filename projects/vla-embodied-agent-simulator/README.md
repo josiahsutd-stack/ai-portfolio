@@ -41,12 +41,12 @@ flowchart LR
 - Grid-world only.
 - No real vision model, robot hardware, ROS, or learned policy.
 
-## How I Would Improve This In Production
+## Deployment-Relevant Extensions
 
 - Add Gymnasium integration, learned policies, richer visual observations, and robotics simulation.
 - Add ROS 2 bridge and safety validation before hardware use.
 
-## What This Demonstrates To Employers
+## Reviewer Signal
 
 VLA concepts, embodied AI simulation, action planning, robotics safety thinking, and practical environment design.
 
@@ -55,7 +55,7 @@ VLA concepts, embodied AI simulation, action planning, robotics safety thinking,
 - The simulator connects language goals, grid-world state, valid actions, and safety checks to demonstrate the core VLA loop in a lightweight form.
 - A rule-based planner is used as a clear baseline before introducing learned policies or perception models.
 - The environment records traces so action choices and failures can be inspected step by step.
-- Production-grade embodied AI would require richer observations, learned policies, simulation benchmarks, ROS/simulator bridges, and hardware safety validation.
+- A deployable embodied-AI system would require richer observations, learned policies, simulation benchmarks, ROS/simulator bridges, and hardware safety validation.
 
 ## Technical Review Discussion Points
 

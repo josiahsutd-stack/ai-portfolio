@@ -17,9 +17,12 @@ streamlit run projects/agentic-research-ops-assistant/app.py
 Reviewer artifacts:
 
 - [ARCHITECTURE.md](ARCHITECTURE.md)
+- [EVAL.md](EVAL.md)
 - [LIMITATIONS.md](LIMITATIONS.md)
+- [CASE_STUDY.md](CASE_STUDY.md)
 - [demo_outputs/example_trace.json](demo_outputs/example_trace.json)
 - [demo_outputs/example_report.md](demo_outputs/example_report.md)
+- [demo_outputs/agent_eval_report.md](demo_outputs/agent_eval_report.md)
 
 ## Features
 
@@ -29,6 +32,7 @@ Reviewer artifacts:
 - Explicit planner / tool / executor / memory / reporter / approval-gate separation
 - Citation tracking
 - Structured tool traces with status, attempts, and latency
+- Retry errors, denied-tool status, planner intent, and planner rationale in traces
 - SQLite trace persistence
 - Trace evaluation for citations, tool failures, and approval checks
 - Human approval checkpoint
@@ -56,12 +60,12 @@ flowchart LR
 - Uses local mock documents.
 - Tool execution is deterministic and intentionally small, but each tool call is now traced with status, attempts, and latency.
 
-## How I Would Improve This In Production
+## Deployment-Relevant Extensions
 
 - Add web search connectors, PDF ingestion, richer memory, richer retry policies, and larger eval suites.
 - Add review queues and role-based approvals.
 
-## What This Demonstrates To Employers
+## Reviewer Signal
 
 Agentic AI engineering, tool calling, RAG, workflow orchestration, trace persistence, observability, and human-in-the-loop design.
 

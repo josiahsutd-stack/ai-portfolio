@@ -40,11 +40,11 @@ flowchart LR
 - Rules are transparent baselines.
 - Does not replace human review or full red-team evaluation.
 
-## How I Would Improve This In Production
+## Deployment-Relevant Extensions
 
 - Add model-graded evals, prompt version registry, SQLite persistence, and CI regression gates.
 
-## What This Demonstrates To Employers
+## Reviewer Signal
 
 LLMOps, guardrails, prompt-injection awareness, structured-output validation, and responsible AI engineering.
 

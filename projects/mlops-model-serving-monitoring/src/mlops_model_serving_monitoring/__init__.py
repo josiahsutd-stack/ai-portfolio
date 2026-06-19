@@ -9,8 +9,11 @@ from .observability import (
     save_model_artifact,
 )
 from .pipeline import generate_churn_data, predict_churn, train_churn_model
+from .schemas import SCHEMA_VERSION, ChurnPredictionInput
 
 __all__ = [
+    "ChurnPredictionInput",
+    "SCHEMA_VERSION",
     "detect_drift",
     "generate_churn_data",
     "generate_monitoring_report",

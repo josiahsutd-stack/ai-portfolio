@@ -11,7 +11,7 @@ python --version
 ## Windows Setup
 
 ```powershell
-cd "C:\Users\Josla\OneDrive\Documents\github"
+cd "C:\path\to\ai-portfolio"
 python -m venv .venv
 .\.venv\Scripts\activate
 pip install -r requirements.txt -r requirements-dev.txt
@@ -127,4 +127,3 @@ streamlit run projects/multimodal-vlm-visual-qa/app.py
 ```bash
 python scripts/run_smoke_tests.py
 ```
-

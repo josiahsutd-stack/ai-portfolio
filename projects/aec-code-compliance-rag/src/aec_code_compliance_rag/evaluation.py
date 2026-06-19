@@ -4,6 +4,7 @@ import json
 from dataclasses import dataclass, field
 from pathlib import Path
 from statistics import mean
+from time import perf_counter
 
 from .assistant import RAGAssistant
 
@@ -15,6 +16,9 @@ class RetrievalEvalCase:
     expected_terms: list[str]
     expected_section: str | None = None
     expected_no_answer: bool = False
+    expected_status: str = "answered"
+    case_type: str = "answerable_direct"
+    expected_clause_ids: list[str] = field(default_factory=list)
     notes: str = ""
 
 
@@ -33,6 +37,11 @@ class RetrievalEvalResult:
     section_hit: bool
     citation_coverage: float
     no_answer_correct: bool
+    expected_status: str
+    actual_status: str
+    status_correct: bool
+    citation_check_passed: bool
+    latency_ms: int
     simple_grounding_check: bool
     missing_terms: list[str] = field(default_factory=list)
 
@@ -51,13 +60,26 @@ class RetrievalEvalResult:
             "section_hit": self.section_hit,
             "citation_coverage": self.citation_coverage,
             "no_answer_correct": self.no_answer_correct,
+            "expected_status": self.expected_status,
+            "actual_status": self.actual_status,
+            "status_correct": self.status_correct,
+            "citation_check_passed": self.citation_check_passed,
+            "latency_ms": self.latency_ms,
             "simple_grounding_check": self.simple_grounding_check,
             "missing_terms": self.missing_terms,
         }
 
 
 def load_eval_cases(path: str | Path) -> list[RetrievalEvalCase]:
-    rows = json.loads(Path(path).read_text(encoding="utf-8"))
+    target = Path(path)
+    if target.suffix == ".jsonl":
+        rows = [
+            json.loads(line)
+            for line in target.read_text(encoding="utf-8").splitlines()
+            if line.strip()
+        ]
+    else:
+        rows = json.loads(target.read_text(encoding="utf-8"))
     return [
         RetrievalEvalCase(
             question=row["question"],
@@ -65,6 +87,11 @@ def load_eval_cases(path: str | Path) -> list[RetrievalEvalCase]:
             expected_terms=list(row.get("expected_terms", [])),
             expected_section=row.get("expected_section"),
             expected_no_answer=bool(row.get("expected_no_answer", False)),
+            expected_status=row.get(
+                "expected_status", "no_evidence" if row.get("expected_no_answer") else "answered"
+            ),
+            case_type=row.get("case_type", "answerable_direct"),
+            expected_clause_ids=list(row.get("expected_clause_ids", [])),
             notes=row.get("notes", ""),
         )
         for row in rows
@@ -79,9 +106,23 @@ def evaluate_retrieval(
 ) -> dict[str, object]:
     results: list[RetrievalEvalResult] = []
     for case in cases:
+        expected_status = (
+            "no_evidence"
+            if case.expected_no_answer and case.expected_status == "answered"
+            else case.expected_status
+        )
+        started = perf_counter()
+        answer_payload = assistant.answer(case.question, k=k)
+        latency_ms = int((perf_counter() - started) * 1000)
+        actual_status = str(answer_payload.get("status", "answered"))
+        citation_check_passed = bool(
+            answer_payload.get("citation_check", {"passed": actual_status != "answered"}).get(
+                "passed"
+            )
+        )
         retrieved = assistant.retrieve(case.question, k=k)
         if case.expected_no_answer:
-            no_answer_correct = not retrieved
+            no_answer_correct = actual_status == "no_evidence"
             results.append(
                 RetrievalEvalResult(
                     question=case.question,
@@ -101,6 +142,11 @@ def evaluate_retrieval(
                     section_hit=no_answer_correct,
                     citation_coverage=1.0 if no_answer_correct else 0.0,
                     no_answer_correct=no_answer_correct,
+                    expected_status=expected_status,
+                    actual_status=actual_status,
+                    status_correct=actual_status == expected_status,
+                    citation_check_passed=citation_check_passed,
+                    latency_ms=latency_ms,
                     simple_grounding_check=no_answer_correct,
                     missing_terms=[],
                 )
@@ -146,6 +192,11 @@ def evaluate_retrieval(
                 section_hit=section_hit,
                 citation_coverage=round(coverage, 3),
                 no_answer_correct=False,
+                expected_status=expected_status,
+                actual_status=actual_status,
+                status_correct=actual_status == expected_status,
+                citation_check_passed=citation_check_passed,
+                latency_ms=latency_ms,
                 simple_grounding_check=simple_grounding_check,
                 missing_terms=missing_terms,
             )
@@ -176,18 +227,85 @@ def evaluate_retrieval(
             if results
             else 0.0
         ),
+        "status_accuracy": (
+            round(mean([1.0 if result.status_correct else 0.0 for result in results]), 3)
+            if results
+            else 0.0
+        ),
+        "citation_check_pass_rate": (
+            round(mean([1.0 if result.citation_check_passed else 0.0 for result in results]), 3)
+            if results
+            else 0.0
+        ),
+        "average_latency_ms": (
+            round(mean([result.latency_ms for result in results]), 2) if results else 0.0
+        ),
+        "retrieval_hit_at_1": (
+            round(
+                mean(
+                    [
+                        (
+                            1.0
+                            if result.expected_source in result.retrieved_sources[:1]
+                            or result.expected_source == "__NO_ANSWER__"
+                            else 0.0
+                        )
+                        for result in results
+                    ]
+                ),
+                3,
+            )
+            if results
+            else 0.0
+        ),
+        "retrieval_hit_at_3": (
+            round(
+                mean(
+                    [
+                        (
+                            1.0
+                            if result.expected_source in result.retrieved_sources[:3]
+                            or result.expected_source == "__NO_ANSWER__"
+                            else 0.0
+                        )
+                        for result in results
+                    ]
+                ),
+                3,
+            )
+            if results
+            else 0.0
+        ),
         "no_answer_accuracy": (
             round(
                 mean(
                     [
                         1.0 if result.no_answer_correct else 0.0
                         for result in results
-                        if result.expected_source == "__NO_ANSWER__"
+                        if result.expected_status == "no_evidence"
                     ]
                 ),
                 3,
             )
-            if any(result.expected_source == "__NO_ANSWER__" for result in results)
+            if any(result.expected_status == "no_evidence" for result in results)
+            else None
+        ),
+        "unsupported_scope_accuracy": (
+            round(
+                mean(
+                    [
+                        1.0 if result.status_correct else 0.0
+                        for result in results
+                        if result.expected_status
+                        in {"unsupported_scope", "needs_professional_review"}
+                    ]
+                ),
+                3,
+            )
+            if any(
+                result.expected_status in {"unsupported_scope", "needs_professional_review"}
+                for result in results
+            )
             else None
         ),
     }

@@ -40,11 +40,11 @@ flowchart LR
 - Small synthetic dataset.
 - Collaborative filtering/two-tower models are future extensions.
 
-## How I Would Improve This In Production
+## Deployment-Relevant Extensions
 
 - Add matrix factorization, two-tower retrieval, online feedback, and ranking experiments.
 
-## What This Demonstrates To Employers
+## Reviewer Signal
 
 Recommender systems, embeddings, ranking metrics, applied ML evaluation, and product thinking.
 

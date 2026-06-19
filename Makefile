@@ -1,6 +1,6 @@
 PYTHON ?= python
 
-.PHONY: setup verify sample-data test lint format smoke health demo clean run-portfolio
+.PHONY: setup verify sample-data test lint format smoke health claims review-artifacts demo clean run-portfolio
 
 setup:
 	$(PYTHON) scripts/setup.py
@@ -26,6 +26,12 @@ smoke:
 
 health:
 	$(PYTHON) scripts/check_repo_health.py
+
+claims:
+	$(PYTHON) scripts/check_claims.py
+
+review-artifacts:
+	$(PYTHON) scripts/generate_review_artifacts.py
 
 demo:
 	streamlit run projects/$(PROJECT)/app.py

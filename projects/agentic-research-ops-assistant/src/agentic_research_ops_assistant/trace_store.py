@@ -93,7 +93,9 @@ def evaluate_trace(trace: dict[str, Any]) -> dict[str, Any]:
         findings.append("missing_human_approval")
     tool_calls = trace.get("tool_calls", [])
     failed_tools = [
-        call.get("name", "unknown") for call in tool_calls if call.get("status") not in {None, "ok"}
+        call.get("name", "unknown")
+        for call in tool_calls
+        if call.get("status") not in {None, "ok", "denied"}
     ]
     if failed_tools:
         findings.append(f"failed_tools:{','.join(failed_tools)}")

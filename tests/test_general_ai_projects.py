@@ -20,6 +20,7 @@ from llm_evals_guardrails_platform import (
     validate_structured_output,
 )
 from mlops_model_serving_monitoring import (
+    ChurnPredictionInput,
     detect_drift,
     generate_churn_data,
     generate_monitoring_report,
@@ -103,6 +104,61 @@ def test_agent_tool_permissions_and_trace_eval(tmp_path) -> None:
     assert "summarize_document" not in trace.plan
     assert trace.citations == ["ops.md"]
     assert evaluation["passed"]
+    assert trace.planner_reason.startswith("Default deterministic local planner")
+
+
+def test_agent_retry_succeeds_after_transient_failure(tmp_path) -> None:
+    docs = tmp_path / "docs"
+    docs.mkdir()
+    agent = ResearchAgent(docs, trace_db_path=tmp_path / "retry.sqlite", max_retries=2)
+    calls = {"count": 0}
+
+    def flaky_tool() -> str:
+        calls["count"] += 1
+        if calls["count"] == 1:
+            raise RuntimeError("temporary failure")
+        return "ok"
+
+    result, call = agent._run_tool("search_local_docs", flaky_tool)  # noqa: SLF001
+
+    assert result == "ok"
+    assert call.status == "ok"
+    assert call.attempts == 2
+    assert call.errors == ["temporary failure"]
+
+
+def test_agent_retry_exhausts_and_records_error(tmp_path) -> None:
+    docs = tmp_path / "docs"
+    docs.mkdir()
+    agent = ResearchAgent(docs, trace_db_path=tmp_path / "retry.sqlite", max_retries=1)
+
+    def failing_tool() -> str:
+        raise RuntimeError("still broken")
+
+    result, call = agent._run_tool("search_local_docs", failing_tool)  # noqa: SLF001
+
+    assert result is None
+    assert call.status == "error"
+    assert call.attempts == 2
+    assert call.error == "still broken"
+    assert call.errors == ["still broken", "still broken"]
+
+
+def test_agent_denied_tool_records_trace_without_execution(tmp_path) -> None:
+    docs = tmp_path / "docs"
+    docs.mkdir()
+    agent = ResearchAgent(
+        docs,
+        trace_db_path=tmp_path / "denied.sqlite",
+        allowed_tools={"search_local_docs"},
+    )
+
+    result, call = agent._run_tool("create_report", lambda: "should not run")  # noqa: SLF001
+
+    assert result is None
+    assert call.status == "denied"
+    assert call.attempts == 0
+    assert call.error == "permission_denied"
 
 
 def test_vla_environment_transitions_and_safety() -> None:
@@ -175,7 +231,10 @@ def test_mlops_prediction_schema_and_drift_detection() -> None:
     drift = detect_drift(data, current, threshold=0.1)
 
     assert 0 <= prediction["churn_probability"] <= 1
+    assert prediction["predicted_label"] in {0, 1}
+    assert prediction["schema_version"]
     assert drift["drift_detected"]
+    assert drift["top_drifted_features"]
     assert drift["scores"]["usage_score"]["psi"] > 0
     assert population_stability_index(data["usage_score"], current["usage_score"]) > 0
 
@@ -346,6 +405,33 @@ def test_mlops_rejects_missing_prediction_fields() -> None:
     model, _metrics = train_churn_model(generate_churn_data())
     with pytest.raises(ValueError):
         predict_churn(model, {"tenure_months": 1})
+
+
+def test_mlops_rejects_impossible_prediction_values() -> None:
+    model, _metrics = train_churn_model(generate_churn_data())
+    with pytest.raises(ValueError):
+        predict_churn(
+            model,
+            {
+                "tenure_months": -1,
+                "monthly_spend": 80,
+                "support_tickets": 3,
+                "usage_score": 0.6,
+            },
+        )
+
+
+def test_mlops_schema_rejects_extra_fields() -> None:
+    with pytest.raises(ValueError):
+        ChurnPredictionInput.model_validate(
+            {
+                "tenure_months": 12,
+                "monthly_spend": 80,
+                "support_tickets": 3,
+                "usage_score": 0.6,
+                "unused": 1,
+            }
+        )
 
 
 def test_json_round_trip_for_eval_result() -> None:

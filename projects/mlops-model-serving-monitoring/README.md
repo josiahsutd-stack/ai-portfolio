@@ -17,14 +17,18 @@ streamlit run projects/mlops-model-serving-monitoring/app.py
 Reviewer artifacts:
 
 - [ARCHITECTURE.md](ARCHITECTURE.md)
+- [EVAL.md](EVAL.md)
 - [MONITORING.md](MONITORING.md)
+- [LIMITATIONS.md](LIMITATIONS.md)
+- [CASE_STUDY.md](CASE_STUDY.md)
 - [demo_outputs/sample_monitoring_report.json](demo_outputs/sample_monitoring_report.json)
+- [demo_outputs/model_eval_report.md](demo_outputs/model_eval_report.md)
 
 ## Features
 
 - Synthetic churn dataset
 - scikit-learn training pipeline
-- FastAPI `/predict` and `/metrics`
+- FastAPI `/predict`, `/metrics`, `/health`, and `/model-info`
 - SQLite prediction log and drift history
 - Drift detection with mean-shift and PSI-style scores
 - Monitoring report with volume, latency, errors, warnings, and drift summary
@@ -53,11 +57,11 @@ flowchart LR
 - Not a real financial or customer-retention decision system.
 - Local SQLite and artifact files are development scaffolding, not production infrastructure.
 
-## How I Would Improve This In Production
+## Deployment-Relevant Extensions
 
 - Add MLflow-compatible registry, production alerting, delayed-label monitoring, and retraining workflows.
 
-## What This Demonstrates To Employers
+## Reviewer Signal
 
 MLOps, model serving, artifact management, inference logging, monitoring, drift detection, API engineering, and production-aware ML thinking.
 

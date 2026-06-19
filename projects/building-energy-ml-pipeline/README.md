@@ -75,14 +75,14 @@ pytest tests/test_energy_model.py
 - Model is not calibrated to a real climate, standard, or simulation engine.
 - Prediction uncertainty is not modeled.
 
-## How I Would Improve This In Production
+## Deployment-Relevant Extensions
 
 - Add ASHRAE/public benchmark datasets.
 - Add uncertainty intervals and residual analysis charts.
 - Add model registry and batch scoring.
 - Add climate-file and utility-bill integrations.
 
-## What This Demonstrates To Employers
+## Reviewer Signal
 
 - Classic ML pipeline development
 - Feature engineering and evaluation

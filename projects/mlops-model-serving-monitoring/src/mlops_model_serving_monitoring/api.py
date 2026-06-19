@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from fastapi import FastAPI
-from pydantic import BaseModel
 
 from .monitoring import detect_drift
 from .observability import (
@@ -12,6 +11,7 @@ from .observability import (
     save_model_artifact,
 )
 from .pipeline import generate_churn_data, predict_churn, train_churn_model
+from .schemas import ChurnPredictionInput
 
 app = FastAPI(title="MLOps Model Serving and Monitoring")
 REFERENCE_DATA = generate_churn_data()
@@ -19,20 +19,23 @@ MODEL, METRICS = train_churn_model(REFERENCE_DATA)
 ARTIFACTS = save_model_artifact(MODEL, METRICS)
 
 
-class ChurnRequest(BaseModel):
-    tenure_months: float
-    monthly_spend: float
-    support_tickets: float
-    usage_score: float
-
-
 @app.get("/metrics")
 def metrics() -> dict[str, object]:
     return {"metrics": METRICS, "artifacts": ARTIFACTS}
 
 
+@app.get("/health")
+def health() -> dict[str, object]:
+    return {"status": "ok", "model_version": METRICS["version"]}
+
+
+@app.get("/model-info")
+def model_info() -> dict[str, object]:
+    return {"metrics": METRICS, "artifacts": ARTIFACTS, "limitations": "synthetic local demo"}
+
+
 @app.post("/predict")
-def predict(payload: ChurnRequest) -> dict[str, object]:
+def predict(payload: ChurnPredictionInput) -> dict[str, object]:
     request = payload.model_dump()
     prediction = predict_churn(MODEL, request)
     log_id = log_prediction(request, prediction, model_version=str(METRICS["version"]))
@@ -45,7 +48,7 @@ def prediction_logs() -> list[dict[str, object]]:
 
 
 @app.post("/drift-check")
-def drift_check(rows: list[ChurnRequest]) -> dict[str, object]:
+def drift_check(rows: list[ChurnPredictionInput]) -> dict[str, object]:
     import pandas as pd
 
     current = pd.DataFrame([row.model_dump() for row in rows])

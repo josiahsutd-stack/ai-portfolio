@@ -8,7 +8,7 @@ This project is a local, synthetic-data RAG assistant for AEC guidance. It is de
 flowchart LR
   A["Synthetic markdown guidance"] --> B["Section-aware chunker"]
   B --> C["Chunk metadata contract"]
-  C --> D["Local TF-IDF retrieval store"]
+  C --> D["Local hybrid lexical retriever"]
   Q["Reviewer question"] --> D
   D --> E["Top-k chunks with scores"]
   E --> F["Grounded answer builder"]
@@ -24,7 +24,9 @@ flowchart LR
 | Area | File | Responsibility |
 | --- | --- | --- |
 | Chunking | `src/aec_code_compliance_rag/chunking.py` | Splits markdown by headings, preserves page markers, and emits chunk metadata. |
-| Assistant | `src/aec_code_compliance_rag/assistant.py` | Builds the retrieval store, handles questions, formats citations, and returns no-result responses. |
+| Retrieval | `src/aec_code_compliance_rag/retrieval.py` | Provides TF-IDF, BM25, and hybrid lexical retrieval over local chunks. |
+| Assistant | `src/aec_code_compliance_rag/assistant.py` | Builds the retrieval boundary, handles questions, formats citations, checks support, and returns abstention statuses. |
+| Faithfulness | `src/aec_code_compliance_rag/faithfulness.py` | Applies deterministic citation-marker and lexical-support checks for demo answers. |
 | Evaluation | `src/aec_code_compliance_rag/evaluation.py` | Loads evaluation cases and computes retrieval metrics. |
 | Evaluation CLI | `evaluate_retrieval.py` | Runs the evaluator and writes reviewer artifacts in `demo_outputs/`. |
 | Demo UI | `app.py` | Streamlit interface for local question answering and citation inspection. |
@@ -36,6 +38,11 @@ Every retrieved chunk carries this metadata:
 | Field | Meaning |
 | --- | --- |
 | `source` | Original demo document filename. |
+| `document_id` | Stable document identifier derived from the source. |
+| `jurisdiction` | Synthetic jurisdiction label when supplied in the document header. |
+| `code_year` | Synthetic code year when supplied in the document header. |
+| `document_version` | Synthetic document version when supplied in the document header. |
+| `superseded` | Whether the synthetic document marks itself as superseded. |
 | `section` | Markdown section title used for retrieval grouping. |
 | `heading` | Human-readable heading shown in citations. |
 | `clause_id` | Deterministic synthetic clause identifier derived from the heading. |
@@ -47,11 +54,11 @@ The current corpus is markdown, so page values come from comments such as `<!-- 
 
 ## Retrieval Design
 
-The retriever uses `shared.ai.TfidfVectorStore` to keep the project runnable without paid APIs, local model downloads, or external infrastructure. This is intentionally transparent: reviewers can inspect the exact chunk text, score, metadata, and citation.
+The default retriever combines local TF-IDF and BM25 scores, then applies a small lexical coverage boost. It stays runnable without paid APIs, local model downloads, or external infrastructure. This is intentionally transparent: reviewers can inspect exact chunk text, component scores, metadata, and citations.
 
-In a production path, the same assistant boundary could support:
+In a deployment-oriented extension, the same assistant boundary could support:
 
-- BM25 plus embedding hybrid retrieval.
+- Embedding retrieval combined with the current lexical baseline.
 - Cross-encoder or LLM reranking.
 - Jurisdiction, discipline, document type, and code-year filters.
 - Versioned indexes for superseded and current clauses.
@@ -70,10 +77,12 @@ This makes citations easy to display in Streamlit, test in pytest, and export in
 
 ## No-Result Handling
 
-The assistant returns a no-evidence answer when:
+The assistant returns an abstention status when:
 
 - The question is empty.
 - Retrieval finds no chunks above the score threshold.
+- The question asks for live/current law, permit approval, professional sign-off, or content outside the synthetic corpus.
+- Retrieved text is too weakly aligned with the question after lexical support checks.
 
 For compliance-oriented workflows, this behavior is more important than always generating a fluent answer.
 
@@ -83,7 +92,7 @@ The current project is intentionally local and synthetic. A serious applied exte
 
 - PDF ingestion with page extraction and clause parsing.
 - Source document versioning and jurisdiction metadata.
-- Embedding retrieval, BM25, reranking, and filterable search.
-- Answer-faithfulness evaluation against retrieved chunks.
+- Embedding retrieval, reranking, and filterable search.
+- Stronger answer-faithfulness evaluation against retrieved chunks.
 - Human approval workflow for compliance-sensitive responses.
 - Monitoring for no-result rate, citation coverage, low-score answers, and stale documents.

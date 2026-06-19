@@ -21,12 +21,17 @@ class ToolCall(BaseModel):
     status: str = "ok"
     attempts: int = 1
     latency_ms: int = 0
+    error: str | None = None
+    errors: list[str] = Field(default_factory=list)
+    requires_approval: bool = False
 
 
 class AgentTrace(BaseModel):
     trace_id: str
     started_at: str
     task: str
+    planner_reason: str = ""
+    task_intent: str = "report"
     plan: list[str]
     tool_calls: list[ToolCall]
     citations: list[str]
@@ -99,9 +104,29 @@ class ResearchAgent:
                 documents[path.name] = path.read_text(encoding="utf-8")
         return documents
 
+    def classify_intent(self, task: str) -> str:
+        lowered = task.lower()
+        if any(word in lowered for word in ["web", "internet", "live", "current"]):
+            return "unsupported"
+        if any(word in lowered for word in ["compare", "versus", "vs", "tradeoff"]):
+            return "compare"
+        if any(word in lowered for word in ["extract", "entities", "keywords"]):
+            return "extract"
+        if any(word in lowered for word in ["summarize", "summary"]):
+            return "summarize"
+        return "report"
+
+    def planner_reason(self, task: str, intent: str) -> str:
+        if intent == "unsupported":
+            return "Default local planner rejects live-web/current-information tasks."
+        return f"Default deterministic local planner selected `{intent}` workflow over local documents."
+
     def plan(self, task: str) -> list[str]:
+        intent = self.classify_intent(task)
+        if intent == "unsupported":
+            return ["create_report", "ask_human_approval", "save_memory"]
         plan = ["search_local_docs", "summarize_document", "extract_entities", "create_report"]
-        if any(word in task.lower() for word in ["compare", "versus", "vs", "tradeoff"]):
+        if intent == "compare":
             plan.insert(3, "compare_sources")
         plan.extend(["ask_human_approval", "save_memory"])
         return [tool for tool in plan if self._tool_allowed(tool)]
@@ -117,11 +142,21 @@ class ResearchAgent:
         tool_args: dict[str, str] | None = None,
         **kwargs: Any,
     ) -> tuple[Any, ToolCall]:
+        spec = self.tool_specs.get(name)
         if not self._tool_allowed(name):
-            raise PermissionError(f"Tool `{name}` is not allowed for this run.")
+            return None, ToolCall(
+                name=name,
+                args=tool_args or {},
+                output=f"Tool `{name}` is not allowed for this run.",
+                status="denied",
+                attempts=0,
+                requires_approval=bool(spec.requires_approval) if spec else False,
+                error="permission_denied",
+            )
         attempts = 0
         started = time.perf_counter()
         last_error: Exception | None = None
+        errors: list[str] = []
         while attempts <= self.max_retries:
             attempts += 1
             try:
@@ -133,9 +168,12 @@ class ResearchAgent:
                     output=self._tool_output_summary(result),
                     attempts=attempts,
                     latency_ms=latency_ms,
+                    errors=errors,
+                    requires_approval=bool(spec.requires_approval) if spec else False,
                 )
             except Exception as exc:  # noqa: BLE001 - trace failed tool behavior.
                 last_error = exc
+                errors.append(str(exc))
         latency_ms = int((time.perf_counter() - started) * 1000)
         return None, ToolCall(
             name=name,
@@ -144,6 +182,9 @@ class ResearchAgent:
             status="error",
             attempts=attempts,
             latency_ms=latency_ms,
+            error=str(last_error) if last_error else "unknown_error",
+            errors=errors,
+            requires_approval=bool(spec.requires_approval) if spec else False,
         )
 
     def _tool_output_summary(self, result: Any) -> str:
@@ -156,7 +197,9 @@ class ResearchAgent:
         return [spec for name, spec in self.tool_specs.items() if self._tool_allowed(name)]
 
     def search_local_docs(self, query: str) -> list[tuple[str, str]]:
-        return [(result.source, result.text) for result in self.store.search(query, k=3)]
+        return [
+            (result.source, result.text) for result in self.store.search(query, k=3, min_score=0.05)
+        ]
 
     def summarize_document(self, text: str) -> str:
         return text.strip().replace("\n", " ")[:360]
@@ -170,6 +213,13 @@ class ResearchAgent:
         return f"Compared evidence from: {names}."
 
     def create_report(self, task: str, sources: list[tuple[str, str]]) -> str:
+        if not sources:
+            return (
+                "# Research Brief\n\n"
+                f"Task: {task}\n\n"
+                "No grounded local evidence was found in the demo document set. "
+                "The workflow should not invent findings or cite unavailable sources."
+            )
         evidence = "\n".join(
             f"- {source}: {self.summarize_document(text)}" for source, text in sources
         )
@@ -194,15 +244,21 @@ class ResearchAgent:
         return json.loads(self.memory_path.read_text(encoding="utf-8"))
 
     def run(self, task: str) -> AgentTrace:
+        intent = self.classify_intent(task)
         plan = self.plan(task)
-        sources, search_call = self._run_tool(
-            "search_local_docs",
-            self.search_local_docs,
-            task,
-            tool_args={"query": task},
-        )
+        tool_calls: list[ToolCall] = []
+        if "search_local_docs" in plan:
+            sources, search_call = self._run_tool(
+                "search_local_docs",
+                self.search_local_docs,
+                task,
+                tool_args={"query": task},
+            )
+            sources = sources or []
+            tool_calls.append(search_call)
+        else:
+            sources = []
         sources = sources or []
-        tool_calls = [search_call]
         if "summarize_document" in plan:
             _summaries, summary_call = self._run_tool(
                 "summarize_document",
@@ -223,27 +279,45 @@ class ResearchAgent:
                 "compare_sources", self.compare_sources, sources
             )
             tool_calls.append(compare_call)
-        report = self.create_report(task, sources)
-        tool_calls.append(
-            ToolCall(
-                name="create_report",
-                output=report[:160],
-                args={"entities": ", ".join(entities)},
+        report = ""
+        if "create_report" in plan:
+            report, report_call = self._run_tool(
+                "create_report",
+                self.create_report,
+                task,
+                sources,
+                tool_args={"entities": ", ".join(entities)},
             )
-        )
-        tool_calls.append(ToolCall(name="ask_human_approval", output=self.ask_human_approval()))
+            report = report or ""
+            tool_calls.append(report_call)
+        if not report:
+            report = (
+                "# Research Brief\n\n"
+                f"Task: {task}\n\n"
+                "The deterministic local planner could not create a cited report from available tools."
+            )
+        approval_required = "ask_human_approval" in plan
+        if approval_required:
+            _approval, approval_call = self._run_tool(
+                "ask_human_approval",
+                self.ask_human_approval,
+            )
+            tool_calls.append(approval_call)
         trace = AgentTrace(
             trace_id=str(uuid.uuid4()),
             started_at=utc_now(),
             task=task,
+            planner_reason=self.planner_reason(task, intent),
+            task_intent=intent,
             plan=plan,
             tool_calls=tool_calls,
             citations=[source for source, _text in sources],
-            approval_required=True,
+            approval_required=approval_required,
             final_report=report,
         )
         trace.evaluation = evaluate_trace(trace.model_dump())
-        self.save_memory(trace)
+        if "save_memory" in plan:
+            self.save_memory(trace)
         return trace
 
     def recent_traces(self, *, limit: int = 10) -> list[dict[str, object]]:
