@@ -25,6 +25,7 @@ python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
 python projects/aec-code-compliance-rag/scripts/download_public_sources.py
 python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py --corpus public
 python -m pytest tests/test_rag.py tests/test_general_ai_projects.py
+python projects/vla-embodied-agent-simulator/evaluate_vla.py
 python scripts/generate_review_artifacts.py
 python scripts/check_portfolio_site.py
 ```
@@ -34,7 +35,8 @@ python scripts/check_portfolio_site.py
 - AEC eval and generated demo outputs: [EVAL.md](projects/aec-code-compliance-rag/EVAL.md), [demo_outputs/](projects/aec-code-compliance-rag/demo_outputs/), [Singapore public-source notes](projects/aec-code-compliance-rag/public_sources/SOURCE_NOTES.md)
 - Architecture docs close to the code: [AEC ARCHITECTURE.md](projects/aec-code-compliance-rag/ARCHITECTURE.md), [technical review guide](docs/technical-review-guide.md)
 - Demo screenshots: [portfolio home](docs/assets/screenshots/portfolio-home.png), [AEC RAG app](docs/assets/screenshots/aec-rag-demo.png)
-- Test coverage for retrieval, citations, no-answer handling, agent traces, MLOps metadata, LoRA validation, and VLM prompt contracts.
+- VLA simulation outputs: [VLA README](projects/vla-embodied-agent-simulator/README.md), [policy evaluation artifacts](projects/vla-embodied-agent-simulator/demo_outputs/vla_eval_report.md), and [sample replay traces](projects/vla-embodied-agent-simulator/demo_outputs/sample_episode_replay.md).
+- Test coverage for retrieval, citations, no-answer handling, agent traces, MLOps metadata, LoRA validation, VLM prompt contracts, and VLA action safety.
 - Project scope and review docs: [CLAIMS_POLICY.md](docs/CLAIMS_POLICY.md), [AUTHENTICITY_AND_OWNERSHIP.md](docs/AUTHENTICITY_AND_OWNERSHIP.md), [REVIEWER_GUIDE.md](docs/REVIEWER_GUIDE.md)
 
 ## Scope
@@ -50,6 +52,7 @@ This is a local-first engineering portfolio. It demonstrates implementation stru
 | [MLOps Model Serving Monitoring](projects/mlops-model-serving-monitoring/README.md) | Model lifecycle, serving schema, logging, drift report. | Training pipeline, artifact metadata, FastAPI-compatible functions, SQLite logs, PSI-style drift checks. | Synthetic churn data; local registry; no production alerting. |
 | [Fine-Tuning LoRA Lab](projects/fine-tuning-lora-lab/README.md) | Honest adaptation workflow and dataset discipline. | Dataset generation, validation, split checks, LoRA config, eval template. | Training is mocked; no model weights are updated. |
 | [Multimodal VLM Visual QA](projects/multimodal-vlm-visual-qa/README.md) | Multimodal product boundary and structured outputs. | Image validation, prompt contract, schema parsing, mock provider, optional OpenAI-compatible path. | Mock mode does not perform real visual reasoning. |
+| [VLA Embodied Agent Simulator](projects/vla-embodied-agent-simulator/README.md) | Construction-site embodied AI simulation with safety constraints. | Language-to-action parser, grid environment, action masks, policy baselines, safety-shielded planning, metrics, replay traces, and tests. | No robot hardware, ROS, SLAM, perception model, learned policy, or real-world safety validation. |
 
 ## Review Path
 
@@ -100,6 +103,7 @@ Code areas with the clearest signal:
 - MLOps observability: `projects/mlops-model-serving-monitoring/src/mlops_model_serving_monitoring/`
 - Fine-tuning workflow: `projects/fine-tuning-lora-lab/src/fine_tuning_lora_lab/workflow.py`
 - VLM provider boundary: `projects/multimodal-vlm-visual-qa/src/multimodal_vlm_visual_qa/`
+- VLA simulation: `projects/vla-embodied-agent-simulator/src/vla_embodied_agent_simulator/`
 
 ## What Is Implemented Versus Prototype
 
@@ -120,6 +124,7 @@ Code areas with the clearest signal:
 - Multimodal AI: image validation, VLM provider boundary, schema parsing, mock/hosted distinction.
 - Fine-tuning workflow: dataset validation, LoRA config planning, eval templates, hardware honesty.
 - Built-environment AI: AEC document-assistance workflow, BIM QA, construction robotics/safety simulations.
+- Embodied AI: language-to-action parsing, action masks, simulated safety constraints, baseline policy comparison, and replayable traces.
 
 ## Reproducibility
 

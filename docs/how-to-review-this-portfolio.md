@@ -34,7 +34,7 @@ The fine-tuning and VLM projects are useful supporting evidence, but they should
 | LLM / Agent Engineer | AEC Code Compliance RAG, Agentic Research Ops, LLM Evals Guardrails |
 | Computer Vision / VLM | Multimodal VLM Visual QA, Deep Vision Lab, Construction Progress CV |
 | MLOps | MLOps Platform, LLM Evals Guardrails, Deep Vision Lab |
-| Robotics / VLA | Construction Robot Task Planner, Site Robot Safety Monitor, VLA Simulator as experimental simulation |
+| Robotics / VLA | VLA Simulator as experimental simulation, Construction Robot Task Planner, Site Robot Safety Monitor |
 | Fine-tuning workflow | Fine-Tuning LoRA Lab, LLM Evals Guardrails, AEC RAG |
 
 ## How To Run Demos
@@ -44,6 +44,7 @@ python scripts/generate_sample_data.py
 python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
 python projects/aec-code-compliance-rag/scripts/download_public_sources.py
 python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py --corpus public
+python projects/vla-embodied-agent-simulator/evaluate_vla.py
 streamlit run projects/aec-code-compliance-rag/app.py
 ```
 

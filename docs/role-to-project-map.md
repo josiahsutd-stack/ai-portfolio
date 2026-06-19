@@ -86,7 +86,7 @@ Reviewer focus: environment design, rewards, baselines, and safety constraints.
 - Construction Robot Task Planner
 - Site Robot Safety Monitor
 
-Reviewer focus: simulated state/action loops, constraints, telemetry, and honest hardware limitations.
+Reviewer focus: simulated state/action loops, action masking, safety constraints, policy baselines, replay traces, and honest hardware limitations.
 
 ## Data Scientist
 

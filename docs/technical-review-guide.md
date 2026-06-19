@@ -66,6 +66,6 @@ This document is written for recruiters and technical reviewers. It summarizes w
 - Deep Learning Vision Lab: synthetic dataset generation, metrics, model-card discipline, and the path from baseline to PyTorch CNN/U-Net.
 - Recommender Ranking Engine: popularity versus content-based recommendations, ranking metrics, and product-facing explanations.
 - Time-Series Anomaly Forecasting: moving-average baseline, Isolation Forest, alert thresholds, and time-aware evaluation.
-- VLA Embodied Agent Simulator: language-to-action simulation, state/action traces, and honest hardware limitations.
+- VLA Embodied Agent Simulator: construction-site language-to-action simulation, action masks, safety-shielded planning, baseline comparison, unsafe-action metrics, and honest hardware limitations.
 - BIM Issue Detection Agent: deterministic rule checks before LLM explanation, issue reports, and AEC coordination workflow fit.
 - Building Energy ML Pipeline: feature engineering, regression evaluation, model card, and energy-domain limitations.
