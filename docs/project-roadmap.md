@@ -21,6 +21,7 @@
 - Added optional OpenAI-compatible hosted provider support to the VLM project while preserving mock mode.
 - Added text-based PDF ingestion with page-aware chunks and citations to AEC Code Compliance RAG.
 - Added AEC source manifests and metadata-filtered retrieval controls.
+- Added AEC retrieval-mode ablation across TF-IDF, BM25, dense LSA, and hybrid retrieval.
 - Added model artifact saving, SQLite prediction logging, and drift-history persistence to the MLOps project.
 - Added SQLite trace persistence, tool metadata, permission-aware planning, and trace evaluation to Agentic Research Ops.
 - Promoted AEC Code Compliance RAG into the primary review project with retrieval evaluation, citation metadata, architecture docs, demo outputs, and focused tests.

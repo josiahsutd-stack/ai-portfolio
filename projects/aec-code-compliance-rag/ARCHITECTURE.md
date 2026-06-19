@@ -29,7 +29,7 @@ flowchart LR
 | Chunking | `src/aec_code_compliance_rag/chunking.py` | Splits markdown by headings, preserves page markers, converts PDF page text into chunks, and emits chunk metadata. |
 | PDF ingestion | `src/aec_code_compliance_rag/pdf_ingestion.py` | Extracts text page by page from PDFs with `pypdf` and passes real page numbers into the chunk metadata contract. |
 | Source manifest | `src/aec_code_compliance_rag/source_manifest.py` | Loads `source_manifest.json` and applies source title, type, allowed-use, jurisdiction, version, and superseded metadata. |
-| Retrieval | `src/aec_code_compliance_rag/retrieval.py` | Provides TF-IDF, BM25, and hybrid lexical retrieval over local chunks. |
+| Retrieval | `src/aec_code_compliance_rag/retrieval.py` | Provides TF-IDF, BM25, dense LSA, and hybrid retrieval over local chunks. |
 | Assistant | `src/aec_code_compliance_rag/assistant.py` | Builds the retrieval boundary, applies source filters, handles questions, formats citations, checks source status, checks support, and returns abstention statuses. |
 | Faithfulness | `src/aec_code_compliance_rag/faithfulness.py` | Applies deterministic citation-marker and lexical-support checks for demo answers. |
 | Evaluation | `src/aec_code_compliance_rag/evaluation.py` | Loads evaluation cases and computes retrieval metrics. |
@@ -62,11 +62,11 @@ The sample corpus includes markdown files, a generated text-based PDF addendum, 
 
 ## Retrieval Design
 
-The default retriever combines local TF-IDF and BM25 scores, then applies a small lexical coverage boost. It stays runnable without paid APIs, local model downloads, or external infrastructure. This is intentionally transparent: reviewers can inspect exact chunk text, component scores, metadata, filters, and citations.
+The default retriever combines local TF-IDF and BM25 scores, then applies a small lexical coverage boost. The project also includes TF-IDF-only, BM25-only, and dense LSA modes for comparison. All modes stay runnable without paid APIs, local model downloads, or external infrastructure. This is intentionally transparent: reviewers can inspect exact chunk text, component scores, dense scores, metadata, filters, and citations.
 
 The assistant can rebuild a temporary retriever over a filtered source subset for a query. Supported local filters include jurisdiction, source type, and superseded status. In a deployment-oriented extension, the same assistant boundary could support:
 
-- Embedding retrieval combined with the current lexical baseline.
+- Hosted or local embedding retrieval combined with the current portable baselines.
 - Cross-encoder or LLM reranking.
 - Discipline and source-permission filters.
 - Versioned indexes for superseded and current clauses.
@@ -78,6 +78,7 @@ Citations are structured dictionaries, not just rendered strings. Each citation 
 - `citation_id`, for answer references such as `[C1]`.
 - `source`, `title`, `source_type`, `allowed_use`, `heading`, `clause_id`, `page`, and `chunk_id`.
 - `score`, so reviewers can see retrieval confidence.
+- retrieval-specific scores such as `tfidf_score`, `bm25_score`, or `dense_score`.
 - `excerpt`, so the answer evidence is visible.
 - `reference`, a readable citation label.
 - version and source-status fields such as `document_version`, `jurisdiction`, `code_year`, and `superseded`.
@@ -108,7 +109,7 @@ The current project is intentionally local and synthetic. A serious applied exte
 - Layout-aware PDF parsing for tables, scanned documents, OCR fallback, and clause segmentation.
 - Source inventory validation against authorized or public documents.
 - Stronger source conflict detection for contradictory clauses and superseded guidance.
-- Embedding retrieval and reranking.
+- Hosted/local embedding retrieval and reranking.
 - Stronger answer-faithfulness evaluation against retrieved chunks.
 - Human approval workflow for compliance-sensitive responses.
 - Monitoring for no-result rate, citation coverage, low-score answers, and stale documents.

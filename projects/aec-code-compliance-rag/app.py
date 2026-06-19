@@ -22,7 +22,17 @@ docs = sorted(
         *(PROJECT_ROOT / "sample_data").glob("*.pdf"),
     ]
 )
-assistant = build_assistant_from_paths(docs)
+retrieval_mode = st.selectbox(
+    "Retrieval mode",
+    ["hybrid", "dense_lsa", "tfidf", "bm25"],
+    format_func=lambda value: {
+        "hybrid": "Hybrid TF-IDF/BM25",
+        "dense_lsa": "Dense LSA",
+        "tfidf": "TF-IDF",
+        "bm25": "BM25",
+    }[value],
+)
+assistant = build_assistant_from_paths(docs, retrieval_mode=retrieval_mode)
 source_catalog = assistant.source_catalog()
 
 question = st.text_input(

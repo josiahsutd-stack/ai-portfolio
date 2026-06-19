@@ -11,7 +11,7 @@
     "grounding_check_rate": 1.0,
     "status_accuracy": 1.0,
     "citation_check_pass_rate": 1.0,
-    "average_latency_ms": 0.22,
+    "average_latency_ms": 0.55,
     "retrieval_hit_at_1": 0.863,
     "retrieval_hit_at_3": 1.0,
     "no_answer_accuracy": 1.0,
@@ -51,7 +51,7 @@
       "actual_status": "answered",
       "status_correct": true,
       "citation_check_passed": true,
-      "latency_ms": 5,
+      "latency_ms": 1,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -88,7 +88,7 @@
       "actual_status": "answered",
       "status_correct": true,
       "citation_check_passed": true,
-      "latency_ms": 1,
+      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -236,7 +236,7 @@
       "actual_status": "answered",
       "status_correct": true,
       "citation_check_passed": true,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -384,7 +384,7 @@
       "actual_status": "answered",
       "status_correct": true,
       "citation_check_passed": true,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -495,7 +495,7 @@
       "actual_status": "answered",
       "status_correct": true,
       "citation_check_passed": true,
-      "latency_ms": 0,
+      "latency_ms": 2,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -600,7 +600,7 @@
       "actual_status": "answered",
       "status_correct": true,
       "citation_check_passed": true,
-      "latency_ms": 0,
+      "latency_ms": 2,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -637,7 +637,7 @@
       "actual_status": "answered",
       "status_correct": true,
       "citation_check_passed": true,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -674,7 +674,7 @@
       "actual_status": "answered",
       "status_correct": true,
       "citation_check_passed": true,
-      "latency_ms": 0,
+      "latency_ms": 3,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -711,7 +711,7 @@
       "actual_status": "answered",
       "status_correct": true,
       "citation_check_passed": true,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -748,7 +748,7 @@
       "actual_status": "answered",
       "status_correct": true,
       "citation_check_passed": true,
-      "latency_ms": 0,
+      "latency_ms": 2,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -785,7 +785,7 @@
       "actual_status": "answered",
       "status_correct": true,
       "citation_check_passed": true,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -859,7 +859,7 @@
       "actual_status": "answered",
       "status_correct": true,
       "citation_check_passed": true,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -933,7 +933,7 @@
       "actual_status": "answered",
       "status_correct": true,
       "citation_check_passed": true,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -970,7 +970,7 @@
       "actual_status": "answered",
       "status_correct": true,
       "citation_check_passed": true,
-      "latency_ms": 1,
+      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1007,7 +1007,7 @@
       "actual_status": "answered",
       "status_correct": true,
       "citation_check_passed": true,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1260,7 +1260,7 @@
       "actual_status": "no_evidence",
       "status_correct": true,
       "citation_check_passed": true,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1519,7 +1519,7 @@
       "actual_status": "answered",
       "status_correct": true,
       "citation_check_passed": true,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1556,7 +1556,7 @@
       "actual_status": "answered",
       "status_correct": true,
       "citation_check_passed": true,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1593,7 +1593,7 @@
       "actual_status": "answered",
       "status_correct": true,
       "citation_check_passed": true,
-      "latency_ms": 0,
+      "latency_ms": 2,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1667,7 +1667,7 @@
       "actual_status": "answered",
       "status_correct": true,
       "citation_check_passed": true,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1778,7 +1778,7 @@
       "actual_status": "answered",
       "status_correct": true,
       "citation_check_passed": true,
-      "latency_ms": 0,
+      "latency_ms": 1,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1815,7 +1815,7 @@
       "actual_status": "answered",
       "status_correct": true,
       "citation_check_passed": true,
-      "latency_ms": 1,
+      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },

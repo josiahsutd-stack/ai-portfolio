@@ -24,7 +24,7 @@ Key reviewer signals:
 - Citation objects that include readable references, scores, excerpts, and traceable chunk IDs.
 - Optional retrieval filters for jurisdiction, document type, and superseded-source handling.
 - Source-status warnings for superseded, mixed-version, mixed-jurisdiction, or mixed-year evidence.
-- Retrieval evaluation with sample questions and repeatable metrics.
+- Retrieval evaluation and mode ablation with sample questions and repeatable metrics.
 - Tests for chunking, retrieval, citations, and no-result handling.
 - Clear architecture, limitations, demo artifacts, and production next steps.
 
@@ -62,6 +62,8 @@ Generated reviewer artifacts are in [`demo_outputs/`](demo_outputs/):
 
 - [`retrieval_eval_summary.json`](demo_outputs/retrieval_eval_summary.json)
 - [`retrieval_eval_report.md`](demo_outputs/retrieval_eval_report.md)
+- [`retrieval_ablation_summary.json`](demo_outputs/retrieval_ablation_summary.json)
+- [`retrieval_ablation_report.md`](demo_outputs/retrieval_ablation_report.md)
 - [`accessible_route_answer.md`](demo_outputs/accessible_route_answer.md)
 - [`no_answer_failure_case.md`](demo_outputs/no_answer_failure_case.md)
 
@@ -78,7 +80,8 @@ python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
 - Section-aware chunking with overlap.
 - Metadata fields for title, source type, allowed use, heading, clause ID, PDF page or markdown page marker, chunk ID, and word offsets.
 - Per-query source filters for jurisdiction, source type, and superseded-source exclusion.
-- Local hybrid TF-IDF/BM25 retrieval as an inspectable lexical retrieval baseline.
+- Local TF-IDF, BM25, dense LSA, and hybrid retrieval modes.
+- Retrieval ablation report comparing modes over the same synthetic eval set.
 - Deterministic no-API answer mode plus optional OpenAI-compatible provider through shared portfolio utilities.
 - Citation formatting with references like `[C1] mock_aec_guidance.md > Accessible Routes`.
 - Source-status analysis that flags retrieved evidence requiring version/jurisdiction review.
@@ -99,7 +102,7 @@ python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
 2. Markdown files are split by headings and optional page markers such as `<!-- page: 2 -->`; PDFs are extracted page by page with `pypdf`.
 3. Manifest records override or enrich document metadata before chunks are indexed.
 4. Each chunk receives traceable metadata: source, title, source type, allowed use, section, heading, clause ID, page value, chunk ID, start word, end word, document version, jurisdiction, code year, and superseded status.
-5. A local hybrid retriever combines TF-IDF and BM25 results over the eligible source subset for a question.
+5. A local retriever ranks the eligible source subset for a question. The default app mode is hybrid TF-IDF/BM25; the eval script also compares TF-IDF, BM25, dense LSA, and hybrid modes.
 6. The assistant returns an answer only from retrieved evidence, exposes structured citations, and warns when retrieved sources need version or jurisdiction review.
 7. The evaluation script runs sample questions and writes metrics plus demo outputs.
 
@@ -113,6 +116,7 @@ The tests cover:
 
 - Chunk metadata and page-marker parsing.
 - Retrieval of the expected section.
+- Dense LSA retrieval metadata and retrieval-mode ablation.
 - Citation formatting and chunk IDs.
 - Document-version, jurisdiction, and superseded-source metadata.
 - Source manifest overrides and filtered retrieval behavior.
@@ -123,7 +127,7 @@ The tests cover:
 
 - The corpus is synthetic and intentionally small.
 - PDF ingestion is text-based and page-aware, but it does not handle scanned PDFs, OCR, table reconstruction, or layout geometry.
-- TF-IDF and BM25 are transparent and local, but weaker than embedding retrieval or neural reranking.
+- TF-IDF, BM25, dense LSA, and hybrid modes are transparent and local, but weaker than production embedding retrieval or neural reranking.
 - The local answer mode is deterministic and extractive; it is not a real expert model.
 - The project does not validate against live jurisdictions, current building codes, amendments, or professional review requirements.
 - No real project, client, or construction data is included.
@@ -132,7 +136,7 @@ The tests cover:
 
 - Improve PDF ingestion with layout-aware table extraction, OCR fallback, and clause-level parsing.
 - Validate manifest entries against an authorized source inventory when using real documents.
-- Add embedding retrieval and stronger reranking if local hardware or hosted providers are appropriate.
+- Add hosted/local embedding models and stronger reranking if local hardware or provider access is appropriate.
 - Strengthen citation-faithfulness checks beyond the current deterministic lexical coverage check.
 - Expand the evaluation set with negative questions, ambiguous jurisdiction cases, and adversarial wording.
 - Add stronger conflict detection for contradictory source content and superseded clauses.
@@ -152,7 +156,7 @@ The tests cover:
 - `source_manifest.json` makes document status explicit instead of relying only on file headers.
 - Markdown page markers and extracted PDF page numbers use the same citation metadata contract.
 - The assistant refuses empty questions and returns a no-evidence response when retrieval has no matching chunks.
-- The local hybrid retriever is chosen for portability and transparency; it is a baseline, not the final retrieval method for a real compliance product.
+- The included retrieval modes are portable baselines, not final retrieval choices for a real compliance product.
 
 ## Technical Review Discussion Points
 

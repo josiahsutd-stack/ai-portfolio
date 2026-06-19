@@ -10,7 +10,7 @@ The project ingests synthetic markdown documents, a generated text-based PDF add
 
 ## Retrieval Strategy
 
-TF-IDF remains as a transparent baseline. BM25 adds lexical ranking with document-length normalization. Hybrid retrieval merges both result sets and keeps component scores in metadata.
+TF-IDF and BM25 remain transparent lexical baselines. Dense LSA adds a local dense baseline without model downloads. Hybrid retrieval merges lexical result sets and keeps component scores in metadata.
 
 ## Citation Strategy
 
@@ -22,7 +22,7 @@ The assistant returns `no_evidence`, `unsupported_scope`, or `needs_professional
 
 ## Evaluation
 
-`python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py` runs 51 synthetic cases and writes summary metrics, failure analysis, and sample answers under `demo_outputs/`.
+`python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py` runs 51 synthetic cases and writes summary metrics, a retrieval-mode ablation, failure analysis, and sample answers under `demo_outputs/`.
 
 ## Production Extension
 

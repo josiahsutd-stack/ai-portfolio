@@ -7,7 +7,7 @@ from shared.ai.providers import LLMProvider
 
 from .chunking import DocumentChunk, load_document_chunks
 from .faithfulness import check_citation_faithfulness
-from .retrieval import HybridRetriever, TfidfRetriever, tokenize
+from .retrieval import BM25Retriever, DenseLsaRetriever, HybridRetriever, TfidfRetriever, tokenize
 from .source_manifest import default_source_manifest_path, load_source_manifest
 
 UNSUPPORTED_SCOPE_TERMS = {
@@ -43,9 +43,7 @@ class RAGAssistant:
         self.retrieval_mode = retrieval_mode
         self.min_score = min_score
         self.min_lexical_coverage = min_lexical_coverage
-        self.retriever = (
-            TfidfRetriever(chunks) if retrieval_mode == "tfidf" else HybridRetriever(chunks)
-        )
+        self.retriever = self._retriever_for(chunks)
 
     def retrieve(
         self,
@@ -88,7 +86,13 @@ class RAGAssistant:
         ]
 
     def _retriever_for(self, chunks: list[DocumentChunk]):
-        return TfidfRetriever(chunks) if self.retrieval_mode == "tfidf" else HybridRetriever(chunks)
+        if self.retrieval_mode == "tfidf":
+            return TfidfRetriever(chunks)
+        if self.retrieval_mode == "bm25":
+            return BM25Retriever(chunks)
+        if self.retrieval_mode == "dense_lsa":
+            return DenseLsaRetriever(chunks)
+        return HybridRetriever(chunks)
 
     def _matches_source_filters(
         self, metadata: dict[str, str], source_filters: SourceFilters
@@ -128,6 +132,8 @@ class RAGAssistant:
             "retriever": result.metadata.get("retriever", self.retrieval_mode),
             "tfidf_score": result.metadata.get("tfidf_score"),
             "bm25_score": result.metadata.get("bm25_score"),
+            "dense_score": result.metadata.get("dense_score"),
+            "embedding_model": result.metadata.get("embedding_model"),
             "query_term_coverage": result.metadata.get("query_term_coverage"),
             "score": round(result.score, 3),
             "excerpt": result.text[:360],
@@ -389,6 +395,7 @@ def build_assistant_from_paths(
     paths: list[str | Path],
     *,
     manifest_path: str | Path | None = None,
+    retrieval_mode: str = "hybrid",
 ) -> RAGAssistant:
     source_paths = list(paths)
     candidate_manifest = (
@@ -403,4 +410,4 @@ def build_assistant_from_paths(
                 metadata_overrides=manifest.get(Path(path).name),
             )
         )
-    return RAGAssistant(chunks)
+    return RAGAssistant(chunks, retrieval_mode=retrieval_mode)

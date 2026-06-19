@@ -32,7 +32,7 @@ The repository is organized and honest, but the breadth can look like a keyword 
 
 ## Tests Added
 
-- AEC BM25/hybrid retrieval and citation faithfulness tests.
+- AEC BM25, dense LSA, hybrid retrieval, ablation, and citation faithfulness tests.
 - AEC unsupported-scope/no-evidence tests.
 - Agent retry success, retry exhaustion, and denied-tool tests.
 - MLOps invalid payload and schema validation tests.

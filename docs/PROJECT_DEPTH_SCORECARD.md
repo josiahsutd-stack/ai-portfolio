@@ -2,7 +2,7 @@
 
 | Project | Depth level | Tested | Eval artifacts | Real model/API | Mock/synthetic boundary | Best reviewer file | Improvement priority |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| AEC Code Compliance RAG | flagship | yes | yes | local lexical retrieval | synthetic AEC docs; no compliance advice | `projects/aec-code-compliance-rag/EVAL.md` | expand corpus and citation faithfulness |
+| AEC Code Compliance RAG | flagship | yes | yes | local lexical/dense retrieval baselines | synthetic AEC docs; no compliance advice | `projects/aec-code-compliance-rag/EVAL.md` | hosted embeddings/reranking and citation faithfulness |
 | Agentic Research Ops Assistant | flagship | yes | yes | deterministic local planner | local docs only; not web research | `projects/agentic-research-ops-assistant/demo_outputs/agent_eval_report.md` | richer tool failure evals |
 | MLOps Model Serving Monitoring | flagship | yes | yes | scikit-learn local model | synthetic churn data; not production monitoring | `projects/mlops-model-serving-monitoring/demo_outputs/model_eval_report.md` | delayed-label simulation |
 | Multimodal VLM Visual QA | supporting | yes | partial | optional hosted provider | mock mode is not visual reasoning | `projects/multimodal-vlm-visual-qa/LIMITATIONS.md` | add local visual baseline or keep demoted |

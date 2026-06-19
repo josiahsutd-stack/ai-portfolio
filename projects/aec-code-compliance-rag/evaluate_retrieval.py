@@ -11,6 +11,7 @@ sys.path.extend([str(PROJECT_ROOT / "src"), str(REPO_ROOT)])
 from aec_code_compliance_rag import (  # noqa: E402
     build_assistant_from_paths,
     evaluate_retrieval,
+    evaluate_retrieval_modes,
     load_eval_cases,
 )
 
@@ -103,6 +104,40 @@ def _write_failure_analysis(payload: dict[str, object], output_path: Path) -> No
     output_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+def _write_ablation_report(payload: dict[str, object], output_path: Path) -> None:
+    lines = [
+        "# Retrieval Mode Ablation",
+        "",
+        "Synthetic comparison of local retrieval modes over the same AEC eval set.",
+        "",
+        "| Mode | Recall@k | MRR | Hit@3 | Citation coverage | Status accuracy |",
+        "| --- | --- | --- | --- | --- | --- |",
+    ]
+    for row in payload["ranked_modes"]:
+        lines.append(
+            "| {mode} | {recall} | {mrr} | {hit3} | {coverage} | {status} |".format(
+                mode=row["mode"],
+                recall=row["recall_at_k"],
+                mrr=row["mean_reciprocal_rank"],
+                hit3=row["retrieval_hit_at_3"],
+                coverage=row["citation_coverage"],
+                status=row["status_accuracy"],
+            )
+        )
+    lines.extend(
+        [
+            "",
+            "## Interpretation",
+            "",
+            "- `tfidf` and `bm25` are transparent lexical baselines.",
+            "- `dense_lsa` is a local dense baseline using TF-IDF projected into latent semantic analysis space.",
+            "- `hybrid` is the default app mode because it combines lexical evidence and a lightweight rerank boost.",
+            "- These numbers are synthetic regression checks, not production compliance accuracy.",
+        ]
+    )
+    output_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
 def _write_answer_demo(assistant, output_path: Path) -> None:
     question = "What clear width should be checked for high traffic accessible routes?"
     result = assistant.answer(question, k=4)
@@ -180,12 +215,18 @@ def main() -> None:
     assistant = build_assistant_from_paths(docs)
     cases = load_eval_cases(eval_path)
     payload = evaluate_retrieval(assistant, cases, k=4)
+    ablation_payload = evaluate_retrieval_modes(docs, cases, k=4)
 
     (output_dir / "retrieval_eval_summary.json").write_text(
         json.dumps(payload, indent=2) + "\n",
         encoding="utf-8",
     )
+    (output_dir / "retrieval_ablation_summary.json").write_text(
+        json.dumps(ablation_payload, indent=2) + "\n",
+        encoding="utf-8",
+    )
     _write_markdown_report(payload, output_dir / "retrieval_eval_report.md")
+    _write_ablation_report(ablation_payload, output_dir / "retrieval_ablation_report.md")
     _write_failure_analysis(payload, output_dir / "failure_analysis.md")
     _write_answer_demo(assistant, output_dir / "accessible_route_answer.md")
     _write_answer_demo(assistant, output_dir / "sample_answer_accessible_route.md")

@@ -12,5 +12,7 @@ Expected generated files:
 
 - `retrieval_eval_summary.json`
 - `retrieval_eval_report.md`
+- `retrieval_ablation_summary.json`
+- `retrieval_ablation_report.md`
 - `accessible_route_answer.md`
 - `no_answer_failure_case.md`

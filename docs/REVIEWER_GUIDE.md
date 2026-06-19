@@ -22,14 +22,14 @@ python scripts/verify.py
 
 ## Code Worth Inspecting
 
-- AEC RAG: chunking, hybrid retrieval, answer status, citation checks, evaluation script.
+- AEC RAG: chunking, source filters, retrieval ablation, answer status, citation checks, evaluation script.
 - Agent: deterministic planner, tool retry handling, denied-tool traces, SQLite persistence.
 - MLOps: schema validation, metrics, artifact metadata, prediction logs, drift simulation.
 
 ## Interview Questions
 
 - Explain the AEC RAG path from Markdown/PDF document to cited answer.
-- Explain why TF-IDF and BM25 are used as local baselines instead of a hosted embedding service.
+- Explain why TF-IDF, BM25, and dense LSA are used as local baselines before hosted embeddings or reranking.
 - Show an unsupported-scope or no-evidence AEC question.
 - Explain agent retry behavior and how failed tools appear in the trace.
 - Explain the MLOps prediction schema and how impossible values are rejected.

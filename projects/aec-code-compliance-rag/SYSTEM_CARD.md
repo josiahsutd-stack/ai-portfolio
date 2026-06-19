@@ -18,4 +18,4 @@ The synthetic eval suite includes answerable, paraphrased, multi-clause, PDF-bac
 
 ## Known Risks
 
-Lexical retrieval can miss semantic matches or retrieve plausible but wrong sections. Citation coverage checks are not full factual verification.
+Local retrieval baselines can miss semantic matches or retrieve plausible but wrong sections. Citation coverage checks are not full factual verification.

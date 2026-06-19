@@ -310,3 +310,48 @@ def evaluate_retrieval(
         ),
     }
     return {"summary": summary, "results": [result.to_dict() for result in results]}
+
+
+def evaluate_retrieval_modes(
+    paths: list[str | Path],
+    cases: list[RetrievalEvalCase],
+    *,
+    modes: tuple[str, ...] = ("tfidf", "bm25", "dense_lsa", "hybrid"),
+    k: int = 4,
+) -> dict[str, object]:
+    from .assistant import build_assistant_from_paths
+
+    mode_payloads: dict[str, dict[str, object]] = {}
+    for mode in modes:
+        assistant = build_assistant_from_paths(paths, retrieval_mode=mode)
+        payload = evaluate_retrieval(assistant, cases, k=k)
+        mode_payloads[mode] = {
+            "summary": payload["summary"],
+            "result_count": len(payload["results"]),
+        }
+    ranked_modes = sorted(
+        (
+            {
+                "mode": mode,
+                "recall_at_k": summary["summary"]["recall_at_k"],
+                "mean_reciprocal_rank": summary["summary"]["mean_reciprocal_rank"],
+                "retrieval_hit_at_3": summary["summary"]["retrieval_hit_at_3"],
+                "citation_coverage": summary["summary"]["citation_coverage"],
+                "status_accuracy": summary["summary"]["status_accuracy"],
+            }
+            for mode, summary in mode_payloads.items()
+        ),
+        key=lambda row: (
+            float(row["status_accuracy"]),
+            float(row["retrieval_hit_at_3"]),
+            float(row["recall_at_k"]),
+            float(row["mean_reciprocal_rank"]),
+        ),
+        reverse=True,
+    )
+    return {
+        "k": k,
+        "modes": list(modes),
+        "ranked_modes": ranked_modes,
+        "results": mode_payloads,
+    }

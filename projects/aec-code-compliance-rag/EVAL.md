@@ -14,6 +14,8 @@ This writes:
 
 - `demo_outputs/retrieval_eval_summary.json`
 - `demo_outputs/retrieval_eval_report.md`
+- `demo_outputs/retrieval_ablation_summary.json`
+- `demo_outputs/retrieval_ablation_report.md`
 - `demo_outputs/failure_analysis.md`
 - `demo_outputs/accessible_route_answer.md`
 - `demo_outputs/no_answer_failure_case.md`
@@ -62,6 +64,17 @@ The dataset is synthetic and useful for regression checks and reviewer clarity, 
 
 Because the corpus is synthetic and contains overlapping topics, `precision_at_k` is less important than status accuracy, hit@3, citation coverage, and failure analysis.
 
+## Retrieval Mode Ablation
+
+The evaluation script also compares four local retrieval modes over the same cases:
+
+- `tfidf`: transparent lexical vector baseline.
+- `bm25`: transparent lexical ranking baseline.
+- `dense_lsa`: local dense baseline using TF-IDF projected with latent semantic analysis.
+- `hybrid`: default app mode combining TF-IDF, BM25, and a lightweight rerank boost.
+
+The ablation artifacts are meant to show retrieval evaluation discipline. They are not a claim that the best synthetic-mode score will transfer to real compliance documents.
+
 ## What The Current Eval Catches
 
 - Numeric criteria retrieval, such as `1200 mm`, `850 mm`, and `12 mm`.
@@ -69,6 +82,7 @@ Because the corpus is synthetic and contains overlapping topics, `precision_at_k
 - Whether citations preserve chunk IDs and section metadata.
 - Whether PDF extraction preserves source filename, section heading, and page-aware citation metadata.
 - Whether source manifest metadata and source filters are covered by regression tests.
+- Whether retrieval-mode changes improve or degrade recall, hit@3, MRR, and status accuracy.
 - Whether retrieval can support answer generation without paid APIs.
 - Whether no-answer, unsupported-scope, prompt-injection, and professional-review questions avoid invented compliance requirements.
 

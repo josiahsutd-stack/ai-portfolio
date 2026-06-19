@@ -6,6 +6,11 @@ from collections import Counter, defaultdict
 from dataclasses import dataclass
 from typing import Protocol
 
+from sklearn.decomposition import TruncatedSVD
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.preprocessing import normalize
+
 from shared.ai import SearchResult, TfidfVectorStore
 
 from .chunking import DocumentChunk
@@ -100,6 +105,59 @@ class BM25Retriever:
             )
             for index, score in ranked
         ]
+
+
+class DenseLsaRetriever:
+    """Local dense retrieval baseline using TF-IDF projected into an LSA space."""
+
+    def __init__(self, chunks: list[DocumentChunk], *, n_components: int = 32) -> None:
+        self.chunks = chunks
+        self.vectorizer = TfidfVectorizer(stop_words="english", ngram_range=(1, 2))
+        self.svd: TruncatedSVD | None = None
+        self.matrix = None
+        self.model_label = "local_tfidf_lsa"
+        if not chunks:
+            return
+        tfidf_matrix = self.vectorizer.fit_transform([chunk.text for chunk in chunks])
+        component_count = min(n_components, tfidf_matrix.shape[0] - 1, tfidf_matrix.shape[1] - 1)
+        if component_count < 2:
+            self.matrix = normalize(tfidf_matrix)
+            self.model_label = "local_tfidf_fallback"
+            return
+        self.svd = TruncatedSVD(n_components=component_count, random_state=42)
+        self.matrix = normalize(self.svd.fit_transform(tfidf_matrix))
+        self.model_label = f"local_tfidf_lsa_{component_count}"
+
+    def search(self, query: str, *, k: int = 4, min_score: float = 0.0) -> list[SearchResult]:
+        if self.matrix is None or not self.chunks or not query.strip():
+            return []
+        query_vector = self.vectorizer.transform([query])
+        if self.svd is not None:
+            query_matrix = normalize(self.svd.transform(query_vector))
+            scores = (query_matrix @ self.matrix.T)[0]
+        else:
+            scores = cosine_similarity(query_vector, self.matrix)[0]
+        ranked_indices = scores.argsort()[::-1][:k]
+        results: list[SearchResult] = []
+        for index in ranked_indices:
+            score = float(scores[index])
+            if score < min_score:
+                continue
+            chunk = self.chunks[int(index)]
+            results.append(
+                SearchResult(
+                    text=chunk.text,
+                    source=chunk.source,
+                    score=round(score, 6),
+                    metadata={
+                        **chunk.metadata(),
+                        "retriever": "dense_lsa",
+                        "dense_score": str(round(score, 6)),
+                        "embedding_model": self.model_label,
+                    },
+                )
+            )
+        return results
 
 
 class HybridRetriever:

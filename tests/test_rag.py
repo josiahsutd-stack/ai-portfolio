@@ -3,6 +3,7 @@ from pathlib import Path
 
 from aec_code_compliance_rag import (
     BM25Retriever,
+    DenseLsaRetriever,
     HybridRetriever,
     RAGAssistant,
     RetrievalEvalCase,
@@ -10,6 +11,7 @@ from aec_code_compliance_rag import (
     check_citation_faithfulness,
     chunk_text,
     evaluate_retrieval,
+    evaluate_retrieval_modes,
     load_document_chunks,
     load_source_manifest,
 )
@@ -278,6 +280,30 @@ def test_bm25_retrieval_returns_expected_metadata() -> None:
     assert results[0].metadata["chunk_id"] == "qa-drawing-qa-checklist-000"
 
 
+def test_dense_lsa_retrieval_returns_expected_metadata() -> None:
+    chunks = chunk_text(
+        """
+        ## Daylight Strategy
+
+        Deep floor plates should use atria, borrowed light, and zoning to improve daylight.
+
+        ## Fire Strategy
+
+        Stair discharge diagrams should identify protected lobby assumptions.
+        """,
+        source="design.md",
+    )
+
+    results = DenseLsaRetriever(chunks).search("borrowed light daylight zoning", k=2)
+
+    assert results
+    assert results[0].source == "design.md"
+    assert results[0].metadata["retriever"] == "dense_lsa"
+    assert results[0].metadata["dense_score"] is not None
+    assert results[0].metadata["embedding_model"].startswith("local_tfidf")
+    assert "daylight" in results[0].text.lower()
+
+
 def test_hybrid_retrieval_deduplicates_chunks() -> None:
     chunks = chunk_text(
         """
@@ -413,6 +439,32 @@ def test_retrieval_evaluation_reports_section_and_term_coverage() -> None:
     assert payload["summary"]["status_accuracy"] == 1.0
     assert payload["summary"]["citation_check_pass_rate"] == 1.0
     assert payload["results"][0]["missing_terms"] == []
+
+
+def test_retrieval_mode_ablation_reports_all_modes(tmp_path: Path) -> None:
+    text_path = tmp_path / "mock.md"
+    text_path.write_text(
+        """
+        ## Planning Review Checklist
+
+        Planning packages should explain setbacks, servicing strategy, and waste collection.
+        """,
+        encoding="utf-8",
+    )
+    cases = [
+        RetrievalEvalCase(
+            question="Which planning topics should be explained?",
+            expected_source="mock.md",
+            expected_section="Planning Review Checklist",
+            expected_terms=["setbacks", "servicing strategy"],
+        )
+    ]
+    payload = evaluate_retrieval_modes([text_path], cases, k=1)
+
+    assert payload["modes"] == ["tfidf", "bm25", "dense_lsa", "hybrid"]
+    assert {row["mode"] for row in payload["ranked_modes"]} == set(payload["modes"])
+    assert payload["results"]["hybrid"]["summary"]["case_count"] == 1
+    assert payload["results"]["dense_lsa"]["summary"]["status_accuracy"] == 1.0
 
 
 def test_retrieval_evaluation_scores_no_answer_case() -> None:
