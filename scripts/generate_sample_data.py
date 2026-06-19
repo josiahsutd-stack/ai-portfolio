@@ -27,7 +27,7 @@ def write_aec_pdf(path: Path) -> None:
     from reportlab.pdfgen import canvas
 
     path.parent.mkdir(parents=True, exist_ok=True)
-    pdf = canvas.Canvas(str(path), pagesize=letter)
+    pdf = canvas.Canvas(str(path), pagesize=letter, invariant=1)
     pdf.setTitle("Synthetic AEC PDF Accessibility Addendum")
     pdf.setAuthor("AI Portfolio Synthetic Data Generator")
     pdf.setSubject("Synthetic PDF fixture for page-aware AEC RAG ingestion")
@@ -78,6 +78,95 @@ def write_aec_pdf(path: Path) -> None:
         pdf.drawString(inch, 0.55 * inch, f"Synthetic demo PDF - page {page_number}")
         pdf.showPage()
     pdf.save()
+
+
+def write_aec_source_manifest(path: Path) -> None:
+    sources = [
+        {
+            "source": "mock_aec_guidance.md",
+            "title": "Legacy Combined AEC Guidance",
+            "document_id": "mock_aec_guidance",
+            "source_type": "markdown",
+            "jurisdiction": "synthetic-demo",
+            "code_year": "synthetic",
+            "document_version": "demo-v1",
+            "superseded": True,
+            "allowed_use": "synthetic_demo_legacy_reference",
+        },
+        {
+            "source": "synthetic_accessibility_guidance.md",
+            "title": "Synthetic Accessibility Guidance",
+            "document_id": "synthetic_accessibility_guidance",
+            "source_type": "markdown",
+            "jurisdiction": "synthetic-demo",
+            "code_year": "synthetic",
+            "document_version": "demo-v2",
+            "superseded": False,
+            "allowed_use": "synthetic_demo_current_reference",
+        },
+        {
+            "source": "synthetic_daylight_energy_guidance.md",
+            "title": "Synthetic Daylight And Energy Guidance",
+            "document_id": "synthetic_daylight_energy_guidance",
+            "source_type": "markdown",
+            "jurisdiction": "synthetic-demo",
+            "code_year": "synthetic",
+            "document_version": "demo-v2",
+            "superseded": False,
+            "allowed_use": "synthetic_demo_current_reference",
+        },
+        {
+            "source": "synthetic_drawing_qa_checklist.md",
+            "title": "Synthetic Drawing QA Checklist",
+            "document_id": "synthetic_drawing_qa_checklist",
+            "source_type": "markdown",
+            "jurisdiction": "synthetic-demo",
+            "code_year": "synthetic",
+            "document_version": "demo-v2",
+            "superseded": False,
+            "allowed_use": "synthetic_demo_current_reference",
+        },
+        {
+            "source": "synthetic_fire_life_safety_notes.md",
+            "title": "Synthetic Fire Life Safety Notes",
+            "document_id": "synthetic_fire_life_safety_notes",
+            "source_type": "markdown",
+            "jurisdiction": "synthetic-demo",
+            "code_year": "synthetic",
+            "document_version": "demo-v2",
+            "superseded": False,
+            "allowed_use": "synthetic_demo_current_reference",
+        },
+        {
+            "source": "synthetic_planning_submission_assumptions.md",
+            "title": "Synthetic Planning Submission Assumptions",
+            "document_id": "synthetic_planning_submission_assumptions",
+            "source_type": "markdown",
+            "jurisdiction": "synthetic-demo",
+            "code_year": "synthetic",
+            "document_version": "demo-v2",
+            "superseded": False,
+            "allowed_use": "synthetic_demo_current_reference",
+        },
+        {
+            "source": "synthetic_pdf_accessibility_addendum.pdf",
+            "title": "Synthetic PDF Accessibility Addendum",
+            "document_id": "synthetic_pdf_accessibility_addendum",
+            "source_type": "pdf",
+            "jurisdiction": "synthetic-demo",
+            "code_year": "synthetic",
+            "document_version": "pdf-demo-v1",
+            "superseded": False,
+            "allowed_use": "synthetic_demo_pdf_fixture",
+        },
+    ]
+    write_json(
+        path,
+        {
+            "note": "Synthetic source manifest for local AEC RAG review. It is not a legal source list.",
+            "sources": sources,
+        },
+    )
 
 
 def generate_aec_docs() -> None:
@@ -185,6 +274,9 @@ def generate_aec_docs() -> None:
     write_aec_pdf(
         ROOT
         / "projects/aec-code-compliance-rag/sample_data/synthetic_pdf_accessibility_addendum.pdf"
+    )
+    write_aec_source_manifest(
+        ROOT / "projects/aec-code-compliance-rag/sample_data/source_manifest.json"
     )
 
 

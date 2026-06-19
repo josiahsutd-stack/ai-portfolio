@@ -6,12 +6,12 @@ This document is written for recruiters and technical reviewers. It summarizes w
 
 ### AEC Code Compliance RAG Assistant
 
-- Review signal: source-grounded AEC RAG with Markdown/PDF ingestion, page-aware chunking, chunk metadata, citation formatting, retrieval evaluation, demo outputs, tests, and explicit limitations.
-- Architecture evidence: synthetic Markdown/PDF guidance -> section/page-aware chunks -> hybrid TF-IDF/BM25 retrieval -> citation-bearing answer -> retrieval eval -> demo outputs.
+- Review signal: source-grounded AEC RAG with Markdown/PDF ingestion, source manifests, metadata-filtered retrieval, page-aware chunking, citation formatting, retrieval evaluation, demo outputs, tests, and explicit limitations.
+- Architecture evidence: synthetic Markdown/PDF guidance -> source manifest -> section/page-aware chunks -> filtered hybrid TF-IDF/BM25 retrieval -> citation-bearing answer -> retrieval eval -> demo outputs.
 - Engineering rationale: compliance-oriented AI should expose evidence, metadata, uncertainty, and no-result behavior before answer polish.
 - Limitations to note: synthetic corpus, text-based PDF extraction only, local lexical retrieval baseline, no live building-code validation, and no professional compliance advice.
 - Technical question supported: "How do you evaluate and cite an AEC RAG system?" Evidence includes `EVAL.md`, `ARCHITECTURE.md`, `evaluate_retrieval.py`, `demo_outputs/`, and `tests/test_rag.py`.
-- Next extension: layout-aware PDF/OCR/table parsing, richer clause/version metadata, embedding retrieval, reranking, stronger answer-faithfulness checks, jurisdiction filters, and expert approval workflow.
+- Next extension: layout-aware PDF/OCR/table parsing, authorized source inventory validation, embedding retrieval, reranking, stronger answer-faithfulness checks, and expert approval workflow.
 
 ## Supporting Review Projects
 

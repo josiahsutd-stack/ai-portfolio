@@ -43,7 +43,7 @@ This is a local-first engineering portfolio. It demonstrates implementation stru
 
 | Project | Evidence to inspect | What is real | What is mocked or synthetic |
 | --- | --- | --- | --- |
-| [AEC Code Compliance RAG](projects/aec-code-compliance-rag/README.md) | Primary review project: RAG, citations, eval, and AEC domain fit. | Markdown/PDF ingestion, page-aware chunking, metadata, hybrid TF-IDF/BM25 retrieval, citation formatting, eval script, demo outputs, tests. | Synthetic guidance; no live codes, scanned PDF OCR, or legal/code advice. |
+| [AEC Code Compliance RAG](projects/aec-code-compliance-rag/README.md) | Primary review project: RAG, citations, eval, and AEC domain fit. | Markdown/PDF ingestion, source manifests, metadata filters, page-aware chunking, hybrid TF-IDF/BM25 retrieval, citation formatting, eval script, demo outputs, tests. | Synthetic guidance; no live codes, scanned PDF OCR, or legal/code advice. |
 | [Agentic Research Ops Assistant](projects/agentic-research-ops-assistant/README.md) | Agent orchestration, tool registry, approval gate, traces. | Planner/executor flow, local search, tool traces, SQLite persistence, trace eval. | Local demo docs; deterministic tools; not autonomous web research. |
 | [MLOps Model Serving Monitoring](projects/mlops-model-serving-monitoring/README.md) | Model lifecycle, serving schema, logging, drift report. | Training pipeline, artifact metadata, FastAPI-compatible functions, SQLite logs, PSI-style drift checks. | Synthetic churn data; local registry; no production alerting. |
 | [Fine-Tuning LoRA Lab](projects/fine-tuning-lora-lab/README.md) | Honest adaptation workflow and dataset discipline. | Dataset generation, validation, split checks, LoRA config, eval template. | Training is mocked; no model weights are updated. |
@@ -109,7 +109,7 @@ Code areas with the clearest signal:
 
 ## Skills Demonstrated
 
-- RAG: Markdown/PDF ingestion, page-aware chunking, metadata, retrieval scoring, citations, evaluation, no-answer handling.
+- RAG: Markdown/PDF ingestion, source manifests, metadata-filtered retrieval, page-aware chunking, retrieval scoring, citations, evaluation, no-answer handling.
 - LLM applications: provider abstraction, structured outputs, prompt contracts, uncertainty fields.
 - Agents: planning, tool calls, approval gates, traces, persistence, trace evaluation.
 - MLOps: training pipeline, model artifact metadata, inference logging, drift detection, monitoring report.

@@ -1,0 +1,82 @@
+{
+  "note": "Synthetic source manifest for local AEC RAG review. It is not a legal source list.",
+  "sources": [
+    {
+      "source": "mock_aec_guidance.md",
+      "title": "Legacy Combined AEC Guidance",
+      "document_id": "mock_aec_guidance",
+      "source_type": "markdown",
+      "jurisdiction": "synthetic-demo",
+      "code_year": "synthetic",
+      "document_version": "demo-v1",
+      "superseded": true,
+      "allowed_use": "synthetic_demo_legacy_reference"
+    },
+    {
+      "source": "synthetic_accessibility_guidance.md",
+      "title": "Synthetic Accessibility Guidance",
+      "document_id": "synthetic_accessibility_guidance",
+      "source_type": "markdown",
+      "jurisdiction": "synthetic-demo",
+      "code_year": "synthetic",
+      "document_version": "demo-v2",
+      "superseded": false,
+      "allowed_use": "synthetic_demo_current_reference"
+    },
+    {
+      "source": "synthetic_daylight_energy_guidance.md",
+      "title": "Synthetic Daylight And Energy Guidance",
+      "document_id": "synthetic_daylight_energy_guidance",
+      "source_type": "markdown",
+      "jurisdiction": "synthetic-demo",
+      "code_year": "synthetic",
+      "document_version": "demo-v2",
+      "superseded": false,
+      "allowed_use": "synthetic_demo_current_reference"
+    },
+    {
+      "source": "synthetic_drawing_qa_checklist.md",
+      "title": "Synthetic Drawing QA Checklist",
+      "document_id": "synthetic_drawing_qa_checklist",
+      "source_type": "markdown",
+      "jurisdiction": "synthetic-demo",
+      "code_year": "synthetic",
+      "document_version": "demo-v2",
+      "superseded": false,
+      "allowed_use": "synthetic_demo_current_reference"
+    },
+    {
+      "source": "synthetic_fire_life_safety_notes.md",
+      "title": "Synthetic Fire Life Safety Notes",
+      "document_id": "synthetic_fire_life_safety_notes",
+      "source_type": "markdown",
+      "jurisdiction": "synthetic-demo",
+      "code_year": "synthetic",
+      "document_version": "demo-v2",
+      "superseded": false,
+      "allowed_use": "synthetic_demo_current_reference"
+    },
+    {
+      "source": "synthetic_planning_submission_assumptions.md",
+      "title": "Synthetic Planning Submission Assumptions",
+      "document_id": "synthetic_planning_submission_assumptions",
+      "source_type": "markdown",
+      "jurisdiction": "synthetic-demo",
+      "code_year": "synthetic",
+      "document_version": "demo-v2",
+      "superseded": false,
+      "allowed_use": "synthetic_demo_current_reference"
+    },
+    {
+      "source": "synthetic_pdf_accessibility_addendum.pdf",
+      "title": "Synthetic PDF Accessibility Addendum",
+      "document_id": "synthetic_pdf_accessibility_addendum",
+      "source_type": "pdf",
+      "jurisdiction": "synthetic-demo",
+      "code_year": "synthetic",
+      "document_version": "pdf-demo-v1",
+      "superseded": false,
+      "allowed_use": "synthetic_demo_pdf_fixture"
+    }
+  ]
+}

@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 from aec_code_compliance_rag import (
@@ -10,6 +11,7 @@ from aec_code_compliance_rag import (
     chunk_text,
     evaluate_retrieval,
     load_document_chunks,
+    load_source_manifest,
 )
 
 
@@ -117,6 +119,109 @@ def test_pdf_ingestion_preserves_page_numbers_and_metadata(tmp_path: Path) -> No
     assert metadata["page"] == "1"
     assert metadata["chunk_id"].startswith("fixture-pdf-parking-access-notes-p1-")
     assert stair_chunk.metadata()["page"] == "2"
+
+
+def test_source_manifest_overrides_metadata_and_catalog(tmp_path: Path) -> None:
+    doc_path = tmp_path / "manifested.md"
+    doc_path.write_text(
+        """
+        document_version: stale-header
+
+        ## Manifested Door Checks
+
+        Door checks should identify latch offsets and access assumptions.
+        """,
+        encoding="utf-8",
+    )
+    manifest_path = tmp_path / "source_manifest.json"
+    manifest_path.write_text(
+        json.dumps(
+            {
+                "sources": [
+                    {
+                        "source": "manifested.md",
+                        "title": "Manifested Access Guide",
+                        "document_id": "manifested_access",
+                        "source_type": "markdown",
+                        "jurisdiction": "manifest-city",
+                        "code_year": "2025",
+                        "document_version": "manifest-v2",
+                        "superseded": False,
+                        "allowed_use": "synthetic_manifest_test",
+                    }
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    assistant = build_assistant_from_paths([doc_path], manifest_path=manifest_path)
+    catalog = assistant.source_catalog()
+    metadata = assistant.chunks[0].metadata()
+    manifest = load_source_manifest(manifest_path)
+
+    assert manifest["manifested.md"]["document_version"] == "manifest-v2"
+    assert catalog == [
+        {
+            "source": "manifested.md",
+            "title": "Manifested Access Guide",
+            "source_type": "markdown",
+            "jurisdiction": "manifest-city",
+            "code_year": "2025",
+            "document_version": "manifest-v2",
+            "superseded": "false",
+            "allowed_use": "synthetic_manifest_test",
+        }
+    ]
+    assert metadata["document_id"] == "manifested_access"
+    assert metadata["document_version"] == "manifest-v2"
+    assert metadata["jurisdiction"] == "manifest-city"
+
+
+def test_source_filters_limit_retrieval_and_answer_citations() -> None:
+    old = chunk_text(
+        """
+        ## Door Latch Offsets
+
+        Door latch offsets should be checked against the legacy review path.
+        """,
+        source="legacy.md",
+        metadata_overrides={
+            "document_version": "legacy-v1",
+            "superseded": True,
+            "source_type": "markdown",
+        },
+    )
+    current = chunk_text(
+        """
+        ## Door Latch Offsets
+
+        Door latch offsets should be checked against the current review path.
+        """,
+        source="current.pdf",
+        metadata_overrides={
+            "document_version": "current-v2",
+            "superseded": False,
+            "source_type": "pdf",
+        },
+    )
+    assistant = RAGAssistant(old + current, min_score=0)
+
+    response = assistant.answer(
+        "What should door latch offsets be checked against?",
+        k=3,
+        source_filters={"source_type": "pdf", "superseded": False},
+    )
+
+    assert response["status"] == "answered"
+    assert response["sources"]
+    assert all(source["source_type"] == "pdf" for source in response["sources"])
+    assert all(source["superseded"] is False for source in response["sources"])
+    assert response["sources"][0]["source"] == "current.pdf"
+    assert response["retrieval"]["source_filters"] == {
+        "source_type": "pdf",
+        "superseded": False,
+    }
 
 
 def test_rag_answers_with_page_aware_pdf_citation(tmp_path: Path) -> None:

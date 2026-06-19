@@ -7,8 +7,9 @@ This project is a local, synthetic-data RAG assistant for AEC guidance. It is de
 ```mermaid
 flowchart LR
   A["Synthetic Markdown and PDF guidance"] --> B["Section/page-aware chunker"]
+  M["source_manifest.json"] --> C["Chunk metadata contract"]
   B --> C["Chunk metadata contract"]
-  C --> D["Local hybrid lexical retriever"]
+  C --> D["Filtered local hybrid lexical retriever"]
   Q["Reviewer question"] --> D
   D --> E["Top-k chunks with scores"]
   E --> F["Grounded answer builder"]
@@ -27,8 +28,9 @@ flowchart LR
 | --- | --- | --- |
 | Chunking | `src/aec_code_compliance_rag/chunking.py` | Splits markdown by headings, preserves page markers, converts PDF page text into chunks, and emits chunk metadata. |
 | PDF ingestion | `src/aec_code_compliance_rag/pdf_ingestion.py` | Extracts text page by page from PDFs with `pypdf` and passes real page numbers into the chunk metadata contract. |
+| Source manifest | `src/aec_code_compliance_rag/source_manifest.py` | Loads `source_manifest.json` and applies source title, type, allowed-use, jurisdiction, version, and superseded metadata. |
 | Retrieval | `src/aec_code_compliance_rag/retrieval.py` | Provides TF-IDF, BM25, and hybrid lexical retrieval over local chunks. |
-| Assistant | `src/aec_code_compliance_rag/assistant.py` | Builds the retrieval boundary, handles questions, formats citations, checks source status, checks support, and returns abstention statuses. |
+| Assistant | `src/aec_code_compliance_rag/assistant.py` | Builds the retrieval boundary, applies source filters, handles questions, formats citations, checks source status, checks support, and returns abstention statuses. |
 | Faithfulness | `src/aec_code_compliance_rag/faithfulness.py` | Applies deterministic citation-marker and lexical-support checks for demo answers. |
 | Evaluation | `src/aec_code_compliance_rag/evaluation.py` | Loads evaluation cases and computes retrieval metrics. |
 | Evaluation CLI | `evaluate_retrieval.py` | Runs the evaluator and writes reviewer artifacts in `demo_outputs/`. |
@@ -41,6 +43,9 @@ Every retrieved chunk carries this metadata:
 | Field | Meaning |
 | --- | --- |
 | `source` | Original demo document filename. |
+| `title` | Human-readable document title from the manifest or source filename. |
+| `source_type` | Document type such as `markdown` or `pdf`. |
+| `allowed_use` | Synthetic allowed-use label from the source manifest. |
 | `document_id` | Stable document identifier derived from the source. |
 | `jurisdiction` | Synthetic jurisdiction label when supplied in the document header. |
 | `code_year` | Synthetic code year when supplied in the document header. |
@@ -53,17 +58,17 @@ Every retrieved chunk carries this metadata:
 | `chunk_id` | Stable chunk identifier for tests, evals, and citations. |
 | `start_word` / `end_word` | Word offsets within the section body. |
 
-The sample corpus includes markdown files and a generated text-based PDF addendum. Markdown page values come from comments such as `<!-- page: 2 -->`; PDF page values come from page-by-page extraction with `pypdf`. A production extension would add source manifests, layout-aware table parsing, OCR fallback, and stronger source-version controls.
+The sample corpus includes markdown files, a generated text-based PDF addendum, and `sample_data/source_manifest.json`. Markdown page values come from comments such as `<!-- page: 2 -->`; PDF page values come from page-by-page extraction with `pypdf`. The manifest is the local place where document title, type, allowed use, jurisdiction, version, and superseded state are made explicit.
 
 ## Retrieval Design
 
-The default retriever combines local TF-IDF and BM25 scores, then applies a small lexical coverage boost. It stays runnable without paid APIs, local model downloads, or external infrastructure. This is intentionally transparent: reviewers can inspect exact chunk text, component scores, metadata, and citations.
+The default retriever combines local TF-IDF and BM25 scores, then applies a small lexical coverage boost. It stays runnable without paid APIs, local model downloads, or external infrastructure. This is intentionally transparent: reviewers can inspect exact chunk text, component scores, metadata, filters, and citations.
 
-In a deployment-oriented extension, the same assistant boundary could support:
+The assistant can rebuild a temporary retriever over a filtered source subset for a query. Supported local filters include jurisdiction, source type, and superseded status. In a deployment-oriented extension, the same assistant boundary could support:
 
 - Embedding retrieval combined with the current lexical baseline.
 - Cross-encoder or LLM reranking.
-- Jurisdiction, discipline, document type, and code-year filters.
+- Discipline and source-permission filters.
 - Versioned indexes for superseded and current clauses.
 
 ## Citation Design
@@ -71,7 +76,7 @@ In a deployment-oriented extension, the same assistant boundary could support:
 Citations are structured dictionaries, not just rendered strings. Each citation includes:
 
 - `citation_id`, for answer references such as `[C1]`.
-- `source`, `heading`, `clause_id`, `page`, and `chunk_id`.
+- `source`, `title`, `source_type`, `allowed_use`, `heading`, `clause_id`, `page`, and `chunk_id`.
 - `score`, so reviewers can see retrieval confidence.
 - `excerpt`, so the answer evidence is visible.
 - `reference`, a readable citation label.
@@ -101,8 +106,9 @@ For compliance-oriented workflows, this behavior is more important than always g
 The current project is intentionally local and synthetic. A serious applied extension would add:
 
 - Layout-aware PDF parsing for tables, scanned documents, OCR fallback, and clause segmentation.
+- Source inventory validation against authorized or public documents.
 - Stronger source conflict detection for contradictory clauses and superseded guidance.
-- Embedding retrieval, reranking, and filterable search.
+- Embedding retrieval and reranking.
 - Stronger answer-faithfulness evaluation against retrieved chunks.
 - Human approval workflow for compliance-sensitive responses.
 - Monitoring for no-result rate, citation coverage, low-score answers, and stale documents.

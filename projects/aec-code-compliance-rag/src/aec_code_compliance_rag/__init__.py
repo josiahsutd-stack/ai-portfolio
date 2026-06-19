@@ -4,6 +4,7 @@ from .evaluation import RetrievalEvalCase, evaluate_retrieval, load_eval_cases
 from .faithfulness import check_citation_faithfulness
 from .pdf_ingestion import load_pdf_chunks
 from .retrieval import BM25Retriever, HybridRetriever, TfidfRetriever
+from .source_manifest import load_source_manifest
 
 __all__ = [
     "DocumentChunk",
@@ -20,4 +21,5 @@ __all__ = [
     "load_document_chunks",
     "load_eval_cases",
     "load_pdf_chunks",
+    "load_source_manifest",
 ]

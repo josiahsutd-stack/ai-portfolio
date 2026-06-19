@@ -10,11 +10,11 @@ Legal advice, code compliance approval, engineering sign-off, architectural sign
 
 ## Data
 
-Synthetic markdown documents and a generated text-based PDF addendum created for this repository.
+Synthetic markdown documents, a generated text-based PDF addendum, and a source manifest created for this repository.
 
 ## Evaluation
 
-The synthetic eval suite includes answerable, paraphrased, multi-clause, PDF-backed, no-evidence, unsupported-scope, prompt-injection, and professional-review cases.
+The synthetic eval suite includes answerable, paraphrased, multi-clause, PDF-backed, source-metadata, no-evidence, unsupported-scope, prompt-injection, and professional-review cases.
 
 ## Known Risks
 

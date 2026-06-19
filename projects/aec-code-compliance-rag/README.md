@@ -2,7 +2,7 @@
 
 Primary review project for this AI engineering portfolio.
 
-This is a local, source-grounded retrieval assistant for synthetic AEC guidance. It demonstrates the engineering shape behind a compliance-oriented RAG workflow: document chunking, metadata preservation, transparent retrieval, citation formatting, evaluation questions, demo outputs, and failure handling.
+This is a local, source-grounded retrieval assistant for synthetic AEC guidance. It demonstrates the engineering shape behind a compliance-oriented RAG workflow: document chunking, source manifests, metadata-filtered retrieval, citation formatting, evaluation questions, demo outputs, and failure handling.
 
 It does not use real project data, customer data, or live building codes. The included documents are synthetic demo data and the outputs are not legal, code, engineering, or professional compliance advice.
 
@@ -19,8 +19,10 @@ The project connects AI engineering with the built environment. It shows how a j
 Key reviewer signals:
 
 - Evidence-first retrieval over synthetic AEC guidance.
+- Source manifest metadata for title, document type, allowed use, jurisdiction, version, and superseded status.
 - Chunk metadata for section, heading, clause ID, PDF page or markdown page marker, chunk ID, and word offsets.
 - Citation objects that include readable references, scores, excerpts, and traceable chunk IDs.
+- Optional retrieval filters for jurisdiction, document type, and superseded-source handling.
 - Source-status warnings for superseded, mixed-version, mixed-jurisdiction, or mixed-year evidence.
 - Retrieval evaluation with sample questions and repeatable metrics.
 - Tests for chunking, retrieval, citations, and no-result handling.
@@ -72,8 +74,10 @@ python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
 ## Features
 
 - Markdown and text-based PDF document ingestion from `sample_data/`.
+- Source manifest loading from `sample_data/source_manifest.json`.
 - Section-aware chunking with overlap.
-- Metadata fields for heading, clause ID, PDF page or markdown page marker, chunk ID, and word offsets.
+- Metadata fields for title, source type, allowed use, heading, clause ID, PDF page or markdown page marker, chunk ID, and word offsets.
+- Per-query source filters for jurisdiction, source type, and superseded-source exclusion.
 - Local hybrid TF-IDF/BM25 retrieval as an inspectable lexical retrieval baseline.
 - Deterministic no-API answer mode plus optional OpenAI-compatible provider through shared portfolio utilities.
 - Citation formatting with references like `[C1] mock_aec_guidance.md > Accessible Routes`.
@@ -91,12 +95,13 @@ python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
 
 ## How It Works
 
-1. Synthetic markdown guidance and a generated PDF addendum are loaded from `sample_data/`.
+1. Synthetic markdown guidance, a generated PDF addendum, and `source_manifest.json` are loaded from `sample_data/`.
 2. Markdown files are split by headings and optional page markers such as `<!-- page: 2 -->`; PDFs are extracted page by page with `pypdf`.
-3. Each chunk receives traceable metadata: source, section, heading, clause ID, page value, chunk ID, start word, end word, document version, jurisdiction, code year, and superseded status.
-4. A local hybrid retriever combines TF-IDF and BM25 results for a question.
-5. The assistant returns an answer only from retrieved evidence, exposes structured citations, and warns when retrieved sources need version or jurisdiction review.
-6. The evaluation script runs sample questions and writes metrics plus demo outputs.
+3. Manifest records override or enrich document metadata before chunks are indexed.
+4. Each chunk receives traceable metadata: source, title, source type, allowed use, section, heading, clause ID, page value, chunk ID, start word, end word, document version, jurisdiction, code year, and superseded status.
+5. A local hybrid retriever combines TF-IDF and BM25 results over the eligible source subset for a question.
+6. The assistant returns an answer only from retrieved evidence, exposes structured citations, and warns when retrieved sources need version or jurisdiction review.
+7. The evaluation script runs sample questions and writes metrics plus demo outputs.
 
 ## Tests
 
@@ -110,6 +115,7 @@ The tests cover:
 - Retrieval of the expected section.
 - Citation formatting and chunk IDs.
 - Document-version, jurisdiction, and superseded-source metadata.
+- Source manifest overrides and filtered retrieval behavior.
 - Empty and no-result handling.
 - Retrieval evaluation metrics.
 
@@ -125,6 +131,7 @@ The tests cover:
 ## Next Steps
 
 - Improve PDF ingestion with layout-aware table extraction, OCR fallback, and clause-level parsing.
+- Validate manifest entries against an authorized source inventory when using real documents.
 - Add embedding retrieval and stronger reranking if local hardware or hosted providers are appropriate.
 - Strengthen citation-faithfulness checks beyond the current deterministic lexical coverage check.
 - Expand the evaluation set with negative questions, ambiguous jurisdiction cases, and adversarial wording.
@@ -142,6 +149,7 @@ The tests cover:
 ## Engineering Notes
 
 - The system uses deterministic chunk IDs and metadata so retrieval results can be inspected and tested.
+- `source_manifest.json` makes document status explicit instead of relying only on file headers.
 - Markdown page markers and extracted PDF page numbers use the same citation metadata contract.
 - The assistant refuses empty questions and returns a no-evidence response when retrieval has no matching chunks.
 - The local hybrid retriever is chosen for portability and transparency; it is a baseline, not the final retrieval method for a real compliance product.

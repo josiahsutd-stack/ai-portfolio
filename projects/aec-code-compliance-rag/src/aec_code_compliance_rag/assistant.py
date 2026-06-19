@@ -8,6 +8,7 @@ from shared.ai.providers import LLMProvider
 from .chunking import DocumentChunk, load_document_chunks
 from .faithfulness import check_citation_faithfulness
 from .retrieval import HybridRetriever, TfidfRetriever, tokenize
+from .source_manifest import default_source_manifest_path, load_source_manifest
 
 UNSUPPORTED_SCOPE_TERMS = {
     "current code",
@@ -22,6 +23,9 @@ UNSUPPORTED_SCOPE_TERMS = {
     "2026",
     "today",
 }
+
+SourceFilterValue = str | bool | list[str] | tuple[str, ...] | set[str]
+SourceFilters = dict[str, SourceFilterValue]
 
 
 class RAGAssistant:
@@ -43,9 +47,64 @@ class RAGAssistant:
             TfidfRetriever(chunks) if retrieval_mode == "tfidf" else HybridRetriever(chunks)
         )
 
-    def retrieve(self, question: str, *, k: int = 4, min_score: float = 0.01) -> list[SearchResult]:
+    def retrieve(
+        self,
+        question: str,
+        *,
+        k: int = 4,
+        min_score: float = 0.01,
+        source_filters: SourceFilters | None = None,
+    ) -> list[SearchResult]:
         threshold = self.min_score if min_score == 0.01 else min_score
-        return self.retriever.search(question, k=k, min_score=threshold)
+        chunks = self._filtered_chunks(source_filters)
+        if not chunks:
+            return []
+        retriever = self.retriever if not source_filters else self._retriever_for(chunks)
+        return retriever.search(question, k=k, min_score=threshold)
+
+    def source_catalog(self) -> list[dict[str, str]]:
+        catalog: dict[str, dict[str, str]] = {}
+        for chunk in self.chunks:
+            metadata = chunk.metadata()
+            catalog[chunk.source] = {
+                "source": chunk.source,
+                "title": metadata.get("title", ""),
+                "source_type": metadata.get("source_type", ""),
+                "jurisdiction": metadata.get("jurisdiction", ""),
+                "code_year": metadata.get("code_year", ""),
+                "document_version": metadata.get("document_version", ""),
+                "superseded": metadata.get("superseded", "false"),
+                "allowed_use": metadata.get("allowed_use", ""),
+            }
+        return sorted(catalog.values(), key=lambda record: record["source"])
+
+    def _filtered_chunks(self, source_filters: SourceFilters | None) -> list[DocumentChunk]:
+        if not source_filters:
+            return self.chunks
+        return [
+            chunk
+            for chunk in self.chunks
+            if self._matches_source_filters(chunk.metadata(), source_filters)
+        ]
+
+    def _retriever_for(self, chunks: list[DocumentChunk]):
+        return TfidfRetriever(chunks) if self.retrieval_mode == "tfidf" else HybridRetriever(chunks)
+
+    def _matches_source_filters(
+        self, metadata: dict[str, str], source_filters: SourceFilters
+    ) -> bool:
+        for raw_key, expected in source_filters.items():
+            key = raw_key.strip().lower().replace(" ", "_").replace("-", "_")
+            actual = metadata.get(key, "")
+            if isinstance(expected, bool):
+                if (actual.lower() == "true") is not expected:
+                    return False
+            elif isinstance(expected, list | tuple | set):
+                if actual not in {str(value) for value in expected}:
+                    return False
+            elif actual != str(expected):
+                return False
+        return True
 
     def format_citation(self, result: SearchResult, index: int) -> dict[str, object]:
         page = result.metadata.get("page") or None
@@ -53,6 +112,9 @@ class RAGAssistant:
         return {
             "citation_id": citation_id,
             "source": result.source,
+            "title": result.metadata.get("title", ""),
+            "source_type": result.metadata.get("source_type", ""),
+            "allowed_use": result.metadata.get("allowed_use", ""),
             "document_id": result.metadata.get("document_id", ""),
             "jurisdiction": result.metadata.get("jurisdiction", ""),
             "code_year": result.metadata.get("code_year", ""),
@@ -81,7 +143,13 @@ class RAGAssistant:
             f" ({result.metadata.get('clause_id', 'no-clause-id')}{page_label})"
         )
 
-    def answer(self, question: str, *, k: int = 4) -> dict[str, object]:
+    def answer(
+        self,
+        question: str,
+        *,
+        k: int = 4,
+        source_filters: SourceFilters | None = None,
+    ) -> dict[str, object]:
         if not question.strip():
             return {
                 "answer": "Please provide a code, guidance, or design-standard question.",
@@ -100,10 +168,10 @@ class RAGAssistant:
                 "status": unsupported_status,
                 "confidence": "low",
                 "sources": [],
-                "retrieval": {"k": k, "result_count": 0},
+                "retrieval": {"k": k, "result_count": 0, "source_filters": source_filters or {}},
                 "limitations": ["requires_current_jurisdiction_or_professional_review"],
             }
-        results = self.retrieve(question, k=k)
+        results = self.retrieve(question, k=k, source_filters=source_filters)
         weak_coverage = self._weak_lexical_coverage(question, results)
         if not results or weak_coverage:
             return {
@@ -115,6 +183,8 @@ class RAGAssistant:
                     "k": k,
                     "result_count": len(results),
                     "reason": "no_results" if not results else "weak_lexical_coverage",
+                    "source_filters": source_filters or {},
+                    "filtered_corpus_size": len(self._filtered_chunks(source_filters)),
                 },
                 "limitations": ["synthetic_corpus_does_not_support_question"],
             }
@@ -163,6 +233,8 @@ class RAGAssistant:
                 "result_count": len(results),
                 "top_score": citations[0]["score"] if citations else 0,
                 "mode": self.retrieval_mode,
+                "source_filters": source_filters or {},
+                "filtered_corpus_size": len(self._filtered_chunks(source_filters)),
             },
             "citation_check": faithfulness,
             "limitations": limitations,
@@ -313,8 +385,22 @@ class RAGAssistant:
         )
 
 
-def build_assistant_from_paths(paths: list[str | Path]) -> RAGAssistant:
+def build_assistant_from_paths(
+    paths: list[str | Path],
+    *,
+    manifest_path: str | Path | None = None,
+) -> RAGAssistant:
+    source_paths = list(paths)
+    candidate_manifest = (
+        Path(manifest_path) if manifest_path else default_source_manifest_path(source_paths)
+    )
+    manifest = load_source_manifest(candidate_manifest) if candidate_manifest else {}
     chunks: list[DocumentChunk] = []
-    for path in paths:
-        chunks.extend(load_document_chunks(path))
+    for path in source_paths:
+        chunks.extend(
+            load_document_chunks(
+                path,
+                metadata_overrides=manifest.get(Path(path).name),
+            )
+        )
     return RAGAssistant(chunks)

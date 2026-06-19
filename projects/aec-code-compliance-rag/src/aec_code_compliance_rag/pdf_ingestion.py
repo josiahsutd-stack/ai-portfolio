@@ -23,6 +23,16 @@ def _read_pdf_pages(path: Path) -> list[tuple[int, str]]:
     return pages
 
 
-def load_pdf_chunks(path: str | Path, *, max_words: int = 110) -> list[DocumentChunk]:
+def load_pdf_chunks(
+    path: str | Path,
+    *,
+    max_words: int = 110,
+    metadata_overrides: dict[str, object] | None = None,
+) -> list[DocumentChunk]:
     target = Path(path)
-    return chunk_pdf_pages(_read_pdf_pages(target), source=target.name, max_words=max_words)
+    return chunk_pdf_pages(
+        _read_pdf_pages(target),
+        source=target.name,
+        max_words=max_words,
+        metadata_overrides=metadata_overrides,
+    )

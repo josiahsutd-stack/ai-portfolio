@@ -10,6 +10,9 @@ DOCUMENT_METADATA_FIELDS = {
     "code_year",
     "document_version",
     "superseded",
+    "title",
+    "source_type",
+    "allowed_use",
 }
 
 
@@ -29,10 +32,16 @@ class DocumentChunk:
     code_year: str = "synthetic"
     document_version: str = "demo"
     superseded: bool = False
+    title: str = ""
+    source_type: str = "document"
+    allowed_use: str = "synthetic_demo"
 
     def metadata(self) -> dict[str, str]:
         return {
             "source": self.source,
+            "title": self.title,
+            "source_type": self.source_type,
+            "allowed_use": self.allowed_use,
             "document_id": self.document_id,
             "section": self.section,
             "heading": self.heading,
@@ -62,6 +71,23 @@ def _slug(value: str) -> str:
 
 def _metadata_key(raw_key: str) -> str:
     return raw_key.strip().lower().replace(" ", "_").replace("-", "_")
+
+
+def _metadata_value(key: str, value: object) -> str:
+    if key == "superseded" and isinstance(value, bool):
+        return str(value).lower()
+    return str(value).strip()
+
+
+def _merge_document_metadata(
+    base: dict[str, str], overrides: dict[str, object] | None
+) -> dict[str, str]:
+    merged = dict(base)
+    for raw_key, raw_value in (overrides or {}).items():
+        key = _metadata_key(str(raw_key))
+        if key in DOCUMENT_METADATA_FIELDS and raw_value is not None:
+            merged[key] = _metadata_value(key, raw_value)
+    return merged
 
 
 def _is_document_metadata_line(line: str) -> bool:
@@ -149,6 +175,9 @@ def _chunks_from_sections(
                         code_year=metadata["code_year"],
                         document_version=metadata["document_version"],
                         superseded=metadata["superseded"].lower() == "true",
+                        title=metadata["title"],
+                        source_type=metadata["source_type"],
+                        allowed_use=metadata["allowed_use"],
                     )
                 )
             if end == len(words):
@@ -159,11 +188,19 @@ def _chunks_from_sections(
 
 
 def chunk_text(
-    text: str, *, source: str, max_words: int = 110, overlap: int = 25
+    text: str,
+    *,
+    source: str,
+    max_words: int = 110,
+    overlap: int = 25,
+    metadata_overrides: dict[str, object] | None = None,
 ) -> list[DocumentChunk]:
     if not text.strip():
         return []
-    metadata = _extract_document_metadata(text, source=source)
+    metadata = _merge_document_metadata(
+        _extract_document_metadata(text, source=source),
+        metadata_overrides,
+    )
     return _chunks_from_sections(
         _iter_markdown_sections(text, source=source),
         source=source,
@@ -184,13 +221,21 @@ def _split_pdf_page_heading_and_body(lines: list[str], *, fallback: str) -> tupl
 
 
 def chunk_pdf_pages(
-    pages: list[tuple[int, str]], *, source: str, max_words: int = 110, overlap: int = 25
+    pages: list[tuple[int, str]],
+    *,
+    source: str,
+    max_words: int = 110,
+    overlap: int = 25,
+    metadata_overrides: dict[str, object] | None = None,
 ) -> list[DocumentChunk]:
     page_texts = [(page_number, text) for page_number, text in pages if text.strip()]
     if not page_texts:
         return []
     combined_text = "\n".join(text for _page_number, text in page_texts)
-    metadata = _extract_document_metadata(combined_text, source=source)
+    metadata = _merge_document_metadata(
+        _extract_document_metadata(combined_text, source=source),
+        metadata_overrides,
+    )
     fallback = Path(source).stem
     sections: list[tuple[str, str, int | None, str]] = []
     for page_number, page_text in page_texts:
@@ -214,12 +259,19 @@ def chunk_pdf_pages(
 
 
 def _extract_document_metadata(text: str, *, source: str) -> dict[str, str]:
+    suffix = Path(source).suffix.lower()
+    source_type = (
+        "pdf" if suffix == ".pdf" else "markdown" if suffix in {".md", ".markdown"} else "document"
+    )
     metadata = {
         "document_id": Path(source).stem,
         "jurisdiction": "synthetic-demo",
         "code_year": "synthetic",
         "document_version": "demo",
         "superseded": "false",
+        "title": Path(source).stem.replace("_", " ").replace("-", " ").title(),
+        "source_type": source_type,
+        "allowed_use": "synthetic_demo",
     }
     for line in text.splitlines()[:40]:
         match = re.match(r"\s*([a-zA-Z_ -]+):\s*(.+?)\s*$", line)
@@ -232,18 +284,41 @@ def _extract_document_metadata(text: str, *, source: str) -> dict[str, str]:
     return metadata
 
 
-def load_markdown_chunks(path: str | Path, *, max_words: int = 110) -> list[DocumentChunk]:
+def load_markdown_chunks(
+    path: str | Path,
+    *,
+    max_words: int = 110,
+    metadata_overrides: dict[str, object] | None = None,
+) -> list[DocumentChunk]:
     target = Path(path)
-    return chunk_text(target.read_text(encoding="utf-8"), source=target.name, max_words=max_words)
+    return chunk_text(
+        target.read_text(encoding="utf-8"),
+        source=target.name,
+        max_words=max_words,
+        metadata_overrides=metadata_overrides,
+    )
 
 
-def load_document_chunks(path: str | Path, *, max_words: int = 110) -> list[DocumentChunk]:
+def load_document_chunks(
+    path: str | Path,
+    *,
+    max_words: int = 110,
+    metadata_overrides: dict[str, object] | None = None,
+) -> list[DocumentChunk]:
     target = Path(path)
     suffix = target.suffix.lower()
     if suffix in {".md", ".markdown"}:
-        return load_markdown_chunks(target, max_words=max_words)
+        return load_markdown_chunks(
+            target,
+            max_words=max_words,
+            metadata_overrides=metadata_overrides,
+        )
     if suffix == ".pdf":
         from .pdf_ingestion import load_pdf_chunks
 
-        return load_pdf_chunks(target, max_words=max_words)
+        return load_pdf_chunks(
+            target,
+            max_words=max_words,
+            metadata_overrides=metadata_overrides,
+        )
     raise ValueError(f"Unsupported AEC document type: {target.suffix or target.name}")

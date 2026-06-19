@@ -12,7 +12,7 @@ Based on the synthetic demo guidance retrieved locally, review these items:
 
 This is decision-support text only; a qualified reviewer would still check the governing jurisdiction, current code version, and project-specific constraints.
 
-Source status note: retrieved evidence includes multiple document versions. Treat the answer as review input and verify the governing source set before relying on it.
+Source status note: retrieved evidence includes superseded sources, multiple document versions. Treat the answer as review input and verify the governing source set before relying on it.
 
 ## Source Status
 
@@ -20,11 +20,18 @@ Source status note: retrieved evidence includes multiple document versions. Trea
 {
   "requires_review": true,
   "warnings": [
+    "retrieved_superseded_sources",
     "mixed_document_versions"
   ],
-  "superseded_sources": [],
+  "superseded_sources": [
+    {
+      "citation_id": "C1",
+      "source": "mock_aec_guidance.md",
+      "document_version": "demo-v1"
+    }
+  ],
   "document_versions": [
-    "demo",
+    "demo-v1",
     "demo-v2"
   ],
   "jurisdictions": [
@@ -33,7 +40,7 @@ Source status note: retrieved evidence includes multiple document versions. Trea
   "code_years": [
     "synthetic"
   ],
-  "note": "Source status note: retrieved evidence includes multiple document versions. Treat the answer as review input and verify the governing source set before relying on it."
+  "note": "Source status note: retrieved evidence includes superseded sources, multiple document versions. Treat the answer as review input and verify the governing source set before relying on it."
 }
 ```
 

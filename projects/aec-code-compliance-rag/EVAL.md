@@ -1,6 +1,6 @@
 # Retrieval Evaluation
 
-This project includes a 51-case synthetic retrieval and abstention evaluation set for reviewer inspection. The goal is not to claim production accuracy. The goal is to show how retrieval quality, citation coverage, PDF-backed citation behavior, no-evidence handling, and unsupported-scope handling are measured before real use.
+This project includes a 51-case synthetic retrieval and abstention evaluation set for reviewer inspection. The goal is not to claim production accuracy. The goal is to show how retrieval quality, citation coverage, PDF-backed citation behavior, source metadata handling, no-evidence handling, and unsupported-scope handling are measured before real use.
 
 ## Run The Evaluation
 
@@ -68,6 +68,7 @@ Because the corpus is synthetic and contains overlapping topics, `precision_at_k
 - Section targeting for accessibility, fire compartment, daylight, planning, and drawing QA questions.
 - Whether citations preserve chunk IDs and section metadata.
 - Whether PDF extraction preserves source filename, section heading, and page-aware citation metadata.
+- Whether source manifest metadata and source filters are covered by regression tests.
 - Whether retrieval can support answer generation without paid APIs.
 - Whether no-answer, unsupported-scope, prompt-injection, and professional-review questions avoid invented compliance requirements.
 

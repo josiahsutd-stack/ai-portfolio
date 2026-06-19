@@ -2,6 +2,7 @@
 
 - Synthetic AEC documents only.
 - No live building codes, amendments, jurisdictions, or legal sources.
+- Source manifest fields are synthetic review metadata, not verified legal source authority.
 - PDF ingestion is limited to text-based PDFs; scanned documents, OCR, table reconstruction, and layout reasoning are not implemented.
 - Hybrid TF-IDF/BM25 retrieval is a local lexical baseline, not neural retrieval.
 - Citation faithfulness is a deterministic lexical coverage check, not full factual verification.
