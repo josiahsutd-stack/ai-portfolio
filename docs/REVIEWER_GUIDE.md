@@ -33,7 +33,7 @@ python scripts/verify.py
 - Explain the AEC RAG path from Singapore public source inventory to downloaded PDF/HTML snapshot to cited answer.
 - Explain why TF-IDF, BM25, and dense LSA are used as local baselines before hosted embeddings or reranking.
 - Show an unsupported-scope or no-evidence AEC question.
-- Explain why the project can retrieve from BCA/URA/NEA/SCDF/LTA documents but still cannot certify compliance.
+- Explain why the project can retrieve from BCA/URA/NEA/SCDF/LTA/PUB/NParks documents but still cannot certify compliance.
 - Explain agent retry behavior and how failed tools appear in the trace.
 - Explain the MLOps prediction schema and how impossible values are rejected.
 - Explain what the drift report can and cannot prove.

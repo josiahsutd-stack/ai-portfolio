@@ -51,7 +51,7 @@ All demos run without API keys in mock/local mode. The VLM project can optionall
 
 ## What Is Synthetic Or Mock
 
-- Sample data is synthetic by default; the AEC project can optionally download public Singapore BCA/URA/NEA/SCDF/LTA sources for local retrieval tests.
+- Sample data is synthetic by default; the AEC project can optionally download public Singapore BCA/URA/NEA/SCDF/LTA/PUB/NParks sources for local retrieval tests.
 - LLM/VLM providers fall back to mock mode.
 - Robotics and VLA projects are simulations.
 - LoRA training is mocked locally to avoid GPU requirements.

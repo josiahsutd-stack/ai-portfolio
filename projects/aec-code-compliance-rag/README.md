@@ -4,7 +4,7 @@ Primary review project for this AI engineering portfolio.
 
 This is a local, source-grounded retrieval assistant for AEC guidance. It demonstrates the engineering shape behind a compliance-oriented RAG workflow: document chunking, source manifests, metadata-filtered retrieval, citation formatting, evaluation questions, demo outputs, and failure handling.
 
-The default corpus is synthetic demo data so the project runs without private data. An optional Singapore public-source workflow downloads official public BCA, URA, NEA, SCDF, and LTA documents locally for retrieval evaluation. Outputs are not legal, code, engineering, architectural, or professional compliance advice.
+The default corpus is synthetic demo data so the project runs without private data. An optional Singapore public-source workflow downloads official public BCA, URA, NEA, SCDF, LTA, PUB, and NParks documents locally for retrieval evaluation. Outputs are not legal, code, engineering, architectural, or professional compliance advice.
 
 ## Problem
 
@@ -19,7 +19,7 @@ The project connects AI engineering with the built environment. It shows how a j
 Key reviewer signals:
 
 - Evidence-first retrieval over synthetic AEC guidance and optional Singapore public-source documents.
-- Singapore source inventory for BCA Accessibility, BCA Approved Document, BCA Green Mark, URA GFA, NEA COPEH, SCDF Fire Code, and LTA interface codes.
+- Singapore source inventory for BCA Accessibility, BCA Approved Document, BCA Green Mark, URA GFA, NEA COPEH, SCDF Fire Code, LTA interface codes, PUB drainage/sewerage codes, and NParks greenery/tree-conservation guidelines.
 - Source manifest metadata for title, document type, allowed use, jurisdiction, version, and superseded status.
 - Chunk metadata for section, heading, clause ID, PDF page or markdown page marker, chunk ID, and word offsets.
 - Citation objects that include readable references, scores, excerpts, and traceable chunk IDs.
@@ -87,7 +87,7 @@ python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
 ## Features
 
 - Markdown and text-based PDF document ingestion from `sample_data/`.
-- Optional Singapore public-source downloader for BCA, URA, NEA, SCDF, and LTA reference documents.
+- Optional Singapore public-source downloader for BCA, URA, NEA, SCDF, LTA, PUB, and NParks reference documents.
 - Source manifest loading from `sample_data/source_manifest.json`.
 - Section-aware chunking with overlap.
 - Metadata fields for title, source type, allowed use, heading, clause ID, PDF page or markdown page marker, chunk ID, and word offsets.
@@ -146,6 +146,8 @@ The public corpus is designed to move the project beyond a toy RAG demo while ke
 - NEA Code of Practice on Environmental Health 2025.
 - SCDF Fire Code 2023.
 - LTA works on public streets and railway protection codes.
+- PUB codes of practice for surface water drainage, sewerage/sanitary works, and coastal-protection listing.
+- NParks greenery provision, tree conservation, and development-plan submission references.
 
 Run `python projects/aec-code-compliance-rag/scripts/download_public_sources.py` before `--corpus public`. The app then exposes a `Singapore public sources` corpus option.
 

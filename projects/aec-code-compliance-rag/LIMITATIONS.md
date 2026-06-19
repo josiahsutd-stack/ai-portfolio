@@ -1,7 +1,7 @@
 # Limitations
 
 - Synthetic AEC documents by default.
-- Optional Singapore public-source documents can be downloaded locally for BCA, URA, NEA, SCDF, and LTA retrieval tests, but the PDFs/HTML snapshots are not committed to Git.
+- Optional Singapore public-source documents can be downloaded locally for BCA, URA, NEA, SCDF, LTA, PUB, and NParks retrieval tests, but the PDFs/HTML snapshots are not committed to Git.
 - No authority approval, legal interpretation, amendment monitoring, project-specific applicability check, or professional sign-off is provided.
 - Source manifest fields are review metadata, not verified legal source authority.
 - PDF ingestion is limited to text-based PDFs; scanned documents, OCR, table reconstruction, and layout reasoning are not implemented.

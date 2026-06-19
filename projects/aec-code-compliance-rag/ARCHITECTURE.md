@@ -1,6 +1,6 @@
 # Architecture
 
-This project is a local RAG assistant for AEC guidance. It is designed to be inspectable by recruiters and technical reviewers, not to provide real compliance advice. The default path uses synthetic documents; the optional public-source path downloads official Singapore BCA, URA, NEA, SCDF, and LTA documents locally for more realistic retrieval testing.
+This project is a local RAG assistant for AEC guidance. It is designed to be inspectable by recruiters and technical reviewers, not to provide real compliance advice. The default path uses synthetic documents; the optional public-source path downloads official Singapore BCA, URA, NEA, SCDF, LTA, PUB, and NParks documents locally for more realistic retrieval testing.
 
 ## System Flow
 
@@ -50,7 +50,7 @@ Every retrieved chunk carries this metadata:
 | `title` | Human-readable document title from the manifest or source filename. |
 | `source_type` | Document type such as `markdown` or `pdf`. |
 | `allowed_use` | Synthetic allowed-use label from the source manifest. |
-| `publisher` | Publisher for public-source records, such as BCA, URA, NEA, SCDF, or LTA. |
+| `publisher` | Publisher for public-source records, such as BCA, URA, NEA, SCDF, LTA, PUB, or NParks. |
 | `source_url` | Official source URL captured by the downloader manifest. |
 | `rights` | Local-use and redistribution boundary note. |
 | `downloaded_at` | Timestamp for public-source download snapshots. |

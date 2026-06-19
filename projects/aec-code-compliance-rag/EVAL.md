@@ -57,7 +57,7 @@ Each case includes:
 - `expected_no_answer`
 - `notes`
 
-The synthetic dataset is useful for regression checks and reviewer clarity. The public-source dataset checks whether the same pipeline can ingest and retrieve from official Singapore public documents such as BCA Accessibility, URA GFA, NEA COPEH, SCDF Fire Code, and LTA interface references. Neither dataset is a benchmark for a real compliance product.
+The synthetic dataset is useful for regression checks and reviewer clarity. The public-source dataset checks whether the same pipeline can ingest and retrieve from official Singapore public documents such as BCA Accessibility, URA GFA, NEA COPEH, SCDF Fire Code, LTA interface references, PUB drainage/sewerage references, and NParks greenery/tree-conservation references. Neither dataset is a benchmark for a real compliance product.
 
 ## Metrics
 
@@ -105,7 +105,7 @@ Optional modes `semantic` and `hybrid_cross_encoder` are exposed in the app and 
 - Whether retrieval-mode changes improve or degrade recall, hit@3, MRR, and status accuracy.
 - Whether retrieval can support answer generation without paid APIs.
 - Whether no-answer, unsupported-scope, prompt-injection, and professional-review questions avoid invented compliance requirements.
-- Whether Singapore public-source retrieval can find authority-specific documents across BCA, URA, NEA, SCDF, and LTA without committing the downloaded PDFs to Git.
+- Whether Singapore public-source retrieval can find authority-specific documents across BCA, URA, NEA, SCDF, LTA, PUB, and NParks without committing the downloaded PDFs to Git.
 
 ## Known Failure Modes
 

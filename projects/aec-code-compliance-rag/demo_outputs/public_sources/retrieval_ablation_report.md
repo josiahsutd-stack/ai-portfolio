@@ -4,10 +4,10 @@ Singapore public-source comparison of local retrieval modes over the same AEC ev
 
 | Mode | Recall@k | MRR | Hit@3 | Citation coverage | Status accuracy |
 | --- | --- | --- | --- | --- | --- |
-| tfidf | 1.0 | 1.0 | 1.0 | 1.0 | 1.0 |
-| bm25 | 1.0 | 1.0 | 1.0 | 1.0 | 1.0 |
-| hybrid | 1.0 | 1.0 | 1.0 | 1.0 | 1.0 |
-| dense_lsa | 0.9 | 0.85 | 0.9 | 0.6 | 1.0 |
+| tfidf | 1.0 | 0.967 | 1.0 | 1.0 | 1.0 |
+| bm25 | 1.0 | 0.922 | 1.0 | 1.0 | 1.0 |
+| hybrid | 1.0 | 0.922 | 1.0 | 1.0 | 1.0 |
+| dense_lsa | 0.933 | 0.839 | 0.867 | 0.611 | 1.0 |
 
 ## Interpretation
 

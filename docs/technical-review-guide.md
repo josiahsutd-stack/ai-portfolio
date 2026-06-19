@@ -7,7 +7,7 @@ This document is written for recruiters and technical reviewers. It summarizes w
 ### AEC Code Compliance RAG Assistant
 
 - Review signal: source-grounded AEC RAG with Markdown/PDF ingestion, Singapore public-source downloading, source manifests, metadata-filtered retrieval, page-aware chunking, retrieval-mode ablation, citation formatting, retrieval evaluation, demo outputs, tests, and explicit limitations.
-- Architecture evidence: synthetic Markdown/PDF guidance or downloaded Singapore BCA/URA/NEA/SCDF/LTA public sources -> source manifest -> section/page-aware chunks -> filtered TF-IDF/BM25/dense LSA/hybrid retrieval -> citation-bearing answer -> retrieval eval and ablation -> demo outputs.
+- Architecture evidence: synthetic Markdown/PDF guidance or downloaded Singapore BCA/URA/NEA/SCDF/LTA/PUB/NParks public sources -> source manifest -> section/page-aware chunks -> filtered TF-IDF/BM25/dense LSA/hybrid retrieval -> citation-bearing answer -> retrieval eval and ablation -> demo outputs.
 - Engineering rationale: compliance-oriented AI should expose evidence, metadata, uncertainty, and no-result behavior before answer polish.
 - Limitations to note: synthetic corpus by default, public PDFs downloaded locally and not redistributed, text-based PDF extraction only, portable local retrieval baselines, no authority approval or live amendment validation, and no professional compliance advice.
 - Technical question supported: "How do you evaluate and cite an AEC RAG system?" Evidence includes `EVAL.md`, `ARCHITECTURE.md`, `evaluate_retrieval.py`, `demo_outputs/`, and `tests/test_rag.py`.
