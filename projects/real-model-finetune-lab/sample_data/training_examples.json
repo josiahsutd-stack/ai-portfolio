@@ -1,0 +1,137 @@
+[
+  {
+    "text": "retrieve clause citations with page metadata for an accessibility query",
+    "label": "rag",
+    "split": "train"
+  },
+  {
+    "text": "rank source chunks using hybrid retrieval and citation coverage",
+    "label": "rag",
+    "split": "train"
+  },
+  {
+    "text": "answer no result when the local corpus has no supporting evidence",
+    "label": "rag",
+    "split": "train"
+  },
+  {
+    "text": "download public guidance documents and build a source manifest",
+    "label": "rag",
+    "split": "train"
+  },
+  {
+    "text": "evaluate recall at k and reciprocal rank for document retrieval",
+    "label": "rag",
+    "split": "train"
+  },
+  {
+    "text": "filter retrieved clauses by jurisdiction and source status",
+    "label": "rag",
+    "split": "train"
+  },
+  {
+    "text": "trace each answer sentence to a supporting source excerpt",
+    "label": "rag",
+    "split": "eval"
+  },
+  {
+    "text": "use page aware chunks from a building code pdf",
+    "label": "rag",
+    "split": "eval"
+  },
+  {
+    "text": "plan research steps then call tools with approval checkpoints",
+    "label": "agent",
+    "split": "train"
+  },
+  {
+    "text": "persist an agent trace with tool calls citations and final answer",
+    "label": "agent",
+    "split": "train"
+  },
+  {
+    "text": "route a task through planner executor and local search tools",
+    "label": "agent",
+    "split": "train"
+  },
+  {
+    "text": "summarize local documents with human review before final output",
+    "label": "agent",
+    "split": "train"
+  },
+  {
+    "text": "log tool errors and recover with a fallback search action",
+    "label": "agent",
+    "split": "train"
+  },
+  {
+    "text": "store agent memory in sqlite for a repeatable workflow",
+    "label": "agent",
+    "split": "train"
+  },
+  {
+    "text": "validate that unsupported tasks stop before external action",
+    "label": "agent",
+    "split": "eval"
+  },
+  {
+    "text": "compare tool traces against expected approval gates",
+    "label": "agent",
+    "split": "eval"
+  },
+  {
+    "text": "train churn model and write model metadata to a local registry",
+    "label": "mlops",
+    "split": "train"
+  },
+  {
+    "text": "validate prediction schema before serving a model response",
+    "label": "mlops",
+    "split": "train"
+  },
+  {
+    "text": "record inference payloads and probabilities in sqlite logs",
+    "label": "mlops",
+    "split": "train"
+  },
+  {
+    "text": "calculate population stability index for drift monitoring",
+    "label": "mlops",
+    "split": "train"
+  },
+  {
+    "text": "serve a model through an api with versioned metadata",
+    "label": "mlops",
+    "split": "train"
+  },
+  {
+    "text": "generate monitoring report for model drift and schema checks",
+    "label": "mlops",
+    "split": "train"
+  },
+  {
+    "text": "compare baseline and trained classifier metrics after fitting",
+    "label": "mlops",
+    "split": "eval"
+  },
+  {
+    "text": "persist fitted model weights for reproducible evaluation",
+    "label": "mlops",
+    "split": "eval"
+  },
+  {
+    "text": "cite the matched building guidance paragraph in the answer",
+    "label": "rag",
+    "split": "eval"
+  },
+  {
+    "text": "require approval before the agent sends a draft response",
+    "label": "agent",
+    "split": "eval"
+  },
+  {
+    "text": "check model feature schema before accepting prediction input",
+    "label": "mlops",
+    "split": "eval"
+  }
+]

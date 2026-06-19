@@ -1,0 +1,8 @@
+{
+  "label": "mlops",
+  "probabilities": {
+    "agent": 0.257,
+    "mlops": 0.49,
+    "rag": 0.254
+  }
+}

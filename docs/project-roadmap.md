@@ -10,7 +10,7 @@
 
 ## Secondary Project Improvements
 
-- Add a small PyTorch CNN path to Deep Learning Vision Lab.
+- Add a small PyTorch CNN path to the Vision Baseline / Threshold Model Lab.
 - Add matrix factorization to the recommender.
 - Add richer backtesting to time-series forecasting.
 - Add residual/error analysis to Building Energy ML.

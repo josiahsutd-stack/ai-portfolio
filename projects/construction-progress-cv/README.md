@@ -1,6 +1,6 @@
-# Construction Progress Computer Vision Tracker
+# Construction Progress CV Workflow Tracker
 
-Computer vision-style progress tracker that classifies synthetic construction site observations into delivery stages and generates a concise site report.
+Computer vision workflow tracker that classifies synthetic construction site image metadata into delivery stages and generates a concise site report. It does not train on raw image pixels.
 
 ## Problem
 

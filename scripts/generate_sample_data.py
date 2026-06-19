@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import random
+import sys
 import textwrap
 from pathlib import Path
 
@@ -704,6 +705,12 @@ def generate_general_ai_sample_data() -> None:
             "alpha": 16,
             "requires_gpu_for_real_training": True,
         },
+    )
+    sys.path.insert(0, str(ROOT / "projects/real-model-finetune-lab/src"))
+    from real_model_finetune_lab import write_default_examples
+
+    write_default_examples(
+        ROOT / "projects/real-model-finetune-lab/sample_data/training_examples.json"
     )
 
 

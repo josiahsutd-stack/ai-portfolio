@@ -12,7 +12,7 @@ flowchart LR
   E --> F["Answer with citations"]
 ```
 
-## Construction Progress CV Tracker
+## Construction Progress CV Workflow Tracker
 
 ```mermaid
 flowchart LR

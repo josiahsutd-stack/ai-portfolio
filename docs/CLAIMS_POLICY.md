@@ -15,6 +15,7 @@ This repository is a junior/applied AI engineering portfolio. Claims should stay
 - SQLite trace or prediction logging.
 - Drift simulation.
 - Simulated robotics workflow.
+- Real fitted scikit-learn model where a project includes saved weights and before/after metrics.
 
 ## Disallowed Claims Without Real Evidence
 

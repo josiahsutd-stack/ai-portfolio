@@ -28,20 +28,21 @@ My differentiator is a master's background in AI, architecture, and embodied AI,
 | Agentic Research Operations Assistant | Agentic AI Engineer, LLM Engineer |
 | LLM Evals and Guardrails Platform | LLMOps Engineer, Responsible AI Engineer |
 | MLOps Model Serving and Monitoring Platform | MLOps Engineer, ML Engineer |
+| Real Model Fine-Tune Lab | ML Engineer, NLP Baseline Engineer |
 | Multimodal VLM Visual QA Assistant | Multimodal AI Engineer, VLM Engineer |
-| Deep Learning Vision Lab | Computer Vision Engineer, Deep Learning Engineer |
+| Vision Baseline / Threshold Model Lab | Computer Vision Engineer, ML Baseline Engineer |
 | VLA Embodied Agent Simulator | Robotics/VLA Engineer |
 | AEC Code Compliance RAG Assistant | Applied AI Engineer with domain depth |
 
 ## Role-Based Project Map
 
 - AI Engineer: Agentic Research Ops, MLOps Platform, VLM Visual QA
-- ML Engineer: Building Energy ML, Deep Vision Lab, Time-Series Forecasting
+- ML Engineer: Real Model Fine-Tune Lab, Building Energy ML, Time-Series Forecasting
 - LLM Engineer: AEC RAG, Agentic Research Ops, LLM Evals Guardrails
 - Agentic AI Engineer: Agentic Research Ops, BIM Issue Agent, LLM Evals Guardrails
-- Computer Vision Engineer: Deep Vision Lab, Construction Progress CV, VLM Visual QA
+- Computer Vision Engineer: Vision Baseline Lab, Construction Progress CV, VLM Visual QA
 - Multimodal AI Engineer: VLM Visual QA, VLA Simulator, Construction Progress CV
-- MLOps Engineer: MLOps Platform, Deep Vision Lab, LLM Evals Guardrails
+- MLOps Engineer: MLOps Platform, Vision Baseline Lab, LLM Evals Guardrails
 - RL Engineer: Reinforcement Learning Portfolio, VLA Simulator
 - Robotics/VLA Engineer: VLA Simulator, Construction Robot Task Planner, Site Robot Safety Monitor
 - Data Scientist: Time-Series Forecasting, Recommender Ranking Engine, Energy ML
@@ -52,8 +53,10 @@ I can speak both AI engineering and built-environment workflows: documents, draw
 
 ## Links
 
-- Portfolio: `https://github.com/josiahsutd-stack/ai-built-environment-portfolio`
+- Portfolio: `https://github.com/josiahsutd-stack/ai-portfolio`
 - GitHub: `https://github.com/josiahsutd-stack`
 - LinkedIn: listed in application materials
+- LinkedIn placeholder: `https://www.linkedin.com/in/<your-linkedin-handle>`
 - Email: listed in application materials
+- Contact email placeholder: `<your.email@example.com>`
 

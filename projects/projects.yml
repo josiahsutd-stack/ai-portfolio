@@ -12,7 +12,7 @@ projects:
     status: flagship
     mock_mode_supported: true
     readme_path: projects/aec-code-compliance-rag/README.md
-  - name: Construction Progress CV Tracker
+  - name: Construction Progress CV Workflow Tracker
     slug: construction-progress-cv
     category: AI for the Built Environment
     skill_area: Computer vision workflow and ML classification
@@ -20,7 +20,7 @@ projects:
     demo_command: streamlit run projects/construction-progress-cv/app.py
     test_command: pytest
     tech_stack: [Python, pandas, scikit-learn, FastAPI]
-    summary: Classifies synthetic site-image metadata into construction progress stages.
+    summary: Classifies synthetic site-image metadata into construction progress stages; no raw image model is trained.
     skills: [computer vision workflow, classification, reporting]
     status: solid
     mock_mode_supported: true
@@ -155,16 +155,16 @@ projects:
     status: experimental
     mock_mode_supported: true
     readme_path: projects/reinforcement-learning-portfolio/README.md
-  - name: Deep Learning Vision Lab
+  - name: Vision Baseline / Threshold Model Lab
     slug: deep-learning-vision-lab
     category: General AI Engineering
-    skill_area: Deep learning and computer vision
+    skill_area: Computer vision baselines
     flagship: false
     demo_command: streamlit run projects/deep-learning-vision-lab/app.py
     test_command: pytest tests/test_general_ai_projects.py
     tech_stack: [Python, NumPy, FastAPI, Streamlit]
-    summary: Synthetic defect-detection workflow with metrics and model card.
-    skills: [computer vision, evaluation, model card]
+    summary: Synthetic defect-detection workflow with a classical threshold baseline, metrics, and model card.
+    skills: [computer vision, baseline modeling, evaluation, model card]
     status: solid
     mock_mode_supported: true
     readme_path: projects/deep-learning-vision-lab/README.md
@@ -233,3 +233,16 @@ projects:
     status: supporting
     mock_mode_supported: true
     readme_path: projects/fine-tuning-lora-lab/README.md
+  - name: Real Model Fine-Tune Lab
+    slug: real-model-finetune-lab
+    category: General AI Engineering
+    skill_area: Real model training and evaluation
+    flagship: false
+    demo_command: streamlit run projects/real-model-finetune-lab/app.py
+    test_command: pytest tests/test_real_model_finetune_lab.py
+    tech_stack: [Python, scikit-learn, joblib, Streamlit]
+    summary: Trains a real TF-IDF plus logistic-regression text classifier with before/after metrics and a saved fitted model artifact.
+    skills: [model training, text classification, evaluation, saved artifacts]
+    status: supporting
+    mock_mode_supported: false
+    readme_path: projects/real-model-finetune-lab/README.md

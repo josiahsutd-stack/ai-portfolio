@@ -57,6 +57,8 @@ The downloaded PDFs/HTML text and generated manifest stay in `public_sources/dow
 streamlit run projects/aec-code-compliance-rag/app.py
 ```
 
+Deployment notes for Streamlit Community Cloud, Render, and Hugging Face Spaces are in [DEPLOYMENT.md](DEPLOYMENT.md).
+
 ![AEC RAG Streamlit demo](../../docs/assets/screenshots/aec-rag-demo.png)
 
 Try these questions:

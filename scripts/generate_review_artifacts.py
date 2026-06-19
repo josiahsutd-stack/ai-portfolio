@@ -10,6 +10,7 @@ COMMANDS = [
     [sys.executable, "projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py"],
     [sys.executable, "projects/agentic-research-ops-assistant/scripts/evaluate_agent.py"],
     [sys.executable, "projects/mlops-model-serving-monitoring/scripts/evaluate_model.py"],
+    [sys.executable, "projects/real-model-finetune-lab/evaluate_model.py"],
 ]
 
 
@@ -17,7 +18,9 @@ def main() -> None:
     for command in COMMANDS:
         print("+", " ".join(command))
         subprocess.run(command, cwd=ROOT, check=True)
-    print("Review artifacts generated for AEC RAG, Agentic Research Ops, and MLOps.")
+    print(
+        "Review artifacts generated for AEC RAG, Agentic Research Ops, MLOps, and real model training."
+    )
 
 
 if __name__ == "__main__":

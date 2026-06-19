@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: ai-portfolio-aec-rag
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: streamlit run projects/aec-code-compliance-rag/app.py --server.address 0.0.0.0 --server.port $PORT
+    autoDeploy: false
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9

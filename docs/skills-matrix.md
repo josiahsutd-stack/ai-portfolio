@@ -9,7 +9,7 @@ Legend: Strong, Medium, Light, Not covered.
 | FastAPI | MLOps, Deep Vision, Recommender, Time-Series | VLM, Guardrails | Built-environment APIs |
 | Streamlit | All demos |  |  |
 | PyTorch | Future extension | Fine-Tuning LoRA Lab | Deep Vision project shape |
-| scikit-learn | MLOps, Recommender, Time-Series, Energy ML | Construction Progress CV |  |
+| scikit-learn | Real Model Fine-Tune Lab, MLOps, Recommender, Time-Series, Energy ML | Construction Progress CV |  |
 | pandas/numpy | MLOps, Time-Series, Energy ML, Deep Vision | Most ML demos |  |
 | RAG | AEC RAG, Agentic Research Ops |  |  |
 | vector search | Agentic Research Ops, AEC RAG |  |  |
@@ -21,15 +21,16 @@ Legend: Strong, Medium, Light, Not covered.
 | guardrails | LLM Evals Guardrails | VLM uncertainty |  |
 | VLM | Multimodal VLM Visual QA |  |  |
 | multimodal AI | VLM Visual QA, VLA Simulator | Construction CV |  |
-| computer vision | Deep Vision Lab, Construction Progress CV | VLM Visual QA |  |
+| computer vision | Vision Baseline Lab, Construction Progress CV | VLM Visual QA |  |
+| real model training | Real Model Fine-Tune Lab | MLOps Platform | fitted scikit-learn weights |
 | VLA | VLA Embodied Agent Simulator | Construction Robot Task Planner |  |
 | embodied AI | VLA Simulator, Robot Task Planner, Robot Safety Monitor |  |  |
 | RL | Reinforcement Learning Portfolio | VLA Simulator |  |
 | recommendation systems | Recommender Ranking Engine | Spatial Recommender |  |
 | time-series forecasting | Time-Series Anomaly Forecasting |  |  |
 | anomaly detection | Time-Series Anomaly Forecasting | Site Robot Safety Monitor |  |
-| MLOps | MLOps Serving Monitoring | Deep Vision |  |
-| model serving | MLOps, Deep Vision, Recommender, Time-Series |  |  |
+| MLOps | MLOps Serving Monitoring | Real Model Fine-Tune Lab, Vision Baseline Lab |  |
+| model serving | MLOps, Vision Baseline, Recommender, Time-Series | Real Model Fine-Tune Lab |  |
 | drift detection | MLOps Serving Monitoring |  |  |
 | Docker | MLOps, Deep Vision, Guardrails | Existing demos |  |
 | CI/CD | GitHub Actions workflow | health/smoke scripts |  |

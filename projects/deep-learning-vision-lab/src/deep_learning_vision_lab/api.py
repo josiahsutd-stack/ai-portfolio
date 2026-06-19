@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from .dataset import generate_defect_dataset
 from .model import ThresholdVisionModel, evaluate_predictions
 
-app = FastAPI(title="Deep Learning Vision Lab")
+app = FastAPI(title="Vision Baseline / Threshold Model Lab")
 
 
 @app.get("/metrics")

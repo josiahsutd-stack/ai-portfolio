@@ -1,0 +1,20 @@
+{
+  "train_rows": 18,
+  "eval_rows": 9,
+  "labels": [
+    "agent",
+    "mlops",
+    "rag"
+  ],
+  "baseline_accuracy": 0.333,
+  "baseline_macro_f1": 0.167,
+  "trained_accuracy": 0.778,
+  "trained_macro_f1": 0.775,
+  "improvement_accuracy": 0.444,
+  "improvement_macro_f1": 0.608,
+  "learned_weight_shape": [
+    3,
+    250
+  ],
+  "model_path": "projects/real-model-finetune-lab/demo_outputs/text_classifier.joblib"
+}

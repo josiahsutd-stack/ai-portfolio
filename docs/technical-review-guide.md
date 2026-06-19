@@ -63,7 +63,7 @@ This document is written for recruiters and technical reviewers. It summarizes w
 
 - LLM Evals Guardrails: prompt-injection checks, structured-output validation, citation checks, and eval-result schema.
 - Reinforcement Learning Portfolio: environment design, reward shaping, policy baselines, and the distinction between simulation and optimization claims.
-- Deep Learning Vision Lab: synthetic dataset generation, metrics, model-card discipline, and the path from baseline to PyTorch CNN/U-Net.
+- Vision Baseline / Threshold Model Lab: synthetic dataset generation, classical threshold metrics, model-card discipline, and the path from baseline to PyTorch CNN/U-Net.
 - Recommender Ranking Engine: popularity versus content-based recommendations, ranking metrics, and product-facing explanations.
 - Time-Series Anomaly Forecasting: moving-average baseline, Isolation Forest, alert thresholds, and time-aware evaluation.
 - VLA Embodied Agent Simulator: construction-site language-to-action simulation, action masks, safety-shielded planning, baseline comparison, unsafe-action metrics, and honest hardware limitations.

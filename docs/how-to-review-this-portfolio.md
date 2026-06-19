@@ -32,8 +32,8 @@ The fine-tuning and VLM projects are useful supporting evidence, but they should
 | AI Engineer | AEC Code Compliance RAG, Agentic Research Ops, MLOps Platform |
 | ML Engineer | MLOps Platform, Building Energy ML, Time-Series Forecasting |
 | LLM / Agent Engineer | AEC Code Compliance RAG, Agentic Research Ops, LLM Evals Guardrails |
-| Computer Vision / VLM | Multimodal VLM Visual QA, Deep Vision Lab, Construction Progress CV |
-| MLOps | MLOps Platform, LLM Evals Guardrails, Deep Vision Lab |
+| Computer Vision / VLM | Multimodal VLM Visual QA, Vision Baseline Lab, Construction Progress CV |
+| MLOps | MLOps Platform, LLM Evals Guardrails, Vision Baseline Lab |
 | Robotics / VLA | VLA Simulator as experimental simulation, Construction Robot Task Planner, Site Robot Safety Monitor |
 | Fine-tuning workflow | Fine-Tuning LoRA Lab, LLM Evals Guardrails, AEC RAG |
 

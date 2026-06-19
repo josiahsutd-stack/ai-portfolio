@@ -19,7 +19,8 @@ pythonpath = [
   "projects/mlops-model-serving-monitoring/src",
   "projects/recommender-system-ranking-engine/src",
   "projects/time-series-anomaly-forecasting/src",
-  "projects/fine-tuning-lora-lab/src"
+  "projects/fine-tuning-lora-lab/src",
+  "projects/real-model-finetune-lab/src"
 ]
 
 [tool.ruff]

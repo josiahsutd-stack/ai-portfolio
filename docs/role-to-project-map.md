@@ -36,29 +36,31 @@ Reviewer focus: tool calling, traceability, deterministic checks, and human appr
 
 - Multimodal VLM Visual QA Assistant
 - VLA Embodied Agent Simulator
-- Construction Progress CV Tracker
+- Construction Progress CV Workflow Tracker
 
 Reviewer focus: input validation, provider abstraction, optional hosted VLM path, uncertainty, and multimodal evaluation.
 
 ## Computer Vision Engineer
 
-- Deep Learning Vision Lab
-- Construction Progress CV Tracker
+- Vision Baseline / Threshold Model Lab
+- Construction Progress CV Workflow Tracker
 - Multimodal VLM Visual QA Assistant
 
 Reviewer focus: synthetic data, metrics, model cards, and the path from baseline models to real vision models.
 
 ## ML Engineer
 
+- Real Model Fine-Tune Lab
 - MLOps Model Serving and Monitoring Platform
 - Building Energy ML Pipeline
 - Time-Series Anomaly Detection and Forecasting
 
 Reviewer focus: feature engineering, evaluation, serving, drift, and reproducibility.
 
-## Deep Learning Engineer
+## Computer Vision / Baseline ML Engineer
 
-- Deep Learning Vision Lab
+- Vision Baseline / Threshold Model Lab
+- Real Model Fine-Tune Lab
 - Fine-Tuning and LoRA Lab
 - Multimodal VLM Visual QA Assistant
 
@@ -68,7 +70,7 @@ Reviewer focus: dataset preparation, model adaptation workflow, and local comput
 
 - MLOps Model Serving and Monitoring Platform
 - LLM Evals and Guardrails Platform
-- Deep Learning Vision Lab
+- Vision Baseline / Threshold Model Lab
 
 Reviewer focus: APIs, schema checks, CI, model artifacts, SQLite inference logs, monitoring, and drift detection.
 

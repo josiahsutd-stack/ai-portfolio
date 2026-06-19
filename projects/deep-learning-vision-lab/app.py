@@ -15,8 +15,13 @@ from deep_learning_vision_lab import (
     generate_defect_dataset,
 )
 
-st.set_page_config(page_title="Deep Learning Vision Lab", page_icon="AI", layout="wide")
-st.title("Deep Learning Vision Lab")
+st.set_page_config(
+    page_title="Vision Baseline / Threshold Model Lab", page_icon="AI", layout="wide"
+)
+st.title("Vision Baseline / Threshold Model Lab")
+st.caption(
+    "Classical threshold baseline over synthetic images; no neural-network weights are trained."
+)
 images, labels = generate_defect_dataset()
 preds = ThresholdVisionModel().predict(images)
 st.json(evaluate_predictions(labels, preds))

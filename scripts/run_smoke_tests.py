@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import importlib
 import sys
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -25,6 +26,7 @@ MODULES = [
     "recommender_system_ranking_engine",
     "time_series_anomaly_forecasting",
     "fine_tuning_lora_lab",
+    "real_model_finetune_lab",
 ]
 
 
@@ -88,6 +90,17 @@ def run_core_smoke() -> list[str]:
         train_churn_model(generate_churn_data(40))
     except Exception as exc:  # noqa: BLE001
         issues.append(f"mlops_model_serving_monitoring core smoke failed: {exc}")
+    try:
+        from real_model_finetune_lab import train_text_classifier
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            _model, result = train_text_classifier(output_dir=tmp_dir)
+        if result.trained_accuracy <= result.baseline_accuracy:
+            issues.append(
+                "real_model_finetune_lab core smoke failed: trained model did not improve"
+            )
+    except Exception as exc:  # noqa: BLE001
+        issues.append(f"real_model_finetune_lab core smoke failed: {exc}")
     return issues
 
 
