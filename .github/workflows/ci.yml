@@ -26,6 +26,8 @@ jobs:
         run: ruff check .
       - name: Health check
         run: python scripts/check_repo_health.py
+      - name: Portfolio site check
+        run: python scripts/check_portfolio_site.py
       - name: Smoke tests
         run: python scripts/run_smoke_tests.py
       - name: Tests

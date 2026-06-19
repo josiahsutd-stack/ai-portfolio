@@ -39,12 +39,12 @@ REQUIRED_README_PATTERNS = {
     "technical review discussion points": r"## Technical Review Discussion Points",
 }
 REQUIRED_ROOT_README_PATTERNS = {
-    "15-minute recruiter screen": r"## 15-Minute Recruiter Screen",
-    "top 3 reviewer targets": r"Top 3 reviewer targets",
+    "portfolio highlights": r"## Portfolio Highlights",
+    "highlight table": r"What it demonstrates",
     "quick evidence command": r"python projects/aec-code-compliance-rag/scripts/evaluate_retrieval\.py",
-    "runnable verification commands": r"Runnable verification commands",
-    "proof beyond claims": r"Proof beyond claims",
-    "hard boundaries": r"Hard boundaries",
+    "quick verification": r"## Quick Verification",
+    "technical evidence": r"## Technical Evidence",
+    "scope": r"## Scope",
 }
 ROOT_README_DIRECT_ADDRESS_PHRASES = [
     "Top 3 projects to inspect",

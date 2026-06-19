@@ -1,36 +1,40 @@
 # Applied AI Engineering Portfolio
 
-Applied AI engineer focused on source-grounded LLM systems, agent workflows, local MLOps skeletons, multimodal product interfaces, and built-environment AI.
+Applied AI engineer focused on source-grounded LLM systems, agent workflows, MLOps workflows, multimodal product interfaces, and built-environment AI.
 
 This repository is intentionally local-first: projects run with synthetic data or mock providers so reviewers can inspect engineering structure without private datasets, paid APIs, or hidden services.
 
-## 15-Minute Recruiter Screen
+## Portfolio Highlights
 
-Verdict: this repo can support a junior/applied AI engineering interview, especially for teams that value RAG, agent workflows, MLOps basics, and built-environment domain thinking. It should not be read as evidence of senior production ownership, real compliance validation, real robot deployment, or real customer adoption.
+This portfolio focuses on applied AI engineering work that is runnable locally and documented with tests, evaluation scripts, architecture notes, and sample outputs.
 
-Top 3 reviewer targets:
+| Project | What it demonstrates | Evidence |
+| --- | --- | --- |
+| [AEC Code Compliance RAG](projects/aec-code-compliance-rag/README.md) | Source-grounded retrieval, citation formatting, no-answer handling, and AEC domain translation. | [EVAL.md](projects/aec-code-compliance-rag/EVAL.md), [demo outputs](projects/aec-code-compliance-rag/demo_outputs/), [tests](tests/test_rag.py) |
+| [Agentic Research Ops Assistant](projects/agentic-research-ops-assistant/README.md) | Planner-executor workflow, tool traces, approval checkpoints, citations, and local persistence. | [ARCHITECTURE.md](projects/agentic-research-ops-assistant/ARCHITECTURE.md), [demo outputs](projects/agentic-research-ops-assistant/demo_outputs/), trace evaluation |
+| [MLOps Model Serving Monitoring](projects/mlops-model-serving-monitoring/README.md) | Model metadata, schema validation, prediction logging, drift reporting, and monitoring docs. | [MODEL_CARD.md](projects/mlops-model-serving-monitoring/MODEL_CARD.md), [MONITORING.md](projects/mlops-model-serving-monitoring/MONITORING.md), [demo outputs](projects/mlops-model-serving-monitoring/demo_outputs/) |
 
-1. [AEC Code Compliance RAG](projects/aec-code-compliance-rag/README.md) - primary project with retrieval evaluation, citations, architecture docs, demo outputs, and tests.
-2. [Agentic Research Ops Assistant](projects/agentic-research-ops-assistant/README.md) - supporting agent workflow with tool traces, citations, approval checkpoints, SQLite persistence, and trace eval.
-3. [MLOps Model Serving Monitoring](projects/mlops-model-serving-monitoring/README.md) - supporting MLOps workflow with model metadata, schema checks, prediction logs, drift reports, and monitoring docs.
+The projects use synthetic data and mock providers where needed, so the repository can be reviewed without private datasets, paid APIs, or hidden services.
 
-Runnable verification commands:
+## Quick Verification
 
 ```bash
 python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
 python -m pytest tests/test_rag.py tests/test_general_ai_projects.py
 python scripts/generate_review_artifacts.py
+python scripts/check_portfolio_site.py
 ```
 
-Proof beyond claims:
+## Technical Evidence
 
 - AEC eval and generated demo outputs: [EVAL.md](projects/aec-code-compliance-rag/EVAL.md), [demo_outputs/](projects/aec-code-compliance-rag/demo_outputs/)
 - Architecture docs close to the code: [AEC ARCHITECTURE.md](projects/aec-code-compliance-rag/ARCHITECTURE.md), [technical review guide](docs/technical-review-guide.md)
 - Test coverage for retrieval, citations, no-answer handling, agent traces, MLOps metadata, LoRA validation, and VLM prompt contracts.
-- Self-review files that state the weaknesses plainly: [PORTFOLIO_REVIEW_ROUNDS.md](PORTFOLIO_REVIEW_ROUNDS.md), [FINAL_HIRING_MANAGER_REVIEW.md](FINAL_HIRING_MANAGER_REVIEW.md)
-- Claim and ownership controls: [CLAIMS_POLICY.md](docs/CLAIMS_POLICY.md), [AUTHENTICITY_AND_OWNERSHIP.md](docs/AUTHENTICITY_AND_OWNERSHIP.md), [PROJECT_DEPTH_SCORECARD.md](docs/PROJECT_DEPTH_SCORECARD.md)
+- Project scope and review docs: [CLAIMS_POLICY.md](docs/CLAIMS_POLICY.md), [AUTHENTICITY_AND_OWNERSHIP.md](docs/AUTHENTICITY_AND_OWNERSHIP.md), [PROJECT_DEPTH_SCORECARD.md](docs/PROJECT_DEPTH_SCORECARD.md)
 
-Hard boundaries: all datasets are synthetic unless stated otherwise; mock LLM/VLM paths test workflow behavior, not model intelligence; AEC outputs are not legal, code, engineering, architectural, or professional compliance advice.
+## Scope
+
+This is a local-first engineering portfolio. It demonstrates implementation structure, evaluation discipline, and domain translation. It does not claim production deployment, real compliance validation, robot hardware deployment, or customer adoption.
 
 ## Highest-Signal Projects
 
@@ -42,9 +46,9 @@ Hard boundaries: all datasets are synthetic unless stated otherwise; mock LLM/VL
 | [Fine-Tuning LoRA Lab](projects/fine-tuning-lora-lab/README.md) | Honest adaptation workflow and dataset discipline. | Dataset generation, validation, split checks, LoRA config, eval template. | Training is mocked; no model weights are updated. |
 | [Multimodal VLM Visual QA](projects/multimodal-vlm-visual-qa/README.md) | Multimodal product boundary and structured outputs. | Image validation, prompt contract, schema parsing, mock provider, optional OpenAI-compatible path. | Mock mode does not perform real visual reasoning. |
 
-## Recruiter Evidence Map
+## Review Path
 
-For a short screen, the strongest evidence is concentrated in the primary AEC project, its evaluation docs, and one supporting system depending on role: agent workflows, MLOps, fine-tuning workflow, or VLM product boundary.
+The strongest code paths are concentrated in the primary AEC project, its evaluation docs, and one supporting system depending on role: agent workflows, MLOps, fine-tuning workflow, or VLM product boundary.
 
 Key evidence files:
 
@@ -54,7 +58,7 @@ Key evidence files:
 - Focused tests: [tests/test_rag.py](tests/test_rag.py)
 - Full local verification: `python scripts/verify.py`
 
-## 15-Minute Verification Commands
+## Focused Verification
 
 ```bash
 python scripts/generate_sample_data.py
@@ -67,7 +71,7 @@ Evidence produced by those commands:
 
 - AEC citations and no-answer behavior.
 - `demo_outputs/` artifacts for generated evidence.
-- The root files `PORTFOLIO_BASELINE_AUDIT.md`, `PORTFOLIO_REVIEW_ROUNDS.md`, and `FINAL_HIRING_MANAGER_REVIEW.md`.
+- Local test and evaluation output for the primary RAG workflow.
 
 ## 60-Minute Technical Verification
 
@@ -77,6 +81,7 @@ python -m pytest
 python -m ruff check .
 python -m black --check .
 python scripts/check_repo_health.py
+python scripts/check_portfolio_site.py
 python scripts/run_smoke_tests.py
 python scripts/check_project_docs.py
 ```
@@ -124,6 +129,7 @@ python scripts/verify.py
 python -m black --check .
 python -m ruff check .
 python scripts/check_repo_health.py
+python scripts/check_portfolio_site.py
 python scripts/run_smoke_tests.py
 python -m pytest
 python scripts/check_project_docs.py

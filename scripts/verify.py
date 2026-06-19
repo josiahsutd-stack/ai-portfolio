@@ -10,6 +10,7 @@ COMMANDS = [
     [sys.executable, "scripts/generate_sample_data.py"],
     [sys.executable, "scripts/check_repo_health.py"],
     [sys.executable, "scripts/check_claims.py"],
+    [sys.executable, "scripts/check_portfolio_site.py"],
     [sys.executable, "scripts/run_smoke_tests.py"],
     [sys.executable, "scripts/generate_review_artifacts.py"],
     [sys.executable, "-m", "black", "--check", "."],

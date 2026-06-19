@@ -1,6 +1,6 @@
 PYTHON ?= python
 
-.PHONY: setup verify sample-data test lint format smoke health claims review-artifacts demo clean run-portfolio
+.PHONY: setup verify sample-data test lint format smoke health claims site review-artifacts demo clean run-portfolio
 
 setup:
 	$(PYTHON) scripts/setup.py
@@ -29,6 +29,9 @@ health:
 
 claims:
 	$(PYTHON) scripts/check_claims.py
+
+site:
+	$(PYTHON) scripts/check_portfolio_site.py
 
 review-artifacts:
 	$(PYTHON) scripts/generate_review_artifacts.py
