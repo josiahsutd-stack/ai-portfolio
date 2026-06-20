@@ -1,39 +1,61 @@
-# AEC RAG Deployment Notes
+# AEC RAG Deployment Guide
 
-The AEC Code Compliance RAG app is designed to run locally without API keys. A hosted demo should use the same mock/local mode by default and should not present outputs as professional compliance advice.
+This guide deploys the flagship AEC Code Compliance RAG Streamlit app in mock/synthetic mode. No paid API keys are required for the app to load.
 
-## Streamlit Community Cloud
+The repository root now includes `app.py`, which delegates to `projects/aec-code-compliance-rag/app.py`. This keeps deployment simple for hosts that expect a root Streamlit entrypoint.
 
-Suggested settings:
+## Option A: Streamlit Community Cloud
 
-- Repository: `josiahsutd-stack/ai-portfolio`
-- Branch: `main`
-- Main file path: `projects/aec-code-compliance-rag/app.py`
-- Python version: 3.11
-- Secrets: none required for mock/local mode
+Expected time: under 15 minutes after signing in.
 
-After deployment, replace the placeholder link in the root `README.md` with the Streamlit app URL.
+1. Go to Streamlit Community Cloud and choose **New app**.
+2. Select repository: `josiahsutd-stack/ai-portfolio`.
+3. Select branch: `main`.
+4. Set main file path to `app.py`.
+5. Keep secrets empty for the default mock/synthetic mode.
+6. Deploy.
+7. Confirm the app loads and the sidebar shows the local corpus controls.
+8. Copy the Streamlit app URL.
+9. Replace the root README line that says `Live demo: fill in...` with the deployed URL.
 
-## Render
+The app uses the repository root `requirements.txt` and `.streamlit/config.toml`.
 
-This repo includes a root `render.yaml` with a web service that runs:
+## Option B: Hugging Face Spaces
+
+Expected time: under 15 minutes after signing in.
+
+1. Create a new Hugging Face Space.
+2. SDK: **Streamlit**.
+3. Visibility: public or private.
+4. Upload or connect this repository.
+5. Ensure the Space uses root `app.py` as the app file.
+6. If creating a separate Space repo, copy `deploy/huggingface-space/README.md` to the Space root as `README.md`.
+7. Ensure `requirements.txt` is present in the Space root.
+8. Start the Space.
+9. Confirm the app loads without secrets.
+10. Copy the Space URL and paste it into the root README live-demo line.
+
+## Option C: Render
+
+The root `render.yaml` defines a web service that runs:
 
 ```bash
-streamlit run projects/aec-code-compliance-rag/app.py --server.address 0.0.0.0 --server.port $PORT
+streamlit run app.py --server.address 0.0.0.0 --server.port $PORT
 ```
 
-Render should install dependencies from `requirements.txt`.
+Render installs from `requirements.txt` and uses Python 3.11.
 
-## Hugging Face Spaces
+## Runtime Behavior
 
-For Spaces, create a Streamlit Space and set the app entrypoint to `projects/aec-code-compliance-rag/app.py`. If the Space requires a root `app.py`, use a tiny wrapper that imports and runs the project app, or copy the project app into the Space-specific branch.
+- Default mode uses the bundled synthetic corpus.
+- If `OPENAI_API_KEY` is absent, the app uses deterministic mock behavior.
+- Public Singapore source PDFs are not committed. To enable the optional public-source corpus on a host, run:
 
-## Public Source Corpus
+```bash
+python projects/aec-code-compliance-rag/scripts/download_public_sources.py
+```
 
-Public Singapore source PDFs are downloaded locally and are not committed. A hosted demo can either:
-
-- stay on the bundled synthetic corpus, or
-- run `python projects/aec-code-compliance-rag/scripts/download_public_sources.py` during setup if the host allows network download and storage.
+Only do that if the host allows network download and persistent storage.
 
 ## Safety Copy
 

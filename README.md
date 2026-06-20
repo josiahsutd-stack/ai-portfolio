@@ -4,7 +4,7 @@ Applied AI engineer focused on source-grounded LLM systems, agent workflows, MLO
 
 This repository is intentionally local-first: projects run with synthetic data or mock providers so reviewers can inspect engineering structure without private datasets, paid APIs, or hidden services.
 
-Live demo placeholder: [AEC RAG live demo](https://example.com/aec-rag-demo-placeholder) - replace this URL after deployment.
+Live demo: fill in the Streamlit or Hugging Face URL after running the [AEC RAG deploy steps](projects/aec-code-compliance-rag/DEPLOYMENT.md).
 
 ## Portfolio Highlights
 
@@ -53,7 +53,7 @@ This is a local-first engineering portfolio. It demonstrates implementation stru
 
 | Project | Why it is tiered here |
 | --- | --- |
-| [AEC Code Compliance RAG](projects/aec-code-compliance-rag/README.md) | Source-grounded AEC RAG with Markdown/PDF ingestion, page-aware chunks, Singapore public-source downloader for BCA/URA/NEA/SCDF/LTA/PUB/NParks, retrieval ablations, citations, no-answer handling, demo outputs, architecture docs, and tests. |
+| [AEC Code Compliance RAG](projects/aec-code-compliance-rag/README.md) | Source-grounded AEC RAG with Markdown/PDF ingestion, page-aware chunks, Singapore public-source downloader for BCA/URA/NEA/SCDF/LTA/PUB/NParks, retrieval ablations, citations, no-answer handling, demo outputs, architecture docs, tests, and a [design writeup](docs/AEC_RAG_DESIGN_WRITEUP.md). |
 
 ### Tier 2 - Supporting Systems
 

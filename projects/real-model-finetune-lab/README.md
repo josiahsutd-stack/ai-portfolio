@@ -1,6 +1,6 @@
 # Real Model Fine-Tune Lab
 
-Small text-classification project that actually fits model weights locally. It trains a TF-IDF + logistic-regression classifier on synthetic portfolio task text, compares it with a dummy baseline, saves a fitted `joblib` model artifact, and writes before/after evaluation metrics.
+Small text-classification project that actually fits model weights locally. It now has two training paths: a fast synthetic portfolio-task classifier and a larger locally bundled UCI SMS Spam subset classifier with train/validation/test splits, baseline comparison, saved fitted models, and generated metrics.
 
 This project exists alongside the original Fine-Tuning LoRA Lab. The LoRA lab documents adaptation workflow discipline; this lab provides one concrete example where model parameters are really learned and evaluated.
 
@@ -23,11 +23,21 @@ python projects/real-model-finetune-lab/evaluate_model.py
 ## Features
 
 - Synthetic but labeled text-classification dataset with fixed train/eval splits.
+- Larger public-dataset path using a compact UCI SMS Spam Collection subset with train/validation/test splits.
 - Real scikit-learn training using `TfidfVectorizer` and `LogisticRegression`.
 - Dummy-classifier baseline for before/after comparison.
-- Saved fitted model artifact: `demo_outputs/text_classifier.joblib`.
-- Metrics JSON, sample prediction JSON, and model card.
-- Tests that confirm the trained model improves over baseline and exposes learned coefficients.
+- Saved fitted model artifacts: `demo_outputs/text_classifier.joblib` and `demo_outputs/public_sms_classifier.joblib`.
+- Metrics JSON, public confusion matrix, sample prediction JSON, and model card/report docs.
+- Tests that confirm both trained models improve over baseline and expose learned coefficients.
+
+## Training Paths
+
+| Path | Dataset | Split | Outputs |
+| --- | --- | --- | --- |
+| Synthetic quick path | 27 synthetic portfolio-task examples | fixed train/eval | `metrics.json`, `sample_prediction.json`, `model_card.md`, `text_classifier.joblib` |
+| Public SMS path | 240-row balanced subset of the UCI SMS Spam Collection | 160 train, 40 validation, 40 test | `public_sms_metrics.json`, `public_sms_confusion_matrix.json`, `public_sms_report.md`, `public_sms_classifier.joblib` |
+
+Dataset source notes for the public path are in [sample_data/uci_sms_subset_README.md](sample_data/uci_sms_subset_README.md).
 
 ## Tech Stack
 
@@ -37,7 +47,7 @@ Python, scikit-learn, joblib, pandas, Streamlit, pytest.
 
 ```mermaid
 flowchart LR
-  A["Synthetic labeled text"] --> B["Train/eval split"]
+  A["Synthetic or public labeled text"] --> B["Fixed split"]
   B --> C["Dummy baseline"]
   B --> D["TF-IDF + LogisticRegression"]
   C --> E["Before metrics"]
@@ -48,12 +58,12 @@ flowchart LR
 
 ## Reviewer Signal
 
-Real model fitting, before/after evaluation, saved model artifact handling, lightweight NLP feature extraction, and honest distinction between synthetic data and learned weights.
+Real model fitting, before/after evaluation, public-dataset held-out testing, saved model artifact handling, lightweight NLP feature extraction, and honest distinction between data source quality and learned weights.
 
 ## Engineering Notes
 
-- The model is intentionally CPU-friendly and fast enough for CI.
-- The dataset is synthetic, but the classifier is genuinely fitted and stores learned coefficients.
+- Both models are intentionally CPU-friendly and fast enough for CI.
+- The synthetic path is tiny and deterministic; the public SMS path is larger and more credible while still locally bundled.
 - The baseline is deliberately weak so the evaluation shows whether training adds measurable signal.
 - The project keeps model artifacts local and small enough to inspect.
 
@@ -61,12 +71,14 @@ Real model fitting, before/after evaluation, saved model artifact handling, ligh
 
 - Why a small fitted classifier is more honest than claiming a mock LoRA run updated weights.
 - How fixed splits make the before/after metrics repeatable.
+- Why the public SMS path uses a held-out test set and confusion matrix.
 - Where the learned parameters live in the logistic-regression coefficients.
 - What would be needed to upgrade this into a larger transformer or LoRA experiment.
 
 ## Limitations
 
-- Dataset is synthetic and intentionally small.
+- Synthetic quick-path dataset is intentionally small.
+- Public SMS subset is compact and should not replace full-corpus benchmarking.
 - This is classical ML, not transformer fine-tuning.
 - Metrics demonstrate workflow correctness, not production NLP quality.
 - No hosted model registry or production deployment is claimed.

@@ -12,6 +12,8 @@ Architecture, engineering, and construction teams often need to search across co
 
 This project focuses on a safer applied AI pattern: retrieve evidence first, show citations, expose retrieval metadata, and clearly state when the local demo corpus has no answer.
 
+Design writeup: [Designing A Source-Grounded AEC RAG Assistant](../../docs/AEC_RAG_DESIGN_WRITEUP.md).
+
 ## Why It Matters
 
 The project connects AI engineering with the built environment. It shows how a junior/applied AI engineer can structure a domain RAG system without pretending the demo is a deployed compliance product.

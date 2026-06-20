@@ -6,10 +6,11 @@ from pathlib import Path
 from typing import Any
 
 import joblib
+import pandas as pd
 from sklearn.dummy import DummyClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, f1_score
+from sklearn.metrics import accuracy_score, confusion_matrix, f1_score
 from sklearn.pipeline import Pipeline
 
 from .dataset import TextExample, load_examples
@@ -27,6 +28,26 @@ class TrainingResult:
     improvement_accuracy: float
     improvement_macro_f1: float
     learned_weight_shape: tuple[int, int]
+    model_path: str
+
+
+@dataclass(frozen=True)
+class PublicDatasetTrainingResult:
+    dataset_name: str
+    train_rows: int
+    validation_rows: int
+    test_rows: int
+    labels: list[str]
+    baseline_test_accuracy: float
+    baseline_test_macro_f1: float
+    validation_accuracy: float
+    validation_macro_f1: float
+    test_accuracy: float
+    test_macro_f1: float
+    improvement_test_accuracy: float
+    improvement_test_macro_f1: float
+    learned_weight_shape: tuple[int, int]
+    confusion_matrix: list[list[int]]
     model_path: str
 
 
@@ -96,6 +117,81 @@ def train_text_classifier(
     return model, result
 
 
+def train_on_public_dataset(
+    dataset_path: str | Path,
+    output_dir: str | Path | None = None,
+) -> tuple[Pipeline, PublicDatasetTrainingResult]:
+    rows = pd.read_csv(dataset_path, sep="\t")
+    required_columns = {"split", "label", "text"}
+    missing = required_columns - set(rows.columns)
+    if missing:
+        raise ValueError(f"public dataset missing columns: {sorted(missing)}")
+
+    train_rows = rows[rows["split"] == "train"]
+    validation_rows = rows[rows["split"] == "validation"]
+    test_rows = rows[rows["split"] == "test"]
+    if train_rows.empty or validation_rows.empty or test_rows.empty:
+        raise ValueError("public dataset must include train, validation, and test rows")
+
+    x_train = train_rows["text"].astype(str).tolist()
+    y_train = train_rows["label"].astype(str).tolist()
+    x_validation = validation_rows["text"].astype(str).tolist()
+    y_validation = validation_rows["label"].astype(str).tolist()
+    x_test = test_rows["text"].astype(str).tolist()
+    y_test = test_rows["label"].astype(str).tolist()
+    labels = sorted(set(y_train) | set(y_validation) | set(y_test))
+
+    baseline = DummyClassifier(strategy="most_frequent")
+    baseline.fit(x_train, y_train)
+    baseline_test_pred = baseline.predict(x_test)
+
+    model = Pipeline(
+        [
+            ("tfidf", TfidfVectorizer(ngram_range=(1, 2), min_df=2, max_features=2000)),
+            ("classifier", LogisticRegression(max_iter=1000, random_state=13)),
+        ]
+    )
+    model.fit(x_train, y_train)
+    validation_pred = model.predict(x_validation)
+    test_pred = model.predict(x_test)
+
+    target_dir = Path(output_dir) if output_dir else Path("demo_outputs")
+    target_dir.mkdir(parents=True, exist_ok=True)
+    model_path = target_dir / "public_sms_classifier.joblib"
+    joblib.dump(model, model_path)
+    try:
+        artifact_model_path = model_path.relative_to(Path.cwd()).as_posix()
+    except ValueError:
+        artifact_model_path = model_path.name
+
+    baseline_test_accuracy = float(accuracy_score(y_test, baseline_test_pred))
+    baseline_test_macro_f1 = float(f1_score(y_test, baseline_test_pred, average="macro"))
+    validation_accuracy = float(accuracy_score(y_validation, validation_pred))
+    validation_macro_f1 = float(f1_score(y_validation, validation_pred, average="macro"))
+    test_accuracy = float(accuracy_score(y_test, test_pred))
+    test_macro_f1 = float(f1_score(y_test, test_pred, average="macro"))
+    classifier = model.named_steps["classifier"]
+    result = PublicDatasetTrainingResult(
+        dataset_name="UCI SMS Spam Collection compact subset",
+        train_rows=len(train_rows),
+        validation_rows=len(validation_rows),
+        test_rows=len(test_rows),
+        labels=labels,
+        baseline_test_accuracy=round(baseline_test_accuracy, 3),
+        baseline_test_macro_f1=round(baseline_test_macro_f1, 3),
+        validation_accuracy=round(validation_accuracy, 3),
+        validation_macro_f1=round(validation_macro_f1, 3),
+        test_accuracy=round(test_accuracy, 3),
+        test_macro_f1=round(test_macro_f1, 3),
+        improvement_test_accuracy=round(test_accuracy - baseline_test_accuracy, 3),
+        improvement_test_macro_f1=round(test_macro_f1 - baseline_test_macro_f1, 3),
+        learned_weight_shape=tuple(int(value) for value in classifier.coef_.shape),
+        confusion_matrix=confusion_matrix(y_test, test_pred, labels=labels).tolist(),
+        model_path=artifact_model_path,
+    )
+    return model, result
+
+
 def predict_label(model: Pipeline, text: str) -> dict[str, Any]:
     label = str(model.predict([text])[0])
     probabilities = model.predict_proba([text])[0]
@@ -129,6 +225,25 @@ def write_training_artifacts(
     return result
 
 
+def write_public_dataset_artifacts(
+    dataset_path: str | Path,
+    output_dir: str | Path,
+) -> PublicDatasetTrainingResult:
+    _model, result = train_on_public_dataset(dataset_path, output_dir)
+    target = Path(output_dir)
+    (target / "public_sms_metrics.json").write_text(
+        json.dumps(asdict(result), indent=2) + "\n",
+        encoding="utf-8",
+    )
+    confusion_payload = {"labels": result.labels, "matrix": result.confusion_matrix}
+    (target / "public_sms_confusion_matrix.json").write_text(
+        json.dumps(confusion_payload, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    (target / "public_sms_report.md").write_text(_public_dataset_report(result), encoding="utf-8")
+    return result
+
+
 def _model_card(result: TrainingResult) -> str:
     return (
         "\n".join(
@@ -151,6 +266,46 @@ def _model_card(result: TrainingResult) -> str:
                 "## Scope",
                 "",
                 "This is real fitted model work, but the dataset is synthetic and small. It should be read as evidence of an end-to-end training/evaluation workflow, not production NLP quality.",
+            ]
+        )
+        + "\n"
+    )
+
+
+def _public_dataset_report(result: PublicDatasetTrainingResult) -> str:
+    return (
+        "\n".join(
+            [
+                "# Public Dataset Training Report",
+                "",
+                f"Dataset: {result.dataset_name}",
+                "",
+                "## Split",
+                "",
+                f"- Train rows: {result.train_rows}",
+                f"- Validation rows: {result.validation_rows}",
+                f"- Test rows: {result.test_rows}",
+                f"- Labels: {', '.join(result.labels)}",
+                "",
+                "## Metrics",
+                "",
+                f"- Baseline test accuracy: {result.baseline_test_accuracy}",
+                f"- Trained validation accuracy: {result.validation_accuracy}",
+                f"- Trained test accuracy: {result.test_accuracy}",
+                f"- Baseline test macro-F1: {result.baseline_test_macro_f1}",
+                f"- Trained validation macro-F1: {result.validation_macro_f1}",
+                f"- Trained test macro-F1: {result.test_macro_f1}",
+                f"- Learned coefficient shape: {result.learned_weight_shape}",
+                "",
+                "## Confusion Matrix",
+                "",
+                f"Labels: {', '.join(result.labels)}",
+                "",
+                "```json",
+                json.dumps(result.confusion_matrix),
+                "```",
+                "",
+                "The public-dataset path uses a locally bundled UCI SMS Spam subset. It is a stronger signal than the tiny synthetic demo, while still staying small enough for offline CI.",
             ]
         )
         + "\n"

@@ -1,0 +1,33 @@
+{
+  "dataset_name": "UCI SMS Spam Collection compact subset",
+  "train_rows": 160,
+  "validation_rows": 40,
+  "test_rows": 40,
+  "labels": [
+    "ham",
+    "spam"
+  ],
+  "baseline_test_accuracy": 0.5,
+  "baseline_test_macro_f1": 0.333,
+  "validation_accuracy": 0.825,
+  "validation_macro_f1": 0.825,
+  "test_accuracy": 0.975,
+  "test_macro_f1": 0.975,
+  "improvement_test_accuracy": 0.475,
+  "improvement_test_macro_f1": 0.642,
+  "learned_weight_shape": [
+    1,
+    691
+  ],
+  "confusion_matrix": [
+    [
+      19,
+      1
+    ],
+    [
+      0,
+      20
+    ]
+  ],
+  "model_path": "projects/real-model-finetune-lab/demo_outputs/public_sms_classifier.joblib"
+}
