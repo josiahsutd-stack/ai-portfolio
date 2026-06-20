@@ -11,6 +11,7 @@ htmlcov/
 tmp/
 local-internal/
 CODEX_IMPROVEMENT_PROMPT*.md
+CODEX_PUSH_PROMPT.md
 projects/aec-code-compliance-rag/public_sources/downloaded/
 projects/aec-code-compliance-rag/public_sources/download_report.json
 *.sqlite
