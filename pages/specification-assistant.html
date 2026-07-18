@@ -68,7 +68,7 @@
         <div class="container case-summary__grid">
           <article><span>Problem</span><p>Project decisions are easily separated from their source message, current status, conflict history, and approval authority.</p></article>
           <article><span>System</span><p>Immutable message IDs, deterministic extraction, requirement lifecycle, conflict detection, role gates, SQLite audit events, and cited draft clauses.</p></article>
-          <article><span>Evidence</span><p>Five synthetic conversations with 35 messages, plus 33 candidate-authored language stress cases that retain two known misses.</p></article>
+          <article><span>Evidence</span><p>Five synthetic conversations with 35 messages, plus 33 manually labeled language stress cases that retain two known misses.</p></article>
           <article><span>Boundary</span><p>Documented phrase coverage only. No open-domain chat, authenticated identity, professional specification, or stakeholder acceptance evidence.</p></article>
         </div>
       </section>
@@ -93,7 +93,7 @@
             <p class="section-copy">Perfect workflow-fixture results show deterministic regression consistency. The separate language set is the more useful boundary check because it includes paraphrases, negative controls, and retained failures.</p>
           </div>
           <div class="metric-grid">
-            <article><span>Requirement F1</span><strong>0.958</strong><small>Across 33 candidate-authored stress cases</small></article>
+            <article><span>Requirement F1</span><strong>0.958</strong><small>Across 33 manually labeled stress cases</small></article>
             <article><span>Requirement recall</span><strong>0.920</strong><small>Two number-word requirements remain missed</small></article>
             <article><span>Exact-case accuracy</span><strong>0.939</strong><small>Direct, paraphrase, and negative-control cases</small></article>
             <article><span>Negative-control accuracy</span><strong>1.000</strong><small>Questions, history, rejection, and ignored references</small></article>
@@ -101,7 +101,7 @@
           <div class="case-visual-grid case-visual-grid--wide">
             <figure>
               <img src="../assets/specification-language-stress.svg" alt="Exact-case accuracy comparison for direct language, paraphrases, and negative controls with two retained misses" width="860" height="500" loading="lazy" decoding="async" />
-              <figcaption>Candidate-authored coverage comparison. The paraphrase group retains failures rather than hiding them behind the aggregate score.</figcaption>
+              <figcaption>Manually labeled coverage comparison. The paraphrase group retains failures rather than hiding them behind the aggregate score.</figcaption>
             </figure>
             <figure>
               <img src="../assets/specification-copilot-demo.png" alt="Local project communication interface with role-tagged messages, requirement ledger, conflicts, approvals, and source-linked draft clauses" width="1440" height="1000" loading="lazy" decoding="async" />
