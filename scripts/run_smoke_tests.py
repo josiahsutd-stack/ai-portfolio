@@ -27,7 +27,6 @@ MODULES = [
     "mlops_model_serving_monitoring",
     "recommender_system_ranking_engine",
     "time_series_anomaly_forecasting",
-    "fine_tuning_lora_lab",
     "real_model_finetune_lab",
 ]
 
@@ -45,7 +44,7 @@ def check_structure() -> list[str]:
     issues: list[str] = []
     for root in (PROJECTS_DIR, EXPERIMENTS_DIR):
         for project in sorted(root.iterdir()):
-            if not project.is_dir():
+            if not project.is_dir() or not any(child.is_file() for child in project.rglob("*")):
                 continue
             if not (project / "README.md").exists():
                 issues.append(f"{project.name}: missing README.md")

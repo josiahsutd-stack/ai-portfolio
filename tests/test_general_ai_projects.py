@@ -8,12 +8,6 @@ from deep_learning_vision_lab import (
     evaluate_predictions,
     generate_defect_dataset,
 )
-from fine_tuning_lora_lab import (
-    generate_instruction_dataset,
-    simulate_lora_run,
-    split_dataset,
-    validate_dataset,
-)
 from llm_evals_guardrails_platform import (
     detect_prompt_injection,
     evaluate_case,
@@ -305,36 +299,6 @@ def test_time_series_anomaly_detection() -> None:
 
     assert len(forecast) == len(data)
     assert int(detected["predicted_anomaly"].sum()) > 0
-
-
-def test_lora_dataset_validation_and_simulated_run() -> None:
-    rows = generate_instruction_dataset()
-    validation = validate_dataset(rows)
-    report = simulate_lora_run(rows)
-
-    assert validation["valid"]
-    assert report["mode"] == "simulated_run_no_model_loaded"
-    assert report["metric_status"] == "not_computed_no_training"
-
-
-def test_fine_tuning_dataset_validation_rejects_invalid_rows() -> None:
-    validation = validate_dataset([{"instruction": "Classify", "input": "missing output"}])
-
-    assert not validation["valid"]
-    assert validation["invalid_rows"] == [0]
-
-
-def test_fine_tuning_dataset_validation_rejects_duplicates() -> None:
-    row = {"instruction": "Classify", "input": "same", "output": "billing"}
-    validation = validate_dataset([row, row.copy()])
-
-    assert not validation["valid"]
-    assert validation["duplicate_rows"] == [1]
-
-
-def test_fine_tuning_split_rejects_invalid_ratio() -> None:
-    with pytest.raises(ValueError):
-        split_dataset(generate_instruction_dataset(), train_ratio=1.0)
 
 
 def test_vlm_rejects_unsupported_image_type() -> None:

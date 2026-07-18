@@ -702,16 +702,6 @@ def generate_general_ai_sample_data() -> None:
         ROOT / "experiments/time-series-anomaly-forecasting/sample_data/series_config.json",
         {"series": "api_traffic", "periods": 96, "anomaly_points": [28, 64, 81]},
     )
-    write_json(
-        ROOT / "experiments/fine-tuning-lora-lab/sample_data/lora_config.json",
-        {
-            "base_model": "small-local-or-remote-model-placeholder",
-            "task": "support_ticket_classification",
-            "rank": 8,
-            "alpha": 16,
-            "requires_gpu_for_real_training": True,
-        },
-    )
     sys.path.insert(0, str(ROOT / "experiments/real-model-finetune-lab/src"))
     from real_model_finetune_lab import write_default_examples
 

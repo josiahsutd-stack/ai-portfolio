@@ -2,11 +2,11 @@
 
 Small text-classification project that fits scikit-learn model parameters locally. It has two training paths: a fast synthetic portfolio-task classifier and a locally bundled UCI SMS Spam subset classifier with train/validation/test splits, baseline comparison, saved fitted models, and generated metrics.
 
-This is conventional TF-IDF plus logistic-regression training, not fine-tuning of a pretrained language model. The separate LoRA validator documents data and configuration checks but performs no training.
+This is conventional TF-IDF plus logistic-regression training, not fine-tuning of a pretrained language model.
 
 ## Problem
 
-Some projects in this repository use mock provider boundaries or simulated fine-tuning workflows. This lab provides a small, runnable example where training changes model parameters and produces measurable before-and-after metrics.
+Some projects in this repository use mock provider boundaries. This lab provides a small, runnable example where training changes model parameters and produces measurable before-and-after metrics.
 
 ## Demo
 

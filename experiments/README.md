@@ -17,6 +17,5 @@ These studies isolate one baseline, rule system, or provider contract at a time.
 | [Prompt And Output Validation Checks](llm-evals-guardrails-platform/README.md) | Prompt-pattern, JSON-schema, citation-coverage, and regression-case checks. | Not a comprehensive safety, security, or guardrail platform. |
 | [Content-Based Ranking Baseline](recommender-system-ranking-engine/README.md) | Popularity and TF-IDF content-similarity ranking with small offline metrics. | No collaborative model, online feedback, or production ranking evaluation. |
 | [Time-Series Forecast And Anomaly Baselines](time-series-anomaly-forecasting/README.md) | Moving-average forecast and deterministic anomaly threshold over synthetic traffic. | No learned forecasting model, uncertainty intervals, or operational alerting. |
-| [LoRA Dataset And Configuration Validator](fine-tuning-lora-lab/README.md) | Instruction-row validation, duplicate and split checks, LoRA configuration, and simulated run report. | No pretrained model, tokenizer, adapter training, GPU run, or updated parameters. |
 
 All commands run from the repository root. `python scripts/verify.py` exercises both selected projects and experiments.

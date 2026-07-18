@@ -169,7 +169,7 @@ Narrow generic AI and AEC baselines are kept under [`experiments/`](experiments/
 ```text
 projects/                 five selected AEC and embodied-AI projects
 integrations/             tested contracts between selected project interfaces
-experiments/              fourteen narrower baselines and workflow studies
+experiments/              thirteen narrower baselines and workflow studies
 tests/                    focused and cross-project regression tests
 scripts/                  setup, verification, claim, site, and artifact checks
 docs/                     reviewer guides, design notes, provenance, and boundaries

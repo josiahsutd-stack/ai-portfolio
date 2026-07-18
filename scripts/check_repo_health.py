@@ -114,12 +114,19 @@ INFLATED_PROJECT_NAME_PHRASES = {
     "platform",
     "vlm",
 }
+REMOVED_WEAK_EXPERIMENT_SLUGS = {"fine-tuning-lora-lab"}
+
+
+def contains_files(path: Path) -> bool:
+    return any(child.is_file() for child in path.rglob("*"))
 
 
 def project_dirs() -> list[Path]:
     directories: list[Path] = []
     for root in (PROJECTS_DIR, EXPERIMENTS_DIR):
-        directories.extend(path for path in root.iterdir() if path.is_dir())
+        directories.extend(
+            path for path in root.iterdir() if path.is_dir() and contains_files(path)
+        )
     return sorted(directories, key=lambda path: path.name)
 
 
@@ -213,6 +220,12 @@ def check_project_manifest() -> list[str]:
     directory_slugs = {path.name for path in project_dirs()}
     if len(slugs) != len(set(slugs)):
         issues.append("projects/projects.yml: duplicate project slug")
+    restored_weak_experiments = sorted(set(slugs) & REMOVED_WEAK_EXPERIMENT_SLUGS)
+    if restored_weak_experiments:
+        issues.append(
+            "projects/projects.yml: removed no-evidence experiments must stay absent: "
+            + ", ".join(restored_weak_experiments)
+        )
     if set(slugs) != directory_slugs:
         missing_rows = sorted(directory_slugs - set(slugs))
         unknown_rows = sorted(set(slugs) - directory_slugs)
@@ -280,8 +293,9 @@ def main() -> None:
         for issue in issues:
             print(f"- {issue}")
         sys.exit(1)
-    selected_count = sum(1 for path in PROJECTS_DIR.iterdir() if path.is_dir())
-    experiment_count = sum(1 for path in EXPERIMENTS_DIR.iterdir() if path.is_dir())
+    directories = project_dirs()
+    selected_count = sum(path.parent == PROJECTS_DIR for path in directories)
+    experiment_count = sum(path.parent == EXPERIMENTS_DIR for path in directories)
     print(
         "Repo health check passed for "
         f"{selected_count} selected projects and {experiment_count} experiments."

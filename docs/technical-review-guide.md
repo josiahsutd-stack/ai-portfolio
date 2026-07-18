@@ -1,6 +1,6 @@
 # Technical Review Guide
 
-The selected set contains one flagship, two role-defining primary projects, and two supporting AEC workflow systems. Fourteen narrower baselines remain under `experiments/`.
+The selected set contains one flagship, two role-defining primary projects, and two supporting AEC workflow systems. Thirteen narrower baselines remain under `experiments/`.
 
 ## 1. AEC Code Compliance RAG - Flagship
 

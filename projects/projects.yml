@@ -254,21 +254,6 @@ projects:
     implementation_mode: "Moving-average forecast and deterministic anomaly threshold"
     boundary: "No learned forecasting model, probabilistic intervals, or operational alerting"
     readme_path: experiments/time-series-anomaly-forecasting/README.md
-  - name: LoRA Dataset and Configuration Validator
-    slug: fine-tuning-lora-lab
-    category: General AI Engineering
-    skill_area: Adaptation data and configuration validation
-    flagship: false
-    demo_command: streamlit run experiments/fine-tuning-lora-lab/app.py
-    test_command: pytest tests/test_general_ai_projects.py
-    tech_stack: [Python, Streamlit]
-    summary: Validates instruction rows, duplicates, splits, and LoRA configuration before producing a simulated run report.
-    skills: [LoRA configuration, dataset validation, split checks, evaluation planning]
-    status: experiment
-    data_mode: "Synthetic support-ticket instructions"
-    implementation_mode: "Dataset and configuration validation with a simulated no-training report"
-    boundary: "No tokenizer, pretrained model, PEFT adapter, GPU training, or updated parameters"
-    readme_path: experiments/fine-tuning-lora-lab/README.md
   - name: Local Text Classification Lab
     slug: real-model-finetune-lab
     category: General AI Engineering

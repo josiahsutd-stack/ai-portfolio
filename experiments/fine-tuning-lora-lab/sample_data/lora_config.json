@@ -1,7 +1,0 @@
-{
-  "base_model": "small-local-or-remote-model-placeholder",
-  "task": "support_ticket_classification",
-  "rank": 8,
-  "alpha": 16,
-  "requires_gpu_for_real_training": true
-}

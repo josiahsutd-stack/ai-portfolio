@@ -19,7 +19,6 @@ pythonpath = [
   "experiments/mlops-model-serving-monitoring/src",
   "experiments/recommender-system-ranking-engine/src",
   "experiments/time-series-anomaly-forecasting/src",
-  "experiments/fine-tuning-lora-lab/src",
   "experiments/real-model-finetune-lab/src"
 ]
 
