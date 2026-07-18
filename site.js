@@ -38,9 +38,7 @@
 
   function writeCommand(text) {
     if (navigator.clipboard && window.isSecureContext) {
-      return navigator.clipboard.writeText(text).catch(function () {
-        return fallbackCopy(text);
-      });
+      return navigator.clipboard.writeText(text);
     }
     return fallbackCopy(text);
   }
