@@ -112,12 +112,23 @@
       <section class="band band--ink" id="workflow">
         <div class="container">
           <div class="section-heading">
-            <p class="eyebrow">AEC Design-To-Delivery Workflow</p>
-            <h2>Requirements, constrained options, and commercial review</h2>
+            <p class="eyebrow">Executed AEC Integration</p>
+            <h2>Approved requirements to a bounded schematic cost input</h2>
             <p class="section-copy">
-              Three bounded local systems connect design-team communication to spatial options and
-              quantity evidence. All bundled conversations, sites, rates, and tenders are synthetic.
+              A deterministic local runner connects the specification, massing, and QS interfaces.
+              Every conversation, site value, generated option, and rate in this trace is synthetic.
             </p>
+          </div>
+          <figure class="workflow-proof">
+            <img src="assets/aec-workflow-trace.svg" alt="Executed five-stage trace from approved synthetic requirements to a bounded schematic quantity takeoff" />
+            <figcaption>
+              5 approved / 3 mapped / 2 retained; 16/16 sourced fields; 96 candidates / 92 feasible / 42 storey-matched; 7/7 priced takeoff lines / tender not_run.
+            </figcaption>
+          </figure>
+          <div class="workflow-callout">
+            <p>Budget and accessibility remain outside automation. The QS handoff covers one schematic ground-floor envelope, not a developed plan or whole-building estimate.</p>
+            <code>python integrations/aec-design-to-cost/run_workflow.py</code>
+            <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/integrations/aec-design-to-cost">Inspect contract, tests, and trace</a>
           </div>
           <div class="support-grid support-grid--three">
             <article class="project-card project-card--visual">
