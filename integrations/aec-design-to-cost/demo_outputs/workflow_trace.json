@@ -1,0 +1,572 @@
+{
+  "artifact_schema_version": 1,
+  "workflow_case_id": "clinic-design-to-cost-01",
+  "data_status": "synthetic",
+  "status": "completed_with_human_review_gates",
+  "specification_handoff": {
+    "message_count": 8,
+    "approved_requirement_count": 5,
+    "mapped_approved_requirement_keys": [
+      "gross_floor_area_m2",
+      "site_area_m2",
+      "storey_count"
+    ],
+    "mapped_approved_requirement_count": 3,
+    "retained_approved_requirement_keys": [
+      "budget_cap_sgd",
+      "step_free_access"
+    ],
+    "retained_approved_requirement_count": 2,
+    "approved_requirements": [
+      {
+        "requirement_id": "REQ-004",
+        "key": "budget_cap_sgd",
+        "value": 5500000,
+        "unit": "SGD",
+        "source_message_ids": [
+          "MSG-005",
+          "MSG-006"
+        ],
+        "approved_by_role": "client",
+        "approval_message_id": "MSG-006"
+      },
+      {
+        "requirement_id": "REQ-002",
+        "key": "gross_floor_area_m2",
+        "value": 4200.0,
+        "unit": "m2",
+        "source_message_ids": [
+          "MSG-003",
+          "MSG-004"
+        ],
+        "approved_by_role": "architect",
+        "approval_message_id": "MSG-004"
+      },
+      {
+        "requirement_id": "REQ-001",
+        "key": "site_area_m2",
+        "value": 3600.0,
+        "unit": "m2",
+        "source_message_ids": [
+          "MSG-001",
+          "MSG-002"
+        ],
+        "approved_by_role": "client",
+        "approval_message_id": "MSG-002"
+      },
+      {
+        "requirement_id": "REQ-005",
+        "key": "step_free_access",
+        "value": true,
+        "unit": null,
+        "source_message_ids": [
+          "MSG-007",
+          "MSG-008"
+        ],
+        "approved_by_role": "architect",
+        "approval_message_id": "MSG-008"
+      },
+      {
+        "requirement_id": "REQ-003",
+        "key": "storey_count",
+        "value": 4,
+        "unit": "storeys",
+        "source_message_ids": [
+          "MSG-003",
+          "MSG-004"
+        ],
+        "approved_by_role": "architect",
+        "approval_message_id": "MSG-004"
+      }
+    ],
+    "open_required_conflict_count": 0
+  },
+  "scenario_handoff": {
+    "field_count": 16,
+    "sourced_field_count": 16,
+    "source_coverage": 1.0,
+    "field_sources": {
+      "site_width_m": {
+        "source_type": "synthetic_site_input",
+        "source_id": "SITE-FIXTURE-001"
+      },
+      "site_depth_m": {
+        "source_type": "synthetic_site_input",
+        "source_id": "SITE-FIXTURE-001"
+      },
+      "setbacks_m": {
+        "source_type": "synthetic_site_input",
+        "source_id": "SITE-FIXTURE-001"
+      },
+      "max_height_m": {
+        "source_type": "synthetic_site_input",
+        "source_id": "SITE-FIXTURE-001"
+      },
+      "floor_to_floor_m": {
+        "source_type": "synthetic_site_input",
+        "source_id": "SITE-FIXTURE-001"
+      },
+      "max_site_coverage": {
+        "source_type": "synthetic_site_input",
+        "source_id": "SITE-FIXTURE-001"
+      },
+      "max_gfa_m2": {
+        "source_type": "synthetic_site_input",
+        "source_id": "SITE-FIXTURE-001"
+      },
+      "prevailing_wind_from": {
+        "source_type": "synthetic_site_input",
+        "source_id": "SITE-FIXTURE-001"
+      },
+      "north_rotation_deg": {
+        "source_type": "synthetic_site_input",
+        "source_id": "SITE-FIXTURE-001"
+      },
+      "ingress": {
+        "source_type": "synthetic_site_input",
+        "source_id": "SITE-FIXTURE-001"
+      },
+      "egress": {
+        "source_type": "synthetic_site_input",
+        "source_id": "SITE-FIXTURE-001"
+      },
+      "grid_resolution_m": {
+        "source_type": "synthetic_site_input",
+        "source_id": "SITE-FIXTURE-001"
+      },
+      "objective_weights": {
+        "source_type": "synthetic_site_input",
+        "source_id": "SITE-FIXTURE-001"
+      },
+      "target_gfa_m2": {
+        "source_type": "approved_requirement",
+        "source_id": "REQ-002",
+        "source_message_ids": [
+          "MSG-003",
+          "MSG-004"
+        ]
+      },
+      "requested_storey_count": {
+        "source_type": "approved_requirement",
+        "source_id": "REQ-003",
+        "source_message_ids": [
+          "MSG-003",
+          "MSG-004"
+        ]
+      },
+      "site_area_validation_m2": {
+        "source_type": "approved_requirement_and_site_dimensions",
+        "source_id": "REQ-001",
+        "source_message_ids": [
+          "MSG-001",
+          "MSG-002"
+        ]
+      }
+    },
+    "scenario": {
+      "scenario_id": "clinic-design-to-cost-01",
+      "name": "Synthetic Community Clinic",
+      "data_status": "synthetic",
+      "source_note": "Illustrative site and constraint values authored for this integration fixture; not survey or statutory data.",
+      "site_width_m": 60.0,
+      "site_depth_m": 60.0,
+      "max_height_m": 20.0,
+      "floor_to_floor_m": 4.0,
+      "max_site_coverage": 0.55,
+      "target_gfa_m2": 4200.0,
+      "max_gfa_m2": 4620.0,
+      "prevailing_wind_from": "south",
+      "north_rotation_deg": 0.0,
+      "ingress": {
+        "x": 10.0,
+        "y": 0.0
+      },
+      "egress": {
+        "x": 50.0,
+        "y": 0.0
+      },
+      "grid_resolution_m": 1.0,
+      "setbacks_m": {
+        "north": 6.0,
+        "east": 5.0,
+        "south": 8.0,
+        "west": 5.0
+      },
+      "objective_weights": {
+        "gfa_fit": 0.34,
+        "solar": 0.16,
+        "daylight": 0.18,
+        "wind": 0.14,
+        "access": 0.18
+      }
+    },
+    "requested_storey_count": 4
+  },
+  "massing_search": {
+    "candidate_count": 96,
+    "seed": 17,
+    "feasible_candidate_count": 92,
+    "approved_storey_eligible_count": 42,
+    "selection_rule": "Highest-ranked feasible Pareto candidate whose maximum mass height matches the approved storey count.",
+    "selected_candidate": {
+      "candidate": {
+        "candidate_id": "co-017-070",
+        "typology": "courtyard",
+        "generator": "constraint_aware",
+        "masses": [
+          {
+            "label": "South",
+            "footprint": {
+              "x": 5.264824976264023,
+              "y": 11.742230694814989,
+              "width": 38.821028450323986,
+              "depth": 8.54143445148038
+            },
+            "floors": 4
+          },
+          {
+            "label": "North",
+            "footprint": {
+              "x": 5.264824976264023,
+              "y": 42.28836553351235,
+              "width": 38.821028450323986,
+              "depth": 8.54143445148038
+            },
+            "floors": 4
+          },
+          {
+            "label": "West",
+            "footprint": {
+              "x": 5.264824976264023,
+              "y": 20.28366514629537,
+              "width": 8.54143445148038,
+              "depth": 22.004700387216985
+            },
+            "floors": 4
+          },
+          {
+            "label": "East",
+            "footprint": {
+              "x": 35.54441897510763,
+              "y": 20.28366514629537,
+              "width": 8.54143445148038,
+              "depth": 22.004700387216985
+            },
+            "floors": 4
+          }
+        ]
+      },
+      "feasible": true,
+      "violations": [],
+      "metrics": {
+        "gfa_m2": 4156.312,
+        "gfa_error_fraction": 0.010402,
+        "coverage": 0.288633,
+        "height_m": 16.0,
+        "ingress_path_m": 11.0,
+        "egress_path_m": 18.0,
+        "gfa_fit": 0.989598,
+        "solar": 0.495099,
+        "daylight": 1.0,
+        "wind": 0.304102,
+        "access": 0.879167
+      },
+      "utility_score": 0.796504,
+      "pareto_optimal": true
+    }
+  },
+  "schematic_qs_handoff": {
+    "scope": "One schematic ground-floor envelope only",
+    "derivation_source_candidate_id": "co-017-070",
+    "plan": {
+      "plan_id": "schematic-co-017-070",
+      "name": "Schematic ground-floor envelope from co-017-070",
+      "data_status": "synthetic",
+      "source_note": "Derived directly from selected massing candidate co-017-070; mass footprints are treated as room-like rectangles only to exercise the takeoff contract.",
+      "drawing_unit": "m",
+      "scale_m_per_unit": 1.0,
+      "storey_height_m": 4.0,
+      "slab_thickness_m": 0.15,
+      "rooms": [
+        {
+          "room_id": "MASS-01",
+          "name": "South ground-floor envelope",
+          "x": 5.264825,
+          "y": 11.742231,
+          "width": 38.821028,
+          "depth": 8.541434
+        },
+        {
+          "room_id": "MASS-02",
+          "name": "North ground-floor envelope",
+          "x": 5.264825,
+          "y": 42.288366,
+          "width": 38.821028,
+          "depth": 8.541434
+        },
+        {
+          "room_id": "MASS-03",
+          "name": "West ground-floor envelope",
+          "x": 5.264825,
+          "y": 20.283665,
+          "width": 8.541434,
+          "depth": 22.0047
+        },
+        {
+          "room_id": "MASS-04",
+          "name": "East ground-floor envelope",
+          "x": 35.544419,
+          "y": 20.283665,
+          "width": 8.541434,
+          "depth": 22.0047
+        }
+      ],
+      "openings": []
+    },
+    "takeoff": {
+      "plan_id": "schematic-co-017-070",
+      "data_status": "synthetic",
+      "status": "measured_from_vector_fixture",
+      "scale_m_per_unit": 1.0,
+      "external_wall_length_m": 277.4686,
+      "partition_length_m": 17.0829,
+      "opening_deductions_m2": {
+        "external": 0.0,
+        "partition": 0.0
+      },
+      "quantities": [
+        {
+          "item_code": "QTO-FLR",
+          "description": "Floor finish",
+          "unit": "m2",
+          "quantity": 1039.0779,
+          "formula": "sum(room width x depth) x scale^2",
+          "source_refs": [
+            "MASS-01",
+            "MASS-02",
+            "MASS-03",
+            "MASS-04"
+          ]
+        },
+        {
+          "item_code": "QTO-CEI",
+          "description": "Ceiling finish",
+          "unit": "m2",
+          "quantity": 1039.0779,
+          "formula": "floor area proxy for one storey",
+          "source_refs": [
+            "MASS-01",
+            "MASS-02",
+            "MASS-03",
+            "MASS-04"
+          ]
+        },
+        {
+          "item_code": "QTO-SLB",
+          "description": "Concrete floor slab",
+          "unit": "m3",
+          "quantity": 155.8617,
+          "formula": "floor area x slab thickness",
+          "source_refs": [
+            "MASS-01",
+            "MASS-02",
+            "MASS-03",
+            "MASS-04"
+          ]
+        },
+        {
+          "item_code": "QTO-EXT",
+          "description": "External walling",
+          "unit": "m2",
+          "quantity": 1109.8746,
+          "formula": "deduplicated external length x storey height - external openings",
+          "source_refs": [
+            "MASS-01",
+            "MASS-02",
+            "MASS-03",
+            "MASS-04"
+          ]
+        },
+        {
+          "item_code": "QTO-INT",
+          "description": "Internal partitions",
+          "unit": "m2",
+          "quantity": 68.3315,
+          "formula": "shared-wall length x storey height - partition openings; one-face equivalent",
+          "source_refs": [
+            "MASS-01",
+            "MASS-02",
+            "MASS-03",
+            "MASS-04"
+          ]
+        },
+        {
+          "item_code": "QTO-DOR",
+          "description": "Door sets",
+          "unit": "ea",
+          "quantity": 0.0,
+          "formula": "count(door openings)",
+          "source_refs": []
+        },
+        {
+          "item_code": "QTO-WIN",
+          "description": "Window units by glazed area",
+          "unit": "m2",
+          "quantity": 0.0,
+          "formula": "sum(window width x height)",
+          "source_refs": []
+        }
+      ]
+    },
+    "estimate": {
+      "plan_id": "schematic-co-017-070",
+      "status": "priced",
+      "currency": "SGD",
+      "rate_library_version": "synthetic-sgd-2026-07-v1",
+      "base_total": 324638.63,
+      "low_total": 284760.96,
+      "high_total": 364516.28,
+      "priced_lines": [
+        {
+          "item_code": "QTO-FLR",
+          "description": "Floor finish",
+          "unit": "m2",
+          "quantity": 1039.0779,
+          "unit_rate": 68.0,
+          "amount": 70657.3,
+          "low_amount": 65004.71,
+          "high_amount": 76309.88,
+          "rate_provenance": "Synthetic illustrative rate S-RATE-001",
+          "quantity_source_refs": [
+            "MASS-01",
+            "MASS-02",
+            "MASS-03",
+            "MASS-04"
+          ]
+        },
+        {
+          "item_code": "QTO-CEI",
+          "description": "Ceiling finish",
+          "unit": "m2",
+          "quantity": 1039.0779,
+          "unit_rate": 52.0,
+          "amount": 54032.05,
+          "low_amount": 48628.85,
+          "high_amount": 59435.26,
+          "rate_provenance": "Synthetic illustrative rate S-RATE-002",
+          "quantity_source_refs": [
+            "MASS-01",
+            "MASS-02",
+            "MASS-03",
+            "MASS-04"
+          ]
+        },
+        {
+          "item_code": "QTO-SLB",
+          "description": "Concrete floor slab",
+          "unit": "m3",
+          "quantity": 155.8617,
+          "unit_rate": 210.0,
+          "amount": 32730.96,
+          "low_amount": 28803.24,
+          "high_amount": 36658.67,
+          "rate_provenance": "Synthetic illustrative rate S-RATE-003",
+          "quantity_source_refs": [
+            "MASS-01",
+            "MASS-02",
+            "MASS-03",
+            "MASS-04"
+          ]
+        },
+        {
+          "item_code": "QTO-EXT",
+          "description": "External walling",
+          "unit": "m2",
+          "quantity": 1109.8746,
+          "unit_rate": 145.0,
+          "amount": 160931.82,
+          "low_amount": 136792.04,
+          "high_amount": 185071.59,
+          "rate_provenance": "Synthetic illustrative rate S-RATE-004",
+          "quantity_source_refs": [
+            "MASS-01",
+            "MASS-02",
+            "MASS-03",
+            "MASS-04"
+          ]
+        },
+        {
+          "item_code": "QTO-INT",
+          "description": "Internal partitions",
+          "unit": "m2",
+          "quantity": 68.3315,
+          "unit_rate": 92.0,
+          "amount": 6286.5,
+          "low_amount": 5532.12,
+          "high_amount": 7040.88,
+          "rate_provenance": "Synthetic illustrative rate S-RATE-005",
+          "quantity_source_refs": [
+            "MASS-01",
+            "MASS-02",
+            "MASS-03",
+            "MASS-04"
+          ]
+        },
+        {
+          "item_code": "QTO-DOR",
+          "description": "Door sets",
+          "unit": "ea",
+          "quantity": 0.0,
+          "unit_rate": 1250.0,
+          "amount": 0.0,
+          "low_amount": 0.0,
+          "high_amount": 0.0,
+          "rate_provenance": "Synthetic illustrative rate S-RATE-006",
+          "quantity_source_refs": []
+        },
+        {
+          "item_code": "QTO-WIN",
+          "description": "Window units by glazed area",
+          "unit": "m2",
+          "quantity": 0.0,
+          "unit_rate": 780.0,
+          "amount": 0.0,
+          "low_amount": 0.0,
+          "high_amount": 0.0,
+          "rate_provenance": "Synthetic illustrative rate S-RATE-007",
+          "quantity_source_refs": []
+        }
+      ],
+      "unpriced_item_codes": [],
+      "exclusions": [
+        "Preliminaries, contractor overhead, profit, taxes, escalation, and location factors",
+        "Structural reinforcement, foundations, MEP systems, specialist works, and temporary works",
+        "Drawing interpretation beyond the bundled rectangular vector schema"
+      ]
+    },
+    "takeoff_line_count": 7,
+    "priced_line_count": 7,
+    "unpriced_line_count": 0,
+    "budget_comparison_performed": false,
+    "budget_comparison_reason": "The approved project budget covers a different and much broader scope than this ground-floor proxy."
+  },
+  "tender_stage": {
+    "status": "not_run",
+    "reason": "No tender submission is authored for the derived schematic plan."
+  },
+  "human_review_gates": [
+    "Validate site dimensions, setbacks, access points, height, GFA, and coverage against current survey and authority requirements.",
+    "Architect and engineering team review the selected massing geometry and every unmodeled design constraint.",
+    "Quantity surveyor defines measurement rules, complete scope, current rates, procurement allowances, and risk.",
+    "Client team reviews approved requirements retained outside automation, including budget and accessibility intent."
+  ],
+  "boundaries": [
+    "The conversation, site record, rates, and resulting geometry are synthetic fixtures.",
+    "Only explicitly approved requirements enter the handoff; unresolved required conflicts stop the run.",
+    "Site dimensions and regulatory-style limits are supplied inputs, not inferred from conversation or building codes.",
+    "The QS handoff measures one schematic ground-floor envelope and is not a whole-building estimate.",
+    "Tender analysis is not run because no tender submission belongs to the derived schematic plan.",
+    "Every output requires architect, engineer, authority, and quantity-surveyor review before professional use."
+  ],
+  "trace_version": "fdf3d6616f4a"
+}

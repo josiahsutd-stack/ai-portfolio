@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="500" viewBox="0 0 1200 500" role="img" aria-labelledby="title desc">
+  <title id="title">Executed AEC design-to-cost workflow trace</title>
+  <desc id="desc">Five stages connect approved synthetic requirements to a sourced massing scenario, selected geometry, and a bounded schematic quantity takeoff.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#e7a52e"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="500" fill="#f5f3ed"/>
+  <rect x="0" y="0" width="1200" height="12" fill="#15231f"/>
+  <text x="40" y="62" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#e85d3f">EXECUTED CONTRACT TRACE / SYNTHETIC FIXTURE</text>
+  <text x="40" y="103" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#15231f">Approved requirements to a reviewable schematic cost input</text>
+  <text x="40" y="130" font-family="Arial, sans-serif" font-size="14" fill="#5f6e68">Every handoff records its source. Unapproved, conflicted, missing, or scope-incompatible inputs stop or remain outside automation.</text>
+
+  <g transform="translate(40,154)">
+    <rect width="198" height="196" rx="6" fill="#ffffff" stroke="#cbd5d1"/>
+    <text x="18" y="31" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#e85d3f">01</text>
+    <text x="18" y="62" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#15231f">Approved brief</text>
+    <line x1="18" y1="80" x2="180" y2="80" stroke="#dce3df"/>
+    <text x="18" y="113" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#267d6a">5 approved requirements</text>
+    <text x="18" y="143" font-family="Arial, sans-serif" font-size="12" fill="#5f6e68">3 mapped / 2 retained</text>
+    <text x="18" y="174" font-family="Arial, sans-serif" font-size="11" fill="#7c8984">synthetic / inspectable / local</text>
+  </g><path d="M 242 252 H 261" stroke="#e7a52e" stroke-width="3" marker-end="url(#arrow)"/>
+  <g transform="translate(266,154)">
+    <rect width="198" height="196" rx="6" fill="#ffffff" stroke="#cbd5d1"/>
+    <text x="18" y="31" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#e85d3f">02</text>
+    <text x="18" y="62" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#15231f">Sourced scenario</text>
+    <line x1="18" y1="80" x2="180" y2="80" stroke="#dce3df"/>
+    <text x="18" y="113" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#267d6a">16 explicit fields</text>
+    <text x="18" y="143" font-family="Arial, sans-serif" font-size="12" fill="#5f6e68">1.000 source coverage</text>
+    <text x="18" y="174" font-family="Arial, sans-serif" font-size="11" fill="#7c8984">synthetic / inspectable / local</text>
+  </g><path d="M 468 252 H 487" stroke="#e7a52e" stroke-width="3" marker-end="url(#arrow)"/>
+  <g transform="translate(492,154)">
+    <rect width="198" height="196" rx="6" fill="#ffffff" stroke="#cbd5d1"/>
+    <text x="18" y="31" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#e85d3f">03</text>
+    <text x="18" y="62" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#15231f">Massing search</text>
+    <line x1="18" y1="80" x2="180" y2="80" stroke="#dce3df"/>
+    <text x="18" y="113" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#267d6a">96 candidates</text>
+    <text x="18" y="143" font-family="Arial, sans-serif" font-size="12" fill="#5f6e68">92 feasible / 42 storey-matched</text>
+    <text x="18" y="174" font-family="Arial, sans-serif" font-size="11" fill="#7c8984">synthetic / inspectable / local</text>
+  </g><path d="M 694 252 H 713" stroke="#e7a52e" stroke-width="3" marker-end="url(#arrow)"/>
+  <g transform="translate(718,154)">
+    <rect width="198" height="196" rx="6" fill="#ffffff" stroke="#cbd5d1"/>
+    <text x="18" y="31" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#e85d3f">04</text>
+    <text x="18" y="62" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#15231f">Selected envelope</text>
+    <line x1="18" y1="80" x2="180" y2="80" stroke="#dce3df"/>
+    <text x="18" y="113" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#267d6a">co-017-070</text>
+    <text x="18" y="143" font-family="Arial, sans-serif" font-size="12" fill="#5f6e68">utility 0.797 / GFA 4156 m2</text>
+    <text x="18" y="174" font-family="Arial, sans-serif" font-size="11" fill="#7c8984">synthetic / inspectable / local</text>
+  </g><path d="M 920 252 H 939" stroke="#e7a52e" stroke-width="3" marker-end="url(#arrow)"/>
+  <g transform="translate(944,154)">
+    <rect width="198" height="196" rx="6" fill="#ffffff" stroke="#cbd5d1"/>
+    <text x="18" y="31" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#e85d3f">05</text>
+    <text x="18" y="62" font-family="Arial, sans-serif" font-size="19" font-weight="700" fill="#15231f">Schematic QS</text>
+    <line x1="18" y1="80" x2="180" y2="80" stroke="#dce3df"/>
+    <text x="18" y="113" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#267d6a">7 quantity lines</text>
+    <text x="18" y="143" font-family="Arial, sans-serif" font-size="12" fill="#5f6e68">7 priced / 0 unpriced</text>
+    <text x="18" y="174" font-family="Arial, sans-serif" font-size="11" fill="#7c8984">synthetic / inspectable / local</text>
+  </g>
+  <rect x="40" y="386" width="1120" height="72" rx="5" fill="#15231f"/>
+  <text x="62" y="417" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#e7a52e">HUMAN REVIEW BOUNDARY</text>
+  <text x="62" y="442" font-family="Arial, sans-serif" font-size="13" fill="#ffffff">No code inference, professional design, whole-building estimate, market pricing, tender comparison, or authority validation.</text>
+</svg>

@@ -11,6 +11,7 @@ COMMANDS = [
     [sys.executable, "projects/constraint-aware-massing-explorer/evaluate_massing.py"],
     [sys.executable, "projects/project-specification-copilot/evaluate_specification.py"],
     [sys.executable, "projects/qs-takeoff-tender-analysis/evaluate_qs.py"],
+    [sys.executable, "integrations/aec-design-to-cost/run_workflow.py"],
     [sys.executable, "experiments/agentic-research-ops-assistant/scripts/evaluate_agent.py"],
     [sys.executable, "experiments/mlops-model-serving-monitoring/scripts/evaluate_model.py"],
     [sys.executable, "experiments/building-energy-ml-pipeline/evaluate_model.py"],

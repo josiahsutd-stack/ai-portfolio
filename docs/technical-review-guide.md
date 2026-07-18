@@ -48,6 +48,14 @@ The selected set contains one flagship, two role-defining primary projects, and 
 
 **Boundary:** No PDF/CAD/BIM extraction, current market rates, bill of quantities, professional QS validation, or award recommendation.
 
+## Cross-Project Contract
+
+The [AEC design-to-cost integration](../integrations/aec-design-to-cost/README.md) executes a source-linked handoff across projects rather than implying interoperability from a diagram. It maps three approved requirements, retains two approved requirements for human review, validates site-area and height invariants, selects a feasible storey-matched candidate, and passes its ground-floor mass footprints into the typed QS interface.
+
+**Evidence:** `integrations/aec-design-to-cost/run_workflow.py`, `demo_outputs/workflow_trace.json`, `ARCHITECTURE.md`, and `tests/test_aec_workflow_integration.py`.
+
+**Boundary:** This is one synthetic fixture and a contract regression. It is not evidence of end-to-end professional design, compliance, cost accuracy, or project delivery.
+
 ## Experiments And Baselines
 
 The [`experiments/`](../experiments/README.md) directory contains generic model, workflow, MLOps, vision, ranking, time-series, BIM, energy, and smaller robotics studies. Their limitations are part of the public record; none carries equal depth to the flagship.

@@ -24,10 +24,11 @@ The commands use bundled synthetic data or a labeled public snapshot and require
 ```bash
 python projects/project-specification-copilot/evaluate_specification.py
 python projects/qs-takeoff-tender-analysis/evaluate_qs.py
-python -m pytest tests/test_project_specification_copilot.py tests/test_qs_takeoff_tender_analysis.py
+python integrations/aec-design-to-cost/run_workflow.py
+python -m pytest tests/test_project_specification_copilot.py tests/test_qs_takeoff_tender_analysis.py tests/test_aec_workflow_integration.py
 ```
 
-These supporting systems connect role-tagged communication to approved requirements, massing constraints, measured geometry, cost provenance, and tender exceptions. Every bundled conversation, site, rate, and tender is synthetic and labeled.
+The [integration trace](../integrations/aec-design-to-cost/README.md) demonstrates one tested handoff from approved requirements to sourced massing inputs and a bounded schematic takeoff. Budget and accessibility remain under human review; tender analysis is not run. Every bundled conversation, site, rate, plan, and tender is synthetic and labeled.
 
 ## Optional Public AEC Check
 
@@ -44,7 +45,8 @@ This path downloads official Singapore sources locally. It demonstrates provenan
 2. Construction Embodied Agent Simulator: strongest embodied-AI evidence.
 3. Constraint-Aware Massing Explorer: strongest computational-design evidence.
 4. Project Specification Copilot and QS Takeoff/Tender Workbench: supporting AEC workflow systems.
-5. Work under [`experiments/`](../experiments/README.md): narrower generic and AEC baselines.
+5. AEC design-to-cost integration: cross-project contract evidence, not a sixth project.
+6. Work under [`experiments/`](../experiments/README.md): narrower generic and AEC baselines.
 
 ## Full Verification
 

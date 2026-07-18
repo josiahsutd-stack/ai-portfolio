@@ -1,4 +1,9 @@
 version: 1
+subjects:
+  aec-design-to-cost-integration:
+    name: AEC Design-To-Cost Integration Contract
+    readme_path: integrations/aec-design-to-cost/README.md
+    boundary: One synthetic cross-project contract fixture; not professional design, compliance, cost advice, tender evaluation, or project delivery
 claims:
   - id: aec-hybrid-retrieval
     project_slug: aec-code-compliance-rag
@@ -220,6 +225,64 @@ claims:
           - "| Naive perimeter baseline wall-length MAE | {baseline_wall_mae} m |"
           - "| Cost-line provenance coverage | {provenance_coverage} |"
           - "| Tender exception F1 | {tender_f1} |"
+
+  - id: aec-design-to-cost-contract
+    project_slug: aec-design-to-cost-integration
+    artifact: integrations/aec-design-to-cost/demo_outputs/workflow_trace.json
+    command: python integrations/aec-design-to-cost/run_workflow.py
+    evaluation_scope: Deterministic cross-project contract over one labeled synthetic workflow fixture
+    metrics:
+      message_count:
+        json_path: specification_handoff.message_count
+      approved:
+        json_path: specification_handoff.approved_requirement_count
+      mapped:
+        json_path: specification_handoff.mapped_approved_requirement_count
+      retained:
+        json_path: specification_handoff.retained_approved_requirement_count
+      field_count:
+        json_path: scenario_handoff.field_count
+      sourced_count:
+        json_path: scenario_handoff.sourced_field_count
+      source_coverage:
+        json_path: scenario_handoff.source_coverage
+        decimals: 3
+      candidate_count:
+        json_path: massing_search.candidate_count
+      feasible:
+        json_path: massing_search.feasible_candidate_count
+      eligible:
+        json_path: massing_search.approved_storey_eligible_count
+      takeoff_lines:
+        json_path: schematic_qs_handoff.takeoff_line_count
+      priced_lines:
+        json_path: schematic_qs_handoff.priced_line_count
+      unpriced_lines:
+        json_path: schematic_qs_handoff.unpriced_line_count
+      tender_status:
+        json_path: tender_stage.status
+    result_template: "{approved} approved requirements ({mapped} mapped, {retained} retained); {field_count} sourced fields; {feasible}/{candidate_count} feasible candidates; {eligible} storey-matched; {priced_lines}/{takeoff_lines} priced lines; tender {tender_status}"
+    public_surfaces:
+      - path: README.md
+        contains:
+          - "Synthetic workflow fixture: `{approved}` approved requirements (`{mapped}` mapped, `{retained}` retained), `{sourced_count}/{field_count}` sourced scenario fields, `{candidate_count}` candidates (`{feasible}` feasible, `{eligible}` storey-matched), and `{priced_lines}` priced takeoff lines; tender stage `{tender_status}`."
+      - path: portfolio-site/index.html
+        contains:
+          - "{approved} approved / {mapped} mapped / {retained} retained; {sourced_count}/{field_count} sourced fields; {candidate_count} candidates / {feasible} feasible / {eligible} storey-matched; {priced_lines}/{takeoff_lines} priced takeoff lines / tender {tender_status}."
+      - path: integrations/aec-design-to-cost/README.md
+        contains:
+          - "| Conversation messages | {message_count} |"
+          - "| Approved requirements | {approved} |"
+          - "| Sourced scenario fields | {sourced_count} / {field_count} |"
+          - "| Generated massing candidates | {candidate_count} |"
+          - "| Feasible candidates | {feasible} |"
+          - "| Feasible candidates matching approved storey count | {eligible} |"
+          - "| Schematic takeoff lines | {takeoff_lines} |"
+          - "| Unpriced takeoff lines | {unpriced_lines} |"
+          - "| Tender stage | Not run |"
+      - path: integrations/aec-design-to-cost/EVAL.md
+        contains:
+          - "The checked-in trace records {feasible} feasible candidates, {eligible} feasible storey-matched candidates, and {priced_lines} priced quantity lines with no unpriced lines."
 
   - id: embodied-behavior-cloning
     project_slug: vla-embodied-agent-simulator

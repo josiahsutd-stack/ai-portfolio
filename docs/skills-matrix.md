@@ -12,9 +12,10 @@ Evidence levels refer to code, tests, evaluation fixtures, and generated artifac
 | Multi-objective search | Massing Explorer |  | Proxy objectives are not calibrated simulation. |
 | Requirements workflow | Specification Copilot | AEC RAG source boundaries | Deterministic phrase grammar, no authenticated production authority. |
 | Quantity and cost provenance | QS Workbench |  | Synthetic rates and simplified quantities, not professional QS output. |
+| Cross-project contract design | AEC design-to-cost integration | Specification, Massing, and QS interfaces | One synthetic fixture; no professional-tool interoperability. |
 | Classical model training | Construction Embodied Agent | Text Classification, Model Monitoring, Energy Regression | No large-scale or transformer training. |
 | FastAPI and schemas | Specification Copilot, QS Workbench | Model, visual, ranking, and time-series experiments | Local endpoints only. |
 | Persistence and auditability | Specification SQLite events | Research traces, model prediction logs | Local storage, not production telemetry. |
-| Testing and evaluation | Full verifier and focused selected-project suites | Project smoke tests | Local runs are the primary evidence. |
+| Testing and evaluation | Full verifier, focused selected-project suites, integration rejection tests | Project smoke tests | Local runs are the primary evidence. |
 | Frontend and visualization | Static portfolio, Streamlit demos, generated SVG evidence |  | No TypeScript/React product. |
 | CI/CD | GitHub Actions definition and local verifier |  | Workflow definition is not proof of a hosted successful run. |

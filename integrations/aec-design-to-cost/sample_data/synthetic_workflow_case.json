@@ -1,0 +1,36 @@
+{
+  "workflow_case_id": "clinic-design-to-cost-01",
+  "name": "Synthetic Community Clinic",
+  "data_status": "synthetic",
+  "source_note": "Authored integration fixture for local software evaluation. No real client, site, project, or professional data is represented.",
+  "conversation": [
+    {"role": "client", "author": "Client Lead", "text": "The site area is 3,600 m2."},
+    {"role": "client", "author": "Client Lead", "text": "I approve the site area of 3,600 m2."},
+    {"role": "architect", "author": "Project Architect", "text": "The gross floor area target is 4,200 m2 across 4 storeys."},
+    {"role": "architect", "author": "Project Architect", "text": "I confirm the gross floor area 4,200 m2 across 4 storeys."},
+    {"role": "client", "author": "Client Lead", "text": "The budget cap is SGD 5.5 million."},
+    {"role": "client", "author": "Client Lead", "text": "I approve the budget cap of SGD 5.5 million."},
+    {"role": "client", "author": "Client Lead", "text": "The project must provide step-free access."},
+    {"role": "architect", "author": "Project Architect", "text": "I approve step-free access."}
+  ],
+  "site_input": {
+    "site_input_id": "SITE-FIXTURE-001",
+    "data_status": "synthetic",
+    "source_note": "Illustrative site and constraint values authored for this integration fixture; not survey or statutory data.",
+    "site_width_m": 60.0,
+    "site_depth_m": 60.0,
+    "setbacks_m": {"north": 6.0, "east": 5.0, "south": 8.0, "west": 5.0},
+    "max_height_m": 20.0,
+    "floor_to_floor_m": 4.0,
+    "max_site_coverage": 0.55,
+    "max_gfa_m2": 4620.0,
+    "prevailing_wind_from": "south",
+    "north_rotation_deg": 0.0,
+    "ingress": {"x": 10.0, "y": 0.0},
+    "egress": {"x": 50.0, "y": 0.0},
+    "grid_resolution_m": 1.0,
+    "objective_weights": {"gfa_fit": 0.34, "solar": 0.16, "daylight": 0.18, "wind": 0.14, "access": 0.18}
+  },
+  "massing_search": {"candidate_count": 96, "seed": 17},
+  "qs_handoff": {"slab_thickness_m": 0.15}
+}

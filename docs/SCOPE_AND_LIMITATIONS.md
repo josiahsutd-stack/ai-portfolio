@@ -21,6 +21,7 @@ This is a local-first applied AI engineering portfolio for the built environment
 - Massing options do not include statutory inference, internal egress, calibrated daylight/CFD, structure, or constructability.
 - Specification fixtures use a deterministic phrase grammar and do not prove open-domain conversation understanding.
 - QS fixtures do not parse PDF/CAD/BIM drawings or use live market rates.
+- The cross-project workflow is one synthetic contract fixture. It does not establish design quality, interoperability with professional tools, or end-to-end delivery.
 - CI execution can be blocked by GitHub account state even when local verification passes.
 
 ## What Not To Infer
@@ -30,6 +31,7 @@ This is a local-first applied AI engineering portfolio for the built environment
 - Do not infer professional design validity from geometric proxy scores.
 - Do not infer a professional project specification from fixture-level extraction metrics.
 - Do not infer a bill of quantities, market estimate, or tender recommendation from synthetic QS fixtures.
+- Do not infer that the integration cost covers the approved project budget: it measures one schematic ground-floor envelope and intentionally performs no budget comparison.
 - Do not infer physical safety from embodied-agent, route-planning, or telemetry simulations.
 - Do not infer deep visual reasoning or transformer training from the bounded experiments.
 
@@ -40,3 +42,4 @@ This is a local-first applied AI engineering portfolio for the built environment
 - Computational design: `projects/constraint-aware-massing-explorer/`
 - Requirements and specification workflow: `projects/project-specification-copilot/`
 - Quantity and tender workflow: `projects/qs-takeoff-tender-analysis/`
+- Executed cross-project contract: `integrations/aec-design-to-cost/`

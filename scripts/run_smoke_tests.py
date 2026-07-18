@@ -9,6 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 PROJECTS_DIR = ROOT / "projects"
 EXPERIMENTS_DIR = ROOT / "experiments"
 MODULES = [
+    "shared.aec_workflow",
     "aec_code_compliance_rag",
     "qs_takeoff_tender_analysis",
     "bim_issue_detection_agent",
@@ -116,6 +117,32 @@ def run_core_smoke() -> list[str]:
         generate_candidates(scenario, count=4, seed=2)
     except Exception as exc:  # noqa: BLE001
         issues.append(f"constraint_aware_massing_explorer core smoke failed: {exc}")
+    try:
+        from qs_takeoff_tender_analysis import RateLibrary
+
+        from shared.aec_workflow import load_json, run_aec_design_to_cost_workflow
+
+        workflow_case = load_json(
+            ROOT
+            / "integrations"
+            / "aec-design-to-cost"
+            / "sample_data"
+            / "synthetic_workflow_case.json"
+        )
+        rates = RateLibrary.from_dict(
+            load_json(
+                ROOT
+                / "projects"
+                / "qs-takeoff-tender-analysis"
+                / "sample_data"
+                / "synthetic_rate_library.json"
+            )
+        )
+        trace = run_aec_design_to_cost_workflow(workflow_case, rates)
+        if trace["tender_stage"]["status"] != "not_run":
+            issues.append("aec workflow integration core smoke failed: tender boundary missing")
+    except Exception as exc:  # noqa: BLE001
+        issues.append(f"aec workflow integration core smoke failed: {exc}")
     try:
         from multimodal_vlm_visual_qa import MockVLMProvider
 

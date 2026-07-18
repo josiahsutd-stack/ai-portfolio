@@ -13,7 +13,7 @@ Move the generic text-classification, research-workflow, and MLOps systems to `e
 ## Consequences
 
 - The first screen presents three differentiated projects with visible evaluation evidence.
-- The selected set forms a coherent source-to-design-to-delivery narrative.
+- The selected set forms a coherent AEC workflow narrative; [ADR 0007](0007-executable-aec-integration.md) adds executable evidence for one bounded handoff without claiming full project delivery.
 - Generic AI breadth remains available without appearing equivalent to the flagship.
 - No promoted project claims production use, customer adoption, or professional sign-off.
 

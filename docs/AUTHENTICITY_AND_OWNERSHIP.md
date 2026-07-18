@@ -11,6 +11,8 @@ This repository is intentionally local-first. That choice keeps the core workflo
 - TF-IDF was kept because it is transparent and fast. BM25, dense LSA, and hybrid retrieval were added to compare local baselines without pretending to use hosted neural retrieval.
 - Massing objectives remain transparent proxies because calibrated daylight, wind, structure, and egress simulation are not implemented.
 - QS rates and tenders remain synthetic because current commercial data requires permission, provenance, and professional review.
+- The AEC workflow is implemented as a separate tested adapter so project interoperability is demonstrated by a trace and rejection tests rather than implied by a diagram.
+- Budget and accessibility remain outside automated geometry and costing because the current contracts cannot support a credible professional mapping.
 
 ## Known Tradeoffs
 
@@ -18,6 +20,7 @@ This repository is intentionally local-first. That choice keeps the core workflo
 - Citation coverage is lexical and deterministic; it is not full factual verification.
 - The specification extractor is a traceable deterministic grammar, not open-domain conversation intelligence.
 - The QS workbench measures explicit vector fixtures, not arbitrary drawings.
+- The integration converts mass footprints into room-like rectangles only to test typed data exchange; it does not claim that the resulting geometry is a functional plan.
 - The visual-contract mock validates bytes and schemas while returning zero confidence and empty semantic fields.
 
 ## Evidence Not Claimed
@@ -27,3 +30,4 @@ This repository is intentionally local-first. That choice keeps the core workflo
 - The public AEC corpus is downloaded locally and remains too small for a real compliance benchmark.
 - Hosted-provider quality is not claimed where only deterministic mock mode is tested.
 - The vision threshold baseline and visual-provider contract are tiered as experiments, not trained deep-learning evidence.
+- The integration trace is one deterministic synthetic case, not a real project, customer workflow, or outcome.

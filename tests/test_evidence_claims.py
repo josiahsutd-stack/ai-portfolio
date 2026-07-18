@@ -116,3 +116,22 @@ def test_ledger_uses_manifest_readme_path_for_experiments(tmp_path: Path) -> Non
 
     assert not issues
     assert "[Demo Classifier](../experiments/demo/README.md)" in render_ledger(contexts)
+
+
+def test_cross_project_subject_can_own_an_evidence_claim(tmp_path: Path) -> None:
+    config = write_fixture_repo(tmp_path)
+    config["subjects"] = {
+        "demo-integration": {
+            "name": "Demo Integration Contract",
+            "readme_path": "integrations/demo/README.md",
+            "boundary": "One synthetic contract fixture",
+        }
+    }
+    config["claims"][0]["project_slug"] = "demo-integration"
+
+    contexts, issues = materialize_claims(config, tmp_path)
+
+    assert not issues
+    ledger = render_ledger(contexts)
+    assert "[Demo Integration Contract](../integrations/demo/README.md)" in ledger
+    assert "One synthetic contract fixture" in ledger

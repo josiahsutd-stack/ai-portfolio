@@ -91,6 +91,18 @@ def materialize_claims(
         projects = project_index(root)
     except (OSError, ValueError, yaml.YAMLError) as exc:
         return [], [str(exc)]
+    subjects = config.get("subjects", {})
+    if not isinstance(subjects, dict):
+        return [], ["docs/evidence_claims.yml: `subjects` must be a mapping"]
+    for slug, subject in subjects.items():
+        if not isinstance(subject, dict):
+            return [], [f"evidence subject `{slug}` must be a mapping"]
+        missing = sorted({"name", "readme_path", "boundary"} - subject.keys())
+        if missing:
+            return [], [f"evidence subject `{slug}` missing fields: {', '.join(missing)}"]
+        if slug in projects:
+            return [], [f"evidence subject `{slug}` duplicates a project slug"]
+        projects[str(slug)] = subject
 
     contexts: list[ClaimContext] = []
     issues: list[str] = []

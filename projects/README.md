@@ -11,3 +11,5 @@ Five projects carry the portfolio's main claims. Together they connect source-gr
 | Supporting | [QS Takeoff and Tender Analysis Workbench](qs-takeoff-tender-analysis/README.md) | Shared-wall vector measurement, opening deductions, rate provenance, uncertainty bands, tender exception checks, fourteen focused tests, and visual evidence. | No PDF/CAD/BIM parsing, live pricing, professional quantity survey, or award recommendation. |
 
 The [experiment inventory](../experiments/README.md) retains narrower generic AI and AEC baselines. They remain runnable and tested, but they do not carry first-screen portfolio claims.
+
+The [AEC design-to-cost integration](../integrations/aec-design-to-cost/README.md) demonstrates one tested handoff across three selected project interfaces. It remains outside the project count because it adds contract evidence rather than a separate capability claim.

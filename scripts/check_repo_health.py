@@ -28,8 +28,15 @@ REQUIRED_DOCS = [
     "docs/adr/0003-mock-provider-boundaries.md",
     "docs/adr/0004-evaluation-over-claims.md",
     "docs/adr/0005-flagship-depth-over-project-breadth.md",
+    "docs/adr/0007-executable-aec-integration.md",
     "projects/projects.yml",
     "experiments/README.md",
+    "integrations/README.md",
+    "integrations/aec-design-to-cost/README.md",
+    "integrations/aec-design-to-cost/ARCHITECTURE.md",
+    "integrations/aec-design-to-cost/EVAL.md",
+    "integrations/aec-design-to-cost/LIMITATIONS.md",
+    "integrations/aec-design-to-cost/sample_data/synthetic_workflow_case.json",
     ".github/workflows/verify.yml",
     "experiments/real-model-finetune-lab/EVAL.md",
     "experiments/real-model-finetune-lab/sample_data/uci_sms_subset_manifest.json",
@@ -54,6 +61,7 @@ REQUIRED_ROOT_README_PATTERNS = {
     "evidence labels": r"## Evidence Labels",
     "limitations link": r"docs/SCOPE_AND_LIMITATIONS\.md",
     "evidence ledger link": r"docs/EVIDENCE_LEDGER\.md",
+    "cross-project integration command": r"python integrations/aec-design-to-cost/run_workflow\.py",
 }
 REQUIRED_WORKFLOW_PATTERNS = {
     "pull-request trigger": r"(?m)^\s*pull_request:\s*$",

@@ -20,23 +20,26 @@ For a 15-minute technical screen, these three links contain the highest-signal c
 
 ## System Overview
 
-The AEC projects form a bounded design-to-delivery workflow rather than unrelated demos.
+The selected AEC projects are independently runnable. A separate [executable integration contract](integrations/aec-design-to-cost/README.md) tests one bounded handoff across the specification, massing, and QS interfaces.
 
 ```mermaid
 flowchart LR
-  A["Client and design-team messages"] --> B["Requirement ledger, conflicts, and scoped approvals"]
-  B --> C["Constraint-aware massing search"]
-  C --> D["Selected vector plan fixture"]
-  D --> E["Quantity takeoff and cost build-up"]
-  E --> F["Tender exception review"]
-  G["AEC public documents"] --> H["Source-grounded retrieval and citations"]
-  H --> B
-  H --> C
-  B --> I["Human review boundary"]
-  C --> I
-  E --> I
-  F --> I
+  A["Synthetic role-tagged messages"] --> B["Requirement ledger and approvals"]
+  B --> C{"Approved and conflict-free?"}
+  C -- "No" --> X["Reject handoff"]
+  C -- "Yes" --> D["Sourced massing scenario"]
+  S["Explicit synthetic site input"] --> D
+  D --> E["Feasible storey-matched option"]
+  E --> F["One-storey schematic envelope"]
+  F --> G["Quantity takeoff and synthetic rate build-up"]
+  G --> H["Human professional review"]
 ```
+
+Synthetic workflow fixture: `5` approved requirements (`3` mapped, `2` retained), `16/16` sourced scenario fields, `96` candidates (`92` feasible, `42` storey-matched), and `7` priced takeoff lines; tender stage `not_run`.
+
+![Generated trace from the executed AEC integration fixture](integrations/aec-design-to-cost/demo_outputs/workflow_trace.svg)
+
+The integration deliberately retains budget and accessibility for human review, does not infer building-code or site facts, treats mass footprints only as a schematic one-storey QS input, and does not compare its bounded cost output with the full-project budget.
 
 Two supporting projects complete that workflow:
 
@@ -60,7 +63,8 @@ python projects/vla-embodied-agent-simulator/evaluate_vla.py
 python projects/constraint-aware-massing-explorer/evaluate_massing.py
 python projects/project-specification-copilot/evaluate_specification.py
 python projects/qs-takeoff-tender-analysis/evaluate_qs.py
-python -m pytest tests/test_rag.py tests/test_vla_embodied_agent.py tests/test_massing_explorer.py tests/test_project_specification_copilot.py tests/test_qs_takeoff_tender_analysis.py
+python integrations/aec-design-to-cost/run_workflow.py
+python -m pytest tests/test_rag.py tests/test_vla_embodied_agent.py tests/test_massing_explorer.py tests/test_project_specification_copilot.py tests/test_qs_takeoff_tender_analysis.py tests/test_aec_workflow_integration.py
 ```
 
 Full repository verification:
@@ -132,6 +136,7 @@ Narrow generic AI and AEC baselines are kept under [`experiments/`](experiments/
 
 ```text
 projects/                 five selected AEC and embodied-AI projects
+integrations/             tested contracts between selected project interfaces
 experiments/              fourteen narrower baselines and workflow studies
 tests/                    focused and cross-project regression tests
 scripts/                  setup, verification, claim, site, and artifact checks

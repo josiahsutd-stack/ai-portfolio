@@ -11,6 +11,7 @@ ARTIFACT_DIRS = [
     ROOT / "projects" / "constraint-aware-massing-explorer" / "demo_outputs",
     ROOT / "projects" / "project-specification-copilot" / "demo_outputs",
     ROOT / "projects" / "qs-takeoff-tender-analysis" / "demo_outputs",
+    ROOT / "integrations" / "aec-design-to-cost" / "demo_outputs",
     ROOT / "experiments" / "agentic-research-ops-assistant" / "demo_outputs",
     ROOT / "experiments" / "mlops-model-serving-monitoring" / "demo_outputs",
     ROOT / "experiments" / "building-energy-ml-pipeline" / "demo_outputs",
@@ -19,15 +20,21 @@ ARTIFACT_DIRS = [
     ROOT / "experiments" / "real-model-finetune-lab" / "demo_outputs",
     ROOT / "projects" / "vla-embodied-agent-simulator" / "demo_outputs",
 ]
-ARTIFACT_FILES = [ROOT / "docs" / "EVIDENCE_LEDGER.md"]
+ARTIFACT_FILES = [
+    ROOT / "docs" / "EVIDENCE_LEDGER.md",
+    ROOT / "portfolio-site" / "assets" / "aec-workflow-trace.svg",
+]
 VERSIONED_SUFFIXES = {".json", ".md", ".svg"}
 
 
 def artifact_hashes() -> dict[Path, str]:
-    tracked = subprocess.run(
+    candidates = subprocess.run(
         [
             "git",
             "ls-files",
+            "--cached",
+            "--others",
+            "--exclude-standard",
             "--",
             *[str(path.relative_to(ROOT)) for path in [*ARTIFACT_DIRS, *ARTIFACT_FILES]],
         ],
@@ -38,7 +45,7 @@ def artifact_hashes() -> dict[Path, str]:
     ).stdout.splitlines()
     paths = sorted(
         ROOT / path
-        for path in tracked
+        for path in candidates
         if (ROOT / path).is_file() and (ROOT / path).suffix in VERSIONED_SUFFIXES
     )
     return {path.relative_to(ROOT): hashlib.sha256(path.read_bytes()).hexdigest() for path in paths}
