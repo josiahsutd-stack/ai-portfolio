@@ -87,6 +87,35 @@ claims:
           - "Public Hit@1 {hit_at_1} / MRR {mrr}"
           - "Public {case_count}-case snapshot over {document_count} local documents"
 
+  - id: aec-local-service-contract
+    project_slug: aec-code-compliance-rag
+    artifact: projects/aec-code-compliance-rag/demo_outputs/service_contract_summary.json
+    command: python projects/aec-code-compliance-rag/evaluate_service.py
+    evaluation_scope: In-process ASGI contract over the bundled synthetic corpus
+    metrics:
+      check_count:
+        json_path: observed.check_count
+      passed_check_count:
+        json_path: observed.passed_check_count
+      request_count:
+        json_path: observed.requests_observed_before_metrics_response
+      client_error_count:
+        json_path: observed.client_errors_observed_before_metrics_response
+    result_template: "{passed_check_count}/{check_count} checks passed; {request_count} requests and {client_error_count} client errors observed before the metrics response"
+    public_surfaces:
+      - path: README.md
+        contains:
+          - "{passed_check_count}/{check_count} contract checks passed and {request_count} requests observed before the metrics response"
+      - path: projects/aec-code-compliance-rag/README.md
+        contains:
+          - "| Local service contract | {check_count} in-process ASGI checks | {passed_check_count}/{check_count} checks passed; {request_count} requests and {client_error_count} client errors observed before the metrics response |"
+      - path: projects/aec-code-compliance-rag/EVAL.md
+        contains:
+          - "{passed_check_count}/{check_count} local service contract checks passed; {request_count} requests were observed before the metrics response"
+      - path: portfolio-site/index.html
+        contains:
+          - "{passed_check_count}/{check_count} local contract checks passed; {request_count} requests observed before metrics response"
+
   - id: constraint-aware-massing
     project_slug: constraint-aware-massing-explorer
     artifact: projects/constraint-aware-massing-explorer/demo_outputs/evaluation_summary.json

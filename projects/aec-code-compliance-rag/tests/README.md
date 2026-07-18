@@ -1,1 +1,1 @@
-Core RAG tests live in `/tests/test_rag.py` so they run with the portfolio-wide CI suite.
+Core retrieval tests live in `/tests/test_rag.py`; local service-contract tests live in `/tests/test_rag_service.py`. Both run with the portfolio-wide verification suite.

@@ -2,7 +2,7 @@
 
 Primary review project for this AI engineering portfolio.
 
-This is a local, source-grounded retrieval assistant for AEC guidance. It demonstrates the engineering shape behind a compliance-oriented RAG workflow: document chunking, source manifests, metadata-filtered retrieval, citation formatting, evaluation questions, demo outputs, and failure handling.
+This is a local, source-grounded retrieval assistant for AEC guidance. The implemented workflow covers document chunking, source manifests, metadata-filtered retrieval, citation formatting, abstention, retrieval evaluation, and an authenticated local service contract.
 
 The default corpus is synthetic demo data so the project runs without private data. An optional Singapore public-source workflow downloads official public BCA, URA, NEA, SCDF, LTA, PUB, and NParks documents locally for retrieval evaluation. Outputs are not legal, code, engineering, architectural, or professional compliance advice.
 
@@ -28,7 +28,8 @@ Evidence in this repository:
 - Optional retrieval filters for jurisdiction, document type, and superseded-source handling.
 - Source-status warnings for superseded, mixed-version, mixed-jurisdiction, or mixed-year evidence.
 - Retrieval evaluation and mode ablation with sample questions and repeatable metrics.
-- Tests for chunking, retrieval, citations, and no-result handling.
+- A fail-closed FastAPI service with API-key authentication, bounded request IDs, liveness/readiness checks, redacted SQLite query logs, and process-local metrics.
+- Tests for chunking, retrieval, citations, no-result handling, authentication, request tracing, log migration, redaction, and service errors.
 - Clear architecture, limitations, demo artifacts, and production next steps.
 
 ## Quickstart
@@ -38,7 +39,8 @@ From the repository root:
 ```bash
 python scripts/generate_sample_data.py
 python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
-pytest tests/test_rag.py
+python projects/aec-code-compliance-rag/evaluate_service.py
+pytest tests/test_rag.py tests/test_rag_service.py
 streamlit run projects/aec-code-compliance-rag/app.py
 ```
 
@@ -59,6 +61,7 @@ The downloaded PDFs/HTML text and generated manifest stay in `public_sources/dow
 | --- | --- | --- | --- |
 | Synthetic regression | 51 bundled cases | Recall@4 `1.000`; MRR `0.906`; Hit@3 `1.000` | Small authored corpus; useful for deterministic regression only. |
 | Singapore public-source snapshot | 24 cases over 15 downloaded documents | Hit@1 `0.952`; MRR `0.976`; paraphrase MRR `0.917`; no-answer `1.000` | Documents were downloaded and validated on 18 July 2026; no authority or expert applicability review. |
+| Local service contract | 12 in-process ASGI checks | 12/12 checks passed; 9 requests and 3 client errors observed before the metrics response | Synthetic corpus; no external deployment, traffic, load, availability, or security assessment. |
 
 The public run includes 15 direct questions, six paraphrases, two project-specific no-evidence cases, and one professional-review refusal. Two paraphrase cases retrieve the correct source but miss one expected phrase within the top four chunks; those cases remain in [`failure_analysis.md`](demo_outputs/public_sources/failure_analysis.md).
 
@@ -90,12 +93,15 @@ Generated evaluation artifacts are in [`demo_outputs/`](demo_outputs/):
 - [`retrieval_ablation_report.md`](demo_outputs/retrieval_ablation_report.md)
 - [`accessible_route_answer.md`](demo_outputs/accessible_route_answer.md)
 - [`no_answer_failure_case.md`](demo_outputs/no_answer_failure_case.md)
+- [`service_contract_summary.json`](demo_outputs/service_contract_summary.json)
+- [`service_contract_report.md`](demo_outputs/service_contract_report.md)
 - [`public_sources/`](demo_outputs/public_sources/) for optional Singapore public-source eval outputs after running the public corpus command.
 
 Regenerate them with:
 
 ```bash
 python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
+python projects/aec-code-compliance-rag/evaluate_service.py
 ```
 
 ## Features
@@ -116,13 +122,15 @@ python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
 - Retrieval evaluation over sample questions.
 - No-answer evaluation for unsupported compliance questions.
 - Versioned demo-output generation.
-- Streamlit public/synthetic corpus switch and FastAPI query/retrieval endpoints for API-style review.
-- Tests covering chunking, retrieval, citations, no-result handling, and eval scoring.
+- Streamlit public/synthetic corpus switch and an API-key-protected FastAPI review service.
+- Public liveness/readiness checks plus authenticated source, query, retrieval, log, and metrics endpoints.
+- Tests covering chunking, retrieval, citations, no-result handling, eval scoring, authentication, tracing, redaction, and service failures.
 
 ## Architecture And Evaluation Docs
 
 - [`ARCHITECTURE.md`](ARCHITECTURE.md) explains the data flow, module boundaries, metadata contract, and production extension points.
 - [`EVAL.md`](EVAL.md) explains the evaluation dataset, metrics, known failure modes, and how to interpret the sample results.
+- [`DEPLOYMENT.md`](DEPLOYMENT.md) documents the verified local service boundary and clearly separates unverified hosting options.
 - [`LIMITATIONS.md`](LIMITATIONS.md), [`CASE_STUDY.md`](CASE_STUDY.md), and [`SYSTEM_CARD.md`](SYSTEM_CARD.md) define project boundaries and review context.
 
 ## How It Works
@@ -133,12 +141,13 @@ python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
 4. Each chunk receives traceable metadata: source, title, source type, allowed use, section, heading, clause ID, page value, chunk ID, start word, end word, document version, jurisdiction, code year, and superseded status.
 5. A local retriever ranks the eligible source subset for a question. The default app mode is hybrid TF-IDF/BM25; the eval script also compares TF-IDF, BM25, dense LSA, and hybrid modes.
 6. The assistant returns an answer only from retrieved evidence, exposes structured citations, and warns when retrieved sources need version or jurisdiction review.
-7. The evaluation script runs sample questions and writes metrics plus demo outputs.
+7. The retrieval evaluator runs sample questions and writes metrics plus demo outputs.
+8. The service factory applies API-key authentication, request IDs, readiness checks, redacted local logs, and process-local metrics around the same assistant boundary.
 
 ## Tests
 
 ```bash
-pytest tests/test_rag.py
+pytest tests/test_rag.py tests/test_rag_service.py
 ```
 
 The tests cover:
@@ -152,6 +161,10 @@ The tests cover:
 - Empty and no-result handling.
 - Project-specific questions that lack project records.
 - Retrieval evaluation metrics.
+- Fail-closed authentication and readiness behavior.
+- Request-ID propagation and sanitization.
+- Default query-payload redaction, explicit payload opt-in, and legacy SQLite schema migration.
+- Success and failure audit records plus route/status metrics.
 
 ## Optional Public-Source Review
 
@@ -170,11 +183,22 @@ Run `python projects/aec-code-compliance-rag/scripts/download_public_sources.py`
 
 ## API Review
 
-```bash
-uvicorn api:app --app-dir projects/aec-code-compliance-rag --reload
+PowerShell from the repository root:
+
+```powershell
+$env:AEC_RAG_API_KEY = "local-review-key"
+python -m uvicorn api:app --app-dir projects/aec-code-compliance-rag --host 127.0.0.1 --port 8000
 ```
 
-The API exposes `/health`, `/sources`, `/query`, `/retrieve`, and `/logs/recent`. Query logs are local SQLite records under `demo_outputs/` for inspection, not production telemetry.
+`/health/live` and `/health/ready` are public. `/sources`, `/query`, `/retrieve`, `/logs/recent`, and `/metrics` require the key in the `X-API-Key` header. Query text and response payloads are redacted in the local SQLite log unless `AEC_RAG_LOG_PAYLOADS=true` is explicitly configured.
+
+Reproduce the checked-in service evidence without starting a network listener:
+
+```bash
+python projects/aec-code-compliance-rag/evaluate_service.py
+```
+
+That evaluator uses FastAPI's in-process ASGI test client over the synthetic corpus. It verifies interface behavior only; it is not deployment or usage evidence.
 
 ## Limitations
 
@@ -183,6 +207,9 @@ The API exposes `/health`, `/sources`, `/query`, `/retrieve`, and `/logs/recent`
 - PDF ingestion is text-based and page-aware, but it does not handle scanned PDFs, OCR, table reconstruction, or layout geometry.
 - TF-IDF, BM25, dense LSA, and hybrid modes are transparent and local. Optional embedding/reranking modes require `requirements-embeddings.txt` and model downloads.
 - The local answer mode is deterministic and extractive; it is not a real expert model.
+- API authentication is one static shared key. There is no user identity, OAuth, RBAC, rate limiting, TLS termination, or secret manager.
+- Metrics are in memory and reset on restart. SQLite logs are local and suited only to single-process review.
+- The service has not been externally deployed, load tested, penetration tested, or observed under user traffic.
 - The project does not certify against current building-code amendments, authority interpretations, project submissions, or professional review requirements.
 - No real project, client, or construction data is included.
 
@@ -195,6 +222,7 @@ The API exposes `/health`, `/sources`, `/query`, `/retrieve`, and `/logs/recent`
 - Expand the public evaluation with expert-labeled clause and page targets, ambiguous jurisdiction cases, and adversarial wording.
 - Add stronger conflict detection for contradictory source content and superseded clauses.
 - Add an expert-review queue for uncertain answers.
+- Add identity-aware authorization, rate limits, durable telemetry, load tests, and deployment checks before considering an externally reachable service.
 
 ## Evidence
 

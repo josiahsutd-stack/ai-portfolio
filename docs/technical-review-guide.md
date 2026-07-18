@@ -4,13 +4,13 @@ The selected set contains one flagship, two role-defining primary projects, and 
 
 ## 1. AEC Code Compliance RAG - Flagship
 
-**Implemented:** fail-closed public downloads, corpus fingerprints, page and section metadata, source filters, TF-IDF/BM25/dense-LSA/hybrid retrieval, citation objects, status handling, ablation, failure analysis, demo answers, and focused tests.
+**Implemented:** fail-closed public downloads, corpus fingerprints, page and section metadata, source filters, TF-IDF/BM25/dense-LSA/hybrid retrieval, citation objects, status handling, ablation, failure analysis, and a fail-closed local API with request tracing, redacted audit logs, readiness, and process-local metrics.
 
-**Evidence:** `src/aec_code_compliance_rag/`, `scripts/evaluate_retrieval.py`, `EVAL.md`, `ARCHITECTURE.md`, `demo_outputs/`, and `tests/test_rag.py`.
+**Evidence:** `src/aec_code_compliance_rag/`, `scripts/evaluate_retrieval.py`, `evaluate_service.py`, `EVAL.md`, `ARCHITECTURE.md`, `demo_outputs/`, `tests/test_rag.py`, and `tests/test_rag_service.py`.
 
 **Technical question:** How does provenance move from a downloaded document into a cited answer, and when does the system abstain?
 
-**Boundary:** The 51-case default set is synthetic. The 24-case public result describes one fingerprinted 15-document snapshot, not current-code validation or professional compliance advice.
+**Boundary:** The 51-case default set is synthetic. The 24-case public result describes one fingerprinted 15-document snapshot, not current-code validation or professional compliance advice. The service suite is in-process ASGI evidence, not an external deployment, security assessment, or usage record.
 
 ## 2. Construction Embodied Agent Simulator - Primary
 

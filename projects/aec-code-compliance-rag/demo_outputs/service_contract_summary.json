@@ -1,0 +1,32 @@
+{
+  "artifact_schema_version": 1,
+  "checks": {
+    "grounded_query_is_answered": true,
+    "invalid_retrieval_mode_is_rejected": true,
+    "liveness_is_public": true,
+    "missing_key_is_rejected": true,
+    "no_evidence_status_is_preserved": true,
+    "query_logs_preserve_request_ids": true,
+    "query_payloads_are_redacted_by_default": true,
+    "readiness_checks_configuration_and_index": true,
+    "request_id_is_propagated": true,
+    "retrieval_endpoint_returns_ranked_results": true,
+    "service_metrics_record_routes_and_errors": true,
+    "wrong_key_is_rejected": true
+  },
+  "data_status": "synthetic",
+  "evaluation_scope": "in-process ASGI contract; no external deployment or user traffic",
+  "observed": {
+    "answered_source_count": 4,
+    "answered_status": "answered",
+    "check_count": 12,
+    "client_errors_observed_before_metrics_response": 3,
+    "document_count": 7,
+    "no_evidence_status": "no_evidence",
+    "passed_check_count": 12,
+    "redacted_log_count": 2,
+    "requests_observed_before_metrics_response": 9,
+    "retrieved_result_count": 3
+  },
+  "passed": true
+}

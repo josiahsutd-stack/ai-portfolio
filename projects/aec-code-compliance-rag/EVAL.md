@@ -36,6 +36,25 @@ The public-source command writes the same artifact set under:
 projects/aec-code-compliance-rag/demo_outputs/public_sources/
 ```
 
+## Local Service Contract Evaluation
+
+Run the service evaluator separately:
+
+```bash
+python projects/aec-code-compliance-rag/evaluate_service.py
+```
+
+It performs 12 deterministic in-process ASGI checks over the synthetic corpus: public liveness, readiness, fail-closed authentication, request-ID propagation, grounded answers, no-evidence status, request validation, ranked retrieval, default payload redaction, audit-log request IDs, and route/error metrics.
+
+Current artifact-backed result: 12/12 local service contract checks passed; 9 requests were observed before the metrics response.
+
+Generated evidence:
+
+- [`demo_outputs/service_contract_summary.json`](demo_outputs/service_contract_summary.json)
+- [`demo_outputs/service_contract_report.md`](demo_outputs/service_contract_report.md)
+
+This contract suite does not start an external listener. It provides no evidence about cloud deployment, TLS, secret management, multiple workers, load capacity, availability, penetration resistance, incident response, privacy compliance, or user traffic.
+
 ## Evaluation Data
 
 Evaluation cases live in:
@@ -148,3 +167,4 @@ Optional modes `semantic` and `hybrid_cross_encoder` are exposed in the app and 
 - Add Singapore amendment-refresh and superseded-document tests.
 - Compare optional embedding and cross-encoder modes on the same fingerprinted public snapshot.
 - Track no-result rate and low-confidence answer rate over a larger eval set.
+- Exercise the service behind a real reverse proxy with identity-aware authorization, fault injection, concurrency/load tests, durable telemetry, and explicit latency/error objectives.

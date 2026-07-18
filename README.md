@@ -10,7 +10,7 @@ These three projects carry the clearest technical and domain evidence.
 
 | Project | Engineering focus | Current result | Evidence boundary |
 | --- | --- | --- | --- |
-| [AEC Code Compliance RAG](projects/aec-code-compliance-rag/README.md) | Public-source ingestion, page-aware metadata, four retrieval modes, citations, abstention, and retrieval evaluation. | Public 24-case snapshot over 15 validated documents: `Hit@1 0.952`, `MRR 0.976`, paraphrase `MRR 0.917`, and no-answer accuracy `1.000`. | Document assistance only; not compliance certification, legal advice, or proof that downloaded documents remain current. |
+| [AEC Code Compliance RAG](projects/aec-code-compliance-rag/README.md) | Public-source ingestion, page-aware metadata, four retrieval modes, citations, abstention, retrieval evaluation, and an authenticated local service contract. | Public 24-case snapshot over 15 validated documents: `Hit@1 0.952`, `MRR 0.976`, paraphrase `MRR 0.917`, and no-answer accuracy `1.000`. | Document assistance only; not compliance certification, legal advice, deployment evidence, or proof that downloaded documents remain current. |
 | [Construction Embodied Agent Simulator](projects/vla-embodied-agent-simulator/README.md) | Shared expert demonstrations, engineered, world-raster, and egocentric local observations, supervised imitation, closed-loop holdout evaluation, and action filtering. | On 96 unseen grids, filtered success is `0.760` for the egocentric MLP, `0.698` for the random forest, and `0.292` for the world-raster MLP; the egocentric result uses 943 interventions. | Semantic inputs come from simulator state and the filter sees full rules; no camera perception, foundation VLA, physics, ROS, hardware, or physical-safety validation. |
 | [Constraint-Aware Massing Explorer](projects/constraint-aware-massing-explorer/README.md) | Parametric geometry, hard constraints, Pareto ranking, editable objectives, and transparent environmental/access proxies. | Across 864 candidates per method: feasible rate `0.977` versus `0.052` for the unconstrained baseline; mean best GFA error `0.19%` versus `34.47%`. | Rectangular proxy model; no code inference, internal egress, calibrated daylight/CFD, structure, or approvable design. |
 
@@ -59,12 +59,13 @@ Python 3.11 or newer is recommended.
 ```bash
 python -m pip install -r requirements.txt -r requirements-dev.txt
 python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
+python projects/aec-code-compliance-rag/evaluate_service.py
 python projects/vla-embodied-agent-simulator/evaluate_vla.py
 python projects/constraint-aware-massing-explorer/evaluate_massing.py
 python projects/project-specification-copilot/evaluate_specification.py
 python projects/qs-takeoff-tender-analysis/evaluate_qs.py
 python integrations/aec-design-to-cost/run_workflow.py
-python -m pytest tests/test_rag.py tests/test_vla_embodied_agent.py tests/test_massing_explorer.py tests/test_project_specification_copilot.py tests/test_qs_takeoff_tender_analysis.py tests/test_aec_workflow_integration.py
+python -m pytest tests/test_rag.py tests/test_rag_service.py tests/test_vla_embodied_agent.py tests/test_massing_explorer.py tests/test_project_specification_copilot.py tests/test_qs_takeoff_tender_analysis.py tests/test_aec_workflow_integration.py
 ```
 
 Full repository verification:
@@ -79,13 +80,16 @@ python scripts/verify.py
 
 ### AEC Code Compliance RAG
 
-The flagship converts bundled synthetic guidance or locally downloaded Singapore public documents into metadata-rich chunks, retrieves evidence with TF-IDF, BM25, dense LSA, or hybrid search, and returns citation-bearing answers or an explicit abstention.
+The flagship converts bundled synthetic guidance or locally downloaded Singapore public documents into metadata-rich chunks, retrieves evidence with TF-IDF, BM25, dense LSA, or hybrid search, and returns citation-bearing answers or an explicit abstention. Its local FastAPI boundary adds fail-closed API-key configuration, bounded request IDs, readiness checks, redacted SQLite query logs, and process-local metrics.
+
+The checked-in in-process service evaluation records 12/12 contract checks passed and 9 requests observed before the metrics response. This is interface evidence, not external deployment or user-traffic evidence.
 
 - [Architecture](projects/aec-code-compliance-rag/ARCHITECTURE.md)
 - [Evaluation design and results](projects/aec-code-compliance-rag/EVAL.md)
 - [Generated evaluation outputs](projects/aec-code-compliance-rag/demo_outputs/)
+- [Local service contract report](projects/aec-code-compliance-rag/demo_outputs/service_contract_report.md)
 - [Public-source inventory and provenance](projects/aec-code-compliance-rag/public_sources/SOURCE_NOTES.md)
-- [Focused tests](tests/test_rag.py)
+- [Focused retrieval tests](tests/test_rag.py) and [service tests](tests/test_rag_service.py)
 - [Design write-up](docs/AEC_RAG_DESIGN_WRITEUP.md)
 
 Optional Singapore public-source workflow:

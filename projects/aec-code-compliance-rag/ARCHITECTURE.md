@@ -19,8 +19,15 @@ flowchart LR
   F --> H["Answer"]
   G --> H
   K --> H
+  API["FastAPI service factory"] --> AUTH["API key and request ID boundary"]
+  AUTH --> Q
+  API --> LIVE["Liveness and readiness"]
+  API --> LOG["Redacted SQLite query log"]
+  API --> MET["Process-local route and latency metrics"]
   D --> I["Retrieval evaluator"]
   I --> J["demo_outputs"]
+  API --> SI["In-process service evaluator"]
+  SI --> J
 ```
 
 ## Module Boundaries
@@ -34,11 +41,13 @@ flowchart LR
 | Retrieval | `src/aec_code_compliance_rag/retrieval.py` | Provides TF-IDF, BM25, dense LSA, hybrid retrieval, and optional sentence-transformer/cross-encoder modes over local chunks. |
 | Assistant | `src/aec_code_compliance_rag/assistant.py` | Builds the retrieval boundary, applies explicit and inferred authority/document source filters, handles questions, formats citations, checks source status, checks support, and returns abstention statuses. |
 | Faithfulness | `src/aec_code_compliance_rag/faithfulness.py` | Applies deterministic citation-marker and lexical-support checks for demo answers. |
-| Observability | `src/aec_code_compliance_rag/observability.py` | Persists local query metadata to SQLite for review and debugging. |
+| Observability | `src/aec_code_compliance_rag/observability.py` | Persists request ids, operation status, filters, error types, and redacted query metadata to a migration-tolerant local SQLite table. Full payload storage requires explicit opt-in. |
+| Service boundary | `src/aec_code_compliance_rag/service.py` | Builds the FastAPI app, validates request schemas, fails closed on absent/invalid API keys, attaches bounded request ids, distinguishes liveness/readiness, and records in-memory route/status/latency metrics. |
 | Evaluation | `src/aec_code_compliance_rag/evaluation.py` | Loads evaluation cases and computes retrieval metrics. |
 | Evaluation CLI | `evaluate_retrieval.py` | Runs the evaluator and writes versioned artifacts in `demo_outputs/`. |
+| Service evaluation CLI | `evaluate_service.py` | Runs deterministic in-process ASGI contract checks and writes versioned service evidence. |
 | Demo UI | `app.py` | Streamlit interface for local question answering and citation inspection. |
-| API | `api.py` | FastAPI review surface for health, source catalog, query, retrieve, and recent local logs. |
+| API entrypoint | `api.py` | Loads environment-backed settings and exposes the service factory app to Uvicorn. |
 
 ## Data Contract
 
@@ -119,6 +128,19 @@ The assistant returns an abstention status when:
 
 For compliance-oriented workflows, this behavior is more important than always generating a fluent answer.
 
+## Local Service Contract
+
+The FastAPI boundary is deliberately small and fail-closed:
+
+- `/health/live` confirms only that the process can answer HTTP requests.
+- `/health/ready` confirms that an API key is configured, the selected corpus exists, and the default hybrid retriever can be built.
+- `/sources`, `/query`, `/retrieve`, `/logs/recent`, and `/metrics` require a shared `X-API-Key`.
+- Client-supplied request IDs are accepted only when they match a bounded 64-character token pattern; otherwise the service generates one.
+- Query and response payloads are redacted from SQLite by default. Full payload storage is an explicit local configuration choice.
+- Metrics are process-local counters and a bounded latency sample. Unmatched URLs share one label to bound route cardinality; all metrics reset when the process restarts.
+
+`evaluate_service.py` verifies these interface behaviors with an in-process ASGI client. It does not exercise TLS, reverse proxies, multiple workers, network failure, load, secret rotation, identity-aware authorization, distributed telemetry, or an external deployment.
+
 ## Production Extension Points
 
 The current project is intentionally local and synthetic. A serious applied extension would add:
@@ -130,3 +152,4 @@ The current project is intentionally local and synthetic. A serious applied exte
 - Stronger answer-faithfulness evaluation against retrieved chunks.
 - Human approval workflow for compliance-sensitive responses.
 - Monitoring for no-result rate, citation coverage, low-score answers, and stale documents.
+- Identity-aware authorization, managed secrets, rate limiting, durable audit storage, distributed telemetry, and load/security testing.

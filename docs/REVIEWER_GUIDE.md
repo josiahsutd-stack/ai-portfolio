@@ -4,7 +4,7 @@
 
 | Order | Project | Evidence to inspect | Interpretation limit |
 | --- | --- | --- | --- |
-| 1 | `projects/aec-code-compliance-rag` | architecture, public provenance, retrieval ablation, failure analysis, demo answers, and focused tests | Flagship retrieval system; not compliance certification. |
+| 1 | `projects/aec-code-compliance-rag` | architecture, public provenance, retrieval ablation, failure analysis, demo answers, local service contract, and focused tests | Flagship retrieval system; not compliance certification or deployment evidence. |
 | 2 | `projects/vla-embodied-agent-simulator` | controlled engineered, world-raster, and egocentric local-state comparison, 96-scenario holdout, raw/filtered metrics, failures, model cards, and tests | Simulator state with a full-state rule filter; no camera perception, foundation VLA, or hardware evidence. |
 | 3 | `projects/constraint-aware-massing-explorer` | hard constraints, proxy objectives, Pareto ranking, baseline evaluation, diagrams, and tests | Rectangular proxy geometry; not professional design. |
 
@@ -14,10 +14,11 @@ The specification and QS projects extend the same AEC workflow with auditability
 
 ```bash
 python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
+python projects/aec-code-compliance-rag/evaluate_service.py
 python projects/vla-embodied-agent-simulator/evaluate_vla.py
 python projects/constraint-aware-massing-explorer/evaluate_massing.py
 python integrations/aec-design-to-cost/run_workflow.py
-python -m pytest tests/test_rag.py tests/test_vla_embodied_agent.py tests/test_massing_explorer.py tests/test_aec_workflow_integration.py
+python -m pytest tests/test_rag.py tests/test_rag_service.py tests/test_vla_embodied_agent.py tests/test_massing_explorer.py tests/test_aec_workflow_integration.py
 ```
 
 Full repository check: `python scripts/verify.py`.

@@ -18,6 +18,13 @@ from .retrieval import (
     SentenceTransformerRetriever,
     TfidfRetriever,
 )
+from .service import (
+    QueryRequest,
+    RetrieveRequest,
+    ServiceMetrics,
+    ServiceSettings,
+    create_service_app,
+)
 from .source_manifest import load_source_manifest
 
 __all__ = [
@@ -28,11 +35,16 @@ __all__ = [
     "DenseLsaRetriever",
     "HybridRetriever",
     "SentenceTransformerRetriever",
+    "ServiceMetrics",
+    "ServiceSettings",
     "CrossEncoderRerankedRetriever",
     "RetrievalEvalCase",
     "TfidfRetriever",
+    "QueryRequest",
+    "RetrieveRequest",
     "build_assistant_from_paths",
     "check_citation_faithfulness",
+    "create_service_app",
     "chunk_pdf_pages",
     "chunk_text",
     "evaluate_retrieval",

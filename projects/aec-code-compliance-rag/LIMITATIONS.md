@@ -10,5 +10,10 @@
 - TF-IDF, BM25, dense LSA, and hybrid retrieval are portable local baselines. Optional embedding and cross-encoder modes require additional model dependencies.
 - Citation faithfulness is a deterministic lexical coverage check, not full factual verification.
 - Project-specific markers trigger abstention when project records are absent; this is a conservative rule boundary, not learned applicability reasoning.
+- API authentication is one shared static key; there is no user identity, OAuth, RBAC, key rotation, or managed secret store.
+- The local service has no TLS termination, reverse-proxy configuration, rate limiting, distributed tracing, multi-worker coordination, or durable metrics backend.
+- Service metrics are process-local and reset on restart. The SQLite query log is a single-process review aid, not production telemetry.
+- Question and response payloads are redacted by default, but this implementation choice is not a privacy, data-retention, or regulatory-compliance program.
+- The service contract is evaluated in process. There is no external deployment, user traffic, load test, chaos test, penetration test, availability record, or incident-response evidence.
 - Outputs are not legal, code, engineering, architectural, or professional compliance advice.
 - Production use would require verified source authority, amendment/version monitoring, expert review, conflict resolution, security review, operational monitoring, and liability boundaries.

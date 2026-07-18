@@ -1,12 +1,48 @@
-# AEC RAG Deployment Guide
+# Local Service And Deployment Boundary
 
-This guide deploys the flagship AEC Code Compliance RAG Streamlit app in mock/synthetic mode. No paid API keys are required for the app to load.
+The verified runtime in this repository is local. The Streamlit app and FastAPI service run with bundled synthetic data and no paid API. No public deployment, uptime, traffic, operational-security, or user-adoption claim is made.
 
-The repository root now includes `app.py`, which delegates to `projects/aec-code-compliance-rag/app.py`. This keeps deployment simple for hosts that expect a root Streamlit entrypoint.
+## Verified Local FastAPI Service
+
+PowerShell from the repository root:
+
+```powershell
+$env:AEC_RAG_API_KEY = "local-review-key"
+python -m uvicorn api:app --app-dir projects/aec-code-compliance-rag --host 127.0.0.1 --port 8000
+```
+
+Runtime configuration:
+
+| Variable | Default | Boundary |
+| --- | --- | --- |
+| `AEC_RAG_API_KEY` | none | Required; protected routes fail closed when absent. |
+| `AEC_RAG_CORPUS` | `synthetic` | Use `public` only after downloading the optional public corpus. |
+| `AEC_RAG_LOG_PATH` | `.artifacts/aec-rag/query_log.sqlite` | Ignored local SQLite path; not a distributed audit store. |
+| `AEC_RAG_LOG_PAYLOADS` | `false` | Questions and response bodies remain redacted unless explicitly enabled. |
+
+Public endpoints are `/health/live` and `/health/ready`. The `X-API-Key` header is required for `/sources`, `/query`, `/retrieve`, `/logs/recent`, and `/metrics`.
+
+The deterministic contract evaluator exercises authentication, request IDs, readiness, retrieval, abstention, log redaction, and metrics without opening a network port:
+
+```bash
+python projects/aec-code-compliance-rag/evaluate_service.py
+```
+
+Its versioned outputs are [`service_contract_summary.json`](demo_outputs/service_contract_summary.json) and [`service_contract_report.md`](demo_outputs/service_contract_report.md). This is in-process ASGI evidence, not proof of an internet-facing deployment.
+
+## Verified Local Streamlit App
+
+```bash
+streamlit run projects/aec-code-compliance-rag/app.py
+```
+
+The repository root also includes `app.py`, which delegates to the project app for hosts that expect a root Streamlit entrypoint.
+
+## Unverified Hosting Options
+
+The following configurations are implementation notes only. They have not been presented as deployed evidence in this repository.
 
 ## Option A: Streamlit Community Cloud
-
-Expected time: under 15 minutes after signing in.
 
 1. Go to Streamlit Community Cloud and choose **New app**.
 2. Select repository: `josiahsutd-stack/ai-portfolio`.
@@ -20,8 +56,6 @@ Expected time: under 15 minutes after signing in.
 The app uses the repository root `requirements.txt` and `.streamlit/config.toml`.
 
 ## Option B: Hugging Face Spaces
-
-Expected time: under 15 minutes after signing in.
 
 1. Create a new Hugging Face Space.
 2. SDK: **Streamlit**.
@@ -58,4 +92,4 @@ Only do that if the host allows network download and persistent storage.
 
 ## Safety Copy
 
-Keep visible copy clear that the demo is source-grounded document assistance, not legal, architectural, engineering, or code-compliance sign-off.
+Any hosted version must identify the interface as source-grounded document assistance, not legal, architectural, engineering, or code-compliance sign-off. Before a deployment could support an operational claim, it would also need identity-aware authorization, managed secrets, TLS, rate limiting, durable telemetry, source refresh controls, load and security testing, incident handling, and observed reliability targets.
