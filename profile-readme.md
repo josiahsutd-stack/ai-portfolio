@@ -4,7 +4,7 @@
 
 I build evaluated AI systems for design and construction decisions. My architecture background gives me a domain lens for public AEC documents, spatial constraints, project requirements, quantity takeoff, and construction robotics; tests, evaluation fixtures, and reproducible outputs carry the technical claims.
 
-[![Josiah Lau applied AI engineering visual portfolio home page](https://raw.githubusercontent.com/josiahsutd-stack/ai-portfolio/main/portfolio-site/assets/portfolio-home-preview.png)](https://josiahsutd-stack.github.io/ai-portfolio/)
+[![Josiah Lau applied AI engineering visual portfolio home page](https://raw.githubusercontent.com/josiahsutd-stack/ai-portfolio/main/portfolio-site/assets/portfolio-home-preview.jpg)](https://josiahsutd-stack.github.io/ai-portfolio/)
 
 *Homepage preview. The construction-robot backdrop is a generated concept image; measured project evidence and explicit boundaries begin below.*
 

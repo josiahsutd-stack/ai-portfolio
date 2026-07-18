@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import re
+import struct
 import sys
 import xml.etree.ElementTree as ET
 from html.parser import HTMLParser
@@ -11,6 +12,8 @@ from urllib.parse import unquote, urlparse
 ROOT = Path(__file__).resolve().parents[1]
 SITE_ROOT = ROOT / "portfolio-site"
 PUBLIC_BASE_URL = "https://josiahsutd-stack.github.io/ai-portfolio/"
+SOCIAL_SITE_NAME = "Josiah Lau | Applied AI Engineering"
+SOCIAL_LOCALE = "en_SG"
 PLACEHOLDER_PATTERNS = [
     "your-username",
     "your-name",
@@ -50,6 +53,40 @@ HERO_PRELOAD_REQUIREMENTS = {
         "image/png",
     ),
     "pages/qs-takeoff.html": ("../assets/qs-takeoff-tender-demo.png", "image/png"),
+}
+SOCIAL_CARD_REQUIREMENTS = {
+    "index.html": (
+        "assets/social-card-home.png",
+        "Josiah Lau applied AI engineering portfolio hero for architecture and construction",
+    ),
+    "pages/aec-rag.html": (
+        "assets/social-card-aec-rag.png",
+        "AEC Code Compliance RAG case-study hero with local interface evidence",
+    ),
+    "pages/embodied-ai.html": (
+        "assets/social-card-embodied-ai.png",
+        "Construction Embodied Agent Simulator case-study hero",
+    ),
+    "pages/massing-explorer.html": (
+        "assets/social-card-massing-explorer.png",
+        "Constraint-Aware Massing Explorer case-study hero with generated option interface",
+    ),
+    "pages/specification-assistant.html": (
+        "assets/social-card-specification-assistant.png",
+        "Communication and Specification Assistant case-study hero with requirement interface",
+    ),
+    "pages/qs-takeoff.html": (
+        "assets/social-card-qs-takeoff.png",
+        "QS Takeoff and Tender Analysis case-study hero with measured quantity interface",
+    ),
+    "pages/recruiter-view.html": (
+        "assets/social-card-project-guide.png",
+        "Josiah Lau project guide showing applied AI work organized by role",
+    ),
+    "pages/skills-matrix.html": (
+        "assets/social-card-skills-matrix.png",
+        "Josiah Lau skills matrix linking capabilities to projects and evidence",
+    ),
 }
 REQUIRED_HOME_BOUNDARIES = [
     "generated portfolio concept image / not hardware evidence",
@@ -239,7 +276,7 @@ class SiteLinkParser(HTMLParser):
         self.meta_theme_color: str | None = None
         self.meta_robots: str | None = None
         self.open_graph: dict[str, str | None] = {}
-        self.twitter_card: str | None = None
+        self.twitter: dict[str, str | None] = {}
         self.canonical_links: list[str | None] = []
         self.image_preloads: list[dict[str, str | None]] = []
         self.nav_toggles: list[dict[str, str | None]] = []
@@ -265,8 +302,9 @@ class SiteLinkParser(HTMLParser):
                 self.meta_theme_color = attributes.get("content")
             elif attributes.get("name") == "robots":
                 self.meta_robots = attributes.get("content")
-            elif attributes.get("name") == "twitter:card":
-                self.twitter_card = attributes.get("content")
+            meta_name = attributes.get("name") or ""
+            if meta_name.startswith("twitter:"):
+                self.twitter[meta_name] = attributes.get("content")
             if attributes.get("property", "").startswith("og:"):
                 self.open_graph[attributes["property"]] = attributes.get("content")
         elif tag == "link":
@@ -469,7 +507,7 @@ def check_public_discovery_contracts() -> list[str]:
             issues.append(f"{label}: social metadata missing: {property_name}")
         if parser.open_graph.get("og:url") != expected_url:
             issues.append(f"{label}: og:url must match the canonical URL")
-        if parser.twitter_card != "summary_large_image":
+        if parser.twitter.get("twitter:card") != "summary_large_image":
             issues.append(f"{label}: twitter card must use `summary_large_image`")
 
     home = SITE_ROOT / "index.html"
@@ -541,6 +579,95 @@ def check_public_discovery_contracts() -> list[str]:
     if f"Sitemap: {PUBLIC_BASE_URL}sitemap.xml" not in robots:
         issues.append("portfolio-site/robots.txt: sitemap route is missing")
 
+    return issues
+
+
+def png_dimensions(path: Path) -> tuple[int, int] | None:
+    header = path.read_bytes()[:24]
+    if len(header) < 24 or header[:8] != b"\x89PNG\r\n\x1a\n":
+        return None
+    return struct.unpack(">II", header[16:24])
+
+
+def check_social_preview_contracts() -> list[str]:
+    issues: list[str] = []
+    required_open_graph = {
+        "og:type",
+        "og:site_name",
+        "og:locale",
+        "og:title",
+        "og:description",
+        "og:url",
+        "og:image",
+        "og:image:secure_url",
+        "og:image:type",
+        "og:image:width",
+        "og:image:height",
+        "og:image:alt",
+    }
+    required_twitter = {
+        "twitter:card",
+        "twitter:title",
+        "twitter:description",
+        "twitter:image",
+        "twitter:image:alt",
+    }
+    indexable_paths = {path.relative_to(SITE_ROOT).as_posix() for path in indexable_html_files()}
+    configured_paths = set(SOCIAL_CARD_REQUIREMENTS)
+    if configured_paths != indexable_paths:
+        missing = sorted(indexable_paths - configured_paths)
+        stale = sorted(configured_paths - indexable_paths)
+        if missing:
+            issues.append(f"social preview manifest is missing pages: {', '.join(missing)}")
+        if stale:
+            issues.append(f"social preview manifest has stale pages: {', '.join(stale)}")
+
+    for relative_page, (relative_card, expected_alt) in SOCIAL_CARD_REQUIREMENTS.items():
+        page_path = SITE_ROOT / relative_page
+        label = page_path.relative_to(ROOT)
+        if not page_path.is_file():
+            issues.append(f"{label}: social preview page is missing")
+            continue
+
+        parser = SiteLinkParser()
+        parser.feed(page_path.read_text(encoding="utf-8"))
+        for property_name in sorted(required_open_graph - parser.open_graph.keys()):
+            issues.append(f"{label}: social metadata missing: {property_name}")
+        for meta_name in sorted(required_twitter - parser.twitter.keys()):
+            issues.append(f"{label}: social metadata missing: {meta_name}")
+
+        expected_image = f"{PUBLIC_BASE_URL}{relative_card}"
+        expected_open_graph = {
+            "og:site_name": SOCIAL_SITE_NAME,
+            "og:locale": SOCIAL_LOCALE,
+            "og:url": public_url(page_path),
+            "og:image": expected_image,
+            "og:image:secure_url": expected_image,
+            "og:image:type": "image/png",
+            "og:image:width": "1200",
+            "og:image:height": "630",
+            "og:image:alt": expected_alt,
+        }
+        for property_name, expected_value in expected_open_graph.items():
+            if parser.open_graph.get(property_name) != expected_value:
+                issues.append(f"{label}: {property_name} must equal `{expected_value}`")
+
+        expected_twitter = {
+            "twitter:card": "summary_large_image",
+            "twitter:title": parser.open_graph.get("og:title"),
+            "twitter:description": parser.open_graph.get("og:description"),
+            "twitter:image": expected_image,
+            "twitter:image:alt": expected_alt,
+        }
+        for meta_name, expected_value in expected_twitter.items():
+            if parser.twitter.get(meta_name) != expected_value:
+                issues.append(f"{label}: {meta_name} must equal `{expected_value}`")
+
+        card_path = SITE_ROOT / relative_card
+        if not card_path.is_file():
+            issues.append(f"portfolio-site/{relative_card}: social preview image is missing")
+        elif png_dimensions(card_path) != (1200, 630):
+            issues.append(f"portfolio-site/{relative_card}: social preview must be a 1200x630 PNG")
     return issues
 
 
@@ -715,6 +842,7 @@ def main() -> None:
         + check_css_assets()
         + check_page_accessibility_contracts()
         + check_public_discovery_contracts()
+        + check_social_preview_contracts()
         + check_hero_preload_contracts()
         + check_shared_interaction_contracts()
         + check_command_copy_contracts()

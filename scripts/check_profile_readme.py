@@ -6,7 +6,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PROFILE = ROOT / "profile-readme.md"
-PROFILE_PREVIEW = ROOT / "portfolio-site" / "assets" / "portfolio-home-preview.png"
+PROFILE_PREVIEW = ROOT / "portfolio-site" / "assets" / "portfolio-home-preview.jpg"
+LEGACY_PROFILE_PREVIEW = ROOT / "portfolio-site" / "assets" / "portfolio-home-preview.png"
 PROFILE_BRIEF = ROOT / "portfolio-site" / "assets" / "Josiah_Lau_Applied_AI_Portfolio_Brief.pdf"
 LINK_PATTERN = re.compile(r"!?\[[^\]]*\]\((?P<target>[^)]+)\)")
 REQUIRED_TEXT = (
@@ -16,7 +17,7 @@ REQUIRED_TEXT = (
     "https://github.com/josiahsutd-stack/ai-portfolio",
     "https://www.linkedin.com/in/josiah-lau-8041822b6/",
     "mailto:josiahsutd@gmail.com",
-    "portfolio-site/assets/portfolio-home-preview.png",
+    "portfolio-site/assets/portfolio-home-preview.jpg",
     "AEC Code Compliance RAG",
     "Construction Embodied Agent Simulator",
     "Constraint-Aware Massing Explorer",
@@ -74,6 +75,11 @@ def collect_issues(text: str | None = None) -> list[str]:
 
     if not PROFILE_PREVIEW.is_file():
         issues.append("profile-readme.md: local portfolio preview image is missing")
+    elif not PROFILE_PREVIEW.read_bytes().startswith(b"\xff\xd8\xff"):
+        issues.append("profile-readme.md: portfolio preview must contain JPEG data")
+
+    if LEGACY_PROFILE_PREVIEW.exists():
+        issues.append("profile-readme.md: stale PNG-named portfolio preview remains")
 
     if not PROFILE_BRIEF.is_file():
         issues.append("profile-readme.md: generated portfolio brief is missing")

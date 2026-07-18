@@ -4,7 +4,7 @@
 
 [AEC RAG case study](https://josiahsutd-stack.github.io/ai-portfolio/pages/aec-rag.html) | [Specification Assistant case study](https://josiahsutd-stack.github.io/ai-portfolio/pages/specification-assistant.html) | [Massing Explorer case study](https://josiahsutd-stack.github.io/ai-portfolio/pages/massing-explorer.html) | [QS Workbench case study](https://josiahsutd-stack.github.io/ai-portfolio/pages/qs-takeoff.html) | [Embodied AI case study](https://josiahsutd-stack.github.io/ai-portfolio/pages/embodied-ai.html)
 
-[![Josiah Lau applied AI engineering visual portfolio home page](portfolio-site/assets/portfolio-home-preview.png)](https://josiahsutd-stack.github.io/ai-portfolio/)
+[![Josiah Lau applied AI engineering visual portfolio home page](portfolio-site/assets/portfolio-home-preview.jpg)](https://josiahsutd-stack.github.io/ai-portfolio/)
 
 *Homepage preview. The construction-robot backdrop is a generated concept image; measured project evidence and explicit boundaries begin below.*
 

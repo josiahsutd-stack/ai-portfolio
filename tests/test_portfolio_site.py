@@ -11,6 +11,7 @@ from scripts.check_portfolio_site import (
     check_palette_contrast,
     check_public_discovery_contracts,
     check_shared_interaction_contracts,
+    check_social_preview_contracts,
     html_files,
 )
 
@@ -38,6 +39,10 @@ def test_every_public_page_keeps_accessibility_metadata_and_controls() -> None:
 
 def test_public_site_keeps_search_share_and_recovery_contracts() -> None:
     assert check_public_discovery_contracts() == []
+
+
+def test_every_indexable_page_keeps_complete_social_preview_contracts() -> None:
+    assert check_social_preview_contracts() == []
 
 
 def test_visual_entry_pages_preload_only_their_first_screen_hero() -> None:
