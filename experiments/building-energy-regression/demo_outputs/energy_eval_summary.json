@@ -5,7 +5,7 @@
   "dataset": {
     "row_count": 180,
     "target": "energy_use_kwh_m2_year",
-    "path": "experiments/building-energy-ml-pipeline/sample_data/synthetic_building_energy.csv"
+    "path": "experiments/building-energy-regression/sample_data/synthetic_building_energy.csv"
   },
   "split": {
     "train_rows": 135,

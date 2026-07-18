@@ -880,9 +880,9 @@ claims:
           - "| Test macro-F1 | `{test_macro_f1}` |"
 
   - id: synthetic-building-energy-regression
-    project_slug: building-energy-ml-pipeline
-    artifact: experiments/building-energy-ml-pipeline/demo_outputs/energy_eval_summary.json
-    command: python experiments/building-energy-ml-pipeline/evaluate_model.py
+    project_slug: building-energy-regression
+    artifact: experiments/building-energy-regression/demo_outputs/energy_eval_summary.json
+    command: python experiments/building-energy-regression/evaluate_model.py
     evaluation_scope: Fixed {train_rows}/{test_rows} split of {row_count} bundled synthetic building rows
     metrics:
       row_count:
@@ -908,7 +908,7 @@ claims:
         decimals: 3
     result_template: "Random-forest MAE {model_mae} and R2 {model_r2} vs mean-baseline MAE {baseline_mae}; {test_rows} synthetic holdout rows"
     public_surfaces:
-      - path: experiments/building-energy-ml-pipeline/README.md
+      - path: experiments/building-energy-regression/README.md
         contains:
           - "| Data | `{row_count}` synthetic rows |"
           - "| Fixed split | `{train_rows}` train / `{test_rows}` holdout rows |"
@@ -917,7 +917,7 @@ claims:
           - "| Training-mean baseline MAE | `{baseline_mae}` kWh/m2/year |"
           - "| Training-mean baseline R2 | `{baseline_r2}` |"
           - "| MAE reduction relative to baseline | `{mae_reduction}` |"
-      - path: experiments/building-energy-ml-pipeline/MODEL_CARD.md
+      - path: experiments/building-energy-regression/MODEL_CARD.md
         contains:
           - "contains `{train_rows}` training rows and `{test_rows}` holdout rows"
           - "records MAE `{model_mae}` and R2 `{model_r2}`"

@@ -6,4 +6,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 EXPOSE 8501
-CMD ["streamlit", "run", "experiments/building-energy-ml-pipeline/app.py", "--server.address=0.0.0.0"]
+CMD ["streamlit", "run", "experiments/building-energy-regression/app.py", "--server.address=0.0.0.0"]

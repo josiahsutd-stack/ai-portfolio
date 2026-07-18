@@ -1,5 +1,5 @@
 projects:
-  - name: AEC Code Compliance RAG Assistant
+  - name: AEC Code Compliance RAG
     slug: aec-code-compliance-rag
     category: AI for the Built Environment
     skill_area: RAG and LLM engineering
@@ -60,11 +60,11 @@ projects:
     boundary: "Stress labels are not blinded or independent; not open-domain language understanding, authenticated authority, or a professional project specification"
     readme_path: projects/project-specification-copilot/README.md
   - name: Building Energy Regression Experiment
-    slug: building-energy-ml-pipeline
+    slug: building-energy-regression
     category: AI for the Built Environment
     skill_area: Classical ML
     flagship: false
-    demo_command: streamlit run experiments/building-energy-ml-pipeline/app.py
+    demo_command: streamlit run experiments/building-energy-regression/app.py
     test_command: pytest tests/test_energy_model.py
     tech_stack: [Python, pandas, scikit-learn, FastAPI]
     summary: Predicts synthetic building energy intensity from design features.
@@ -73,7 +73,7 @@ projects:
     data_mode: "Synthetic building-performance rows"
     implementation_mode: "Random-forest regression pipeline"
     boundary: "Not calibrated energy simulation or professional performance analysis"
-    readme_path: experiments/building-energy-ml-pipeline/README.md
+    readme_path: experiments/building-energy-regression/README.md
   - name: Constraint-Aware Massing Explorer
     slug: constraint-aware-massing-explorer
     category: AI for the Built Environment

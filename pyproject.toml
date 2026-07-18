@@ -6,7 +6,7 @@ pythonpath = [
   "projects/qs-takeoff-tender-analysis/src",
   "experiments/bim-schedule-rule-checker/src",
   "projects/project-specification-copilot/src",
-  "experiments/building-energy-ml-pipeline/src",
+  "experiments/building-energy-regression/src",
   "projects/constraint-aware-massing-explorer/src",
   "experiments/construction-grid-route-planner/src",
   "experiments/robot-telemetry-rule-monitor/src",

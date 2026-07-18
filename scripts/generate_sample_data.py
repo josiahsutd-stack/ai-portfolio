@@ -403,7 +403,7 @@ def generate_energy_data() -> None:
             }
         )
     pd.DataFrame(rows).to_csv(
-        ROOT / "experiments/building-energy-ml-pipeline/sample_data/synthetic_building_energy.csv",
+        ROOT / "experiments/building-energy-regression/sample_data/synthetic_building_energy.csv",
         index=False,
     )
 

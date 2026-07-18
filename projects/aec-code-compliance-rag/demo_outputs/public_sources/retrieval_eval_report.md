@@ -1,6 +1,6 @@
 # Retrieval Evaluation Report
 
-Singapore public-source evaluation for the AEC Code Compliance RAG Assistant.
+Singapore public-source evaluation for the AEC Code Compliance RAG.
 
 ## Reproducibility Evidence
 

@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 
 import pandas as pd
-from building_energy_ml_pipeline.model import (
+from building_energy_regression.model import (
     evaluate_energy_model,
     evaluate_energy_model_detailed,
     load_energy_data,
@@ -11,7 +11,7 @@ from building_energy_ml_pipeline.model import (
 )
 
 ROOT = Path(__file__).resolve().parents[1]
-PROJECT_ROOT = ROOT / "experiments" / "building-energy-ml-pipeline"
+PROJECT_ROOT = ROOT / "experiments" / "building-energy-regression"
 
 
 def _energy_frame() -> pd.DataFrame:

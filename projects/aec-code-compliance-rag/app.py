@@ -13,7 +13,7 @@ from aec_code_compliance_rag import build_assistant_from_paths, downloaded_publi
 
 st.set_page_config(page_title="AEC Code Compliance RAG", page_icon="AI", layout="wide")
 
-st.title("AEC Code Compliance RAG Assistant")
+st.title("AEC Code Compliance RAG")
 st.caption("Local review tool. Not legal, code, or professional compliance advice.")
 
 corpus = st.selectbox(

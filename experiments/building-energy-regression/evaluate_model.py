@@ -8,7 +8,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent
 REPO_ROOT = PROJECT_ROOT.parents[1]
 sys.path.extend([str(PROJECT_ROOT / "src"), str(REPO_ROOT)])
 
-from building_energy_ml_pipeline import (  # noqa: E402
+from building_energy_regression import (  # noqa: E402
     evaluate_energy_model_detailed,
     load_energy_data,
 )

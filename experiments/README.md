@@ -5,7 +5,7 @@ These studies isolate one baseline, rule system, or provider contract at a time.
 | Experiment | Implemented evidence | Hard boundary |
 | --- | --- | --- |
 | [BIM Schedule Rule Checker](bim-schedule-rule-checker/README.md) | Deterministic schedule rules, severity scoring, and optional explanation formatting. | No geometric BIM parsing, clash detection, or professional QA. |
-| [Building Energy Regression Experiment](building-energy-ml-pipeline/README.md) | Random-forest regression with a fixed synthetic holdout and mean baseline. | Not calibrated simulation or professional energy analysis. |
+| [Building Energy Regression Experiment](building-energy-regression/README.md) | Random-forest regression with a fixed synthetic holdout and mean baseline. | Not calibrated simulation or professional energy analysis. |
 | [Construction Grid Route Planner](construction-grid-route-planner/README.md) | Deterministic A* routing through synthetic site constraints. | No perception, motion physics, ROS, or robot actuation. |
 | [Robot Telemetry Safety Rule Monitor](robot-telemetry-rule-monitor/README.md) | Explicit proximity, speed, payload, and emergency-stop rules over synthetic telemetry. | Not a certified safety system or physical robot validation. |
 | [Visual Provider Contract](visual-provider-contract/README.md) | Image-byte validation, request construction, structured parsing, zero-confidence mock, and optional hosted-provider path. | No local VLM, OCR, visual reasoning, or defect-detection evidence. |

@@ -19,7 +19,7 @@ COMMANDS = [
     [sys.executable, "integrations/aec-design-to-cost/run_workflow.py"],
     [sys.executable, "experiments/deterministic-research-workflow/scripts/evaluate_workflow.py"],
     [sys.executable, "experiments/local-model-serving-monitoring/scripts/evaluate_model.py"],
-    [sys.executable, "experiments/building-energy-ml-pipeline/evaluate_model.py"],
+    [sys.executable, "experiments/building-energy-regression/evaluate_model.py"],
     [sys.executable, "experiments/robot-telemetry-rule-monitor/generate_demo_report.py"],
     [sys.executable, "experiments/visual-provider-contract/generate_contract_artifact.py"],
     [sys.executable, "experiments/local-text-classification-lab/evaluate_model.py"],

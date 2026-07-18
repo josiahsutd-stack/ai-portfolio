@@ -52,7 +52,7 @@ with tab_synthetic:
 
     st.subheader("Dataset")
     rows = [example.__dict__ for example in load_examples(examples_path)]
-    st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+    st.dataframe(pd.DataFrame(rows), width="stretch", hide_index=True)
 
 with tab_public:
     cols = st.columns(4)
@@ -73,4 +73,4 @@ with tab_public:
     st.json(predict_label(public_model, sms_text))
 
     st.subheader("Public Subset Preview")
-    st.dataframe(pd.read_csv(public_dataset_path, sep="\t").head(30), use_container_width=True)
+    st.dataframe(pd.read_csv(public_dataset_path, sep="\t").head(30), width="stretch")

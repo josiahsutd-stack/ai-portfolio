@@ -115,7 +115,7 @@ def _write_markdown_report(
     lines = [
         "# Retrieval Evaluation Report",
         "",
-        f"{corpus_label} evaluation for the AEC Code Compliance RAG Assistant.",
+        f"{corpus_label} evaluation for the AEC Code Compliance RAG.",
         "",
         "## Reproducibility Evidence",
         "",

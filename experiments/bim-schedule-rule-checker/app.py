@@ -26,11 +26,11 @@ data = load_room_schedule(DATA_PATH)
 issues = detect_issues(data)
 
 st.subheader("Mock room schedule")
-st.dataframe(data, use_container_width=True)
+st.dataframe(data, width="stretch")
 
 st.subheader("Detected issues")
 st.metric("Issue count", len(issues))
-st.dataframe([issue.to_dict() for issue in issues], use_container_width=True)
+st.dataframe([issue.to_dict() for issue in issues], width="stretch")
 
 if issues:
     selected = st.selectbox(

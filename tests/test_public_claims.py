@@ -1,5 +1,9 @@
 from scripts.check_claims import ROOT, collect_issues, line_issues, public_text_files
-from scripts.check_repo_health import RETIRED_EXPERIMENT_SLUGS, check_forbidden_public_docs
+from scripts.check_repo_health import (
+    RETIRED_EXPERIMENT_SLUGS,
+    check_forbidden_public_docs,
+    check_verification_workflow,
+)
 
 
 def test_claim_scan_includes_static_site_and_integration_docs() -> None:
@@ -39,6 +43,10 @@ def test_obsolete_hiring_verdict_document_remains_removed() -> None:
     assert check_forbidden_public_docs() == []
 
 
+def test_single_current_verification_workflow_remains_configured() -> None:
+    assert check_verification_workflow() == []
+
+
 def test_claim_scan_rejects_deprecated_project_name() -> None:
     issues = line_issues(
         ROOT / "profile-readme.md",
@@ -63,6 +71,7 @@ def test_removed_or_renamed_experiment_slugs_stay_absent() -> None:
     expected = {
         "agentic-research-ops-assistant",
         "bim-issue-detection-agent",
+        "building-energy-ml-pipeline",
         "construction-robot-task-planner",
         "deep-learning-vision-lab",
         "llm-evals-guardrails-platform",

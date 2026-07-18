@@ -23,7 +23,7 @@ The values above are generated from [`energy_eval_summary.json`](demo_outputs/en
 From the repository root:
 
 ```bash
-python experiments/building-energy-ml-pipeline/evaluate_model.py
+python experiments/building-energy-regression/evaluate_model.py
 python -m pytest tests/test_energy_model.py
 ```
 
@@ -31,9 +31,9 @@ The evaluation command regenerates both versioned files in [`demo_outputs/`](dem
 
 ## Implementation
 
-- [`model.py`](src/building_energy_ml_pipeline/model.py) validates the schema, preprocesses categorical and numeric inputs, fits the random forest, and evaluates it.
+- [`model.py`](src/building_energy_regression/model.py) validates the schema, preprocesses categorical and numeric inputs, fits the random forest, and evaluates it.
 - The holdout protocol uses a fixed `random_state=13` and compares the model with a `DummyRegressor(strategy="mean")` fitted on training targets only.
-- [`api.py`](src/building_energy_ml_pipeline/api.py) exposes `/metrics` and `/predict` endpoints.
+- [`api.py`](src/building_energy_regression/api.py) exposes `/metrics` and `/predict` endpoints.
 - [`app.py`](app.py) provides a Streamlit view over the same synthetic data and model code.
 - [`MODEL_CARD.md`](MODEL_CARD.md) records intended use, evaluation scope, and misuse boundaries.
 
@@ -54,8 +54,8 @@ flowchart LR
 ## Run The Interfaces
 
 ```bash
-streamlit run experiments/building-energy-ml-pipeline/app.py
-python -m uvicorn building_energy_ml_pipeline.api:app --app-dir experiments/building-energy-ml-pipeline/src --reload
+streamlit run experiments/building-energy-regression/app.py
+python -m uvicorn building_energy_regression.api:app --app-dir experiments/building-energy-regression/src --reload
 ```
 
 The dashboard prediction is a demonstration inference from a model fitted to the full synthetic fixture. It is separate from the holdout metrics and must not be interpreted as a real building forecast.

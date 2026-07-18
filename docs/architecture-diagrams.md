@@ -1,6 +1,6 @@
 # Architecture Diagrams
 
-## AEC Code Compliance RAG Assistant
+## AEC Code Compliance RAG
 
 ```mermaid
 flowchart LR
@@ -56,7 +56,7 @@ flowchart LR
   E --> G
 ```
 
-## Building Energy Regression Pipeline
+## Building Energy Regression Experiment
 
 ```mermaid
 flowchart LR

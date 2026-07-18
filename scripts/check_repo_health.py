@@ -39,7 +39,7 @@ REQUIRED_DOCS = [
     "integrations/aec-design-to-cost/EVAL.md",
     "integrations/aec-design-to-cost/LIMITATIONS.md",
     "integrations/aec-design-to-cost/sample_data/synthetic_workflow_case.json",
-    ".github/workflows/verify.yml",
+    ".github/workflows/ci.yml",
     "experiments/local-text-classification-lab/EVAL.md",
     "experiments/local-text-classification-lab/sample_data/uci_sms_subset_manifest.json",
     "experiments/local-text-classification-lab/scripts/build_uci_sms_subset.py",
@@ -71,9 +71,15 @@ REQUIRED_ROOT_README_PATTERNS = {
     "cross-project integration command": r"python integrations/aec-design-to-cost/run_workflow\.py",
 }
 REQUIRED_WORKFLOW_PATTERNS = {
+    "push trigger": r"(?m)^\s*push:\s*$",
     "pull-request trigger": r"(?m)^\s*pull_request:\s*$",
     "manual trigger": r"(?m)^\s*workflow_dispatch:\s*$",
+    "main branch trigger": r'(?m)^\s*branches:\s*\["main"\]\s*$',
     "read-only contents permission": r"(?m)^\s*contents:\s*read\s*$",
+    "bounded runtime": r"(?m)^\s*timeout-minutes:\s*20\s*$",
+    "current checkout action": r"actions/checkout@v6",
+    "current Python setup action": r"actions/setup-python@v6",
+    "dependency cache": r"(?m)^\s*cache:\s*pip\s*$",
     "repository verifier": r"python scripts/verify\.py",
 }
 GENERIC_PHRASES = [
@@ -123,6 +129,7 @@ INFLATED_PROJECT_NAME_PHRASES = {
 RETIRED_EXPERIMENT_SLUGS = {
     "agentic-research-ops-assistant",
     "bim-issue-detection-agent",
+    "building-energy-ml-pipeline",
     "construction-robot-task-planner",
     "deep-learning-vision-lab",
     "fine-tuning-lora-lab",
@@ -174,13 +181,17 @@ def check_root_readme() -> list[str]:
 
 
 def check_verification_workflow() -> list[str]:
-    workflow = ROOT / ".github" / "workflows" / "verify.yml"
+    workflow = ROOT / ".github" / "workflows" / "ci.yml"
     text = workflow.read_text(encoding="utf-8") if workflow.exists() else ""
-    return [
-        f".github/workflows/verify.yml: missing {label}"
+    issues = [
+        f".github/workflows/ci.yml: missing {label}"
         for label, pattern in REQUIRED_WORKFLOW_PATTERNS.items()
         if not re.search(pattern, text)
     ]
+    duplicate = ROOT / ".github" / "workflows" / "verify.yml"
+    if duplicate.exists():
+        issues.append(".github/workflows/verify.yml: duplicate verifier workflow must stay removed")
+    return issues
 
 
 def check_project_manifest() -> list[str]:

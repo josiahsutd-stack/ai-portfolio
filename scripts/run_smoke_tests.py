@@ -14,7 +14,7 @@ MODULES = [
     "qs_takeoff_tender_analysis",
     "bim_schedule_rule_checker",
     "project_specification_copilot",
-    "building_energy_ml_pipeline",
+    "building_energy_regression",
     "constraint_aware_massing_explorer",
     "construction_grid_route_planner",
     "robot_telemetry_rule_monitor",

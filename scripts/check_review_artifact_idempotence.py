@@ -14,7 +14,7 @@ ARTIFACT_DIRS = [
     ROOT / "integrations" / "aec-design-to-cost" / "demo_outputs",
     ROOT / "experiments" / "deterministic-research-workflow" / "demo_outputs",
     ROOT / "experiments" / "local-model-serving-monitoring" / "demo_outputs",
-    ROOT / "experiments" / "building-energy-ml-pipeline" / "demo_outputs",
+    ROOT / "experiments" / "building-energy-regression" / "demo_outputs",
     ROOT / "experiments" / "robot-telemetry-rule-monitor" / "demo_outputs",
     ROOT / "experiments" / "visual-provider-contract" / "demo_outputs",
     ROOT / "experiments" / "local-text-classification-lab" / "demo_outputs",

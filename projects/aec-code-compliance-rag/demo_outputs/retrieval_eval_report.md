@@ -1,6 +1,6 @@
 # Retrieval Evaluation Report
 
-Synthetic demo evaluation for the AEC Code Compliance RAG Assistant.
+Synthetic demo evaluation for the AEC Code Compliance RAG.
 
 ## Reproducibility Evidence
 

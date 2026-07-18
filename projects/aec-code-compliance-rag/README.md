@@ -1,4 +1,4 @@
-# AEC Code Compliance RAG Assistant
+# AEC Code Compliance RAG
 
 Primary review project for this AI engineering portfolio.
 

@@ -10,7 +10,7 @@ from .model import evaluate_energy_model, load_energy_data, predict_energy_use, 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DATA_PATH = PROJECT_ROOT / "sample_data" / "synthetic_building_energy.csv"
 
-app = FastAPI(title="Building Energy Regression Pipeline")
+app = FastAPI(title="Building Energy Regression Experiment")
 
 
 class EnergyPredictionRequest(BaseModel):
