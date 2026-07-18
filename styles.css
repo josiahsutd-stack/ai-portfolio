@@ -16,6 +16,8 @@
 
 body {
   margin: 0;
+  max-width: 100%;
+  overflow-x: clip;
   color: var(--ink);
   background: var(--paper);
   font-family:
@@ -59,6 +61,7 @@ nav {
   position: relative;
   min-height: 74vh;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   align-items: end;
   padding: 120px clamp(20px, 6vw, 86px) 54px;
   color: var(--white);
@@ -76,6 +79,8 @@ nav {
 
 .hero__content {
   position: relative;
+  width: 100%;
+  min-width: 0;
   max-width: 860px;
 }
 
@@ -178,7 +183,18 @@ h3 {
 
 .container {
   width: min(1180px, 100%);
+  min-width: 0;
   margin: 0 auto;
+}
+
+.container > *,
+.section-heading,
+.hero__actions,
+.evidence-grid,
+.support-grid,
+.flagship__grid,
+.boundary-grid {
+  min-width: 0;
 }
 
 .intro__grid,
@@ -526,16 +542,24 @@ h3 {
     align-items: flex-start;
     gap: 12px;
     flex-direction: column;
+    padding: 16px 20px;
   }
 
   nav {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     width: 100%;
-    justify-content: flex-start;
+    gap: 8px 12px;
+    font-size: 0.82rem;
+  }
+
+  nav a {
+    min-width: 0;
   }
 
   .hero {
     min-height: 78vh;
-    padding-top: 150px;
+    padding: 164px 20px 46px;
   }
 
   h1 {
@@ -544,6 +568,24 @@ h3 {
 
   .hero-role {
     font-size: 1.35rem;
+    overflow-wrap: anywhere;
+  }
+
+  .hero__actions {
+    flex-direction: column;
+    align-items: stretch;
+    max-width: 260px;
+  }
+
+  .hero__actions .button {
+    width: 100%;
+  }
+
+  h2,
+  h3,
+  p,
+  code {
+    overflow-wrap: anywhere;
   }
 
   .fact-list div {
