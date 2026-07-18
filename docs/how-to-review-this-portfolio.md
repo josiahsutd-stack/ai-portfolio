@@ -11,15 +11,10 @@
 ## Fifteen-Minute Screen
 
 ```bash
-python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
-python projects/aec-code-compliance-rag/evaluate_service.py
-python projects/aec-code-compliance-rag/evaluate_service_reliability.py
-python projects/vla-embodied-agent-simulator/evaluate_vla.py
-python projects/constraint-aware-massing-explorer/evaluate_massing.py
-python -m pytest tests/test_rag.py tests/test_rag_service.py tests/test_vla_embodied_agent.py tests/test_massing_explorer.py
+python scripts/reviewer_check.py
 ```
 
-The commands use bundled synthetic data or a labeled public snapshot and require no paid APIs. Deterministic metrics, reports, traces, and diagrams are versioned for comparison.
+This non-mutating command checks the public contract and runs focused tests for the flagship, embodied, massing, integration, app-entrypoint, and evidence paths. It uses bundled synthetic data or a labeled public snapshot and requires no paid APIs. Individual evaluator commands remain in each project README when artifact regeneration is part of the review.
 
 ## AEC Workflow Evidence
 

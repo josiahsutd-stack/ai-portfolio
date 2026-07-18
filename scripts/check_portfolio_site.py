@@ -32,6 +32,11 @@ REQUIRED_HOME_BOUNDARIES = [
 REQUIRED_HOME_SECTIONS = [
     "focused experiments",
     "prioritizes implementation evidence over project count",
+    "one-command technical check",
+    "python scripts/reviewer_check.py",
+    'aria-expanded="false"',
+    "scroll-progress",
+    "workflow-proof--system",
 ]
 
 

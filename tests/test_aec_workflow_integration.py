@@ -183,3 +183,9 @@ def test_trace_and_generated_artifacts_are_deterministic(tmp_path: Path) -> None
     candidate_id = first["massing_search"]["selected_candidate"]["candidate"]["candidate_id"]
     assert trace_payload["trace_version"] == first["trace_version"]
     assert candidate_id in (tmp_path / "workflow_trace.svg").read_text(encoding="utf-8")
+    svg = (tmp_path / "workflow_trace.svg").read_text(encoding="utf-8")
+    assert "SOURCE + APPROVAL GATE" in svg
+    assert "IMPLEMENTED SYSTEMS AND TYPED HANDOFFS" in svg
+    assert "TRACEABILITY CHAIN" in svg
+    assert "HUMAN REVIEW / 4 EXPLICIT GATES" in svg
+    assert trace_payload["trace_version"] in svg

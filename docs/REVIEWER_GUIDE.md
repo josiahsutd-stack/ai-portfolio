@@ -13,16 +13,10 @@ The specification and QS projects extend the same AEC workflow with auditability
 ## Fast Verification
 
 ```bash
-python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
-python projects/aec-code-compliance-rag/evaluate_service.py
-python projects/aec-code-compliance-rag/evaluate_service_reliability.py
-python projects/vla-embodied-agent-simulator/evaluate_vla.py
-python projects/constraint-aware-massing-explorer/evaluate_massing.py
-python integrations/aec-design-to-cost/run_workflow.py
-python -m pytest tests/test_rag.py tests/test_rag_service.py tests/test_vla_embodied_agent.py tests/test_massing_explorer.py tests/test_aec_workflow_integration.py
+python scripts/reviewer_check.py
 ```
 
-Full repository check: `python scripts/verify.py`.
+The command validates the public documentation and runs selected-work tests without rewriting tracked artifacts. Full repository regeneration, formatting, linting, and test verification remains `python scripts/verify.py`.
 
 The [evidence ledger](EVIDENCE_LEDGER.md) maps displayed metrics to versioned artifacts, evaluation scope, and reproduction commands.
 

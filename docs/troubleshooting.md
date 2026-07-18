@@ -76,11 +76,13 @@ QUICK_MODE=true
 
 ## Model / API Key Issues
 
-The demos use mock providers when API keys are missing. Real provider integrations should be treated as optional extensions.
+Projects with provider abstractions default to deterministic mock providers when keys are missing. Geometry, simulation, retrieval, and classical-ML paths require no hosted model provider.
 
 ## SQLite / Database Issues
 
-Current demos do not require external databases. Future persistence can use local SQLite files, which should be deleted and regenerated if schema changes.
+No external database service is required. The AEC RAG service stores redacted query logs and bounded request telemetry in `.artifacts/aec-rag/query_log.sqlite` by default. The communication and specification project also exercises append-only local SQLite audit events in its tests and demo workflow.
+
+These files are local review mechanisms, not distributed or tamper-evident stores. Stop the relevant app before deleting an ignored `.sqlite` file; the next run recreates the expected schema. The AEC service includes a tested migration for its legacy local schema.
 
 ## Docker Issues
 
@@ -103,6 +105,12 @@ python -m pytest
 ```
 
 If failures persist, run the single failing test file shown in the output.
+
+For the shorter non-mutating portfolio path, run:
+
+```bash
+python scripts/reviewer_check.py
+```
 
 ## Reset Sample Data
 

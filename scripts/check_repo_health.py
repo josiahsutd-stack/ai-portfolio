@@ -57,7 +57,8 @@ REQUIRED_README_PATTERNS = {
 }
 REQUIRED_ROOT_README_PATTERNS = {
     "selected work": r"## Selected Work",
-    "measured result column": r"Current result",
+    "plain-language evidence column": r"Evidence in plain language",
+    "single reviewer command": r"python scripts/reviewer_check\.py",
     "quick evidence command": r"python projects/aec-code-compliance-rag/scripts/evaluate_retrieval\.py",
     "local run path": r"## Run Locally",
     "flagship project": r"## Flagship Project",

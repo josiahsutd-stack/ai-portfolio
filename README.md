@@ -2,48 +2,65 @@
 
 I build evaluated AI systems for design and construction decisions. My background in architecture informs the domain models, constraints, review gates, and visual communication in this portfolio; the engineering evidence comes from runnable code, tests, evaluation datasets, and reproducible outputs.
 
-The selected projects cover source-grounded document intelligence, embodied-agent simulation, multi-objective massing, traceable project requirements, and quantity-surveying automation. They run locally without paid APIs.
+The selected projects form one technical journey: source-grounded AEC knowledge, approved project requirements, constrained design options, traceable quantities, and embodied-agent simulation. Every project runs locally without paid APIs and labels synthetic, public-source, simulated, and generated evidence explicitly.
 
 ## Selected Work
 
 These three projects carry the clearest technical and domain evidence.
 
-| Project | Engineering focus | Current result | Evidence boundary |
+| Project | What it demonstrates | Evidence in plain language | Honest boundary |
 | --- | --- | --- | --- |
-| [AEC Code Compliance RAG](projects/aec-code-compliance-rag/README.md) | Public-source ingestion, page-aware metadata, four retrieval modes, citations, abstention, retrieval evaluation, and an authenticated local service with durable request telemetry. | Public 24-case snapshot over 15 validated documents: `Hit@1 0.952`, `MRR 0.976`, paraphrase `MRR 0.917`, and no-answer accuracy `1.000`. Fixed local workload: 48/48 responses returned 200, zero server errors, and P95 at or below 500 ms. | Document assistance only; not compliance certification, legal advice, deployment, sustained-load, uptime, or document-currency evidence. |
-| [Construction Embodied Agent Simulator](projects/vla-embodied-agent-simulator/README.md) | Shared demonstrations, semantic and rendered-pixel observations, appearance-shift evaluation, closed-loop imitation, action filtering, and planar MuJoCo command replay. | On 96 unseen grids, egocentric filtered success is `0.760`; rendered-RGB success is `0.719` normally and `0.427` under an unseen palette, which requires 3315 interventions. On a balanced 12-scenario physics subset, raw egocentric commands contact rigid geometry 51/150 times; filtered commands record 0/148 contacts. | RGB pixels are state-rendered and the filter sees full rules. MuJoCo uses a planar body and static proxies; no physical-camera perception, foundation VLA, robot kinematics, ROS, hardware, or physical-safety validation. |
-| [Constraint-Aware Massing Explorer](projects/constraint-aware-massing-explorer/README.md) | Parametric geometry, hard constraints, Pareto ranking, editable objectives, and transparent environmental/access proxies. | Across 864 candidates per method: feasible rate `0.977` versus `0.052` for the unconstrained baseline; mean best GFA error `0.19%` versus `34.47%`. | Rectangular proxy model; no code inference, internal egress, calibrated daylight/CFD, structure, or approvable design. |
+| [AEC Code Compliance RAG](projects/aec-code-compliance-rag/README.md) | Page-aware public-document ingestion, four inspectable retrieval modes, citations, abstention, evaluation, and a tested local service. | The expected document is usually found first, but exact supporting-passage retrieval is weaker. That gap is measured and published rather than hidden. | Document assistance only; not compliance certification, legal advice, deployment, uptime, or proof that public documents are current. |
+| [Construction Embodied Agent Simulator](projects/vla-embodied-agent-simulator/README.md) | Shared demonstrations, state and rendered-pixel observations, appearance-shift evaluation, closed-loop imitation, action filtering, and planar MuJoCo replay. | The local-state policy completes more held-out tasks after filtering; an unseen colour palette sharply degrades the pixel policy, and the failed result remains visible. | Pixels are rendered from simulator state and the filter sees full rules; no physical camera, mobile robot, ROS, hardware, or physical-safety validation. |
+| [Constraint-Aware Massing Explorer](projects/constraint-aware-massing-explorer/README.md) | Parametric geometry, hard constraints, Pareto ranking, editable objectives, and transparent environmental and access proxies. | Constraint-aware generation produces far more valid options and much closer target-area fit than the equal-sized unconstrained baseline. | Rectangular proxy model; no code inference, internal egress, calibrated daylight/CFD, structure, or approvable design. |
 
-Uncertainty check: public Hit@1 `0.952` has a 95% Wilson interval of `[0.773, 0.992]` over `21` answerable cases; MRR `0.976` has a 95% bootstrap interval of `[0.929, 1.000]`; no-answer `1.000` is `2/2` with a Wilson interval of `[0.342, 1.000]`. Hybrid versus BM25 MRR delta is `0.012` with a 95% paired interval of `[0.000, 0.036]`; the interval includes zero, so mode superiority is inconclusive on this authored set.
+### Reproduce The Core Evidence
+
+```bash
+python scripts/reviewer_check.py
+```
+
+This non-mutating check validates public claims, documentation commands, links, the static site, every advertised app title, and focused tests for the flagship, embodied, massing, and integration paths. The [evidence ledger](docs/EVIDENCE_LEDGER.md) maps each headline measurement to its versioned JSON artifact and reproduction command.
+
+<details>
+<summary><strong>Flagship retrieval statistics and label provenance</strong></summary>
+
+Public 24-case snapshot over 15 validated documents: `Hit@1 0.952`, `MRR 0.976`, paraphrase `MRR 0.917`, and no-answer accuracy `1.000`. Fixed local workload: 48/48 responses returned 200, zero server errors, and P95 at or below 500 ms.
+
+The practical finding is that document discovery is stronger than evidence localization. A correct publication does not count as a correct supporting passage unless the candidate-authored chunk or page target is retrieved.
 
 Candidate-authored exact-target check: Hit@1 `0.810`, Hit@3 `0.952`, and MRR `0.881` across `21` labeled answerable cases; source-page Hit@1 `0.778` and MRR `0.861` across `18` page-labeled cases. Exact-target uncertainty: Hit@1 `0.810` has a 95% interval of `[0.600, 0.923]`, and exact-target MRR `0.881` has a 95% interval of `[0.762, 0.976]` across `21` candidate-authored targets.
 
-For a 15-minute technical screen, these three links contain the highest-signal code, evaluation design, failure boundaries, and generated evidence. The [evidence ledger](docs/EVIDENCE_LEDGER.md) records the artifact and command behind each headline metric.
+Uncertainty check: public Hit@1 `0.952` has a 95% Wilson interval of `[0.773, 0.992]` over `21` answerable cases; MRR `0.976` has a 95% bootstrap interval of `[0.929, 1.000]`; no-answer `1.000` is `2/2` with a Wilson interval of `[0.342, 1.000]`. Hybrid versus BM25 MRR delta is `0.012` with a 95% paired interval of `[0.000, 0.036]`; the interval includes zero, so mode superiority is inconclusive on this authored set.
 
-![Constraint-aware massing option with plan, isometric view, and measured proxies](docs/assets/screenshots/massing-explorer-demo.png)
+</details>
+
+<details>
+<summary><strong>Embodied and massing measured results</strong></summary>
+
+On 96 unseen grids, egocentric filtered success is `0.760`; rendered-RGB success is `0.719` normally and `0.427` under an unseen palette, which requires 3315 interventions. On a balanced 12-scenario physics subset, raw egocentric commands contact rigid geometry 51/150 times; filtered commands record 0/148 contacts.
+
+Across 864 candidates per method: feasible rate `0.977` versus `0.052` for the unconstrained baseline; mean best GFA error `0.19%` versus `34.47%`.
+
+</details>
 
 ## System Overview
 
-The selected AEC projects are independently runnable. A separate [executable integration contract](integrations/aec-design-to-cost/README.md) tests one bounded handoff across the specification, massing, and QS interfaces.
+The selected AEC projects are independently runnable. A separate [executable integration contract](integrations/aec-design-to-cost/README.md) proves one bounded handoff across the specification, massing, and QS interfaces.
 
-```mermaid
-flowchart LR
-  A["Synthetic role-tagged messages"] --> B["Requirement ledger and approvals"]
-  B --> C{"Approved and conflict-free?"}
-  C -- "No" --> X["Reject handoff"]
-  C -- "Yes" --> D["Sourced massing scenario"]
-  S["Explicit synthetic site input"] --> D
-  D --> E["Feasible storey-matched option"]
-  E --> F["One-storey schematic envelope"]
-  F --> G["Quantity takeoff and synthetic rate build-up"]
-  G --> H["Human professional review"]
-```
+[![Executed AEC system journey from approved project intent through typed handoffs to a bounded schematic cost input](integrations/aec-design-to-cost/demo_outputs/workflow_trace.svg)](integrations/aec-design-to-cost/demo_outputs/workflow_trace.svg)
+
+- **Two input streams:** approved role-tagged requirements and an explicit synthetic site record.
+- **Fail-closed gates:** only approved, source-linked, conflict-free, scope-compatible values cross project boundaries.
+- **Three implemented systems:** requirement state, constraint-aware massing, and vector takeoff with synthetic rate provenance.
+- **Traceable handoff:** message IDs, requirement IDs, site-source IDs, candidate ID, and quantity references survive into the checked-in trace.
+- **Professional boundary:** budget and accessibility remain for human review; tender analysis is not run.
 
 Synthetic workflow fixture: `5` approved requirements (`3` mapped, `2` retained), `16/16` sourced scenario fields, `96` candidates (`92` feasible, `42` storey-matched), and `7` priced takeoff lines; tender stage `not_run`.
 
-![Generated trace from the executed AEC integration fixture](integrations/aec-design-to-cost/demo_outputs/workflow_trace.svg)
-
 The integration deliberately retains budget and accessibility for human review, does not infer building-code or site facts, treats mass footprints only as a schematic one-storey QS input, and does not compare its bounded cost output with the full-project budget.
+
+![Constraint-aware massing option with plan, isometric view, and measured proxies](docs/assets/screenshots/massing-explorer-demo.png)
 
 Two supporting projects complete that workflow:
 
@@ -183,6 +200,7 @@ shared/                   small reusable local AI utilities
 - [Technical review guide](docs/technical-review-guide.md)
 - [Role-to-project map](docs/role-to-project-map.md)
 - [Scope and limitations](docs/SCOPE_AND_LIMITATIONS.md)
+- [System maps and visual evidence](docs/architecture-diagrams.md)
 - [Claims policy](docs/CLAIMS_POLICY.md)
 - [Engineering decisions and evidence boundaries](docs/ENGINEERING_DECISIONS.md)
 - [Engineering review log](ENGINEERING_REVIEW_LOG.md)
