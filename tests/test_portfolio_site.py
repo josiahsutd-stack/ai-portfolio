@@ -73,6 +73,8 @@ def test_custom_404_routes_visitors_back_to_primary_evidence() -> None:
     text = (SITE_ROOT / "404.html").read_text(encoding="utf-8")
 
     assert 'content="noindex, follow"' in text
-    assert 'href="index.html"' in text
-    assert 'href="pages/aec-rag.html"' in text
-    assert 'href="pages/recruiter-view.html"' in text
+    assert 'href="https://josiahsutd-stack.github.io/ai-portfolio/"' in text
+    assert 'href="https://josiahsutd-stack.github.io/ai-portfolio/pages/aec-rag.html"' in text
+    assert (
+        'href="https://josiahsutd-stack.github.io/ai-portfolio/pages/recruiter-view.html"' in text
+    )

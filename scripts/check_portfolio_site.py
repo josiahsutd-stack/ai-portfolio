@@ -489,6 +489,11 @@ def check_public_discovery_contracts() -> list[str]:
     not_found.feed((SITE_ROOT / "404.html").read_text(encoding="utf-8"))
     if not_found.meta_robots != "noindex, follow":
         issues.append("portfolio-site/404.html: expected `noindex, follow` robots metadata")
+    for _attribute, target in not_found.links:
+        if not target.startswith("#") and not target.startswith(PUBLIC_BASE_URL):
+            issues.append(
+                "portfolio-site/404.html: assets and routes must remain valid from nested missing URLs"
+            )
 
     sitemap_path = SITE_ROOT / "sitemap.xml"
     try:
