@@ -7,7 +7,7 @@ pythonpath = [
   "experiments/bim-issue-detection-agent/src",
   "experiments/ai-aec-job-fit-analyzer/src",
   "experiments/building-energy-ml-pipeline/src",
-  "experiments/spatial-design-recommender/src",
+  "experiments/constraint-aware-massing-explorer/src",
   "experiments/construction-robot-task-planner/src",
   "experiments/site-robot-safety-monitor/src",
   "experiments/multimodal-vlm-visual-qa/src",

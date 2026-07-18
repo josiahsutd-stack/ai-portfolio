@@ -59,14 +59,16 @@ flowchart LR
   C --> F["Dashboard"]
 ```
 
-## Spatial Design Scoring Baseline
+## Constraint-Aware Massing Explorer
 
 ```mermaid
 flowchart LR
-  A["Design constraints"] --> B["Scenario validation"]
-  B --> C["Scoring function"]
-  C --> D["Recommendation engine"]
-  D --> E["Explainable actions"]
+  A["Synthetic or user-supplied numeric constraints"] --> B["Scenario validation"]
+  B --> C["Seeded massing typologies"]
+  C --> D["Hard-constraint checks"]
+  D --> E["Environmental and access proxies"]
+  E --> F["Pareto front and weighted ranking"]
+  F --> G["Evaluated geometry and SVG comparison"]
 ```
 
 ## Construction Grid Route Planner

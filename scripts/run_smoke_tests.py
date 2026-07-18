@@ -14,7 +14,7 @@ MODULES = [
     "bim_issue_detection_agent",
     "ai_aec_job_fit_analyzer",
     "building_energy_ml_pipeline",
-    "spatial_design_recommender",
+    "constraint_aware_massing_explorer",
     "construction_robot_task_planner",
     "site_robot_safety_monitor",
     "multimodal_vlm_visual_qa",
@@ -67,6 +67,32 @@ def check_imports() -> list[str]:
 
 def run_core_smoke() -> list[str]:
     issues: list[str] = []
+    try:
+        from constraint_aware_massing_explorer import SiteScenario, generate_candidates
+
+        scenario = SiteScenario.from_dict(
+            {
+                "scenario_id": "smoke",
+                "name": "Synthetic smoke site",
+                "data_status": "synthetic",
+                "source_note": "Smoke-test values.",
+                "site_width_m": 40,
+                "site_depth_m": 30,
+                "setbacks_m": {"north": 3, "east": 3, "south": 4, "west": 3},
+                "max_height_m": 24,
+                "floor_to_floor_m": 3.5,
+                "max_site_coverage": 0.5,
+                "target_gfa_m2": 2800,
+                "max_gfa_m2": 3200,
+                "prevailing_wind_from": "south",
+                "north_rotation_deg": 0,
+                "ingress": {"x": 5, "y": 0},
+                "egress": {"x": 35, "y": 0},
+            }
+        )
+        generate_candidates(scenario, count=4, seed=2)
+    except Exception as exc:  # noqa: BLE001
+        issues.append(f"constraint_aware_massing_explorer core smoke failed: {exc}")
     try:
         from multimodal_vlm_visual_qa import MockVLMProvider
 

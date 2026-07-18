@@ -1,0 +1,1059 @@
+{
+  "data_status": "synthetic",
+  "scenarios": {
+    "mixed-use-corner-03": [
+      {
+        "candidate": {
+          "candidate_id": "co-011-002",
+          "generator": "constraint_aware",
+          "masses": [
+            {
+              "floors": 8,
+              "footprint": {
+                "depth": 7.672298769753413,
+                "width": 41.6943649373761,
+                "x": 7.159168802954517,
+                "y": 8.554669940624919
+              },
+              "label": "South"
+            },
+            {
+              "floors": 8,
+              "footprint": {
+                "depth": 7.672298769753413,
+                "width": 41.6943649373761,
+                "x": 7.159168802954517,
+                "y": 28.433789556281667
+              },
+              "label": "North"
+            },
+            {
+              "floors": 8,
+              "footprint": {
+                "depth": 12.20682084590333,
+                "width": 7.672298769753413,
+                "x": 7.159168802954517,
+                "y": 16.22696871037833
+              },
+              "label": "West"
+            },
+            {
+              "floors": 8,
+              "footprint": {
+                "depth": 12.20682084590333,
+                "width": 7.672298769753413,
+                "x": 41.18123497057721,
+                "y": 16.22696871037833
+              },
+              "label": "East"
+            }
+          ],
+          "typology": "courtyard"
+        },
+        "feasible": true,
+        "metrics": {
+          "access": 0.92,
+          "coverage": 0.334179,
+          "daylight": 1.0,
+          "egress_path_m": 8.0,
+          "gfa_error_fraction": 0.012427,
+          "gfa_fit": 0.987573,
+          "gfa_m2": 6616.736,
+          "height_m": 28.8,
+          "ingress_path_m": 8.0,
+          "solar": 0.496411,
+          "wind": 0.202331
+        },
+        "pareto_optimal": true,
+        "utility_score": 0.792068,
+        "violations": []
+      },
+      {
+        "candidate": {
+          "candidate_id": "co-011-082",
+          "generator": "constraint_aware",
+          "masses": [
+            {
+              "floors": 8,
+              "footprint": {
+                "depth": 7.843327920271079,
+                "width": 36.30025388807945,
+                "x": 10.077225828625124,
+                "y": 9.040255139903634
+              },
+              "label": "South"
+            },
+            {
+              "floors": 8,
+              "footprint": {
+                "depth": 7.843327920271079,
+                "width": 36.30025388807945,
+                "x": 10.077225828625124,
+                "y": 32.14171730243654
+              },
+              "label": "North"
+            },
+            {
+              "floors": 8,
+              "footprint": {
+                "depth": 15.258134242261825,
+                "width": 7.843327920271079,
+                "x": 10.077225828625124,
+                "y": 16.883583060174715
+              },
+              "label": "West"
+            },
+            {
+              "floors": 8,
+              "footprint": {
+                "depth": 15.258134242261825,
+                "width": 7.843327920271079,
+                "x": 38.5341517964335,
+                "y": 16.883583060174715
+              },
+              "label": "East"
+            }
+          ],
+          "typology": "courtyard"
+        },
+        "feasible": true,
+        "metrics": {
+          "access": 0.9,
+          "coverage": 0.326779,
+          "daylight": 1.0,
+          "egress_path_m": 10.0,
+          "gfa_error_fraction": 0.034294,
+          "gfa_fit": 0.965706,
+          "gfa_m2": 6470.23,
+          "height_m": 28.8,
+          "ingress_path_m": 10.0,
+          "solar": 0.495706,
+          "wind": 0.284679
+        },
+        "pareto_optimal": true,
+        "utility_score": 0.791618,
+        "violations": []
+      },
+      {
+        "candidate": {
+          "candidate_id": "co-011-038",
+          "generator": "constraint_aware",
+          "masses": [
+            {
+              "floors": 8,
+              "footprint": {
+                "depth": 7.613307207404693,
+                "width": 41.010818866392334,
+                "x": 5.91861150370838,
+                "y": 11.425911118797792
+              },
+              "label": "South"
+            },
+            {
+              "floors": 8,
+              "footprint": {
+                "depth": 7.613307207404693,
+                "width": 41.010818866392334,
+                "x": 5.91861150370838,
+                "y": 31.265322624194347
+              },
+              "label": "North"
+            },
+            {
+              "floors": 8,
+              "footprint": {
+                "depth": 12.226104297991867,
+                "width": 7.613307207404693,
+                "x": 5.91861150370838,
+                "y": 19.039218326202487
+              },
+              "label": "West"
+            },
+            {
+              "floors": 8,
+              "footprint": {
+                "depth": 12.226104297991867,
+                "width": 7.613307207404693,
+                "x": 39.31612316269602,
+                "y": 19.039218326202487
+              },
+              "label": "East"
+            }
+          ],
+          "typology": "courtyard"
+        },
+        "feasible": true,
+        "metrics": {
+          "access": 0.895,
+          "coverage": 0.327522,
+          "daylight": 1.0,
+          "egress_path_m": 11.0,
+          "gfa_error_fraction": 0.032098,
+          "gfa_fit": 0.967902,
+          "gfa_m2": 6484.945,
+          "height_m": 28.8,
+          "ingress_path_m": 10.0,
+          "solar": 0.496378,
+          "wind": 0.216093
+        },
+        "pareto_optimal": true,
+        "utility_score": 0.782663,
+        "violations": []
+      },
+      {
+        "candidate": {
+          "candidate_id": "co-011-062",
+          "generator": "constraint_aware",
+          "masses": [
+            {
+              "floors": 8,
+              "footprint": {
+                "depth": 7.427517594774532,
+                "width": 41.32013070822911,
+                "x": 5.240163938738086,
+                "y": 7.615481370486432
+              },
+              "label": "South"
+            },
+            {
+              "floors": 8,
+              "footprint": {
+                "depth": 7.427517594774532,
+                "width": 41.32013070822911,
+                "x": 5.240163938738086,
+                "y": 26.714812328478086
+              },
+              "label": "North"
+            },
+            {
+              "floors": 8,
+              "footprint": {
+                "depth": 11.671813363217119,
+                "width": 7.427517594774532,
+                "x": 5.240163938738086,
+                "y": 15.042998965260963
+              },
+              "label": "West"
+            },
+            {
+              "floors": 8,
+              "footprint": {
+                "depth": 11.671813363217119,
+                "width": 7.427517594774532,
+                "x": 39.132777052192665,
+                "y": 15.042998965260963
+              },
+              "label": "East"
+            }
+          ],
+          "typology": "courtyard"
+        },
+        "feasible": true,
+        "metrics": {
+          "access": 0.925,
+          "coverage": 0.318059,
+          "daylight": 1.0,
+          "egress_path_m": 8.0,
+          "gfa_error_fraction": 0.060063,
+          "gfa_fit": 0.939937,
+          "gfa_m2": 6297.578,
+          "height_m": 28.8,
+          "ingress_path_m": 7.0,
+          "solar": 0.496481,
+          "wind": 0.217124
+        },
+        "pareto_optimal": true,
+        "utility_score": 0.778706,
+        "violations": []
+      },
+      {
+        "candidate": {
+          "candidate_id": "co-011-073",
+          "generator": "constraint_aware",
+          "masses": [
+            {
+              "floors": 8,
+              "footprint": {
+                "depth": 12.200374201018597,
+                "width": 34.64412370721927,
+                "x": 5.0480885896310825,
+                "y": 8.356707700137894
+              },
+              "label": "A"
+            },
+            {
+              "floors": 8,
+              "footprint": {
+                "depth": 12.200374201018597,
+                "width": 34.64412370721927,
+                "x": 5.0480885896310825,
+                "y": 27.357081901156494
+              },
+              "label": "B"
+            }
+          ],
+          "typology": "twin_bar"
+        },
+        "feasible": true,
+        "metrics": {
+          "access": 0.89,
+          "coverage": 0.341553,
+          "daylight": 0.842551,
+          "egress_path_m": 15.0,
+          "gfa_error_fraction": 0.009364,
+          "gfa_fit": 0.990636,
+          "gfa_m2": 6762.74,
+          "height_m": 28.8,
+          "ingress_path_m": 7.0,
+          "solar": 0.496744,
+          "wind": 0.300044
+        },
+        "pareto_optimal": true,
+        "utility_score": 0.772128,
+        "violations": []
+      },
+      {
+        "candidate": {
+          "candidate_id": "co-011-005",
+          "generator": "constraint_aware",
+          "masses": [
+            {
+              "floors": 8,
+              "footprint": {
+                "depth": 28.516985225281758,
+                "width": 14.469176850092897,
+                "x": 9.288005054762039,
+                "y": 7.525171288635554
+              },
+              "label": "A"
+            },
+            {
+              "floors": 8,
+              "footprint": {
+                "depth": 28.516985225281758,
+                "width": 14.469176850092897,
+                "x": 30.256047665888893,
+                "y": 7.525171288635554
+              },
+              "label": "B"
+            }
+          ],
+          "typology": "twin_bar"
+        },
+        "feasible": true,
+        "metrics": {
+          "access": 0.91,
+          "coverage": 0.333428,
+          "daylight": 0.768658,
+          "egress_path_m": 10.0,
+          "gfa_error_fraction": 0.014645,
+          "gfa_fit": 0.985355,
+          "gfa_m2": 6601.877,
+          "height_m": 28.8,
+          "ingress_path_m": 8.0,
+          "solar": 0.491708,
+          "wind": 0.387323
+        },
+        "pareto_optimal": true,
+        "utility_score": 0.771121,
+        "violations": []
+      }
+    ],
+    "tropical-campus-02": [
+      {
+        "candidate": {
+          "candidate_id": "co-011-062",
+          "generator": "constraint_aware",
+          "masses": [
+            {
+              "floors": 6,
+              "footprint": {
+                "depth": 9.268939948413877,
+                "width": 66.81553050692366,
+                "x": 9.005371475406267,
+                "y": 12.375707897774165
+              },
+              "label": "South"
+            },
+            {
+              "floors": 6,
+              "footprint": {
+                "depth": 9.268939948413877,
+                "width": 66.81553050692366,
+                "x": 9.005371475406267,
+                "y": 42.11683935048703
+              },
+              "label": "North"
+            },
+            {
+              "floors": 6,
+              "footprint": {
+                "depth": 20.472191504298983,
+                "width": 9.268939948413877,
+                "x": 9.005371475406267,
+                "y": 21.644647846188043
+              },
+              "label": "West"
+            },
+            {
+              "floors": 6,
+              "footprint": {
+                "depth": 20.472191504298983,
+                "width": 9.268939948413877,
+                "x": 66.55196203391606,
+                "y": 21.644647846188043
+              },
+              "label": "East"
+            }
+          ],
+          "typology": "courtyard"
+        },
+        "feasible": true,
+        "metrics": {
+          "access": 0.927215,
+          "coverage": 0.2644,
+          "daylight": 1.0,
+          "egress_path_m": 12.0,
+          "gfa_error_fraction": 0.009309,
+          "gfa_fit": 0.990691,
+          "gfa_m2": 9708.776,
+          "height_m": 21.6,
+          "ingress_path_m": 11.0,
+          "solar": 0.496487,
+          "wind": 0.24681
+        },
+        "pareto_optimal": true,
+        "utility_score": 0.724438,
+        "violations": []
+      },
+      {
+        "candidate": {
+          "candidate_id": "co-011-042",
+          "generator": "constraint_aware",
+          "masses": [
+            {
+              "floors": 6,
+              "footprint": {
+                "depth": 9.517233974487475,
+                "width": 62.726434608366695,
+                "x": 13.306832416413991,
+                "y": 12.86074270179663
+              },
+              "label": "South"
+            },
+            {
+              "floors": 6,
+              "footprint": {
+                "depth": 9.517233974487475,
+                "width": 62.726434608366695,
+                "x": 13.306832416413991,
+                "y": 37.33363006476442
+              },
+              "label": "North"
+            },
+            {
+              "floors": 6,
+              "footprint": {
+                "depth": 14.955653388480314,
+                "width": 9.517233974487475,
+                "x": 13.306832416413991,
+                "y": 22.377976676284106
+              },
+              "label": "West"
+            },
+            {
+              "floors": 6,
+              "footprint": {
+                "depth": 14.955653388480314,
+                "width": 9.517233974487475,
+                "x": 66.5160330502932,
+                "y": 22.377976676284106
+              },
+              "label": "East"
+            }
+          ],
+          "typology": "courtyard"
+        },
+        "feasible": true,
+        "metrics": {
+          "access": 0.920886,
+          "coverage": 0.241607,
+          "daylight": 1.0,
+          "egress_path_m": 13.0,
+          "gfa_error_fraction": 0.094712,
+          "gfa_fit": 0.905288,
+          "gfa_m2": 8871.823,
+          "height_m": 21.6,
+          "ingress_path_m": 12.0,
+          "solar": 0.496837,
+          "wind": 0.334275
+        },
+        "pareto_optimal": true,
+        "utility_score": 0.723298,
+        "violations": []
+      },
+      {
+        "candidate": {
+          "candidate_id": "co-011-090",
+          "generator": "constraint_aware",
+          "masses": [
+            {
+              "floors": 6,
+              "footprint": {
+                "depth": 8.246289781023346,
+                "width": 69.00692418203256,
+                "x": 11.939951172139025,
+                "y": 10.77223703437217
+              },
+              "label": "South"
+            },
+            {
+              "floors": 6,
+              "footprint": {
+                "depth": 8.246289781023346,
+                "width": 69.00692418203256,
+                "x": 11.939951172139025,
+                "y": 37.20370716189346
+              },
+              "label": "North"
+            },
+            {
+              "floors": 6,
+              "footprint": {
+                "depth": 18.18518034649795,
+                "width": 8.246289781023346,
+                "x": 11.939951172139025,
+                "y": 19.018526815395518
+              },
+              "label": "West"
+            },
+            {
+              "floors": 6,
+              "footprint": {
+                "depth": 18.18518034649795,
+                "width": 8.246289781023346,
+                "x": 72.70058557314825,
+                "y": 19.018526815395518
+              },
+              "label": "East"
+            }
+          ],
+          "typology": "courtyard"
+        },
+        "feasible": true,
+        "metrics": {
+          "access": 0.936709,
+          "coverage": 0.234971,
+          "daylight": 1.0,
+          "egress_path_m": 10.0,
+          "gfa_error_fraction": 0.119578,
+          "gfa_fit": 0.880422,
+          "gfa_m2": 8628.136,
+          "height_m": 21.6,
+          "ingress_path_m": 10.0,
+          "solar": 0.496813,
+          "wind": 0.330512
+        },
+        "pareto_optimal": true,
+        "utility_score": 0.718518,
+        "violations": []
+      },
+      {
+        "candidate": {
+          "candidate_id": "co-011-002",
+          "generator": "constraint_aware",
+          "masses": [
+            {
+              "floors": 6,
+              "footprint": {
+                "depth": 8.996442349364788,
+                "width": 67.42067521788476,
+                "x": 12.108443170734962,
+                "y": 13.756867559742528
+              },
+              "label": "South"
+            },
+            {
+              "floors": 6,
+              "footprint": {
+                "depth": 8.996442349364788,
+                "width": 67.42067521788476,
+                "x": 12.108443170734962,
+                "y": 45.27721695362797
+              },
+              "label": "North"
+            },
+            {
+              "floors": 6,
+              "footprint": {
+                "depth": 22.523907044520655,
+                "width": 8.996442349364788,
+                "x": 12.108443170734962,
+                "y": 22.753309909107315
+              },
+              "label": "West"
+            },
+            {
+              "floors": 6,
+              "footprint": {
+                "depth": 22.523907044520655,
+                "width": 8.996442349364788,
+                "x": 70.53267603925494,
+                "y": 22.753309909107315
+              },
+              "label": "East"
+            }
+          ],
+          "typology": "courtyard"
+        },
+        "feasible": true,
+        "metrics": {
+          "access": 0.917722,
+          "coverage": 0.264438,
+          "daylight": 1.0,
+          "egress_path_m": 13.0,
+          "gfa_error_fraction": 0.009166,
+          "gfa_fit": 0.990834,
+          "gfa_m2": 9710.175,
+          "height_m": 21.6,
+          "ingress_path_m": 13.0,
+          "solar": 0.49635,
+          "wind": 0.226287
+        },
+        "pareto_optimal": true,
+        "utility_score": 0.718493,
+        "violations": []
+      },
+      {
+        "candidate": {
+          "candidate_id": "co-011-046",
+          "generator": "constraint_aware",
+          "masses": [
+            {
+              "floors": 6,
+              "footprint": {
+                "depth": 9.540556331393509,
+                "width": 61.970154501178946,
+                "x": 17.128645646415674,
+                "y": 23.033449382631325
+              },
+              "label": "South"
+            },
+            {
+              "floors": 6,
+              "footprint": {
+                "depth": 9.540556331393509,
+                "width": 61.970154501178946,
+                "x": 17.128645646415674,
+                "y": 47.56630852050034
+              },
+              "label": "North"
+            },
+            {
+              "floors": 6,
+              "footprint": {
+                "depth": 14.99230280647551,
+                "width": 9.540556331393509,
+                "x": 17.128645646415674,
+                "y": 32.574005714024835
+              },
+              "label": "West"
+            },
+            {
+              "floors": 6,
+              "footprint": {
+                "depth": 14.99230280647551,
+                "width": 9.540556331393509,
+                "x": 69.55824381620111,
+                "y": 32.574005714024835
+              },
+              "label": "East"
+            }
+          ],
+          "typology": "courtyard"
+        },
+        "feasible": true,
+        "metrics": {
+          "access": 0.851266,
+          "coverage": 0.239956,
+          "daylight": 1.0,
+          "egress_path_m": 22.0,
+          "gfa_error_fraction": 0.1009,
+          "gfa_fit": 0.8991,
+          "gfa_m2": 8811.176,
+          "height_m": 21.6,
+          "ingress_path_m": 25.0,
+          "solar": 0.496807,
+          "wind": 0.334534
+        },
+        "pareto_optimal": true,
+        "utility_score": 0.712817,
+        "violations": []
+      },
+      {
+        "candidate": {
+          "candidate_id": "co-011-018",
+          "generator": "constraint_aware",
+          "masses": [
+            {
+              "floors": 6,
+              "footprint": {
+                "depth": 10.534186560651404,
+                "width": 55.97118658925538,
+                "x": 8.572217946408472,
+                "y": 10.557549447066354
+              },
+              "label": "South"
+            },
+            {
+              "floors": 6,
+              "footprint": {
+                "depth": 10.534186560651404,
+                "width": 55.97118658925538,
+                "x": 8.572217946408472,
+                "y": 38.26110605587921
+              },
+              "label": "North"
+            },
+            {
+              "floors": 6,
+              "footprint": {
+                "depth": 17.169370048161458,
+                "width": 10.534186560651404,
+                "x": 8.572217946408472,
+                "y": 21.091736007717756
+              },
+              "label": "West"
+            },
+            {
+              "floors": 6,
+              "footprint": {
+                "depth": 17.169370048161458,
+                "width": 10.534186560651404,
+                "x": 54.00921797501245,
+                "y": 21.091736007717756
+              },
+              "label": "East"
+            }
+          ],
+          "typology": "courtyard"
+        },
+        "feasible": true,
+        "metrics": {
+          "access": 0.898734,
+          "coverage": 0.25179,
+          "daylight": 0.969707,
+          "egress_path_m": 22.0,
+          "gfa_error_fraction": 0.05656,
+          "gfa_fit": 0.94344,
+          "gfa_m2": 9245.715,
+          "height_m": 21.6,
+          "ingress_path_m": 10.0,
+          "solar": 0.496324,
+          "wind": 0.267933
+        },
+        "pareto_optimal": true,
+        "utility_score": 0.707559,
+        "violations": []
+      }
+    ],
+    "urban-infill-01": [
+      {
+        "candidate": {
+          "candidate_id": "co-011-057",
+          "generator": "constraint_aware",
+          "masses": [
+            {
+              "floors": 12,
+              "footprint": {
+                "depth": 9.471684720439347,
+                "width": 41.675412769933125,
+                "x": 10.213528756246289,
+                "y": 13.696342043938934
+              },
+              "label": "A"
+            },
+            {
+              "floors": 12,
+              "footprint": {
+                "depth": 9.471684720439347,
+                "width": 41.675412769933125,
+                "x": 10.213528756246289,
+                "y": 29.73910175842167
+              },
+              "label": "B"
+            }
+          ],
+          "typology": "twin_bar"
+        },
+        "feasible": true,
+        "metrics": {
+          "access": 0.845833,
+          "coverage": 0.228435,
+          "daylight": 1.0,
+          "egress_path_m": 24.0,
+          "gfa_error_fraction": 0.002771,
+          "gfa_fit": 0.997229,
+          "gfa_m2": 9473.673,
+          "height_m": 42.0,
+          "ingress_path_m": 13.0,
+          "solar": 0.497685,
+          "wind": 0.402339
+        },
+        "pareto_optimal": true,
+        "utility_score": 0.784025,
+        "violations": []
+      },
+      {
+        "candidate": {
+          "candidate_id": "co-011-069",
+          "generator": "constraint_aware",
+          "masses": [
+            {
+              "floors": 12,
+              "footprint": {
+                "depth": 9.559508314785754,
+                "width": 42.06183658505733,
+                "x": 22.757778102823355,
+                "y": 9.942044688244046
+              },
+              "label": "A"
+            },
+            {
+              "floors": 12,
+              "footprint": {
+                "depth": 9.559508314785754,
+                "width": 42.06183658505733,
+                "x": 22.757778102823355,
+                "y": 24.407227971535963
+              },
+              "label": "B"
+            }
+          ],
+          "typology": "twin_bar"
+        },
+        "feasible": true,
+        "metrics": {
+          "access": 0.870833,
+          "coverage": 0.232691,
+          "daylight": 1.0,
+          "egress_path_m": 9.0,
+          "gfa_error_fraction": 0.015808,
+          "gfa_fit": 0.984192,
+          "gfa_m2": 9650.171,
+          "height_m": 42.0,
+          "ingress_path_m": 22.0,
+          "solar": 0.497685,
+          "wind": 0.395482
+        },
+        "pareto_optimal": true,
+        "utility_score": 0.782698,
+        "violations": []
+      },
+      {
+        "candidate": {
+          "candidate_id": "co-011-037",
+          "generator": "constraint_aware",
+          "masses": [
+            {
+              "floors": 12,
+              "footprint": {
+                "depth": 30.738742964451987,
+                "width": 12.370628197153417,
+                "x": 16.70891009968641,
+                "y": 9.901662418541157
+              },
+              "label": "A"
+            },
+            {
+              "floors": 12,
+              "footprint": {
+                "depth": 30.738742964451987,
+                "width": 12.370628197153417,
+                "x": 35.879538296839826,
+                "y": 9.901662418541157
+              },
+              "label": "B"
+            }
+          ],
+          "typology": "twin_bar"
+        },
+        "feasible": true,
+        "metrics": {
+          "access": 0.833333,
+          "coverage": 0.220056,
+          "daylight": 0.870765,
+          "egress_path_m": 24.0,
+          "gfa_error_fraction": 0.039349,
+          "gfa_fit": 0.960651,
+          "gfa_m2": 9126.181,
+          "height_m": 42.0,
+          "ingress_path_m": 16.0,
+          "solar": 0.491087,
+          "wind": 0.593225
+        },
+        "pareto_optimal": true,
+        "utility_score": 0.776592,
+        "violations": []
+      },
+      {
+        "candidate": {
+          "candidate_id": "co-011-061",
+          "generator": "constraint_aware",
+          "masses": [
+            {
+              "floors": 12,
+              "footprint": {
+                "depth": 31.151986426413234,
+                "width": 11.266819588673835,
+                "x": 31.550423023242608,
+                "y": 9.151051390280799
+              },
+              "label": "A"
+            },
+            {
+              "floors": 12,
+              "footprint": {
+                "depth": 31.151986426413234,
+                "width": 11.266819588673835,
+                "x": 49.11191688228459,
+                "y": 9.151051390280799
+              },
+              "label": "B"
+            }
+          ],
+          "typology": "twin_bar"
+        },
+        "feasible": true,
+        "metrics": {
+          "access": 0.829167,
+          "coverage": 0.203116,
+          "daylight": 0.953965,
+          "egress_path_m": 11.0,
+          "gfa_error_fraction": 0.113304,
+          "gfa_fit": 0.886696,
+          "gfa_m2": 8423.611,
+          "height_m": 42.0,
+          "ingress_path_m": 30.0,
+          "solar": 0.49082,
+          "wind": 0.627863
+        },
+        "pareto_optimal": true,
+        "utility_score": 0.776261,
+        "violations": []
+      },
+      {
+        "candidate": {
+          "candidate_id": "co-011-022",
+          "generator": "constraint_aware",
+          "masses": [
+            {
+              "floors": 12,
+              "footprint": {
+                "depth": 7.271280534630645,
+                "width": 40.79104324406513,
+                "x": 18.860214356913605,
+                "y": 12.946143231582091
+              },
+              "label": "South"
+            },
+            {
+              "floors": 12,
+              "footprint": {
+                "depth": 7.271280534630645,
+                "width": 40.79104324406513,
+                "x": 18.860214356913605,
+                "y": 31.643721749203745
+              },
+              "label": "North"
+            },
+            {
+              "floors": 12,
+              "footprint": {
+                "depth": 11.42629798299101,
+                "width": 7.271280534630645,
+                "x": 18.860214356913605,
+                "y": 20.217423766212736
+              },
+              "label": "West"
+            },
+            {
+              "floors": 12,
+              "footprint": {
+                "depth": 11.42629798299101,
+                "width": 7.271280534630645,
+                "x": 52.37997706634809,
+                "y": 20.217423766212736
+              },
+              "label": "East"
+            }
+          ],
+          "typology": "courtyard"
+        },
+        "feasible": true,
+        "metrics": {
+          "access": 0.85,
+          "coverage": 0.219726,
+          "daylight": 1.0,
+          "egress_path_m": 15.0,
+          "gfa_error_fraction": 0.040791,
+          "gfa_fit": 0.959209,
+          "gfa_m2": 9112.486,
+          "height_m": 42.0,
+          "ingress_path_m": 21.0,
+          "solar": 0.496499,
+          "wind": 0.417398
+        },
+        "pareto_optimal": true,
+        "utility_score": 0.77559,
+        "violations": []
+      },
+      {
+        "candidate": {
+          "candidate_id": "co-011-041",
+          "generator": "constraint_aware",
+          "masses": [
+            {
+              "floors": 12,
+              "footprint": {
+                "depth": 9.325546189992734,
+                "width": 41.032403235968026,
+                "x": 5.869912024697323,
+                "y": 15.930627977513723
+              },
+              "label": "A"
+            },
+            {
+              "floors": 12,
+              "footprint": {
+                "depth": 9.325546189992734,
+                "width": 41.032403235968026,
+                "x": 5.869912024697323,
+                "y": 29.41360304598232
+              },
+              "label": "B"
+            }
+          ],
+          "typology": "twin_bar"
+        },
+        "feasible": true,
+        "metrics": {
+          "access": 0.808333,
+          "coverage": 0.221441,
+          "daylight": 1.0,
+          "egress_path_m": 31.0,
+          "gfa_error_fraction": 0.033306,
+          "gfa_fit": 0.966694,
+          "gfa_m2": 9183.59,
+          "height_m": 42.0,
+          "ingress_path_m": 15.0,
+          "solar": 0.497685,
+          "wind": 0.413696
+        },
+        "pareto_optimal": true,
+        "utility_score": 0.77117,
+        "violations": []
+      }
+    ]
+  }
+}

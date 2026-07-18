@@ -74,21 +74,21 @@ projects:
     implementation_mode: "Random-forest regression pipeline"
     boundary: "Not calibrated energy simulation or professional performance analysis"
     readme_path: experiments/building-energy-ml-pipeline/README.md
-  - name: Spatial Design Scoring Baseline
-    slug: spatial-design-recommender
+  - name: Constraint-Aware Massing Explorer
+    slug: constraint-aware-massing-explorer
     category: AI for the Built Environment
-    skill_area: Recommendation systems
+    skill_area: Multi-objective geometric search
     flagship: false
-    demo_command: streamlit run experiments/spatial-design-recommender/app.py
-    test_command: pytest tests/test_recommender.py
+    demo_command: streamlit run experiments/constraint-aware-massing-explorer/app.py
+    test_command: pytest tests/test_massing_explorer.py
     tech_stack: [Python, FastAPI, Streamlit]
-    summary: Scores synthetic design scenarios with explicit weighted rules and returns traceable suggestions.
-    skills: [weighted scoring, recommendations, explainability]
+    summary: Generates rectangular massing options, validates supplied hard constraints, computes transparent environmental and access proxies, and ranks feasible candidates by Pareto dominance and editable weights.
+    skills: [parametric generation, multi-objective search, constraint validation, Pareto ranking, geometric visualization]
     status: experiment
-    data_mode: "Synthetic design scenarios"
-    implementation_mode: "Deterministic weighted-rule scorer"
-    boundary: "Not generative design, optimization, or validated architectural advice"
-    readme_path: experiments/spatial-design-recommender/README.md
+    data_mode: "Three bundled synthetic site scenarios"
+    implementation_mode: "Seeded parametric sampling, hard validation, proxy objectives, Pareto filtering, and SVG rendering"
+    boundary: "No code inference, internal egress model, calibrated environmental simulation, or approvable design"
+    readme_path: experiments/constraint-aware-massing-explorer/README.md
   - name: Construction Grid Route Planner
     slug: construction-robot-task-planner
     category: AI for the Built Environment

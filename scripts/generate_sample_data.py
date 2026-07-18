@@ -455,38 +455,90 @@ def generate_energy_data() -> None:
     )
 
 
-def generate_spatial_scenarios() -> None:
+def generate_massing_scenarios() -> None:
     scenarios = [
         {
-            "name": "Compact clinic suite",
-            "floor_area_m2": 420,
-            "room_count": 18,
-            "avg_daylight_score": 0.42,
-            "circulation_ratio": 0.34,
-            "adjacency_priority": "exam rooms near reception",
-            "public_private_separation": 0.55,
+            "scenario_id": "urban-infill-01",
+            "name": "Urban Infill Office",
+            "data_status": "synthetic",
+            "source_note": "Illustrative constraints created for local evaluation; not extracted from a live project or statutory approval.",
+            "site_width_m": 72.0,
+            "site_depth_m": 48.0,
+            "setbacks_m": {"north": 6.0, "east": 5.0, "south": 8.0, "west": 5.0},
+            "max_height_m": 42.0,
+            "floor_to_floor_m": 3.5,
+            "max_site_coverage": 0.52,
+            "target_gfa_m2": 9500.0,
+            "max_gfa_m2": 10450.0,
+            "prevailing_wind_from": "south",
+            "north_rotation_deg": 0.0,
+            "ingress": {"x": 10.0, "y": 0.0},
+            "egress": {"x": 62.0, "y": 0.0},
+            "grid_resolution_m": 1.0,
+            "objective_weights": {
+                "gfa_fit": 0.3,
+                "solar": 0.18,
+                "daylight": 0.2,
+                "wind": 0.17,
+                "access": 0.15,
+            },
         },
         {
-            "name": "Studio office floor",
-            "floor_area_m2": 980,
-            "room_count": 12,
-            "avg_daylight_score": 0.71,
-            "circulation_ratio": 0.22,
-            "adjacency_priority": "collaboration near workstations",
-            "public_private_separation": 0.78,
+            "scenario_id": "tropical-campus-02",
+            "name": "Tropical Learning Hub",
+            "data_status": "synthetic",
+            "source_note": "Illustrative constraints created for local evaluation; not extracted from a live project or statutory approval.",
+            "site_width_m": 90.0,
+            "site_depth_m": 68.0,
+            "setbacks_m": {"north": 8.0, "east": 7.0, "south": 10.0, "west": 7.0},
+            "max_height_m": 24.0,
+            "floor_to_floor_m": 3.6,
+            "max_site_coverage": 0.38,
+            "target_gfa_m2": 9800.0,
+            "max_gfa_m2": 10800.0,
+            "prevailing_wind_from": "east",
+            "north_rotation_deg": 0.0,
+            "ingress": {"x": 14.0, "y": 0.0},
+            "egress": {"x": 76.0, "y": 0.0},
+            "grid_resolution_m": 1.0,
+            "objective_weights": {
+                "gfa_fit": 0.24,
+                "solar": 0.18,
+                "daylight": 0.22,
+                "wind": 0.23,
+                "access": 0.13,
+            },
         },
         {
-            "name": "Deep residential podium",
-            "floor_area_m2": 1350,
-            "room_count": 34,
-            "avg_daylight_score": 0.31,
-            "circulation_ratio": 0.41,
-            "adjacency_priority": "amenity spaces near lift core",
-            "public_private_separation": 0.47,
+            "scenario_id": "mixed-use-corner-03",
+            "name": "Mixed-Use Corner Site",
+            "data_status": "synthetic",
+            "source_note": "Illustrative constraints created for local evaluation; not extracted from a live project or statutory approval.",
+            "site_width_m": 55.0,
+            "site_depth_m": 45.0,
+            "setbacks_m": {"north": 5.0, "east": 4.0, "south": 6.0, "west": 4.0},
+            "max_height_m": 30.0,
+            "floor_to_floor_m": 3.6,
+            "max_site_coverage": 0.55,
+            "target_gfa_m2": 6700.0,
+            "max_gfa_m2": 7450.0,
+            "prevailing_wind_from": "south",
+            "north_rotation_deg": 0.0,
+            "ingress": {"x": 8.0, "y": 0.0},
+            "egress": {"x": 47.0, "y": 0.0},
+            "grid_resolution_m": 1.0,
+            "objective_weights": {
+                "gfa_fit": 0.34,
+                "solar": 0.17,
+                "daylight": 0.18,
+                "wind": 0.13,
+                "access": 0.18,
+            },
         },
     ]
     write_json(
-        ROOT / "experiments/spatial-design-recommender/sample_data/example_scenarios.json",
+        ROOT
+        / "experiments/constraint-aware-massing-explorer/sample_data/synthetic_site_scenarios.json",
         scenarios,
     )
 
@@ -721,7 +773,7 @@ def main() -> None:
     generate_bim_exports()
     generate_job_descriptions()
     generate_energy_data()
-    generate_spatial_scenarios()
+    generate_massing_scenarios()
     generate_robot_task_planner_data()
     generate_site_robot_safety_data()
     generate_general_ai_sample_data()

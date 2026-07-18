@@ -8,6 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 ARTIFACT_DIRS = [
     ROOT / "projects" / "aec-code-compliance-rag" / "demo_outputs",
+    ROOT / "experiments" / "constraint-aware-massing-explorer" / "demo_outputs",
     ROOT / "projects" / "agentic-research-ops-assistant" / "demo_outputs",
     ROOT / "projects" / "mlops-model-serving-monitoring" / "demo_outputs",
     ROOT / "experiments" / "building-energy-ml-pipeline" / "demo_outputs",
@@ -17,7 +18,7 @@ ARTIFACT_DIRS = [
     ROOT / "projects" / "vla-embodied-agent-simulator" / "demo_outputs",
 ]
 ARTIFACT_FILES = [ROOT / "docs" / "EVIDENCE_LEDGER.md"]
-VERSIONED_SUFFIXES = {".json", ".md"}
+VERSIONED_SUFFIXES = {".json", ".md", ".svg"}
 
 
 def artifact_hashes() -> dict[Path, str]:
