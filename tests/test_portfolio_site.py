@@ -64,7 +64,7 @@ def test_shared_palette_keeps_readable_text_contrast() -> None:
 def test_every_public_page_uses_the_shared_navigation_script() -> None:
     pages = html_files()
 
-    assert len(pages) == 9
+    assert len(pages) == 10
     for page in pages:
         text = page.read_text(encoding="utf-8")
         assert 'class="site-header"' in text
@@ -90,6 +90,15 @@ def test_custom_404_routes_visitors_back_to_primary_evidence() -> None:
     assert 'content="noindex, follow"' in text
     assert 'href="https://josiahsutd-stack.github.io/ai-portfolio/"' in text
     assert 'href="https://josiahsutd-stack.github.io/ai-portfolio/pages/aec-rag.html"' in text
+    assert 'href="https://josiahsutd-stack.github.io/ai-portfolio/pages/project-guide.html"' in text
+
+
+def test_legacy_project_guide_route_redirects_without_being_indexed() -> None:
+    text = (SITE_ROOT / "pages" / "recruiter-view.html").read_text(encoding="utf-8")
+
+    assert '<meta name="robots" content="noindex, follow" />' in text
+    assert '<meta http-equiv="refresh" content="0; url=project-guide.html" />' in text
     assert (
-        'href="https://josiahsutd-stack.github.io/ai-portfolio/pages/recruiter-view.html"' in text
+        'rel="canonical" href="https://josiahsutd-stack.github.io/ai-portfolio/pages/project-guide.html"'
+        in text
     )

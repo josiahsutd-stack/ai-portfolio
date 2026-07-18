@@ -1288,6 +1288,69 @@ h3 {
   background: var(--white);
 }
 
+.role-grid article:first-child {
+  grid-column: 1 / -1;
+  border-top: 4px solid var(--clay);
+}
+
+.role-grid h3 {
+  margin: 8px 0 14px;
+}
+
+.role-grid p {
+  color: var(--muted);
+}
+
+.role-grid p a {
+  color: var(--moss);
+  font-weight: 800;
+}
+
+.route-label {
+  color: var(--clay);
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.guide-evidence {
+  margin: 72px 0 36px;
+}
+
+.guide-evidence h2 {
+  max-width: 900px;
+}
+
+.guide-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin: 30px 0;
+}
+
+.guide-steps article {
+  padding-top: 18px;
+  border-top: 2px solid var(--line);
+}
+
+.guide-steps span {
+  color: var(--clay);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.guide-steps h3 {
+  margin: 10px 0;
+  font-size: 1.15rem;
+}
+
+.guide-steps p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
 .case-hero {
   position: relative;
   min-height: 72vh;
@@ -1623,6 +1686,7 @@ h3 {
   .architecture-gallery,
   .boundary-grid,
   .role-grid,
+  .guide-steps,
   .portfolio-map__intro,
   .capabilities-intro,
   .directory-intro {

@@ -10,7 +10,7 @@
 
 The visual portfolio is the primary guide through the work. It connects five implemented AEC systems, visual case studies, project evaluations, architecture experience, and the source repository in one narrative.
 
-[Download the two-page portfolio brief](https://josiahsutd-stack.github.io/ai-portfolio/assets/Josiah_Lau_Applied_AI_Portfolio_Brief.pdf) | [GitHub profile](https://github.com/josiahsutd-stack) | [System maps](docs/architecture-diagrams.md) | [Five-minute evidence path](docs/how-to-review-this-portfolio.md) | [Evidence ledger](docs/EVIDENCE_LEDGER.md)
+[Download the two-page portfolio brief](https://josiahsutd-stack.github.io/ai-portfolio/assets/Josiah_Lau_Applied_AI_Portfolio_Brief.pdf) | [GitHub profile](https://github.com/josiahsutd-stack) | [System maps](docs/architecture-diagrams.md) | [Technical evidence path](docs/how-to-review-this-portfolio.md) | [Evidence ledger](docs/EVIDENCE_LEDGER.md)
 
 [AEC RAG case study](https://josiahsutd-stack.github.io/ai-portfolio/pages/aec-rag.html) | [Specification Assistant case study](https://josiahsutd-stack.github.io/ai-portfolio/pages/specification-assistant.html) | [Massing Explorer case study](https://josiahsutd-stack.github.io/ai-portfolio/pages/massing-explorer.html) | [QS Workbench case study](https://josiahsutd-stack.github.io/ai-portfolio/pages/qs-takeoff.html) | [Embodied AI case study](https://josiahsutd-stack.github.io/ai-portfolio/pages/embodied-ai.html)
 

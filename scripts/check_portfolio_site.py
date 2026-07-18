@@ -79,7 +79,7 @@ SOCIAL_CARD_REQUIREMENTS = {
         "assets/social-card-qs-takeoff.png",
         "QS Takeoff and Tender Analysis case-study hero with measured quantity interface",
     ),
-    "pages/recruiter-view.html": (
+    "pages/project-guide.html": (
         "assets/social-card-project-guide.png",
         "Josiah Lau project guide showing applied AI work organized by role",
     ),
@@ -348,7 +348,14 @@ def public_url(path: Path) -> str:
 
 
 def indexable_html_files() -> list[Path]:
-    return [path for path in html_files() if path.name != "404.html"]
+    indexable: list[Path] = []
+    for path in html_files():
+        parser = SiteLinkParser()
+        parser.feed(path.read_text(encoding="utf-8"))
+        if parser.meta_robots and "noindex" in parser.meta_robots.lower():
+            continue
+        indexable.append(path)
+    return indexable
 
 
 def is_external(target: str) -> bool:
