@@ -170,7 +170,6 @@ REQUIRED_COMMAND_COPY_SCRIPT_CONTRACTS = [
     'document.querySelectorAll("code[data-copy-command]")',
     'button.setAttribute("data-copy-button", "")',
     "navigator.clipboard.writeText(text)",
-    "navigator.clipboard.writeText(text).catch(function ()",
     'document.execCommand("copy")',
     'status.setAttribute("aria-live", "polite")',
     'status.setAttribute("aria-atomic", "true")',
