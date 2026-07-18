@@ -1,0 +1,130 @@
+{
+  "base_total": 35739.4,
+  "currency": "SGD",
+  "exclusions": [
+    "Preliminaries, contractor overhead, profit, taxes, escalation, and location factors",
+    "Structural reinforcement, foundations, MEP systems, specialist works, and temporary works",
+    "Drawing interpretation beyond the bundled rectangular vector schema"
+  ],
+  "high_total": 40640.87,
+  "low_total": 30837.93,
+  "plan_id": "office-02",
+  "priced_lines": [
+    {
+      "amount": 5440.0,
+      "description": "Floor finish",
+      "high_amount": 5875.2,
+      "item_code": "QTO-FLR",
+      "low_amount": 5004.8,
+      "quantity": 80.0,
+      "quantity_source_refs": [
+        "R-201",
+        "R-202"
+      ],
+      "rate_provenance": "Synthetic illustrative rate S-RATE-001",
+      "unit": "m2",
+      "unit_rate": 68.0
+    },
+    {
+      "amount": 4160.0,
+      "description": "Ceiling finish",
+      "high_amount": 4576.0,
+      "item_code": "QTO-CEI",
+      "low_amount": 3744.0,
+      "quantity": 80.0,
+      "quantity_source_refs": [
+        "R-201",
+        "R-202"
+      ],
+      "rate_provenance": "Synthetic illustrative rate S-RATE-002",
+      "unit": "m2",
+      "unit_rate": 52.0
+    },
+    {
+      "amount": 2520.0,
+      "description": "Concrete floor slab",
+      "high_amount": 2822.4,
+      "item_code": "QTO-SLB",
+      "low_amount": 2217.6,
+      "quantity": 12.0,
+      "quantity_source_refs": [
+        "R-201",
+        "R-202"
+      ],
+      "rate_provenance": "Synthetic illustrative rate S-RATE-003",
+      "unit": "m3",
+      "unit_rate": 210.0
+    },
+    {
+      "amount": 14424.6,
+      "description": "External walling",
+      "high_amount": 16588.29,
+      "item_code": "QTO-EXT",
+      "low_amount": 12260.91,
+      "quantity": 99.48,
+      "quantity_source_refs": [
+        "R-201",
+        "R-202",
+        "D-201",
+        "D-202",
+        "W-201",
+        "W-202"
+      ],
+      "rate_provenance": "Synthetic illustrative rate S-RATE-004",
+      "unit": "m2",
+      "unit_rate": 145.0
+    },
+    {
+      "amount": 2014.8,
+      "description": "Internal partitions",
+      "high_amount": 2256.58,
+      "item_code": "QTO-INT",
+      "low_amount": 1773.02,
+      "quantity": 21.9,
+      "quantity_source_refs": [
+        "R-201",
+        "R-202",
+        "D-201",
+        "D-202",
+        "W-201",
+        "W-202"
+      ],
+      "rate_provenance": "Synthetic illustrative rate S-RATE-005",
+      "unit": "m2",
+      "unit_rate": 92.0
+    },
+    {
+      "amount": 2500.0,
+      "description": "Door sets",
+      "high_amount": 3000.0,
+      "item_code": "QTO-DOR",
+      "low_amount": 2000.0,
+      "quantity": 2.0,
+      "quantity_source_refs": [
+        "D-201",
+        "D-202"
+      ],
+      "rate_provenance": "Synthetic illustrative rate S-RATE-006",
+      "unit": "ea",
+      "unit_rate": 1250.0
+    },
+    {
+      "amount": 4680.0,
+      "description": "Window units by glazed area",
+      "high_amount": 5522.4,
+      "item_code": "QTO-WIN",
+      "low_amount": 3837.6,
+      "quantity": 6.0,
+      "quantity_source_refs": [
+        "W-201",
+        "W-202"
+      ],
+      "rate_provenance": "Synthetic illustrative rate S-RATE-007",
+      "unit": "m2",
+      "unit_rate": 780.0
+    }
+  ],
+  "rate_library_version": "synthetic-sgd-2026-07-v1",
+  "status": "priced",
+  "unpriced_item_codes": []
+}

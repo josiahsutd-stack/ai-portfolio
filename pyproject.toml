@@ -3,7 +3,7 @@ testpaths = ["tests"]
 pythonpath = [
   ".",
   "projects/aec-code-compliance-rag/src",
-  "experiments/construction-progress-cv/src",
+  "experiments/qs-takeoff-tender-analysis/src",
   "experiments/bim-issue-detection-agent/src",
   "experiments/project-specification-copilot/src",
   "experiments/building-energy-ml-pipeline/src",

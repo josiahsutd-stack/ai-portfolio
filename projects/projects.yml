@@ -14,21 +14,21 @@ projects:
     implementation_mode: "TF-IDF, BM25, dense LSA, and hybrid retrieval with deterministic or optional hosted answer provider"
     boundary: "Document-assistance prototype, not compliance certification or professional advice"
     readme_path: projects/aec-code-compliance-rag/README.md
-  - name: Construction Progress Metadata Classifier
-    slug: construction-progress-cv
+  - name: QS Takeoff and Tender Analysis Workbench
+    slug: qs-takeoff-tender-analysis
     category: AI for the Built Environment
-    skill_area: Metadata classification around an image-review workflow
+    skill_area: Geometric quantity takeoff and commercial review automation
     flagship: false
-    demo_command: streamlit run experiments/construction-progress-cv/app.py
-    test_command: pytest
-    tech_stack: [Python, pandas, scikit-learn, FastAPI]
-    summary: Fits a random-forest classifier on synthetic site-image metadata; no image pixels are loaded or modeled.
-    skills: [metadata classification, reporting, workflow prototyping]
+    demo_command: streamlit run experiments/qs-takeoff-tender-analysis/app.py
+    test_command: pytest tests/test_qs_takeoff_tender_analysis.py
+    tech_stack: [Python, Streamlit, FastAPI, SVG]
+    summary: Measures explicit vector-plan fixtures, deduplicates shared walls, carries quantity and rate provenance into a cost build-up, and flags synthetic tender exceptions.
+    skills: [computational geometry, quantity takeoff, cost provenance, tender normalization, evaluation]
     status: experiment
-    data_mode: "Synthetic image metadata"
-    implementation_mode: "Random-forest tabular classifier"
-    boundary: "No computer-vision model or pixel-level inference"
-    readme_path: experiments/construction-progress-cv/README.md
+    data_mode: "Three synthetic vector plans, seven synthetic rates, and three synthetic anonymous tenders"
+    implementation_mode: "Deterministic shared-wall geometry, opening deductions, unit-safe costing, and ratio-band exception checks"
+    boundary: "No PDF/CAD/BIM parsing, live market pricing, professional quantity survey, or tender recommendation"
+    readme_path: experiments/qs-takeoff-tender-analysis/README.md
   - name: BIM Schedule Rule Checker
     slug: bim-issue-detection-agent
     category: AI for the Built Environment

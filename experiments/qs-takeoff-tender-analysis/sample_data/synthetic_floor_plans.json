@@ -1,0 +1,66 @@
+{
+  "data_status": "synthetic",
+  "source_note": "Authored rectangular vector fixtures for deterministic local evaluation. They are not extracted from customer drawings, CAD, BIM, or tender documents.",
+  "plans": [
+    {
+      "plan_id": "studio-01",
+      "name": "Single-Room Studio Fixture",
+      "data_status": "synthetic",
+      "source_note": "Hand-authored rectangular geometry with known quantities.",
+      "drawing_unit": "m",
+      "scale_m_per_unit": 1.0,
+      "storey_height_m": 3.2,
+      "slab_thickness_m": 0.15,
+      "rooms": [
+        {"room_id": "R-101", "name": "Studio", "x": 0.0, "y": 0.0, "width": 10.0, "depth": 8.0}
+      ],
+      "openings": [
+        {"opening_id": "D-101", "kind": "door", "x1": 1.0, "y1": 0.0, "x2": 2.0, "y2": 0.0, "height_m": 2.1},
+        {"opening_id": "W-101", "kind": "window", "x1": 3.0, "y1": 8.0, "x2": 5.0, "y2": 8.0, "height_m": 1.5},
+        {"opening_id": "W-102", "kind": "window", "x1": 10.0, "y1": 2.0, "x2": 10.0, "y2": 4.0, "height_m": 1.5}
+      ]
+    },
+    {
+      "plan_id": "office-02",
+      "name": "Two-Room Office Fixture",
+      "data_status": "synthetic",
+      "source_note": "Hand-authored adjoining rooms used to test shared-wall deduplication.",
+      "drawing_unit": "m",
+      "scale_m_per_unit": 1.0,
+      "storey_height_m": 3.0,
+      "slab_thickness_m": 0.15,
+      "rooms": [
+        {"room_id": "R-201", "name": "Open Office", "x": 0.0, "y": 0.0, "width": 6.0, "depth": 8.0},
+        {"room_id": "R-202", "name": "Meeting Room", "x": 6.0, "y": 0.0, "width": 4.0, "depth": 8.0}
+      ],
+      "openings": [
+        {"opening_id": "D-201", "kind": "door", "x1": 1.0, "y1": 0.0, "x2": 2.2, "y2": 0.0, "height_m": 2.1},
+        {"opening_id": "D-202", "kind": "door", "x1": 6.0, "y1": 2.0, "x2": 6.0, "y2": 3.0, "height_m": 2.1},
+        {"opening_id": "W-201", "kind": "window", "x1": 2.0, "y1": 8.0, "x2": 4.0, "y2": 8.0, "height_m": 1.5},
+        {"opening_id": "W-202", "kind": "window", "x1": 7.0, "y1": 8.0, "x2": 9.0, "y2": 8.0, "height_m": 1.5}
+      ]
+    },
+    {
+      "plan_id": "clinic-03",
+      "name": "L-Shaped Clinic Fixture",
+      "data_status": "synthetic",
+      "source_note": "Hand-authored L-shaped arrangement with two shared partitions.",
+      "drawing_unit": "m",
+      "scale_m_per_unit": 1.0,
+      "storey_height_m": 3.3,
+      "slab_thickness_m": 0.15,
+      "rooms": [
+        {"room_id": "R-301", "name": "Reception", "x": 0.0, "y": 0.0, "width": 6.0, "depth": 5.0},
+        {"room_id": "R-302", "name": "Consultation", "x": 6.0, "y": 0.0, "width": 4.0, "depth": 5.0},
+        {"room_id": "R-303", "name": "Treatment", "x": 0.0, "y": 5.0, "width": 6.0, "depth": 3.0}
+      ],
+      "openings": [
+        {"opening_id": "D-301", "kind": "door", "x1": 1.0, "y1": 0.0, "x2": 2.0, "y2": 0.0, "height_m": 2.1},
+        {"opening_id": "D-302", "kind": "door", "x1": 6.0, "y1": 1.0, "x2": 6.0, "y2": 2.0, "height_m": 2.1},
+        {"opening_id": "D-303", "kind": "door", "x1": 2.0, "y1": 5.0, "x2": 3.0, "y2": 5.0, "height_m": 2.1},
+        {"opening_id": "W-301", "kind": "window", "x1": 10.0, "y1": 2.0, "x2": 10.0, "y2": 4.0, "height_m": 1.4},
+        {"opening_id": "W-302", "kind": "window", "x1": 2.0, "y1": 8.0, "x2": 4.0, "y2": 8.0, "height_m": 1.4}
+      ]
+    }
+  ]
+}

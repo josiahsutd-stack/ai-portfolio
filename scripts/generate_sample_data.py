@@ -22,6 +22,15 @@ def write_json(path: Path, payload: object) -> None:
     path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
 
 
+def preserve_downstream_fixture_random_state() -> None:
+    """Retain established fixture outputs after retiring the progress-data writer."""
+    for _week in range(1, 31):
+        random.uniform(-5, 5)
+        random.choice(["north wing", "south wing", "core", "podium"])
+        random.randint(0, 4)
+        random.choice([0, 0, 1, 2])
+
+
 def write_aec_pdf(path: Path) -> None:
     from reportlab.lib.pagesizes import letter
     from reportlab.lib.units import inch
@@ -278,40 +287,6 @@ def generate_aec_docs() -> None:
     )
     write_aec_source_manifest(
         ROOT / "projects/aec-code-compliance-rag/sample_data/source_manifest.json"
-    )
-
-
-def generate_construction_progress() -> None:
-    stages = ["foundation", "structure", "envelope", "mep", "interior", "handover"]
-    rows = []
-    for week in range(1, 31):
-        progress = min(100, week * 3.7 + random.uniform(-5, 5))
-        foundation = min(100, progress * 1.7)
-        structure = max(0, min(100, (progress - 18) * 1.55))
-        envelope = max(0, min(100, (progress - 38) * 1.65))
-        mep = max(0, min(100, (progress - 45) * 1.45))
-        interior = max(0, min(100, (progress - 62) * 1.75))
-        handover = max(0, min(100, (progress - 82) * 2.2))
-        label = stages[min(len(stages) - 1, int(progress // 18))]
-        rows.append(
-            {
-                "image_id": f"site_week_{week:02d}.jpg",
-                "week": week,
-                "zone": random.choice(["north wing", "south wing", "core", "podium"]),
-                "foundation_pct": round(foundation, 1),
-                "structure_pct": round(structure, 1),
-                "envelope_pct": round(envelope, 1),
-                "mep_pct": round(mep, 1),
-                "interior_pct": round(interior, 1),
-                "handover_pct": round(handover, 1),
-                "safety_observations": random.randint(0, 4),
-                "weather_delay_days": random.choice([0, 0, 1, 2]),
-                "stage_label": label,
-            }
-        )
-    pd.DataFrame(rows).to_csv(
-        ROOT / "experiments/construction-progress-cv/sample_data/synthetic_progress_metadata.csv",
-        index=False,
     )
 
 
@@ -747,7 +722,7 @@ def generate_general_ai_sample_data() -> None:
 
 def main() -> None:
     generate_aec_docs()
-    generate_construction_progress()
+    preserve_downstream_fixture_random_state()
     generate_bim_exports()
     generate_energy_data()
     generate_massing_scenarios()

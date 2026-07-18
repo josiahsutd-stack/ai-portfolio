@@ -10,7 +10,7 @@ PROJECTS_DIR = ROOT / "projects"
 EXPERIMENTS_DIR = ROOT / "experiments"
 MODULES = [
     "aec_code_compliance_rag",
-    "construction_progress_cv",
+    "qs_takeoff_tender_analysis",
     "bim_issue_detection_agent",
     "project_specification_copilot",
     "building_energy_ml_pipeline",
@@ -67,6 +67,20 @@ def check_imports() -> list[str]:
 
 def run_core_smoke() -> list[str]:
     issues: list[str] = []
+    try:
+        from qs_takeoff_tender_analysis import calculate_takeoff, load_floor_plans
+
+        plans = load_floor_plans(
+            ROOT
+            / "experiments"
+            / "qs-takeoff-tender-analysis"
+            / "sample_data"
+            / "synthetic_floor_plans.json"
+        )
+        if calculate_takeoff(plans[0]).quantity_map()["QTO-FLR"] <= 0:
+            issues.append("qs_takeoff_tender_analysis core smoke failed: floor area missing")
+    except Exception as exc:  # noqa: BLE001
+        issues.append(f"qs_takeoff_tender_analysis core smoke failed: {exc}")
     try:
         from project_specification_copilot import SpecificationEngine
 

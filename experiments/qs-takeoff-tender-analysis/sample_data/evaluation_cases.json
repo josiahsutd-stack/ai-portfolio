@@ -1,0 +1,34 @@
+{
+  "data_status": "synthetic",
+  "labeling_method": "Expected quantities and costs were manually calculated from the authored rectangular fixtures before evaluator execution.",
+  "takeoff_cases": [
+    {
+      "plan_id": "studio-01",
+      "external_wall_length_m": 36.0,
+      "partition_length_m": 0.0,
+      "expected_quantities": {"QTO-FLR": 80.0, "QTO-CEI": 80.0, "QTO-SLB": 12.0, "QTO-EXT": 107.1, "QTO-INT": 0.0, "QTO-DOR": 1.0, "QTO-WIN": 6.0},
+      "expected_cost_total": 33579.5
+    },
+    {
+      "plan_id": "office-02",
+      "external_wall_length_m": 36.0,
+      "partition_length_m": 8.0,
+      "expected_quantities": {"QTO-FLR": 80.0, "QTO-CEI": 80.0, "QTO-SLB": 12.0, "QTO-EXT": 99.48, "QTO-INT": 21.9, "QTO-DOR": 2.0, "QTO-WIN": 6.0},
+      "expected_cost_total": 35739.4
+    },
+    {
+      "plan_id": "clinic-03",
+      "external_wall_length_m": 36.0,
+      "partition_length_m": 11.0,
+      "expected_quantities": {"QTO-FLR": 68.0, "QTO-CEI": 68.0, "QTO-SLB": 10.2, "QTO-EXT": 111.1, "QTO-INT": 32.1, "QTO-DOR": 3.0, "QTO-WIN": 5.6},
+      "expected_cost_total": 37482.7
+    }
+  ],
+  "expected_tender_flags": [
+    {"tender_id": "TENDER-B", "item_code": "QTO-EXT", "flag": "low_quote"},
+    {"tender_id": "TENDER-B", "item_code": "QTO-WIN", "flag": "missing"},
+    {"tender_id": "TENDER-C", "item_code": "QTO-SLB", "flag": "high_quote"},
+    {"tender_id": "TENDER-C", "item_code": "QTO-DOR", "flag": "high_quote"},
+    {"tender_id": "TENDER-C", "item_code": "PRELIM", "flag": "extra_item"}
+  ]
+}

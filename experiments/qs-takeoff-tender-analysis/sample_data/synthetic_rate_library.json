@@ -1,0 +1,15 @@
+{
+  "version": "synthetic-sgd-2026-07-v1",
+  "currency": "SGD",
+  "data_status": "synthetic",
+  "source_note": "Illustrative unit rates authored for software evaluation. They are not current market prices, quotations, cost-book extracts, or professional QS advice.",
+  "items": [
+    {"item_code": "QTO-FLR", "description": "Floor finish", "unit": "m2", "unit_rate": 68.0, "uncertainty_fraction": 0.08, "provenance": "Synthetic illustrative rate S-RATE-001"},
+    {"item_code": "QTO-CEI", "description": "Ceiling finish", "unit": "m2", "unit_rate": 52.0, "uncertainty_fraction": 0.10, "provenance": "Synthetic illustrative rate S-RATE-002"},
+    {"item_code": "QTO-SLB", "description": "Concrete floor slab", "unit": "m3", "unit_rate": 210.0, "uncertainty_fraction": 0.12, "provenance": "Synthetic illustrative rate S-RATE-003"},
+    {"item_code": "QTO-EXT", "description": "External walling", "unit": "m2", "unit_rate": 145.0, "uncertainty_fraction": 0.15, "provenance": "Synthetic illustrative rate S-RATE-004"},
+    {"item_code": "QTO-INT", "description": "Internal partitions", "unit": "m2", "unit_rate": 92.0, "uncertainty_fraction": 0.12, "provenance": "Synthetic illustrative rate S-RATE-005"},
+    {"item_code": "QTO-DOR", "description": "Door sets", "unit": "ea", "unit_rate": 1250.0, "uncertainty_fraction": 0.20, "provenance": "Synthetic illustrative rate S-RATE-006"},
+    {"item_code": "QTO-WIN", "description": "Window units by glazed area", "unit": "m2", "unit_rate": 780.0, "uncertainty_fraction": 0.18, "provenance": "Synthetic illustrative rate S-RATE-007"}
+  ]
+}

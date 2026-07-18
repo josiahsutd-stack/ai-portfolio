@@ -10,6 +10,7 @@ COMMANDS = [
     [sys.executable, "projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py"],
     [sys.executable, "experiments/constraint-aware-massing-explorer/evaluate_massing.py"],
     [sys.executable, "experiments/project-specification-copilot/evaluate_specification.py"],
+    [sys.executable, "experiments/qs-takeoff-tender-analysis/evaluate_qs.py"],
     [sys.executable, "projects/agentic-research-ops-assistant/scripts/evaluate_agent.py"],
     [sys.executable, "projects/mlops-model-serving-monitoring/scripts/evaluate_model.py"],
     [sys.executable, "experiments/building-energy-ml-pipeline/evaluate_model.py"],

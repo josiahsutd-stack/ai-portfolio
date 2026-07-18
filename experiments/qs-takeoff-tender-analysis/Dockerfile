@@ -6,4 +6,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 EXPOSE 8501
-CMD ["streamlit", "run", "experiments/construction-progress-cv/app.py", "--server.address=0.0.0.0"]
+CMD ["streamlit", "run", "experiments/qs-takeoff-tender-analysis/app.py", "--server.address=0.0.0.0"]

@@ -1,0 +1,8 @@
+item_code,description,unit,quantity,formula,source_refs
+QTO-FLR,Floor finish,m2,80.0,sum(room width x depth) x scale^2,R-201|R-202
+QTO-CEI,Ceiling finish,m2,80.0,floor area proxy for one storey,R-201|R-202
+QTO-SLB,Concrete floor slab,m3,12.0,floor area x slab thickness,R-201|R-202
+QTO-EXT,External walling,m2,99.48,deduplicated external length x storey height - external openings,R-201|R-202|D-201|D-202|W-201|W-202
+QTO-INT,Internal partitions,m2,21.9,shared-wall length x storey height - partition openings; one-face equivalent,R-201|R-202|D-201|D-202|W-201|W-202
+QTO-DOR,Door sets,ea,2.0,count(door openings),D-201|D-202
+QTO-WIN,Window units by glazed area,m2,6.0,sum(window width x height),W-201|W-202

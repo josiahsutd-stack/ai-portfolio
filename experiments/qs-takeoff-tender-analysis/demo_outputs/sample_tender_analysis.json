@@ -1,0 +1,192 @@
+[
+  {
+    "benchmark_total": 35739.4,
+    "bidder_alias": "Anonymous Bidder A",
+    "completeness_fraction": 1.0,
+    "currency": "SGD",
+    "deviation_fraction": 0.0297,
+    "flags": [
+      {
+        "benchmark_amount": 5440.0,
+        "flag": "within_demo_band",
+        "item_code": "QTO-FLR",
+        "ratio_to_benchmark": 1.0294,
+        "submitted_amount": 5600.0
+      },
+      {
+        "benchmark_amount": 4160.0,
+        "flag": "within_demo_band",
+        "item_code": "QTO-CEI",
+        "ratio_to_benchmark": 1.0337,
+        "submitted_amount": 4300.0
+      },
+      {
+        "benchmark_amount": 2520.0,
+        "flag": "within_demo_band",
+        "item_code": "QTO-SLB",
+        "ratio_to_benchmark": 0.9921,
+        "submitted_amount": 2500.0
+      },
+      {
+        "benchmark_amount": 14424.6,
+        "flag": "within_demo_band",
+        "item_code": "QTO-EXT",
+        "ratio_to_benchmark": 1.0399,
+        "submitted_amount": 15000.0
+      },
+      {
+        "benchmark_amount": 2014.8,
+        "flag": "within_demo_band",
+        "item_code": "QTO-INT",
+        "ratio_to_benchmark": 1.0423,
+        "submitted_amount": 2100.0
+      },
+      {
+        "benchmark_amount": 2500.0,
+        "flag": "within_demo_band",
+        "item_code": "QTO-DOR",
+        "ratio_to_benchmark": 1.04,
+        "submitted_amount": 2600.0
+      },
+      {
+        "benchmark_amount": 4680.0,
+        "flag": "within_demo_band",
+        "item_code": "QTO-WIN",
+        "ratio_to_benchmark": 1.0043,
+        "submitted_amount": 4700.0
+      }
+    ],
+    "status": "within_demo_band",
+    "submitted_total": 36800.0,
+    "tender_id": "TENDER-A"
+  },
+  {
+    "benchmark_total": 35739.4,
+    "bidder_alias": "Anonymous Bidder B",
+    "completeness_fraction": 0.8571,
+    "currency": "SGD",
+    "deviation_fraction": -0.2781,
+    "flags": [
+      {
+        "benchmark_amount": 5440.0,
+        "flag": "within_demo_band",
+        "item_code": "QTO-FLR",
+        "ratio_to_benchmark": 1.011,
+        "submitted_amount": 5500.0
+      },
+      {
+        "benchmark_amount": 4160.0,
+        "flag": "within_demo_band",
+        "item_code": "QTO-CEI",
+        "ratio_to_benchmark": 1.0096,
+        "submitted_amount": 4200.0
+      },
+      {
+        "benchmark_amount": 2520.0,
+        "flag": "within_demo_band",
+        "item_code": "QTO-SLB",
+        "ratio_to_benchmark": 1.0317,
+        "submitted_amount": 2600.0
+      },
+      {
+        "benchmark_amount": 14424.6,
+        "flag": "low_quote",
+        "item_code": "QTO-EXT",
+        "ratio_to_benchmark": 0.6239,
+        "submitted_amount": 9000.0
+      },
+      {
+        "benchmark_amount": 2014.8,
+        "flag": "within_demo_band",
+        "item_code": "QTO-INT",
+        "ratio_to_benchmark": 1.0175,
+        "submitted_amount": 2050.0
+      },
+      {
+        "benchmark_amount": 2500.0,
+        "flag": "within_demo_band",
+        "item_code": "QTO-DOR",
+        "ratio_to_benchmark": 0.98,
+        "submitted_amount": 2450.0
+      },
+      {
+        "benchmark_amount": 4680.0,
+        "flag": "missing",
+        "item_code": "QTO-WIN",
+        "ratio_to_benchmark": null,
+        "submitted_amount": null
+      }
+    ],
+    "status": "needs_review",
+    "submitted_total": 25800.0,
+    "tender_id": "TENDER-B"
+  },
+  {
+    "benchmark_total": 35739.4,
+    "bidder_alias": "Anonymous Bidder C",
+    "completeness_fraction": 1.0,
+    "currency": "SGD",
+    "deviation_fraction": 0.2437,
+    "flags": [
+      {
+        "benchmark_amount": 5440.0,
+        "flag": "within_demo_band",
+        "item_code": "QTO-FLR",
+        "ratio_to_benchmark": 0.9926,
+        "submitted_amount": 5400.0
+      },
+      {
+        "benchmark_amount": 4160.0,
+        "flag": "within_demo_band",
+        "item_code": "QTO-CEI",
+        "ratio_to_benchmark": 0.9856,
+        "submitted_amount": 4100.0
+      },
+      {
+        "benchmark_amount": 2520.0,
+        "flag": "high_quote",
+        "item_code": "QTO-SLB",
+        "ratio_to_benchmark": 1.6667,
+        "submitted_amount": 4200.0
+      },
+      {
+        "benchmark_amount": 14424.6,
+        "flag": "within_demo_band",
+        "item_code": "QTO-EXT",
+        "ratio_to_benchmark": 1.0122,
+        "submitted_amount": 14600.0
+      },
+      {
+        "benchmark_amount": 2014.8,
+        "flag": "within_demo_band",
+        "item_code": "QTO-INT",
+        "ratio_to_benchmark": 0.9927,
+        "submitted_amount": 2000.0
+      },
+      {
+        "benchmark_amount": 2500.0,
+        "flag": "high_quote",
+        "item_code": "QTO-DOR",
+        "ratio_to_benchmark": 1.8,
+        "submitted_amount": 4500.0
+      },
+      {
+        "benchmark_amount": 4680.0,
+        "flag": "within_demo_band",
+        "item_code": "QTO-WIN",
+        "ratio_to_benchmark": 0.9936,
+        "submitted_amount": 4650.0
+      },
+      {
+        "benchmark_amount": null,
+        "flag": "extra_item",
+        "item_code": "PRELIM",
+        "ratio_to_benchmark": null,
+        "submitted_amount": 5000.0
+      }
+    ],
+    "status": "needs_review",
+    "submitted_total": 44450.0,
+    "tender_id": "TENDER-C"
+  }
+]

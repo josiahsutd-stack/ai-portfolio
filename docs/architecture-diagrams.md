@@ -13,16 +13,17 @@ flowchart LR
   E --> F["Citations, status, and eval artifacts"]
 ```
 
-## Construction Progress Metadata Classifier
+## QS Takeoff and Tender Analysis Workbench
 
 ```mermaid
 flowchart LR
-  A["Synthetic site metadata"] --> B["Feature pipeline"]
-  B --> C["Progress classifier"]
-  C --> D["Stage prediction"]
-  A --> E["Report generator"]
-  D --> F["Dashboard/API"]
-  E --> F
+  A["Synthetic vector floor plan"] --> B["Scale and geometry validation"]
+  B --> C["Shared-wall quantity takeoff"]
+  D["Versioned synthetic rates"] --> E["Cost build-up and uncertainty"]
+  C --> E
+  F["Synthetic normalized tenders"] --> G["Completeness and ratio-band checks"]
+  E --> G
+  G --> H["Human review queue; no award recommendation"]
 ```
 
 ## BIM Schedule Rule Checker

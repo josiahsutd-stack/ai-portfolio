@@ -4,7 +4,7 @@ These studies isolate one baseline, rule system, or provider contract at a time.
 
 | Experiment | Implemented evidence | Hard boundary |
 | --- | --- | --- |
-| [Construction Progress Metadata Classifier](construction-progress-cv/README.md) | Random-forest classification over synthetic site-image metadata. | No image pixels or computer-vision model. |
+| [QS Takeoff and Tender Analysis Workbench](qs-takeoff-tender-analysis/README.md) | Shared-wall vector measurement, opening deductions, rate provenance, uncertainty bands, and tender exception checks over hand-calculated synthetic fixtures. | No PDF/CAD/BIM parsing, live pricing, professional QS output, or award recommendation. |
 | [BIM Schedule Rule Checker](bim-issue-detection-agent/README.md) | Deterministic schedule rules, severity scoring, and optional explanation formatting. | No geometric BIM parsing, clash detection, or professional QA. |
 | [Project Brief and Specification Copilot](project-specification-copilot/README.md) | Role-tagged messages, requirement lifecycle, conflict detection, approval gates, SQLite audit events, and source-linked draft clauses over synthetic conversations. | Deterministic phrase set; no authenticated authority, open-domain understanding, or professional specification. |
 | [Building Energy Regression Experiment](building-energy-ml-pipeline/README.md) | Random-forest regression with a fixed synthetic holdout and mean baseline. | Not calibrated simulation or professional energy analysis. |
