@@ -11,7 +11,7 @@ These three projects carry the clearest technical and domain evidence.
 | Project | Engineering focus | Current result | Evidence boundary |
 | --- | --- | --- | --- |
 | [AEC Code Compliance RAG](projects/aec-code-compliance-rag/README.md) | Public-source ingestion, page-aware metadata, four retrieval modes, citations, abstention, and retrieval evaluation. | Public 24-case snapshot over 15 validated documents: `Hit@1 0.952`, `MRR 0.976`, paraphrase `MRR 0.917`, and no-answer accuracy `1.000`. | Document assistance only; not compliance certification, legal advice, or proof that downloaded documents remain current. |
-| [Construction Embodied Agent Simulator](projects/vla-embodied-agent-simulator/README.md) | Language-conditioned tasks, procedural construction grids, behavior cloning, closed-loop holdout evaluation, and action filtering. | Filtered learned policy: `0.625` success and `0.000` unsafe-action rate on 24 unseen structured-grid scenarios; raw policy success is `0.500`. | No foundation VLA, perception, physics, ROS, hardware, or physical-safety validation. |
+| [Construction Embodied Agent Simulator](projects/vla-embodied-agent-simulator/README.md) | Shared expert demonstrations, engineered and semantic-raster observations, supervised imitation, closed-loop holdout evaluation, and action filtering. | On 96 unseen grids, filtered success is `0.698` for the engineered-state random forest and `0.469` for the raster MLP; both record `0.000` unsafe-action rate after filtering. | Raster channels come from simulator state; no camera perception, foundation VLA, physics, ROS, hardware, or physical-safety validation. |
 | [Constraint-Aware Massing Explorer](projects/constraint-aware-massing-explorer/README.md) | Parametric geometry, hard constraints, Pareto ranking, editable objectives, and transparent environmental/access proxies. | Across 864 candidates per method: feasible rate `0.977` versus `0.052` for the unconstrained baseline; mean best GFA error `0.19%` versus `34.47%`. | Rectangular proxy model; no code inference, internal egress, calibrated daylight/CFD, structure, or approvable design. |
 
 For a 15-minute technical screen, these three links contain the highest-signal code, evaluation design, failure boundaries, and generated evidence. The [evidence ledger](docs/EVIDENCE_LEDGER.md) records the artifact and command behind each headline metric.
@@ -103,7 +103,11 @@ The downloader targets official BCA, URA, NEA, SCDF, LTA, PUB, and NParks source
 
 ### Construction Embodied Agent Simulator
 
-The simulator converts a language task and structured construction grid into closed-loop actions. It compares a deterministic A* reference with a fitted random-forest behavior-cloning policy, reports raw failures, and measures the same learned policy with an explicit action filter.
+The simulator converts a language task and structured construction grid into closed-loop actions. Two learned policies share 192 training scenarios and a 96-scenario disjoint holdout: a random forest over 24 engineered features and a 64-unit MLP over a flattened 398-value semantic state raster. The neural baseline performs worse and is retained as negative evidence about representation choice and data scale.
+
+![Fully observable semantic state raster and measured policy comparison](portfolio-site/assets/semantic-raster-comparison.svg)
+
+*Generated from the evaluator's actual holdout metrics. The raster contains privileged simulator state, not camera pixels or learned perception.*
 
 ![Generated concept image of a construction robot following a planned route](portfolio-site/assets/embodied-ai-concept.webp)
 

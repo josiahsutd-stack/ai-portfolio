@@ -16,11 +16,13 @@ from vla_embodied_agent_simulator import (
     default_construction_scenarios,
     evaluate_policy_suite,
     make_behavior_cloning_policy,
+    make_semantic_raster_policy,
     naive_language_policy,
     random_policy,
     run_episode,
     safety_shielded_policy,
     train_behavior_cloning_policy,
+    train_semantic_raster_policy,
 )
 
 RULE_POLICIES = {
@@ -30,23 +32,34 @@ RULE_POLICIES = {
 }
 POLICY_NAMES = [
     "Safety shielded",
-    "Behavior cloning + safety filter",
-    "Behavior cloning raw",
+    "Engineered-state RF + safety filter",
+    "Engineered-state RF raw",
+    "Semantic state-raster MLP + safety filter",
+    "Semantic state-raster MLP raw",
     "Naive language",
     "Random",
 ]
 
 
-@st.cache_resource(show_spinner="Training local behavior-cloning policy...")
-def behavior_cloning_policies():
-    model, _result = train_behavior_cloning_policy()
+@st.cache_resource(show_spinner="Training local imitation policies...")
+def learned_policies():
+    structured_model, _structured_result = train_behavior_cloning_policy()
+    raster_model, _raster_result = train_semantic_raster_policy()
     return {
-        "Behavior cloning + safety filter": make_behavior_cloning_policy(
-            model,
+        "Engineered-state RF + safety filter": make_behavior_cloning_policy(
+            structured_model,
             safety_filter=True,
         ),
-        "Behavior cloning raw": make_behavior_cloning_policy(
-            model,
+        "Engineered-state RF raw": make_behavior_cloning_policy(
+            structured_model,
+            safety_filter=False,
+        ),
+        "Semantic state-raster MLP + safety filter": make_semantic_raster_policy(
+            raster_model,
+            safety_filter=True,
+        ),
+        "Semantic state-raster MLP raw": make_semantic_raster_policy(
+            raster_model,
             safety_filter=False,
         ),
     }
@@ -74,7 +87,7 @@ if instruction != selected_scenario.instruction:
 
 policy = RULE_POLICIES.get(policy_name)
 if policy is None:
-    policy = behavior_cloning_policies()[policy_name]
+    policy = learned_policies()[policy_name]
 episode = run_episode(scenario, policy)
 env = GridWorldEnv.from_scenario(scenario)
 for action in [step["action"] for step in episode.trace]:
@@ -121,7 +134,8 @@ if behavior_path.exists():
     st.subheader("Learned Policy Holdout Evidence")
     st.caption(
         "Fixed-seed procedural holdout. Train and holdout scenario IDs are disjoint; "
-        "failures remain in the published evaluation artifacts."
+        "failures remain in the published evaluation artifacts. The semantic raster is "
+        "generated from fully observable simulator state, not camera input."
     )
     behavior_metrics = [
         {"policy": name, **values} for name, values in behavior_payload["policies"].items()
@@ -130,7 +144,8 @@ if behavior_path.exists():
     with st.expander("Training and split metadata"):
         st.json(
             {
-                "training": behavior_payload["training"],
+                "engineered_state_random_forest": behavior_payload["training"],
+                "semantic_raster_mlp": behavior_payload["semantic_raster_training"],
                 "scenario_id_overlap": behavior_payload["split"]["scenario_id_overlap"],
             }
         )

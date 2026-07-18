@@ -11,6 +11,9 @@ from typing import Any
 import joblib
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, f1_score
+from sklearn.neural_network import MLPClassifier
+from sklearn.pipeline import Pipeline, make_pipeline
+from sklearn.preprocessing import StandardScaler
 
 from .environment import (
     MOVE_DELTAS,
@@ -22,6 +25,7 @@ from .environment import (
     shortest_path_actions,
 )
 from .policies import PolicyPlan, safety_shielded_policy
+from .semantic_raster_rendering import render_semantic_raster_svg
 
 FEATURE_NAMES = [
     "task_deliver",
@@ -43,6 +47,30 @@ FEATURE_NAMES = [
     *[f"safe_{action}" for action in MOVE_DELTAS],
     *[f"distance_gain_{action}" for action in MOVE_DELTAS],
 ]
+TRAIN_SCENARIOS_PER_TASK = 64
+HOLDOUT_SCENARIOS_PER_TASK = 32
+SEMANTIC_RASTER_SIZE = 7
+SEMANTIC_RASTER_CHANNELS = (
+    "agent",
+    "current_subgoal",
+    "obstacle",
+    "restricted_zone",
+    "worker_zone",
+    "slow_zone",
+    "object",
+    "named_zone",
+)
+SEMANTIC_RASTER_GLOBAL_FEATURES = (
+    "task_deliver",
+    "task_inspect",
+    "task_charge",
+    "carrying",
+    "battery_ratio",
+    "step_ratio",
+)
+SEMANTIC_RASTER_FEATURE_COUNT = SEMANTIC_RASTER_SIZE * SEMANTIC_RASTER_SIZE * len(
+    SEMANTIC_RASTER_CHANNELS
+) + len(SEMANTIC_RASTER_GLOBAL_FEATURES)
 
 PolicyFn = Callable[[GridWorldEnv, str], PolicyPlan]
 
@@ -57,6 +85,24 @@ class BehaviorCloningTrainingResult:
     holdout_action_macro_f1: float
     classes: list[str]
     feature_count: int
+    model_file: str
+    random_seed: int
+
+
+@dataclass(frozen=True)
+class SemanticRasterTrainingResult:
+    train_scenario_count: int
+    holdout_scenario_count: int
+    training_step_count: int
+    holdout_expert_step_count: int
+    holdout_action_accuracy: float
+    holdout_action_macro_f1: float
+    classes: list[str]
+    feature_count: int
+    raster_size: int
+    channel_names: list[str]
+    global_feature_names: list[str]
+    hidden_layer_sizes: list[int]
     model_file: str
     random_seed: int
 
@@ -115,14 +161,56 @@ def encode_policy_state(env: GridWorldEnv) -> list[float]:
     return features
 
 
+def encode_semantic_raster_state(env: GridWorldEnv) -> list[float]:
+    if env.width > SEMANTIC_RASTER_SIZE or env.height > SEMANTIC_RASTER_SIZE:
+        raise ValueError(
+            f"semantic raster supports grids up to {SEMANTIC_RASTER_SIZE}x{SEMANTIC_RASTER_SIZE}"
+        )
+    task = env.task or parse_instruction("wait", env)
+    subgoal = _current_subgoal(env)
+    channel_points = (
+        {env.agent},
+        {subgoal},
+        set(env.obstacles),
+        set(env.restricted_zones),
+        set(env.worker_zones),
+        set(env.slow_zones),
+        set(env.objects.values()),
+        set(env.zones.values()),
+    )
+    features = [
+        float((x, y) in points)
+        for points in channel_points
+        for y in range(SEMANTIC_RASTER_SIZE)
+        for x in range(SEMANTIC_RASTER_SIZE)
+    ]
+    features.extend(
+        [
+            float(task.task_type == "deliver"),
+            float(task.task_type == "inspect"),
+            float(task.task_type == "charge"),
+            float(env.carrying is not None),
+            min(1.0, max(0.0, env.battery / 70.0)),
+            min(1.0, env.step_count / max(1, env.max_steps)),
+        ]
+    )
+    if len(features) != SEMANTIC_RASTER_FEATURE_COUNT:
+        raise RuntimeError("semantic raster feature schema changed unexpectedly")
+    return features
+
+
 def train_behavior_cloning_policy(
     *,
     model_output_dir: str | Path | None = None,
     train_scenarios: list[SiteScenario] | None = None,
     holdout_scenarios: list[SiteScenario] | None = None,
 ) -> tuple[RandomForestClassifier, BehaviorCloningTrainingResult]:
-    train_set = train_scenarios or generate_behavior_cloning_scenarios("train")
-    holdout_set = holdout_scenarios or generate_behavior_cloning_scenarios("holdout")
+    train_set = train_scenarios or generate_behavior_cloning_scenarios(
+        "train", count_per_task=TRAIN_SCENARIOS_PER_TASK
+    )
+    holdout_set = holdout_scenarios or generate_behavior_cloning_scenarios(
+        "holdout", count_per_task=HOLDOUT_SCENARIOS_PER_TASK
+    )
     train_features, train_actions = _expert_examples(train_set)
     holdout_features, holdout_actions = _expert_examples(holdout_set)
     model = RandomForestClassifier(
@@ -160,12 +248,103 @@ def train_behavior_cloning_policy(
     return model, result
 
 
+def train_semantic_raster_policy(
+    *,
+    model_output_dir: str | Path | None = None,
+    train_scenarios: list[SiteScenario] | None = None,
+    holdout_scenarios: list[SiteScenario] | None = None,
+) -> tuple[Pipeline, SemanticRasterTrainingResult]:
+    train_set = train_scenarios or generate_behavior_cloning_scenarios(
+        "train", count_per_task=TRAIN_SCENARIOS_PER_TASK
+    )
+    holdout_set = holdout_scenarios or generate_behavior_cloning_scenarios(
+        "holdout", count_per_task=HOLDOUT_SCENARIOS_PER_TASK
+    )
+    train_features, train_actions = _expert_examples(
+        train_set, encoder=encode_semantic_raster_state
+    )
+    holdout_features, holdout_actions = _expert_examples(
+        holdout_set, encoder=encode_semantic_raster_state
+    )
+    model = make_pipeline(
+        StandardScaler(),
+        MLPClassifier(
+            hidden_layer_sizes=(64,),
+            activation="relu",
+            solver="lbfgs",
+            alpha=0.001,
+            max_iter=1500,
+            random_state=73,
+        ),
+    )
+    model.fit(train_features, train_actions)
+    holdout_predictions = model.predict(holdout_features)
+    model_file = "semantic_raster_mlp_policy.joblib"
+    if model_output_dir is not None:
+        model_path = Path(model_output_dir) / model_file
+        model_path.parent.mkdir(parents=True, exist_ok=True)
+        joblib.dump(model, model_path)
+    result = SemanticRasterTrainingResult(
+        train_scenario_count=len(train_set),
+        holdout_scenario_count=len(holdout_set),
+        training_step_count=len(train_actions),
+        holdout_expert_step_count=len(holdout_actions),
+        holdout_action_accuracy=round(
+            float(accuracy_score(holdout_actions, holdout_predictions)), 3
+        ),
+        holdout_action_macro_f1=round(
+            float(f1_score(holdout_actions, holdout_predictions, average="macro")),
+            3,
+        ),
+        classes=sorted(str(value) for value in model.classes_),
+        feature_count=SEMANTIC_RASTER_FEATURE_COUNT,
+        raster_size=SEMANTIC_RASTER_SIZE,
+        channel_names=list(SEMANTIC_RASTER_CHANNELS),
+        global_feature_names=list(SEMANTIC_RASTER_GLOBAL_FEATURES),
+        hidden_layer_sizes=[64],
+        model_file=model_file,
+        random_seed=73,
+    )
+    return model, result
+
+
 def make_behavior_cloning_policy(
     model: RandomForestClassifier,
     *,
     safety_filter: bool,
 ) -> PolicyFn:
-    policy_name = "behavior_cloning_shielded" if safety_filter else "behavior_cloning_raw"
+    return _make_classifier_policy(
+        model,
+        encoder=encode_policy_state,
+        raw_policy_name="behavior_cloning_raw",
+        shielded_policy_name="behavior_cloning_shielded",
+        safety_filter=safety_filter,
+    )
+
+
+def make_semantic_raster_policy(
+    model: Pipeline,
+    *,
+    safety_filter: bool,
+) -> PolicyFn:
+    return _make_classifier_policy(
+        model,
+        encoder=encode_semantic_raster_state,
+        raw_policy_name="semantic_raster_mlp_raw",
+        shielded_policy_name="semantic_raster_mlp_shielded",
+        safety_filter=safety_filter,
+    )
+
+
+def _make_classifier_policy(
+    model: Any,
+    *,
+    encoder: Callable[[GridWorldEnv], list[float]],
+    raw_policy_name: str,
+    shielded_policy_name: str,
+    safety_filter: bool,
+) -> PolicyFn:
+    policy_name = shielded_policy_name if safety_filter else raw_policy_name
 
     def policy(env: GridWorldEnv, instruction: str) -> PolicyPlan:
         probe = env.clone()
@@ -174,7 +353,7 @@ def make_behavior_cloning_policy(
         actions: list[str] = []
         interventions: list[dict[str, object]] = []
         for _ in range(env.max_steps):
-            probabilities = model.predict_proba([encode_policy_state(probe)])[0]
+            probabilities = model.predict_proba([encoder(probe)])[0]
             ranked = sorted(
                 zip(model.classes_, probabilities, strict=True),
                 key=lambda item: (-float(item[1]), str(item[0])),
@@ -225,9 +404,18 @@ def evaluate_behavior_cloning(
 ) -> dict[str, object]:
     from .evaluation import run_episode
 
-    train_scenarios = generate_behavior_cloning_scenarios("train")
-    holdout_scenarios = generate_behavior_cloning_scenarios("holdout")
+    train_scenarios = generate_behavior_cloning_scenarios(
+        "train", count_per_task=TRAIN_SCENARIOS_PER_TASK
+    )
+    holdout_scenarios = generate_behavior_cloning_scenarios(
+        "holdout", count_per_task=HOLDOUT_SCENARIOS_PER_TASK
+    )
     model, training = train_behavior_cloning_policy(
+        model_output_dir=model_output_dir,
+        train_scenarios=train_scenarios,
+        holdout_scenarios=holdout_scenarios,
+    )
+    raster_model, raster_training = train_semantic_raster_policy(
         model_output_dir=model_output_dir,
         train_scenarios=train_scenarios,
         holdout_scenarios=holdout_scenarios,
@@ -235,6 +423,8 @@ def evaluate_behavior_cloning(
     policies: list[PolicyFn] = [
         make_behavior_cloning_policy(model, safety_filter=False),
         make_behavior_cloning_policy(model, safety_filter=True),
+        make_semantic_raster_policy(raster_model, safety_filter=False),
+        make_semantic_raster_policy(raster_model, safety_filter=True),
         safety_shielded_policy,
     ]
     episodes = [
@@ -270,9 +460,29 @@ def evaluate_behavior_cloning(
         task = GridWorldEnv.from_scenario(scenario).task
         if task is not None:
             task_types[scenario.scenario_id] = task.task_type
+    structured_shielded = metrics["behavior_cloning_shielded"]
+    raster_shielded = metrics["semantic_raster_mlp_shielded"]
     return {
         "evaluation_type": "fixed-seed procedural construction-site holdout",
         "training": asdict(training),
+        "semantic_raster_training": asdict(raster_training),
+        "representation_comparison": {
+            "structured_feature_count": training.feature_count,
+            "semantic_raster_feature_count": raster_training.feature_count,
+            "expert_action_accuracy_delta_structured_minus_raster": round(
+                training.holdout_action_accuracy - raster_training.holdout_action_accuracy,
+                3,
+            ),
+            "shielded_success_delta_structured_minus_raster": round(
+                float(structured_shielded["success_rate"]) - float(raster_shielded["success_rate"]),
+                3,
+            ),
+            "interpretation": (
+                "The flattened semantic-raster MLP underperforms the engineered-state random "
+                "forest on this holdout. It is retained as negative evidence about data scale "
+                "and spatial inductive bias, not promoted as a vision capability."
+            ),
+        },
         "split": {
             "train_scenario_ids": sorted(train_ids),
             "holdout_scenario_ids": sorted(holdout_ids),
@@ -301,6 +511,7 @@ def write_behavior_cloning_artifacts(
     output_dir: str | Path,
     *,
     model_output_dir: str | Path | None = None,
+    site_asset_path: str | Path | None = None,
 ) -> dict[str, object]:
     target = Path(output_dir)
     target.mkdir(parents=True, exist_ok=True)
@@ -317,10 +528,28 @@ def write_behavior_cloning_artifacts(
         _behavior_cloning_model_card(payload),
         encoding="utf-8",
     )
+    (target / "semantic_raster_model_card.md").write_text(
+        _semantic_raster_model_card(payload),
+        encoding="utf-8",
+    )
     (target / "behavior_cloning_failure_analysis.md").write_text(
         _behavior_cloning_failure_analysis(payload),
         encoding="utf-8",
     )
+    example_scenario = generate_behavior_cloning_scenarios(
+        "holdout", count_per_task=HOLDOUT_SCENARIOS_PER_TASK
+    )[0]
+    example_env = GridWorldEnv.from_scenario(example_scenario)
+    raster_svg = render_semantic_raster_svg(
+        example_env,
+        _current_subgoal(example_env),
+        payload,
+    )
+    (target / "semantic_raster_comparison.svg").write_text(raster_svg, encoding="utf-8")
+    if site_asset_path is not None:
+        asset = Path(site_asset_path)
+        asset.parent.mkdir(parents=True, exist_ok=True)
+        asset.write_text(raster_svg, encoding="utf-8")
     return payload
 
 
@@ -399,14 +628,18 @@ def _valid_random_scenario(
     )
 
 
-def _expert_examples(scenarios: list[SiteScenario]) -> tuple[list[list[float]], list[str]]:
+def _expert_examples(
+    scenarios: list[SiteScenario],
+    *,
+    encoder: Callable[[GridWorldEnv], list[float]] = encode_policy_state,
+) -> tuple[list[list[float]], list[str]]:
     features: list[list[float]] = []
     actions: list[str] = []
     for scenario in scenarios:
         env = GridWorldEnv.from_scenario(scenario)
         plan = plan_from_instruction(scenario.instruction, env)
         for action in plan:
-            features.append(encode_policy_state(env))
+            features.append(encoder(env))
             actions.append(action)
             _state, _reward, done, _info = env.step(action)
             if done:
@@ -481,22 +714,42 @@ def _distance(start: Position, goal: Position) -> int:
 
 def _behavior_cloning_report(payload: dict[str, object]) -> str:
     training = payload["training"]
+    raster_training = payload["semantic_raster_training"]
+    comparison = payload["representation_comparison"]
     policies = payload["policies"]
     assert isinstance(training, dict)
+    assert isinstance(raster_training, dict)
+    assert isinstance(comparison, dict)
     assert isinstance(policies, dict)
+    policy_labels = {
+        "behavior_cloning_raw": "Engineered-state RF, raw",
+        "behavior_cloning_shielded": "Engineered-state RF, filtered",
+        "semantic_raster_mlp_raw": "Semantic-raster MLP, raw",
+        "semantic_raster_mlp_shielded": "Semantic-raster MLP, filtered",
+        "safety_shielded": "Deterministic A* reference",
+    }
     lines = [
-        "# Behavior-Cloning Holdout Evaluation",
+        "# Imitation-Policy Holdout Evaluation",
         "",
-        "Fixed-seed procedural construction-site simulation. Train and holdout scenario IDs are disjoint. This is not a learned foundation VLA or robot deployment.",
+        "Fixed-seed procedural construction-site simulation. Both learned policies use the same expert demonstrations and disjoint holdout scenarios. This is not a learned foundation VLA or robot deployment.",
         "",
-        "## Dataset And Action Metrics",
+        "## Shared Evaluation Protocol",
         "",
         f"- Training scenarios: {training['train_scenario_count']}",
         f"- Holdout scenarios: {training['holdout_scenario_count']}",
         f"- Expert training steps: {training['training_step_count']}",
         f"- Holdout expert steps: {training['holdout_expert_step_count']}",
-        f"- Holdout expert-action accuracy: {training['holdout_action_accuracy']}",
-        f"- Holdout expert-action macro-F1: {training['holdout_action_macro_f1']}",
+        "- Holdout action metrics are measured on expert-visited states.",
+        "- Closed-loop metrics measure compounding errors after each policy takes control.",
+        "",
+        "## Representation Comparison",
+        "",
+        "| Policy input and model | Features | Holdout action accuracy | Holdout macro-F1 |",
+        "| --- | ---: | ---: | ---: |",
+        f"| Engineered state + random forest | {training['feature_count']} | {training['holdout_action_accuracy']} | {training['holdout_action_macro_f1']} |",
+        f"| Flattened semantic raster + 64-unit MLP | {raster_training['feature_count']} | {raster_training['holdout_action_accuracy']} | {raster_training['holdout_action_macro_f1']} |",
+        "",
+        f"The engineered-state baseline leads action accuracy by {comparison['expert_action_accuracy_delta_structured_minus_raster']}. The raster channels are generated from fully observable simulator state; they are not camera pixels or learned perception features.",
         "",
         "## Closed-Loop Holdout Results",
         "",
@@ -507,7 +760,7 @@ def _behavior_cloning_report(payload: dict[str, object]) -> str:
         assert isinstance(metrics, dict)
         lines.append(
             "| {name} | {success} | {steps} | {reward} | {unsafe} | {task_error} | {blocked} | {interventions} |".format(
-                name=name,
+                name=policy_labels.get(name, name),
                 success=metrics["success_rate"],
                 steps=metrics["average_steps"],
                 reward=metrics["average_reward"],
@@ -523,8 +776,10 @@ def _behavior_cloning_report(payload: dict[str, object]) -> str:
             "## Interpretation",
             "",
             "- Action accuracy is measured on expert states; closed-loop success is the stronger test because policy errors change later states.",
-            "- The raw behavior-cloning policy exposes model errors without repair.",
-            "- The shielded variant rejects unsafe or task-invalid actions but does not receive an expert route toward the task goal; charger-only recovery is separate.",
+            "- Each raw learned policy exposes model errors without repair.",
+            "- Each shielded variant rejects unsafe or task-invalid actions but does not receive an expert route toward the task goal; charger-only recovery is separate.",
+            "- The flattened-raster MLP underperforms the engineered-state random forest. This negative result is retained because it shows that adding a neural network does not automatically improve a small-data spatial-control problem.",
+            "- The MLP has no convolutional spatial inductive bias and does not establish visual perception, multimodal reasoning, or VLA capability.",
             "- The deterministic A* policy is an oracle-style planning reference, not a learned baseline.",
             "- Results apply only to this small 2D procedural simulator.",
         ]
@@ -553,21 +808,66 @@ def _behavior_cloning_model_card(payload: dict[str, object]) -> str:
     )
 
 
+def _semantic_raster_model_card(payload: dict[str, object]) -> str:
+    training = payload["semantic_raster_training"]
+    policies = payload["policies"]
+    assert isinstance(training, dict)
+    assert isinstance(policies, dict)
+    shielded = policies["semantic_raster_mlp_shielded"]
+    assert isinstance(shielded, dict)
+    return (
+        "# Semantic-Raster MLP Model Card\n\n"
+        "One-hidden-layer neural action classifier trained on the same fixed-seed A* demonstrations and evaluated on the same disjoint holdout as the engineered-state random forest. It is preserved as a measured negative baseline.\n\n"
+        "## Inputs\n\n"
+        f"- {training['raster_size']}x{training['raster_size']} fully observable semantic grids with channels for {', '.join(training['channel_names'])}.\n"
+        f"- Global features: {', '.join(training['global_feature_names'])}.\n"
+        f"- {training['feature_count']} flattened numeric values in total.\n"
+        "- The raster is rendered from privileged simulator state, not captured by a camera or inferred by a perception model.\n\n"
+        "## Model And Output\n\n"
+        f"- StandardScaler followed by an MLPClassifier with hidden layers {training['hidden_layer_sizes']}.\n"
+        f"- Action classes: {', '.join(training['classes'])}.\n"
+        "- The optional safety filter ranks model probabilities and rejects unsafe or task-invalid actions.\n\n"
+        "## Measured Result\n\n"
+        f"- Holdout expert-action accuracy: {training['holdout_action_accuracy']}.\n"
+        f"- Holdout expert-action macro-F1: {training['holdout_action_macro_f1']}.\n"
+        f"- Shielded closed-loop success rate: {shielded['success_rate']}.\n"
+        "- This is weaker than the engineered-state random forest on the shared holdout. The likely contributors are limited demonstrations, flattening of the grid, and the absence of convolutional spatial bias.\n\n"
+        "## Not Demonstrated\n\n"
+        "This model does not establish camera perception, visual grounding, language embeddings, a convolutional policy, a multimodal transformer, reinforcement learning, a foundation VLA, physics, ROS, sim-to-real transfer, hardware control, or physical-safety validation.\n"
+    )
+
+
 def _behavior_cloning_failure_analysis(payload: dict[str, object]) -> str:
     episodes = payload["episodes"]
     assert isinstance(episodes, list)
+    learned_policy_names = {
+        "behavior_cloning_raw",
+        "behavior_cloning_shielded",
+        "semantic_raster_mlp_raw",
+        "semantic_raster_mlp_shielded",
+    }
     failures = [
         row
         for row in episodes
-        if isinstance(row, dict) and not row["success"] and row["policy_name"] != "safety_shielded"
+        if isinstance(row, dict)
+        and not row["success"]
+        and row["policy_name"] in learned_policy_names
     ]
+    failure_counts = {
+        policy_name: sum(
+            1 for row in failures if isinstance(row, dict) and row["policy_name"] == policy_name
+        )
+        for policy_name in sorted(learned_policy_names)
+    }
     lines = [
-        "# Behavior-Cloning Failure Analysis",
+        "# Imitation-Policy Failure Analysis",
         "",
         "Failed learned-policy episodes from the disjoint procedural holdout set.",
         "",
-        f"- Learned-policy episodes: {sum(1 for row in episodes if isinstance(row, dict) and str(row['policy_name']).startswith('behavior_cloning'))}",
+        f"- Learned-policy episodes: {sum(1 for row in episodes if isinstance(row, dict) and row['policy_name'] in learned_policy_names)}",
         f"- Failed learned-policy episodes: {len(failures)}",
+        "- Failures by policy: "
+        + ", ".join(f"{name}={count}" for name, count in failure_counts.items()),
         "",
         "| Scenario | Task | Policy | Steps | Reward | Unsafe actions | Task errors | Blocked actions | Interventions |",
         "| --- | --- | --- | --- | --- | --- | --- | --- | --- |",
@@ -589,7 +889,7 @@ def _behavior_cloning_failure_analysis(payload: dict[str, object]) -> str:
     lines.extend(
         [
             "",
-            "The learned policy has no expert fallback toward the task goal. Failures therefore remain visible as evidence of compounding imitation error, limited state features, and a small training distribution.",
+            "Neither learned policy has an expert fallback toward the task goal. Failures therefore remain visible as evidence of compounding imitation error, representation limits, and a small training distribution.",
         ]
     )
     return "\n".join(lines) + "\n"

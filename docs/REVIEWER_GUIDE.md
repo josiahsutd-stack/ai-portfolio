@@ -5,7 +5,7 @@
 | Order | Project | Evidence to inspect | Interpretation limit |
 | --- | --- | --- | --- |
 | 1 | `projects/aec-code-compliance-rag` | architecture, public provenance, retrieval ablation, failure analysis, demo answers, and focused tests | Flagship retrieval system; not compliance certification. |
-| 2 | `projects/vla-embodied-agent-simulator` | procedural splits, fitted behavior-cloning policy, raw/filtered holdout metrics, failures, replay traces, and tests | Structured simulation; not a foundation VLA or hardware. |
+| 2 | `projects/vla-embodied-agent-simulator` | controlled random-forest versus semantic-raster MLP comparison, 96-scenario holdout, raw/filtered metrics, failures, model cards, and tests | Fully observable state; raster is not camera perception, a foundation VLA, or hardware evidence. |
 | 3 | `projects/constraint-aware-massing-explorer` | hard constraints, proxy objectives, Pareto ranking, baseline evaluation, diagrams, and tests | Rectangular proxy geometry; not professional design. |
 
 The specification and QS projects extend the same AEC workflow with auditability and commercial-review boundaries. Their [cross-project integration](../integrations/aec-design-to-cost/README.md) is executable and tested; it is not counted as a sixth selected project. Fourteen narrower baselines remain under [`experiments/`](../experiments/README.md).

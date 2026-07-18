@@ -155,14 +155,14 @@ projects:
     skill_area: Embodied AI and robotics simulation
     flagship: false
     demo_command: streamlit run projects/vla-embodied-agent-simulator/app.py
-    test_command: pytest tests/test_general_ai_projects.py
-    tech_stack: [Python, Streamlit]
-    summary: Trains and evaluates a behavior-cloning action policy on disjoint procedural construction-grid splits alongside deterministic planning and safety-filtered baselines.
-    skills: [embodied AI simulation, behavior cloning, task parsing, action masks, safety constraints, holdout policy evaluation]
+    test_command: python -m pytest tests/test_vla_embodied_agent.py
+    tech_stack: [Python, scikit-learn, Streamlit]
+    summary: Compares engineered-state random-forest imitation with a semantic-raster MLP on shared disjoint construction-grid splits, raw rollouts, and safety-filtered closed-loop evaluation.
+    skills: [embodied AI simulation, behavior cloning, observation encoding, neural baseline evaluation, task parsing, action masks, safety constraints, holdout policy evaluation]
     status: primary
     data_mode: "Fixed-seed procedural construction grids"
-    implementation_mode: "Random-forest behavior cloning, A* reference, and deterministic safety filter"
-    boundary: "No foundation VLA, perception, physics, ROS, hardware, or physical-safety validation"
+    implementation_mode: "Random-forest and semantic-raster MLP behavior cloning, A* reference, and deterministic safety filter"
+    boundary: "Fully observable simulator state only; no camera perception, foundation VLA, physics, ROS, hardware, or physical-safety validation"
     readme_path: projects/vla-embodied-agent-simulator/README.md
   - name: Sequential Decision Simulation Baselines
     slug: reinforcement-learning-portfolio

@@ -21,6 +21,7 @@ def main() -> None:
     behavior_payload = write_behavior_cloning_artifacts(
         output_dir,
         model_output_dir=model_output_dir,
+        site_asset_path=REPO_ROOT / "portfolio-site" / "assets" / "semantic-raster-comparison.svg",
     )
     print(json.dumps(payload["policies"], indent=2))
     print(json.dumps(behavior_payload["policies"], indent=2))

@@ -290,6 +290,10 @@ claims:
     command: python projects/vla-embodied-agent-simulator/evaluate_vla.py
     evaluation_scope: Fixed-seed disjoint procedural construction-grid holdout
     metrics:
+      train_scenarios:
+        json_path: training.train_scenario_count
+      training_steps:
+        json_path: training.training_step_count
       holdout_scenarios:
         json_path: training.holdout_scenario_count
       holdout_expert_steps:
@@ -314,43 +318,73 @@ claims:
         decimals: 3
       interventions:
         json_path: policies.behavior_cloning_shielded.intervention_count
+      raster_action_accuracy:
+        json_path: semantic_raster_training.holdout_action_accuracy
+        decimals: 3
+      raster_action_macro_f1:
+        json_path: semantic_raster_training.holdout_action_macro_f1
+        decimals: 3
+      raster_raw_success:
+        json_path: policies.semantic_raster_mlp_raw.success_rate
+        decimals: 3
+      raster_raw_unsafe_rate:
+        json_path: policies.semantic_raster_mlp_raw.unsafe_action_rate
+        decimals: 3
+      raster_filtered_success:
+        json_path: policies.semantic_raster_mlp_shielded.success_rate
+        decimals: 3
+      raster_filtered_unsafe_rate:
+        json_path: policies.semantic_raster_mlp_shielded.unsafe_action_rate
+        decimals: 3
+      raster_interventions:
+        json_path: policies.semantic_raster_mlp_shielded.intervention_count
+      action_accuracy_delta:
+        json_path: representation_comparison.expert_action_accuracy_delta_structured_minus_raster
+        decimals: 3
+      shielded_success_delta:
+        json_path: representation_comparison.shielded_success_delta_structured_minus_raster
+        decimals: 3
       reference_success:
         json_path: policies.safety_shielded.success_rate
         decimals: 3
       reference_unsafe_rate:
         json_path: policies.safety_shielded.unsafe_action_rate
         decimals: 3
-    result_template: "Filtered policy success {filtered_success}; unsafe-action rate {filtered_unsafe_rate}; raw success {raw_success}; {holdout_scenarios} holdout scenarios"
+    result_template: "Engineered RF filtered success {filtered_success}; semantic-raster MLP filtered success {raster_filtered_success}; both filtered unsafe-action rates {filtered_unsafe_rate}; {holdout_scenarios} holdout scenarios"
     public_surfaces:
       - path: README.md
         contains:
-          - "`{filtered_success}` success and `{filtered_unsafe_rate}` unsafe-action rate on {holdout_scenarios} unseen structured-grid scenarios"
-          - "raw policy success is `{raw_success}`"
+          - "filtered success is `{filtered_success}` for the engineered-state random forest and `{raster_filtered_success}` for the raster MLP; both record `{filtered_unsafe_rate}` unsafe-action rate after filtering"
+          - "Two learned policies share {train_scenarios} training scenarios and a {holdout_scenarios}-scenario disjoint holdout"
+          - "The neural baseline performs worse"
       - path: portfolio-site/index.html
         contains:
-          - "{filtered_success} holdout success"
-          - "{filtered_unsafe_rate} unsafe-action rate"
+          - "RF {filtered_success} / raster MLP {raster_filtered_success} filtered success"
           - "{holdout_scenarios} unseen structured-grid scenarios"
+          - "both filtered policies record a {filtered_unsafe_rate} unsafe-action rate"
+          - "MLP action accuracy {raster_action_accuracy} versus {action_accuracy}"
       - path: projects/vla-embodied-agent-simulator/README.md
         contains:
-          - "`{action_accuracy}` accuracy and `{action_macro_f1}` macro-F1 over {holdout_expert_steps} expert states from {holdout_scenarios} unseen scenarios"
-          - "`{raw_success}` success and `{raw_unsafe_rate}` unsafe-action rate over {holdout_scenarios} unseen scenarios"
-          - "`{filtered_success}` success, `{filtered_unsafe_rate}` unsafe-action rate, and {interventions} interventions"
-          - "`{reference_success}` success and `{reference_unsafe_rate}` unsafe-action rate"
+          - "The evaluator generates {train_scenarios} training and {holdout_scenarios} holdout scenarios"
+          - "| Engineered state + random forest, raw | `{action_accuracy}` | `{raw_success}` | `{raw_unsafe_rate}` |"
+          - "| Engineered state + random forest, filtered | `{action_accuracy}` | `{filtered_success}` | `{filtered_unsafe_rate}` |"
+          - "| Semantic raster + 64-unit MLP, raw | `{raster_action_accuracy}` | `{raster_raw_success}` | `{raster_raw_unsafe_rate}` |"
+          - "| Semantic raster + 64-unit MLP, filtered | `{raster_action_accuracy}` | `{raster_filtered_success}` | `{raster_filtered_unsafe_rate}` |"
+          - "| Deterministic A* reference | Not applicable | `{reference_success}` | `{reference_unsafe_rate}` |"
+          - "The MLP result is retained as negative evidence. It is `{action_accuracy_delta}` below the random forest in expert-state action accuracy and `{shielded_success_delta}` below it in filtered closed-loop success."
       - path: projects/vla-embodied-agent-simulator/EVAL.md
         contains:
-          - "| Holdout expert-action accuracy | `{action_accuracy}` |"
-          - "| Holdout expert-action macro-F1 | `{action_macro_f1}` |"
-          - "| Raw behavior-cloning success | `{raw_success}` |"
-          - "| Raw behavior-cloning unsafe-action rate | `{raw_unsafe_rate}` |"
-          - "| Filtered behavior-cloning success | `{filtered_success}` |"
-          - "| Filtered behavior-cloning unsafe-action rate | `{filtered_unsafe_rate}` |"
-          - "| Filter interventions | `{interventions}` |"
-          - "| A* holdout success | `{reference_success}` |"
-          - "| A* holdout unsafe-action rate | `{reference_unsafe_rate}` |"
+          - "| Engineered state | `RandomForestClassifier` | 24 | `{action_accuracy}` | `{action_macro_f1}` |"
+          - "| Flattened semantic state raster | `StandardScaler` + 64-unit `MLPClassifier` | 398 | `{raster_action_accuracy}` | `{raster_action_macro_f1}` |"
+          - "| Engineered-state RF, raw | `{raw_success}` | `{raw_unsafe_rate}` | `0.000` | 0 |"
+          - "| Engineered-state RF, filtered | `{filtered_success}` | `{filtered_unsafe_rate}` | `0.000` | {interventions} |"
+          - "| Semantic-raster MLP, raw | `{raster_raw_success}` | `{raster_raw_unsafe_rate}` | `0.186` | 0 |"
+          - "| Semantic-raster MLP, filtered | `{raster_filtered_success}` | `{raster_filtered_unsafe_rate}` | `0.000` | 3,617 |"
       - path: projects/vla-embodied-agent-simulator/LIMITATIONS.md
         contains:
-          - "completes only `{filtered_success}` of holdout tasks"
+          - "The raw random forest succeeds on `{raw_success}` of holdout layouts and attempts unsafe actions at a `{raw_unsafe_rate}` rate."
+          - "The raw raster MLP succeeds on `{raster_raw_success}` and attempts unsafe actions at a `{raster_raw_unsafe_rate}` rate."
+          - "completion remains `{filtered_success}` for the random forest and `{raster_filtered_success}` for the MLP"
 
   - id: public-sms-classification
     project_slug: real-model-finetune-lab

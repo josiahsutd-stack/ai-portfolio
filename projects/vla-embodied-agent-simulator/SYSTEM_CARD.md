@@ -2,15 +2,21 @@
 
 ## Intended Use
 
-This project is a local construction-site embodied-agent simulator. It is intended for inspecting language-to-task parsing, behavior cloning over structured state, constrained route planning, action filtering, reward design, and trace-based evaluation.
+This local simulator supports inspection of task parsing, observation encoding, supervised imitation, constrained route planning, action filtering, reward design, and trace-based evaluation.
 
 ## Not Intended For
 
-- Real robot operation.
-- Physical safety certification.
-- ROS, SLAM, perception, or hardware integration claims.
-- Proof that a learned policy works in the physical world.
-- Foundation vision-language-action model evaluation.
+- Real robot operation or physical safety decisions.
+- ROS, SLAM, perception, hardware, or sim-to-real claims.
+- Proof that a learned policy works on a construction site.
+- Foundation vision-language-action evaluation.
+
+## Models In Scope
+
+1. A random-forest action classifier over 24 engineered state features.
+2. A one-hidden-layer MLP over eight fully observable 7x7 semantic state channels plus six global features.
+
+The second model does not consume images. It is included because it underperforms the engineered baseline and exposes a representation and data-scale limitation.
 
 ## Safety Controls In Scope
 
@@ -18,12 +24,12 @@ This project is a local construction-site embodied-agent simulator. It is intend
 - Obstacle, restricted-zone, and worker-proximity checks.
 - Battery and timeout handling.
 - Ranked-action filtering with intervention counts.
-- Repeatable policy evaluation across fixed-seed procedural train and holdout splits.
+- Repeatable evaluation across fixed-seed procedural train and holdout splits.
 
 ## Evaluation
 
-The included evaluation compares deterministic A* reference behavior, raw random-forest behavior cloning, and the same learned policy with a safety filter on 24 disjoint holdout scenarios. It reports action accuracy and macro-F1 separately from closed-loop success, unsafe-action rate, task-error rate, interventions, and failure traces. A smaller hand-authored suite retains random, naive-language, and safety-shielded regression baselines.
+Both learned models train on 192 synthetic scenarios and are evaluated on the same 96 disjoint holdout scenarios. Reports separate expert-state action accuracy from closed-loop success, unsafe-action rate, task-error rate, interventions, and failure traces. A deterministic A* planner is retained as a full-map reference, not a learned baseline.
 
 ## Main Risk
 
-The simulator demonstrates model fitting, closed-loop evaluation, and explicit safety constraints inside a small structured grid. It must not be presented as evidence of deployed robotics ownership, perception capability, sim-to-real transfer, or validated physical safety.
+The action filter can make weak learned behavior look safer than it is. The published report therefore includes raw rollouts, intervention counts, failed episodes, and explicit model boundaries. None of these results establish perception, physical safety, or deployment readiness.

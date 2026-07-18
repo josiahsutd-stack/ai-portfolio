@@ -23,6 +23,7 @@ ARTIFACT_DIRS = [
 ARTIFACT_FILES = [
     ROOT / "docs" / "EVIDENCE_LEDGER.md",
     ROOT / "portfolio-site" / "assets" / "aec-workflow-trace.svg",
+    ROOT / "portfolio-site" / "assets" / "semantic-raster-comparison.svg",
 ]
 VERSIONED_SUFFIXES = {".json", ".md", ".svg"}
 

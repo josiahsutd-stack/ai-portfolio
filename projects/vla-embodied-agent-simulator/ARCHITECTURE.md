@@ -2,50 +2,57 @@
 
 ## System Boundary
 
-The system accepts a natural-language task and fully observable structured grid state. It emits discrete simulator actions. It does not accept pixels, depth, point clouds, or robot sensor streams, and it does not command hardware.
+The system accepts a natural-language task and fully observable structured grid state, then emits discrete simulator actions. It does not accept sensor streams or command hardware. The semantic raster is another encoding of simulator state, not a perception subsystem.
 
 ## Components
 
 | Component | Responsibility | Evidence boundary |
 | --- | --- | --- |
-| Task parser | Maps delivery, inspection, and charging phrases into a `TaskSpec`. | Deterministic rules, not language-model reasoning. |
-| Grid environment | Applies movement, task, reward, battery, and terminal-state transitions. | 2D discrete simulator, not physics. |
-| Safety checks | Reject out-of-bounds, obstacle, restricted-zone, worker-zone, and battery-invalid actions. | Simulator rules only. |
-| A* expert | Produces cost-aware demonstrations and deterministic planning reference episodes. | Has full map access; not learned. |
-| Feature encoder | Converts task phase, geometry, carrying state, battery, and local action safety into 24 numeric features. | Structured state only. |
-| Behavior-cloning model | Fits a random-forest action classifier on expert state/action pairs. | Small classical model, not a foundation VLA. |
-| Action safety filter | Re-ranks predicted actions by rejecting unsafe or task-invalid choices; a reserve controller can route only to a charger before depletion. | No expert route toward the task goal and no task-success guarantee. |
-| Evaluator | Measures expert-state classification and closed-loop unseen-scenario behavior. | Fixed-seed local regression suite. |
+| Task parser | Maps delivery, inspection, and charging phrases into `TaskSpec`. | Deterministic rules, not language-model reasoning. |
+| Grid environment | Applies movement, task, reward, battery, and terminal transitions. | 2D discrete state machine, not physics. |
+| Safety checks | Reject bounds, obstacle, restricted-zone, worker-zone, and battery violations. | Hand-authored simulator rules. |
+| A* expert | Produces demonstrations and deterministic planning-reference episodes. | Full map access; not learned. |
+| Engineered-state encoder | Produces 24 task, geometry, battery, safety, and distance features. | Privileged structured state. |
+| Semantic-raster encoder | Produces eight 7x7 binary state channels and six global values. | Privileged structured state; no pixels or perception. |
+| Random-forest policy | Fits actions from engineered-state demonstrations. | Classical supervised imitation baseline. |
+| MLP policy | Standardizes and classifies flattened semantic-raster features. | One 64-unit hidden layer; no convolution, attention, or recurrence. |
+| Action filter | Re-ranks actions after rejecting unsafe or task-invalid choices. | No expert task route and no completion guarantee. |
+| Evaluator | Measures expert-state classification and closed-loop holdout behavior. | Fixed-seed local regression protocol. |
 
-## Training Flow
+## Training And Evaluation Flow
 
 ```mermaid
 flowchart LR
-  A["24 fixed-seed train scenarios"] --> B["A* expert trajectories"]
-  B --> C["State feature and action pairs"]
-  C --> D["RandomForestClassifier"]
-  D --> E["Runtime joblib artifact"]
-  F["24 disjoint holdout scenarios"] --> G["Expert-state action metrics"]
-  D --> G
-  F --> H["Closed-loop raw and filtered rollouts"]
-  D --> H
-  H --> I["Success, safety, intervention, and failure reports"]
+  A["192 fixed-seed training scenarios"] --> B["A* expert trajectories"]
+  B --> C["Shared state-action demonstrations"]
+  C --> D["24 engineered features"]
+  C --> E["8 x 7 x 7 channels + 6 globals"]
+  D --> F["Random forest"]
+  E --> G["StandardScaler + 64-unit MLP"]
+  H["96 disjoint holdout scenarios"] --> I["Expert-state action metrics"]
+  F --> I
+  G --> I
+  H --> J["Raw and filtered closed-loop rollouts"]
+  F --> J
+  G --> J
+  J --> K["Success, safety, intervention, and failure artifacts"]
 ```
 
 ## Runtime Flow
 
 1. Parse the instruction into a task type, subgoal, and terminal action.
-2. Encode the current structured state into 24 numeric features.
-3. Rank available action classes by model probability.
-4. In raw mode, execute the highest-ranked action.
-5. In filtered mode, choose the highest-ranked action that passes movement and task-context checks; when battery reserve is insufficient, temporarily route to the nearest charger.
-6. Record each environment transition and each filter intervention.
-7. Stop on task completion or the scenario action limit.
+2. Encode current state as either engineered features or a semantic raster plus globals.
+3. Rank action classes by classifier probability.
+4. In raw mode, execute the top-ranked action.
+5. In filtered mode, select the highest-ranked action that passes movement and task-context checks. Battery-reserve recovery may route only to a charger.
+6. Record transitions and interventions.
+7. Stop on completion or the scenario action limit.
 
 ## Design Decisions
 
-- Random forest was selected because it fits quickly on CPU, exposes a real learned decision boundary, and keeps local setup small.
-- Procedural layouts use fixed but separate train and holdout seeds to make regression metrics reproducible while preventing identical scenario reuse.
-- Closed-loop evaluation is reported beside action accuracy because imitation errors shift the state distribution.
-- The A* task reference remains separate from the learned policies. The filtered policy can use shortest-path routing only for battery recovery, never as a fallback route toward the task goal.
-- Runtime model binaries are ignored because joblib serialization can vary by environment; deterministic metrics and model metadata are versioned.
+- Both learned models share demonstrations and holdout scenarios so the representation comparison is controlled.
+- The random forest is a compact CPU baseline for engineered features.
+- The MLP deliberately consumes a flattened raster. Its poor result provides a baseline for a future convolutional encoder rather than a favorable neural result.
+- Closed-loop evaluation sits beside action accuracy because imitation errors shift later states.
+- A* remains separate from learned policies and is never used for task-goal fallback.
+- Generated model binaries are ignored; deterministic metrics, cards, reports, and diagrams are versioned.
