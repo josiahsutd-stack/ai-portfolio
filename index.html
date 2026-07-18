@@ -3,18 +3,23 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Applied AI Engineering Portfolio</title>
+    <meta
+      name="description"
+      content="Josiah Lau's applied AI engineering portfolio: source-grounded RAG, embodied-agent simulation, and measurable local ML systems."
+    />
+    <title>Josiah Lau | Applied AI Engineering</title>
+    <link rel="icon" href="data:," />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="#top">Applied AI Portfolio</a>
+      <a class="brand" href="#top">Josiah Lau</a>
       <nav aria-label="Main navigation">
-        <a href="#fast-path">Highlights</a>
-        <a href="#built">Built Environment</a>
-        <a href="#general">General AI</a>
-        <a href="pages/skills-matrix.html">Skills Matrix</a>
-        <a href="pages/recruiter-view.html">Recruiter View</a>
+        <a href="#evidence">Evidence</a>
+        <a href="#flagship">Flagship</a>
+        <a href="#supporting">Supporting</a>
+        <a href="#boundaries">Boundaries</a>
+        <a href="pages/recruiter-view.html">Role View</a>
       </nav>
     </header>
 
@@ -23,130 +28,143 @@
         <div class="hero__media" aria-hidden="true"></div>
         <div class="hero__content">
           <p class="eyebrow">Applied AI Engineering Portfolio</p>
-          <h1>AI systems, agents, multimodal AI, and ML engineering</h1>
-          <p class="lede">
-            AI Engineer focused on applied AI systems, LLM agents, multimodal AI,
-            machine learning, and automation, with a unique background in architecture
-            and the built environment.
+          <h1>Josiah Lau</h1>
+          <p class="hero-role">
+            Source-grounded AI, embodied-agent simulation, and measurable local ML systems.
           </p>
           <p class="lede">
-            My portfolio combines domain-specific AI for the built environment with
-            general AI engineering projects across VLMs, agents, reinforcement learning,
-            deep learning, MLOps, and recommender systems.
+            Architecture and built-environment domain experience applied to retrieval,
+            construction robotics simulation, agent workflows, and ML engineering.
           </p>
           <div class="hero__actions">
-            <a class="button button--primary" href="#fast-path">Portfolio highlights</a>
-            <a class="button" href="#general">General AI projects</a>
-            <a class="button" href="#built">Built-environment projects</a>
+            <a class="button button--primary" href="#evidence">Review the evidence</a>
+            <a
+              class="button"
+              href="https://github.com/josiahsutd-stack/ai-portfolio"
+            >Open repository</a>
           </div>
         </div>
       </section>
 
-      <section class="band intro">
-        <div class="container intro__grid">
-          <div>
-            <p class="eyebrow">Positioning</p>
-            <h2>Broad AI engineering with a domain edge</h2>
-          </div>
-          <p>
-            The built-environment projects show domain advantage. The general AI projects
-            show transferable engineering depth: VLMs, agents, evals, MLOps, RL, vision,
-            recommender systems, time-series ML, and fine-tuning workflows.
-          </p>
-        </div>
-      </section>
-
-      <section class="band band--tight" id="fast-path">
+      <section class="band band--tight" id="evidence">
         <div class="container">
           <div class="section-heading">
-            <p class="eyebrow">Portfolio Highlights</p>
-            <h2>Three projects with the clearest engineering signal</h2>
+            <p class="eyebrow">15-Minute Review</p>
+            <h2>Three projects, three kinds of evidence</h2>
             <p class="section-copy">
-              These projects show source-grounded AI systems, agent workflows,
-              and MLOps foundations with runnable code, tests, and generated artifacts.
+              The numbers below come from bundled regression sets and simulated scenarios.
+              Each result is paired with the boundary that limits its interpretation.
             </p>
           </div>
           <div class="evidence-grid">
-            <article class="evidence-card">
-              <span>01</span>
+            <article class="evidence-card evidence-card--primary">
+              <span>01 · Flagship</span>
               <h3>AEC Code Compliance RAG</h3>
-              <p>Retrieval, citations, no-answer handling, eval cases, and demo outputs.</p>
-              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/aec-code-compliance-rag">Open evidence</a>
+              <p>Public-source ingestion, four retrieval modes, citations, abstention, evals, and focused tests.</p>
+              <strong>Recall@4 1.000 · MRR 0.906</strong>
+              <small>Synthetic 51-case regression set; not compliance certification.</small>
+              <a href="#flagship">Inspect flagship evidence</a>
             </article>
             <article class="evidence-card">
-              <span>02</span>
-              <h3>Agentic Research Ops Assistant</h3>
-              <p>Planner-executor flow, tool traces, approval gates, persistence, and trace eval.</p>
-              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/agentic-research-ops-assistant">Open evidence</a>
+              <span>02 · Embodied AI</span>
+              <h3>VLA Embodied Agent Simulator</h3>
+              <p>Task parsing, action masks, construction-site constraints, baseline policies, and replay traces.</p>
+              <strong>3/3 scenarios · 0.000 unsafe-action rate</strong>
+              <small>Deterministic 2D simulation; no learned VLA or hardware.</small>
+              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/vla-embodied-agent-simulator">Open evidence</a>
             </article>
             <article class="evidence-card">
-              <span>03</span>
-              <h3>MLOps Model Serving Monitoring</h3>
-              <p>Schema checks, model metadata, inference logs, drift reports, and monitoring docs.</p>
-              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/mlops-model-serving-monitoring">Open evidence</a>
+              <span>03 · Model Training</span>
+              <h3>Real Model Fine-Tune Lab</h3>
+              <p>Real local fitting, fixed splits, dummy baseline, held-out metrics, confusion matrix, and generated weights.</p>
+              <strong>0.975 test accuracy and macro-F1</strong>
+              <small>Compact UCI SMS subset with 40 test rows; classical ML.</small>
+              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/real-model-finetune-lab">Open evidence</a>
             </article>
           </div>
           <div class="command-panel" aria-label="Local verification commands">
             <p class="eyebrow">Run Evidence Locally</p>
             <code>python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py</code>
-            <code>python -m pytest tests/test_rag.py tests/test_general_ai_projects.py</code>
+            <code>python projects/vla-embodied-agent-simulator/evaluate_vla.py</code>
+            <code>python projects/real-model-finetune-lab/evaluate_model.py</code>
             <code>python scripts/verify.py</code>
           </div>
         </div>
       </section>
 
-      <section class="band" id="built">
-        <div class="container">
-          <div class="section-heading">
-            <p class="eyebrow">Section 1</p>
-            <h2>AI for the Built Environment</h2>
+      <section class="band flagship" id="flagship">
+        <div class="container flagship__grid">
+          <div>
+            <p class="eyebrow">Primary Project</p>
+            <h2>AEC Code Compliance RAG</h2>
+            <p class="section-copy">
+              The strongest project connects built-environment domain knowledge to an
+              inspectable retrieval system. It supports Markdown and page-aware PDF chunks,
+              Singapore public-source manifests, source filters, TF-IDF, BM25, dense LSA,
+              hybrid retrieval, citation checks, and unsupported-scope handling.
+            </p>
+            <dl class="fact-list">
+              <div><dt>Evaluation</dt><dd>51 synthetic regression cases plus an optional local public-source suite</dd></div>
+              <div><dt>Proof</dt><dd>Architecture, eval design, ablation report, failure analysis, demo answers, and tests</dd></div>
+              <div><dt>Limit</dt><dd>No authority validation, professional sign-off, OCR, or live amendment guarantee</dd></div>
+            </dl>
+            <div class="inline-links">
+              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/aec-code-compliance-rag">Project</a>
+              <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/projects/aec-code-compliance-rag/EVAL.md">Evaluation</a>
+              <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/tests/test_rag.py">Tests</a>
+            </div>
           </div>
-          <div class="project-grid">
-            <article class="project-card"><span>01</span><h3>AEC Code Compliance RAG</h3><p>Source-grounded answers over synthetic AEC guidance with citations.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/aec-code-compliance-rag">Project README</a></article>
-            <article class="project-card"><span>02</span><h3>Construction Progress CV</h3><p>Progress-stage classification and automated reporting from site metadata.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/construction-progress-cv">Project README</a></article>
-            <article class="project-card"><span>03</span><h3>BIM Issue Detection Agent</h3><p>Structured room schedule QA with explainable issue reports.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/bim-issue-detection-agent">Project README</a></article>
-            <article class="project-card"><span>04</span><h3>AI + AEC Job Fit Analyzer</h3><p>NLP role classification and targeted application strategy.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/ai-aec-job-fit-analyzer">Project README</a></article>
-            <article class="project-card"><span>05</span><h3>Building Energy ML</h3><p>Feature engineering, evaluation, FastAPI, dashboard, and model card.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/building-energy-ml-pipeline">Project README</a></article>
-            <article class="project-card"><span>06</span><h3>Spatial Design Recommender</h3><p>Explainable layout recommendations for daylight, circulation, and zoning.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/spatial-design-recommender">Project README</a></article>
-            <article class="project-card"><span>07</span><h3>Construction Robot Task Planner</h3><p>Embodied AI route planning with site constraints, payload, and battery risk.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/construction-robot-task-planner">Project README</a></article>
-            <article class="project-card"><span>08</span><h3>Site Robot Safety Monitor</h3><p>Robot telemetry analysis for human-robot work zone safety.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/site-robot-safety-monitor">Project README</a></article>
-          </div>
+          <figure class="evidence-shot">
+            <img
+              src="assets/aec-rag-demo.png"
+              alt="Local AEC RAG Streamlit interface showing an answer and source citations"
+            />
+            <figcaption>Actual local Streamlit run using labeled demo data.</figcaption>
+          </figure>
         </div>
       </section>
 
-      <section class="band band--ink" id="general">
+      <section class="band band--ink" id="supporting">
         <div class="container">
           <div class="section-heading">
-            <p class="eyebrow">Section 2</p>
-            <h2>General AI Engineering Projects</h2>
+            <p class="eyebrow">Supporting Systems</p>
+            <h2>Useful depth without pretending every project is a flagship</h2>
           </div>
-          <div class="project-grid">
-            <article class="project-card"><span>09</span><h3>Multimodal VLM Visual QA</h3><p>Image upload, structured JSON extraction, confidence, and mock VLM provider.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/multimodal-vlm-visual-qa">Project README</a></article>
-            <article class="project-card"><span>10</span><h3>Agentic Research Ops</h3><p>Planner-executor agent with local RAG, tool calls, citations, and approval checkpoints.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/agentic-research-ops-assistant">Project README</a></article>
-            <article class="project-card"><span>11</span><h3>VLA Embodied Simulator</h3><p>Language-state-action planning in a safety-constrained grid world.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/vla-embodied-agent-simulator">Project README</a></article>
-            <article class="project-card"><span>12</span><h3>Reinforcement Learning Portfolio</h3><p>Inventory control and dynamic pricing simulators with policy evaluation.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/reinforcement-learning-portfolio">Project README</a></article>
-            <article class="project-card"><span>13</span><h3>Deep Learning Vision Lab</h3><p>Synthetic defect detection workflow with metrics, model card, demo, and API.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/deep-learning-vision-lab">Project README</a></article>
-            <article class="project-card"><span>14</span><h3>LLM Evals Guardrails</h3><p>Prompt-injection checks, structured-output validation, and citation coverage scoring.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/llm-evals-guardrails-platform">Project README</a></article>
-            <article class="project-card"><span>15</span><h3>MLOps Serving Monitoring</h3><p>Training, FastAPI serving, schema validation, drift detection, and Docker.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/mlops-model-serving-monitoring">Project README</a></article>
-            <article class="project-card"><span>16</span><h3>Recommender Ranking Engine</h3><p>Popularity and content baselines with precision@k and NDCG@k.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/recommender-system-ranking-engine">Project README</a></article>
-            <article class="project-card"><span>17</span><h3>Time-Series Anomaly Forecasting</h3><p>Forecasting baseline, anomaly detection, alert counts, and backtest metrics.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/time-series-anomaly-forecasting">Project README</a></article>
-            <article class="project-card"><span>18</span><h3>Fine-Tuning LoRA Lab</h3><p>Dataset validation, LoRA config, mock trainer, and compute-aware model card.</p><a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/fine-tuning-lora-lab">Project README</a></article>
+          <div class="support-grid">
+            <article class="project-card">
+              <span>Agent Workflow</span>
+              <h3>Agentic Research Ops</h3>
+              <p>Permissioned tools, deterministic planning, local citations, retries, approval gates, SQLite traces, and trace evaluation.</p>
+              <small>Not autonomous research or live web access.</small>
+              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/agentic-research-ops-assistant">Open evidence</a>
+            </article>
+            <article class="project-card">
+              <span>ML Operations</span>
+              <h3>MLOps Serving and Monitoring</h3>
+              <p>Training, schema validation, generated model metadata, prediction logs, drift calculations, and monitoring reports.</p>
+              <small>Synthetic churn data and local infrastructure only.</small>
+              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/mlops-model-serving-monitoring">Open evidence</a>
+            </article>
           </div>
+          <p class="archive-note">
+            Fourteen smaller workflows remain in the repository as explicitly tiered
+            experiments and baselines. They show breadth but are not presented as equal-depth systems.
+          </p>
         </div>
       </section>
 
-      <section class="band" id="skills">
-        <div class="container skills">
-          <div class="section-heading">
-            <p class="eyebrow">Technical Range</p>
-            <h2>Skills backed by runnable projects</h2>
+      <section class="band" id="boundaries">
+        <div class="container boundary-grid">
+          <div>
+            <p class="eyebrow">Evidence Policy</p>
+            <h2>Claims stop where the evidence stops</h2>
           </div>
-          <div class="skill-grid">
-            <div><h3>LLM Systems</h3><p>RAG, agents, tool calling, citations, guardrails, structured outputs.</p></div>
-            <div><h3>Multimodal AI</h3><p>VLM visual QA, VLA-inspired planning, computer vision workflows.</p></div>
-            <div><h3>Machine Learning</h3><p>scikit-learn, recommender systems, time-series, anomaly detection.</p></div>
-            <div><h3>MLOps</h3><p>FastAPI serving, drift detection, Docker, tests, CI, model cards.</p></div>
-            <div><h3>Embodied AI</h3><p>Robot planning, telemetry monitoring, safety constraints, VLA simulation.</p></div>
+          <div class="boundary-list">
+            <p><strong>Real implementation:</strong> runnable code, tests, fitted classical models, persistence, metrics, or simulation.</p>
+            <p><strong>Synthetic or public subset:</strong> every dataset and corpus is labeled at the project level.</p>
+            <p><strong>Mock provider:</strong> deterministic LLM/VLM substitutes test workflow contracts, not model intelligence.</p>
+            <p><strong>Simulation:</strong> robotics results do not imply hardware, perception, or physical safety validation.</p>
+            <p><strong>Production:</strong> no customer adoption, deployed reliability, or professional compliance outcome is claimed.</p>
           </div>
         </div>
       </section>
@@ -155,17 +173,16 @@
         <div class="container contact__grid">
           <div>
             <p class="eyebrow">Review Links</p>
-            <h2>Built for AI engineering roles across agents, ML, multimodal AI, MLOps, and robotics.</h2>
+            <h2>Code, evaluations, and limitations are all public.</h2>
           </div>
           <div class="contact__links">
             <a href="https://github.com/josiahsutd-stack/ai-portfolio">Repository</a>
             <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/docs/REVIEWER_GUIDE.md">Reviewer Guide</a>
-            <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/docs/technical-review-guide.md">Technical Review Guide</a>
-            <a href="https://github.com/josiahsutd-stack">GitHub Profile</a>
+            <a href="pages/skills-matrix.html">Evidence Matrix</a>
+            <a href="https://www.linkedin.com/in/josiah-lau-8041822b6/">LinkedIn</a>
           </div>
         </div>
       </section>
     </main>
   </body>
 </html>
-

@@ -3,29 +3,31 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Skills Coverage Matrix</title>
+    <title>Evidence Matrix | Josiah Lau</title>
+    <link rel="icon" href="data:," />
     <link rel="stylesheet" href="../styles.css" />
   </head>
   <body class="simple-page">
     <main class="band">
       <div class="container">
-        <p class="eyebrow">Skills Coverage Matrix</p>
-        <h1>Which projects prove which skills</h1>
-        <p class="lede lede--dark">Legend: strong = primary signal, medium = meaningful implementation, light = supporting exposure.</p>
+        <p class="eyebrow">Evidence Matrix</p>
+        <h1>Skills tied to inspectable work</h1>
+        <p class="lede lede--dark">
+          “Strong” means a reviewer can inspect substantive code, tests, and evaluation artifacts.
+          “Supporting” means a narrower baseline or workflow contract.
+        </p>
         <div class="table-wrap">
           <table class="matrix-table">
-            <thead><tr><th>Skill</th><th>Strong</th><th>Medium</th><th>Light</th></tr></thead>
+            <thead><tr><th>Skill</th><th>Strong evidence</th><th>Supporting evidence</th><th>Boundary</th></tr></thead>
             <tbody>
-              <tr><td>VLM / multimodal AI</td><td>VLM Visual QA</td><td>VLA Simulator</td><td>Construction CV</td></tr>
-              <tr><td>Agentic AI / tool calling</td><td>Agentic Research Ops</td><td>BIM Issue Agent</td><td>LLM Evals</td></tr>
-              <tr><td>RAG</td><td>AEC RAG, Agentic Research Ops</td><td></td><td></td></tr>
-              <tr><td>VLA / robotics</td><td>VLA Simulator</td><td>Robot Task Planner, Safety Monitor</td><td></td></tr>
-              <tr><td>RL</td><td>RL Portfolio</td><td>VLA Simulator</td><td></td></tr>
-              <tr><td>Deep learning / CV</td><td>Deep Vision Lab</td><td>VLM Visual QA</td><td>Construction CV</td></tr>
-              <tr><td>MLOps</td><td>MLOps Serving Monitoring</td><td>Deep Vision Lab</td><td>GitHub Actions</td></tr>
-              <tr><td>LLMOps / responsible AI</td><td>LLM Evals Guardrails</td><td>Agentic Research Ops</td><td>VLM uncertainty</td></tr>
-              <tr><td>Recommender systems</td><td>Recommender Ranking Engine</td><td>Spatial Recommender</td><td></td></tr>
-              <tr><td>Time-series / anomaly detection</td><td>Time-Series Anomaly Forecasting</td><td>Site Robot Safety Monitor</td><td></td></tr>
+              <tr><td>RAG and retrieval evaluation</td><td>AEC RAG</td><td>Agentic Research Ops</td><td>Local baselines; public-source currency is not certified.</td></tr>
+              <tr><td>Embodied-agent simulation</td><td>VLA Simulator</td><td>Robot Task Planner, Safety Monitor</td><td>2D simulation, no learned VLA or hardware.</td></tr>
+              <tr><td>Classical model training</td><td>Real Model Fine-Tune Lab</td><td>MLOps Platform, Energy ML</td><td>Small datasets; no transformer training.</td></tr>
+              <tr><td>Agent workflows</td><td>Agentic Research Ops</td><td>BIM Issue Agent</td><td>Deterministic local tools, no autonomous web access.</td></tr>
+              <tr><td>Model serving and monitoring</td><td>MLOps Platform</td><td>Time-Series Forecasting</td><td>Local SQLite and synthetic drift simulation.</td></tr>
+              <tr><td>VLM product boundary</td><td></td><td>Multimodal VLM Visual QA</td><td>Mock mode validates contracts, not visual intelligence.</td></tr>
+              <tr><td>Deep learning</td><td></td><td>LoRA workflow design only</td><td>No committed neural-network training result.</td></tr>
+              <tr><td>Testing and reproducibility</td><td>Repository verification suite</td><td>Project smoke tests and artifacts</td><td>Local verification is the primary evidence.</td></tr>
             </tbody>
           </table>
         </div>
@@ -34,4 +36,3 @@
     </main>
   </body>
 </html>
-
