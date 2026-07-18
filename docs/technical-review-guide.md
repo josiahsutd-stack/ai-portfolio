@@ -14,13 +14,13 @@ The selected set contains one flagship, two role-defining primary projects, and 
 
 ## 2. Construction Embodied Agent Simulator - Primary
 
-**Implemented:** language-to-task parsing, procedural train/holdout grids, shared expert A* demonstrations, engineered-state random-forest imitation, world-raster MLP imitation, egocentric 5x5 local-state MLP imitation, raw and filtered rollouts, intervention logs, closed-loop metrics, failure analysis, and replay traces.
+**Implemented:** language-to-task parsing, procedural train/holdout grids, shared expert A* demonstrations, engineered-state random-forest imitation, world-raster and egocentric-state MLPs, a rendered-RGB MLP with an unseen appearance shift, raw and filtered rollouts, intervention logs, closed-loop metrics, failure analysis, and replay traces.
 
 **Evidence:** `environment.py`, `policies.py`, `learning.py`, `EVAL.md`, `demo_outputs/behavior_cloning_failure_analysis.md`, and `tests/test_vla_embodied_agent.py`.
 
-**Technical question:** Why does agent-centered local encoding recover the world-raster MLP's performance, what information does its full-state filter add, and which physical risks remain absent?
+**Technical question:** Why does agent-centered encoding recover the world-raster MLP's performance, why does the RGB policy collapse under an unseen palette, what information does its full-state filter add, and which physical risks remain absent?
 
-**Boundary:** All semantic values come from simulator state. The egocentric classifier hides off-window hazards but retains relative subgoal geometry, and its filter applies full-state rules. This is not camera perception, a foundation VLA, physics, ROS, or hardware validation.
+**Boundary:** Semantic values and RGB pixels originate from simulator state. Local classifiers hide off-window hazards but retain relative subgoal geometry, and their filters apply full-state rules. This is not physical-camera perception, a foundation VLA, physics, ROS, or hardware validation.
 
 ## 3. Constraint-Aware Massing Explorer - Primary
 

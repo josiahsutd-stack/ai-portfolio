@@ -390,6 +390,61 @@ claims:
         decimals: 3
       egocentric_interventions:
         json_path: policies.egocentric_mlp_shielded.intervention_count
+      rgb_standard_action_accuracy:
+        json_path: synthetic_rgb_training.standard_holdout_action_accuracy
+        decimals: 3
+      rgb_standard_action_macro_f1:
+        json_path: synthetic_rgb_training.standard_holdout_action_macro_f1
+        decimals: 3
+      rgb_shifted_action_accuracy:
+        json_path: synthetic_rgb_training.shifted_holdout_action_accuracy
+        decimals: 3
+      rgb_shifted_action_macro_f1:
+        json_path: synthetic_rgb_training.shifted_holdout_action_macro_f1
+        decimals: 3
+      rgb_pixel_ablated_action_accuracy:
+        json_path: synthetic_rgb_training.pixel_ablated_holdout_action_accuracy
+        decimals: 3
+      rgb_pixel_ablated_action_macro_f1:
+        json_path: synthetic_rgb_training.pixel_ablated_holdout_action_macro_f1
+        decimals: 3
+      rgb_pixel_contribution_delta:
+        json_path: synthetic_rgb_training.standard_minus_pixel_ablated_accuracy
+        decimals: 3
+      rgb_raw_success:
+        json_path: policies.synthetic_rgb_mlp_raw.success_rate
+        decimals: 3
+      rgb_raw_unsafe_rate:
+        json_path: policies.synthetic_rgb_mlp_raw.unsafe_action_rate
+        decimals: 3
+      rgb_raw_task_error_rate:
+        json_path: policies.synthetic_rgb_mlp_raw.task_error_rate
+        decimals: 3
+      rgb_filtered_success:
+        json_path: policies.synthetic_rgb_mlp_shielded.success_rate
+        decimals: 3
+      rgb_filtered_unsafe_rate:
+        json_path: policies.synthetic_rgb_mlp_shielded.unsafe_action_rate
+        decimals: 3
+      rgb_interventions:
+        json_path: policies.synthetic_rgb_mlp_shielded.intervention_count
+      rgb_shifted_raw_success:
+        json_path: policies.synthetic_rgb_mlp_shifted_raw.success_rate
+        decimals: 3
+      rgb_shifted_raw_unsafe_rate:
+        json_path: policies.synthetic_rgb_mlp_shifted_raw.unsafe_action_rate
+        decimals: 3
+      rgb_shifted_raw_task_error_rate:
+        json_path: policies.synthetic_rgb_mlp_shifted_raw.task_error_rate
+        decimals: 3
+      rgb_shifted_filtered_success:
+        json_path: policies.synthetic_rgb_mlp_shifted_shielded.success_rate
+        decimals: 3
+      rgb_shifted_filtered_unsafe_rate:
+        json_path: policies.synthetic_rgb_mlp_shifted_shielded.unsafe_action_rate
+        decimals: 3
+      rgb_shifted_interventions:
+        json_path: policies.synthetic_rgb_mlp_shifted_shielded.intervention_count
       raster_interventions:
         json_path: policies.semantic_raster_mlp_shielded.intervention_count
       action_accuracy_delta:
@@ -410,25 +465,32 @@ claims:
       egocentric_filtered_delta_vs_raster:
         json_path: representation_comparison.shielded_success_delta_egocentric_minus_raster
         decimals: 3
+      rgb_action_shift_delta:
+        json_path: representation_comparison.expert_action_accuracy_delta_rgb_standard_minus_shifted
+        decimals: 3
+      rgb_filtered_shift_delta:
+        json_path: representation_comparison.shielded_success_delta_rgb_standard_minus_shifted
+        decimals: 3
       reference_success:
         json_path: policies.safety_shielded.success_rate
         decimals: 3
       reference_unsafe_rate:
         json_path: policies.safety_shielded.unsafe_action_rate
         decimals: 3
-    result_template: "Egocentric MLP filtered success {egocentric_filtered_success}; engineered RF {filtered_success}; world-raster MLP {raster_filtered_success}; {egocentric_interventions} egocentric interventions; {holdout_scenarios} holdout scenarios"
+    result_template: "Egocentric filtered success {egocentric_filtered_success}; rendered RGB standard/shifted filtered success {rgb_filtered_success}/{rgb_shifted_filtered_success}; shifted raw success {rgb_shifted_raw_success}; {holdout_scenarios} holdout scenarios"
     public_surfaces:
       - path: README.md
         contains:
-          - "filtered success is `{egocentric_filtered_success}` for the egocentric MLP, `{filtered_success}` for the random forest, and `{raster_filtered_success}` for the world-raster MLP; the egocentric result uses {egocentric_interventions} interventions"
-          - "Three learned models share {train_scenarios} training scenarios and a {holdout_scenarios}-scenario disjoint holdout"
-          - "The local MLP recovers most action accuracy lost by world-frame flattening"
+          - "On {holdout_scenarios} unseen grids, egocentric filtered success is `{egocentric_filtered_success}`; rendered-RGB success is `{rgb_filtered_success}` normally and `{rgb_shifted_filtered_success}` under an unseen palette, which requires {rgb_shifted_interventions} interventions."
+          - "Four learned policy families share {train_scenarios} training scenarios and a {holdout_scenarios}-scenario disjoint holdout"
+          - "Mean-pixel ablation lowers RGB action accuracy from `{rgb_standard_action_accuracy}` to `{rgb_pixel_ablated_action_accuracy}`"
+          - "an unseen work-light palette then drives raw completion from `{rgb_raw_success}` to `{rgb_shifted_raw_success}`"
       - path: portfolio-site/index.html
         contains:
-          - "Egocentric MLP {egocentric_filtered_success} / RF {filtered_success} / world raster {raster_filtered_success}"
           - "{holdout_scenarios} unseen grids"
-          - "Egocentric result uses {egocentric_interventions} interventions"
           - "Egocentric action accuracy {egocentric_action_accuracy} versus world-raster {raster_action_accuracy}; filtered success {egocentric_filtered_success} with {egocentric_interventions} interventions"
+          - "Rendered-RGB action accuracy falls from {rgb_standard_action_accuracy} to {rgb_pixel_ablated_action_accuracy} when pixels are replaced by training means"
+          - "Action accuracy {rgb_standard_action_accuracy} to {rgb_shifted_action_accuracy}; raw success {rgb_raw_success} to {rgb_shifted_raw_success}; shifted filter interventions {rgb_shifted_interventions}"
       - path: projects/vla-embodied-agent-simulator/README.md
         contains:
           - "The evaluator generates {train_scenarios} training and {holdout_scenarios} holdout scenarios"
@@ -438,25 +500,42 @@ claims:
           - "| Semantic raster + 64-unit MLP, filtered | `{raster_action_accuracy}` | `{raster_filtered_success}` | `{raster_filtered_unsafe_rate}` |"
           - "| Egocentric local state + 64-unit MLP, raw | `{egocentric_action_accuracy}` | `{egocentric_raw_success}` | `{egocentric_raw_unsafe_rate}` |"
           - "| Egocentric local state + 64-unit MLP, filtered | `{egocentric_action_accuracy}` | `{egocentric_filtered_success}` | `{egocentric_filtered_unsafe_rate}` |"
+          - "| Synthetic RGB crop + 64-unit MLP, raw | `{rgb_standard_action_accuracy}` | `{rgb_raw_success}` | `{rgb_raw_unsafe_rate}` |"
+          - "| Synthetic RGB crop + 64-unit MLP, filtered | `{rgb_standard_action_accuracy}` | `{rgb_filtered_success}` | `{rgb_filtered_unsafe_rate}` |"
+          - "| Same RGB model, unseen work-light palette, raw | `{rgb_shifted_action_accuracy}` | `{rgb_shifted_raw_success}` | `{rgb_shifted_raw_unsafe_rate}` |"
+          - "| Same RGB model, unseen work-light palette, filtered | `{rgb_shifted_action_accuracy}` | `{rgb_shifted_filtered_success}` | `{rgb_shifted_filtered_unsafe_rate}` |"
           - "| Deterministic A* reference | Not applicable | `{reference_success}` | `{reference_unsafe_rate}` |"
           - "Agent-centered local encoding recovers `{egocentric_action_delta_vs_raster}` action accuracy and `{egocentric_filtered_delta_vs_raster}` filtered success over that baseline. It reaches filtered success `{egocentric_filtered_delta_vs_structured}` above the random forest while trailing the random forest's action accuracy by `{structured_action_delta_vs_egocentric}`."
+          - "The unseen palette then reduces action accuracy by `{rgb_action_shift_delta}` and filtered success by `{rgb_filtered_shift_delta}`"
+          - "Replacing all RGB pixels with their training-set means reduces action accuracy from `{rgb_standard_action_accuracy}` to `{rgb_pixel_ablated_action_accuracy}`"
       - path: projects/vla-embodied-agent-simulator/EVAL.md
         contains:
           - "| Engineered state | `RandomForestClassifier` | 24 | `{action_accuracy}` | `{action_macro_f1}` |"
           - "| Flattened semantic state raster | `StandardScaler` + 64-unit `MLPClassifier` | 398 | `{raster_action_accuracy}` | `{raster_action_macro_f1}` |"
           - "| Egocentric 5x5 local state | `StandardScaler` + 64-unit `MLPClassifier` | 210 | `{egocentric_action_accuracy}` | `{egocentric_action_macro_f1}` |"
+          - "| Synthetic 10x10 RGB crop plus task telemetry | `StandardScaler` + 64-unit `MLPClassifier` | 310 | `{rgb_standard_action_accuracy}` | `{rgb_standard_action_macro_f1}` |"
+          - "| Same RGB model, pixels replaced by training means | No refit; ten active telemetry values | 310 | `{rgb_pixel_ablated_action_accuracy}` | `{rgb_pixel_ablated_action_macro_f1}` |"
+          - "| Same RGB model, unseen `worklight` palette | No refit | 310 | `{rgb_shifted_action_accuracy}` | `{rgb_shifted_action_macro_f1}` |"
           - "| Engineered-state RF, raw | `{raw_success}` | `{raw_unsafe_rate}` | `0.000` | 0 |"
           - "| Engineered-state RF, filtered | `{filtered_success}` | `{filtered_unsafe_rate}` | `0.000` | {interventions} |"
           - "| Semantic-raster MLP, raw | `{raster_raw_success}` | `{raster_raw_unsafe_rate}` | `0.186` | 0 |"
           - "| Semantic-raster MLP, filtered | `{raster_filtered_success}` | `{raster_filtered_unsafe_rate}` | `0.000` | {raster_interventions} |"
           - "| Egocentric local-state MLP, raw | `{egocentric_raw_success}` | `{egocentric_raw_unsafe_rate}` | `{egocentric_raw_task_error_rate}` | 0 |"
           - "| Egocentric local-state MLP, filtered | `{egocentric_filtered_success}` | `{egocentric_filtered_unsafe_rate}` | `0.000` | {egocentric_interventions} |"
+          - "| Synthetic RGB MLP, raw | `{rgb_raw_success}` | `{rgb_raw_unsafe_rate}` | `{rgb_raw_task_error_rate}` | 0 |"
+          - "| Synthetic RGB MLP, filtered | `{rgb_filtered_success}` | `{rgb_filtered_unsafe_rate}` | `0.000` | {rgb_interventions} |"
+          - "| Synthetic RGB MLP, shifted appearance, raw | `{rgb_shifted_raw_success}` | `{rgb_shifted_raw_unsafe_rate}` | `{rgb_shifted_raw_task_error_rate}` | 0 |"
+          - "| Synthetic RGB MLP, shifted appearance, filtered | `{rgb_shifted_filtered_success}` | `{rgb_shifted_filtered_unsafe_rate}` | `0.000` | {rgb_shifted_interventions} |"
+          - "Mean-pixel ablation reduces standard RGB action accuracy by `{rgb_pixel_contribution_delta}`, from `{rgb_standard_action_accuracy}` to `{rgb_pixel_ablated_action_accuracy}`"
       - path: projects/vla-embodied-agent-simulator/LIMITATIONS.md
         contains:
           - "The raw random forest succeeds on `{raw_success}` of holdout layouts and attempts unsafe actions at a `{raw_unsafe_rate}` rate."
           - "The raw raster MLP succeeds on `{raster_raw_success}` and attempts unsafe actions at a `{raster_raw_unsafe_rate}` rate."
           - "The raw egocentric MLP succeeds on `{egocentric_raw_success}` and attempts unsafe actions at a `{egocentric_raw_unsafe_rate}` rate."
-          - "completion is `{filtered_success}` for the random forest, `{raster_filtered_success}` for the world-raster MLP, and `{egocentric_filtered_success}` for the egocentric MLP"
+          - "The raw standard RGB MLP succeeds on `{rgb_raw_success}` with unsafe-action rate `{rgb_raw_unsafe_rate}` and task-error rate `{rgb_raw_task_error_rate}`."
+          - "RGB action accuracy falls from `{rgb_standard_action_accuracy}` to `{rgb_shifted_action_accuracy}` and raw completion falls from `{rgb_raw_success}` to `{rgb_shifted_raw_success}`."
+          - "Mean-pixel ablation lowers action accuracy from `{rgb_standard_action_accuracy}` to `{rgb_pixel_ablated_action_accuracy}`"
+          - "completion is `{filtered_success}` for the random forest, `{raster_filtered_success}` for the world-raster MLP, `{egocentric_filtered_success}` for the egocentric MLP, `{rgb_filtered_success}` for standard RGB, and `{rgb_shifted_filtered_success}` for shifted RGB"
 
   - id: public-sms-classification
     project_slug: real-model-finetune-lab

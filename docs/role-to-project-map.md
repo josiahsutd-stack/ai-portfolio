@@ -5,7 +5,7 @@ AEC RAG is the sole flagship. The other selected projects are ranked by role rel
 | Target role | Primary evidence | Supporting evidence | Important boundary |
 | --- | --- | --- | --- |
 | Applied AEC AI Engineer | AEC RAG, Massing Explorer | Specification Copilot, QS Workbench, tested integration contract | Local prototypes without customer or professional sign-off evidence. |
-| Embodied AI / Robotics Engineer | Construction Embodied Agent | Grid Route Planner, Telemetry Monitor | Controlled observation-design and behavior-cloning study in structured simulation; no camera perception, ROS, or hardware. |
+| Embodied AI / Robotics Engineer | Construction Embodied Agent | Grid Route Planner, Telemetry Monitor | Controlled semantic/rendered-pixel observation and behavior-cloning study; no physical-camera perception, ROS, or hardware. |
 | RAG / LLM Systems Engineer | AEC RAG | Specification Copilot, Research Workflow experiment | Deterministic local retrieval and extraction; no autonomous production agent. |
 | Computational Design Engineer | Massing Explorer | QS geometry, BIM Schedule Rule Checker | Rectangular proxy geometry; no CAD/BIM kernel or calibrated environmental simulation. |
 | AEC Product Engineer | Specification Copilot, QS Workbench | Executed design-to-cost contract, AEC RAG, Massing Explorer | One synthetic cross-project fixture and explicit human review boundaries. |

@@ -7,7 +7,7 @@ This local simulator supports inspection of task parsing, observation encoding, 
 ## Not Intended For
 
 - Real robot operation or physical safety decisions.
-- ROS, SLAM, perception, hardware, or sim-to-real claims.
+- Physical-camera perception, ROS, SLAM, hardware, or sim-to-real claims.
 - Proof that a learned policy works on a construction site.
 - Foundation vision-language-action evaluation.
 
@@ -16,8 +16,9 @@ This local simulator supports inspection of task parsing, observation encoding, 
 1. A random-forest action classifier over 24 engineered state features.
 2. A one-hidden-layer MLP over eight fully observable 7x7 semantic state channels plus six global features.
 3. A one-hidden-layer MLP over an agent-centered 5x5 semantic window plus ten task/navigation values.
+4. A one-hidden-layer MLP over a rendered 10x10 RGB crop plus ten task/navigation values, evaluated under standard and unseen appearance palettes.
 
-None consumes images. The world-raster model exposes a representation and data-scale limitation. The egocentric model hides off-window hazards from its classifier and recovers performance through agent-centered alignment, while its filter continues to apply full-state simulator rules.
+The fourth model consumes image pixels, but they are rendered directly from privileged simulator state rather than captured by a physical or photorealistic simulated camera. The world-raster model exposes a representation and data-scale limitation. The egocentric model recovers performance through agent-centered alignment. The RGB model performs competitively in its standard appearance and fails severely under an unseen palette. Every local policy filter continues to apply full-state simulator rules.
 
 ## Safety Controls In Scope
 
@@ -29,7 +30,7 @@ None consumes images. The world-raster model exposes a representation and data-s
 
 ## Evaluation
 
-All three learned models train on 192 synthetic scenarios and are evaluated on the same 96 disjoint holdout scenarios. Reports separate expert-state action accuracy from closed-loop success, unsafe-action rate, task-error rate, interventions, and failure traces. A deterministic A* planner is retained as a full-map reference, not a learned baseline.
+All four learned policy families train on 192 synthetic scenarios and are evaluated on the same 96 disjoint holdout scenarios. The RGB model sees two appearance variants during training and a separate unseen palette at evaluation. Reports separate expert-state action accuracy from closed-loop success, unsafe-action rate, task-error rate, interventions, and failure traces. A deterministic A* planner is retained as a full-map reference, not a learned baseline.
 
 ## Main Risk
 

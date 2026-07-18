@@ -9,6 +9,7 @@ from statistics import mean
 from typing import Any
 
 import joblib
+from PIL import Image
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, f1_score
 from sklearn.neural_network import MLPClassifier
@@ -26,6 +27,11 @@ from .environment import (
 )
 from .policies import PolicyPlan, safety_shielded_policy
 from .semantic_raster_rendering import render_semantic_raster_svg
+from .synthetic_rgb import (
+    RGB_IMAGE_SIZE,
+    RGB_WINDOW_SIZE,
+    render_synthetic_rgb_observation,
+)
 
 FEATURE_NAMES = [
     "task_deliver",
@@ -98,6 +104,13 @@ EGOCENTRIC_GLOBAL_FEATURES = (
 EGOCENTRIC_FEATURE_COUNT = EGOCENTRIC_WINDOW_SIZE * EGOCENTRIC_WINDOW_SIZE * len(
     EGOCENTRIC_CHANNELS
 ) + len(EGOCENTRIC_GLOBAL_FEATURES)
+SYNTHETIC_RGB_GLOBAL_FEATURES = EGOCENTRIC_GLOBAL_FEATURES
+SYNTHETIC_RGB_FEATURE_COUNT = RGB_IMAGE_SIZE * RGB_IMAGE_SIZE * 3 + len(
+    SYNTHETIC_RGB_GLOBAL_FEATURES
+)
+SYNTHETIC_RGB_TRAIN_PALETTES = ("day", "overcast")
+SYNTHETIC_RGB_STANDARD_PALETTE = "day"
+SYNTHETIC_RGB_SHIFTED_PALETTE = "worklight"
 
 PolicyFn = Callable[[GridWorldEnv, str], PolicyPlan]
 
@@ -148,6 +161,34 @@ class EgocentricTrainingResult:
     radius: int
     channel_names: list[str]
     global_feature_names: list[str]
+    hidden_layer_sizes: list[int]
+    model_file: str
+    random_seed: int
+
+
+@dataclass(frozen=True)
+class SyntheticRGBTrainingResult:
+    train_scenario_count: int
+    holdout_scenario_count: int
+    training_step_count: int
+    augmented_training_example_count: int
+    holdout_expert_step_count: int
+    standard_holdout_action_accuracy: float
+    standard_holdout_action_macro_f1: float
+    shifted_holdout_action_accuracy: float
+    shifted_holdout_action_macro_f1: float
+    pixel_ablated_holdout_action_accuracy: float
+    pixel_ablated_holdout_action_macro_f1: float
+    standard_minus_pixel_ablated_accuracy: float
+    classes: list[str]
+    feature_count: int
+    image_size: int
+    window_size: int
+    channel_count: int
+    global_feature_names: list[str]
+    train_palettes: list[str]
+    standard_palette: str
+    shifted_palette: str
     hidden_layer_sizes: list[int]
     model_file: str
     random_seed: int
@@ -246,7 +287,6 @@ def encode_semantic_raster_state(env: GridWorldEnv) -> list[float]:
 
 
 def encode_egocentric_local_state(env: GridWorldEnv) -> list[float]:
-    task = env.task or parse_instruction("wait", env)
     subgoal = _current_subgoal(env)
     channel_points = (
         set(env.obstacles),
@@ -269,27 +309,44 @@ def encode_egocentric_local_state(env: GridWorldEnv) -> list[float]:
         for dy in offsets
         for dx in offsets
     )
+    features.extend(_task_navigation_features(env, subgoal))
+    if len(features) != EGOCENTRIC_FEATURE_COUNT:
+        raise RuntimeError("egocentric feature schema changed unexpectedly")
+    return features
+
+
+def encode_synthetic_rgb_observation(
+    env: GridWorldEnv,
+    *,
+    palette_name: str = SYNTHETIC_RGB_STANDARD_PALETTE,
+) -> list[float]:
+    subgoal = _current_subgoal(env)
+    image = render_synthetic_rgb_observation(env, subgoal, palette_name=palette_name)
+    features = (image.astype(float) / 255.0).reshape(-1).tolist()
+    features.extend(_task_navigation_features(env, subgoal))
+    if len(features) != SYNTHETIC_RGB_FEATURE_COUNT:
+        raise RuntimeError("synthetic RGB feature schema changed unexpectedly")
+    return features
+
+
+def _task_navigation_features(env: GridWorldEnv, subgoal: Position) -> list[float]:
+    task = env.task or parse_instruction("wait", env)
     width_scale = max(1, env.width - 1)
     height_scale = max(1, env.height - 1)
     dx = subgoal[0] - env.agent[0]
     dy = subgoal[1] - env.agent[1]
-    features.extend(
-        [
-            float(task.task_type == "deliver"),
-            float(task.task_type == "inspect"),
-            float(task.task_type == "charge"),
-            float(env.carrying is not None),
-            min(1.0, max(0.0, env.battery / 70.0)),
-            min(1.0, env.step_count / max(1, env.max_steps)),
-            dx / width_scale,
-            dy / height_scale,
-            abs(dx) / width_scale,
-            abs(dy) / height_scale,
-        ]
-    )
-    if len(features) != EGOCENTRIC_FEATURE_COUNT:
-        raise RuntimeError("egocentric feature schema changed unexpectedly")
-    return features
+    return [
+        float(task.task_type == "deliver"),
+        float(task.task_type == "inspect"),
+        float(task.task_type == "charge"),
+        float(env.carrying is not None),
+        min(1.0, max(0.0, env.battery / 70.0)),
+        min(1.0, env.step_count / max(1, env.max_steps)),
+        dx / width_scale,
+        dy / height_scale,
+        abs(dx) / width_scale,
+        abs(dy) / height_scale,
+    ]
 
 
 def train_behavior_cloning_policy(
@@ -462,6 +519,107 @@ def train_egocentric_policy(
     return model, result
 
 
+def train_synthetic_rgb_policy(
+    *,
+    model_output_dir: str | Path | None = None,
+    train_scenarios: list[SiteScenario] | None = None,
+    holdout_scenarios: list[SiteScenario] | None = None,
+) -> tuple[Pipeline, SyntheticRGBTrainingResult]:
+    train_set = train_scenarios or generate_behavior_cloning_scenarios(
+        "train", count_per_task=TRAIN_SCENARIOS_PER_TASK
+    )
+    holdout_set = holdout_scenarios or generate_behavior_cloning_scenarios(
+        "holdout", count_per_task=HOLDOUT_SCENARIOS_PER_TASK
+    )
+    train_features, train_actions = _expert_examples_with_rgb_palettes(
+        train_set,
+        palettes=SYNTHETIC_RGB_TRAIN_PALETTES,
+    )
+    standard_features, holdout_actions = _expert_examples(
+        holdout_set,
+        encoder=lambda env: encode_synthetic_rgb_observation(
+            env,
+            palette_name=SYNTHETIC_RGB_STANDARD_PALETTE,
+        ),
+    )
+    shifted_features, shifted_actions = _expert_examples(
+        holdout_set,
+        encoder=lambda env: encode_synthetic_rgb_observation(
+            env,
+            palette_name=SYNTHETIC_RGB_SHIFTED_PALETTE,
+        ),
+    )
+    if holdout_actions != shifted_actions:
+        raise RuntimeError("RGB holdout action labels changed across appearance conditions")
+    model = make_pipeline(
+        StandardScaler(),
+        MLPClassifier(
+            hidden_layer_sizes=(64,),
+            activation="relu",
+            solver="lbfgs",
+            alpha=0.001,
+            max_iter=1500,
+            random_state=113,
+        ),
+    )
+    model.fit(train_features, train_actions)
+    standard_predictions = model.predict(standard_features)
+    shifted_predictions = model.predict(shifted_features)
+    scaler = model.named_steps["standardscaler"]
+    pixel_count = RGB_IMAGE_SIZE * RGB_IMAGE_SIZE * 3
+    mean_pixels = scaler.mean_[:pixel_count].tolist()
+    pixel_ablated_features = [mean_pixels + row[pixel_count:] for row in standard_features]
+    pixel_ablated_predictions = model.predict(pixel_ablated_features)
+    standard_accuracy = float(accuracy_score(holdout_actions, standard_predictions))
+    pixel_ablated_accuracy = float(accuracy_score(holdout_actions, pixel_ablated_predictions))
+    model_file = "synthetic_rgb_mlp_policy.joblib"
+    if model_output_dir is not None:
+        model_path = Path(model_output_dir) / model_file
+        model_path.parent.mkdir(parents=True, exist_ok=True)
+        joblib.dump(model, model_path)
+    result = SyntheticRGBTrainingResult(
+        train_scenario_count=len(train_set),
+        holdout_scenario_count=len(holdout_set),
+        training_step_count=len(train_actions) // len(SYNTHETIC_RGB_TRAIN_PALETTES),
+        augmented_training_example_count=len(train_actions),
+        holdout_expert_step_count=len(holdout_actions),
+        standard_holdout_action_accuracy=round(standard_accuracy, 3),
+        standard_holdout_action_macro_f1=round(
+            float(f1_score(holdout_actions, standard_predictions, average="macro")),
+            3,
+        ),
+        shifted_holdout_action_accuracy=round(
+            float(accuracy_score(holdout_actions, shifted_predictions)), 3
+        ),
+        shifted_holdout_action_macro_f1=round(
+            float(f1_score(holdout_actions, shifted_predictions, average="macro")),
+            3,
+        ),
+        pixel_ablated_holdout_action_accuracy=round(pixel_ablated_accuracy, 3),
+        pixel_ablated_holdout_action_macro_f1=round(
+            float(f1_score(holdout_actions, pixel_ablated_predictions, average="macro")),
+            3,
+        ),
+        standard_minus_pixel_ablated_accuracy=round(
+            standard_accuracy - pixel_ablated_accuracy,
+            3,
+        ),
+        classes=sorted(str(value) for value in model.classes_),
+        feature_count=SYNTHETIC_RGB_FEATURE_COUNT,
+        image_size=RGB_IMAGE_SIZE,
+        window_size=RGB_WINDOW_SIZE,
+        channel_count=3,
+        global_feature_names=list(SYNTHETIC_RGB_GLOBAL_FEATURES),
+        train_palettes=list(SYNTHETIC_RGB_TRAIN_PALETTES),
+        standard_palette=SYNTHETIC_RGB_STANDARD_PALETTE,
+        shifted_palette=SYNTHETIC_RGB_SHIFTED_PALETTE,
+        hidden_layer_sizes=[64],
+        model_file=model_file,
+        random_seed=113,
+    )
+    return model, result
+
+
 def make_behavior_cloning_policy(
     model: RandomForestClassifier,
     *,
@@ -500,6 +658,26 @@ def make_egocentric_policy(
         encoder=encode_egocentric_local_state,
         raw_policy_name="egocentric_mlp_raw",
         shielded_policy_name="egocentric_mlp_shielded",
+        safety_filter=safety_filter,
+    )
+
+
+def make_synthetic_rgb_policy(
+    model: Pipeline,
+    *,
+    safety_filter: bool,
+    palette_name: str = SYNTHETIC_RGB_STANDARD_PALETTE,
+) -> PolicyFn:
+    shifted = palette_name == SYNTHETIC_RGB_SHIFTED_PALETTE
+    prefix = "synthetic_rgb_mlp_shifted" if shifted else "synthetic_rgb_mlp"
+    return _make_classifier_policy(
+        model,
+        encoder=lambda env: encode_synthetic_rgb_observation(
+            env,
+            palette_name=palette_name,
+        ),
+        raw_policy_name=f"{prefix}_raw",
+        shielded_policy_name=f"{prefix}_shielded",
         safety_filter=safety_filter,
     )
 
@@ -593,6 +771,11 @@ def evaluate_behavior_cloning(
         train_scenarios=train_scenarios,
         holdout_scenarios=holdout_scenarios,
     )
+    rgb_model, rgb_training = train_synthetic_rgb_policy(
+        model_output_dir=model_output_dir,
+        train_scenarios=train_scenarios,
+        holdout_scenarios=holdout_scenarios,
+    )
     policies: list[PolicyFn] = [
         make_behavior_cloning_policy(model, safety_filter=False),
         make_behavior_cloning_policy(model, safety_filter=True),
@@ -600,6 +783,18 @@ def evaluate_behavior_cloning(
         make_semantic_raster_policy(raster_model, safety_filter=True),
         make_egocentric_policy(egocentric_model, safety_filter=False),
         make_egocentric_policy(egocentric_model, safety_filter=True),
+        make_synthetic_rgb_policy(rgb_model, safety_filter=False),
+        make_synthetic_rgb_policy(rgb_model, safety_filter=True),
+        make_synthetic_rgb_policy(
+            rgb_model,
+            safety_filter=False,
+            palette_name=SYNTHETIC_RGB_SHIFTED_PALETTE,
+        ),
+        make_synthetic_rgb_policy(
+            rgb_model,
+            safety_filter=True,
+            palette_name=SYNTHETIC_RGB_SHIFTED_PALETTE,
+        ),
         safety_shielded_policy,
     ]
     episodes = [
@@ -638,15 +833,19 @@ def evaluate_behavior_cloning(
     structured_shielded = metrics["behavior_cloning_shielded"]
     raster_shielded = metrics["semantic_raster_mlp_shielded"]
     egocentric_shielded = metrics["egocentric_mlp_shielded"]
+    rgb_shielded = metrics["synthetic_rgb_mlp_shielded"]
+    rgb_shifted_shielded = metrics["synthetic_rgb_mlp_shifted_shielded"]
     return {
         "evaluation_type": "fixed-seed procedural construction-site holdout",
         "training": asdict(training),
         "semantic_raster_training": asdict(raster_training),
         "egocentric_training": asdict(egocentric_training),
+        "synthetic_rgb_training": asdict(rgb_training),
         "representation_comparison": {
             "structured_feature_count": training.feature_count,
             "semantic_raster_feature_count": raster_training.feature_count,
             "egocentric_feature_count": egocentric_training.feature_count,
+            "synthetic_rgb_feature_count": rgb_training.feature_count,
             "expert_action_accuracy_delta_structured_minus_raster": round(
                 training.holdout_action_accuracy - raster_training.holdout_action_accuracy,
                 3,
@@ -673,11 +872,21 @@ def evaluate_behavior_cloning(
                 - float(structured_shielded["success_rate"]),
                 3,
             ),
+            "expert_action_accuracy_delta_rgb_standard_minus_shifted": round(
+                rgb_training.standard_holdout_action_accuracy
+                - rgb_training.shifted_holdout_action_accuracy,
+                3,
+            ),
+            "shielded_success_delta_rgb_standard_minus_shifted": round(
+                float(rgb_shielded["success_rate"]) - float(rgb_shifted_shielded["success_rate"]),
+                3,
+            ),
             "interpretation": (
                 "The agent-centered local-state MLP recovers most expert-action accuracy lost "
                 "by the world-frame flattened raster and has the highest filtered learned-policy "
-                "success. Its raw failures and intervention count remain visible; this is an "
-                "observation-design result, not a perception or physical-safety claim."
+                "success. The synthetic RGB policy consumes rendered pixels and reports an unseen "
+                "appearance shift separately. Its renderer still originates from privileged "
+                "simulator state, so this is not real-camera or physical-safety evidence."
             ),
         },
         "split": {
@@ -733,6 +942,10 @@ def write_behavior_cloning_artifacts(
         _egocentric_model_card(payload),
         encoding="utf-8",
     )
+    (target / "synthetic_rgb_mlp_model_card.md").write_text(
+        _synthetic_rgb_model_card(payload),
+        encoding="utf-8",
+    )
     (target / "behavior_cloning_failure_analysis.md").write_text(
         _behavior_cloning_failure_analysis(payload),
         encoding="utf-8",
@@ -741,9 +954,23 @@ def write_behavior_cloning_artifacts(
         "holdout", count_per_task=HOLDOUT_SCENARIOS_PER_TASK
     )[0]
     example_env = GridWorldEnv.from_scenario(example_scenario)
+    example_subgoal = _current_subgoal(example_env)
+    for palette_name in (
+        SYNTHETIC_RGB_STANDARD_PALETTE,
+        SYNTHETIC_RGB_SHIFTED_PALETTE,
+    ):
+        rgb_image = render_synthetic_rgb_observation(
+            example_env,
+            example_subgoal,
+            palette_name=palette_name,
+        )
+        Image.fromarray(rgb_image).resize(
+            (240, 240),
+            Image.Resampling.NEAREST,
+        ).save(target / f"synthetic_rgb_observation_{palette_name}.png")
     raster_svg = render_semantic_raster_svg(
         example_env,
-        _current_subgoal(example_env),
+        example_subgoal,
         payload,
     )
     (target / "semantic_raster_comparison.svg").write_text(raster_svg, encoding="utf-8")
@@ -850,6 +1077,28 @@ def _expert_examples(
     return features, actions
 
 
+def _expert_examples_with_rgb_palettes(
+    scenarios: list[SiteScenario],
+    *,
+    palettes: tuple[str, ...],
+) -> tuple[list[list[float]], list[str]]:
+    features: list[list[float]] = []
+    actions: list[str] = []
+    for scenario in scenarios:
+        env = GridWorldEnv.from_scenario(scenario)
+        plan = plan_from_instruction(scenario.instruction, env)
+        for action in plan:
+            for palette_name in palettes:
+                features.append(encode_synthetic_rgb_observation(env, palette_name=palette_name))
+                actions.append(action)
+            _state, _reward, done, _info = env.step(action)
+            if done:
+                break
+        if not env.trace or not env.trace[-1].info.get("success"):
+            raise RuntimeError(f"expert failed generated scenario {scenario.scenario_id}")
+    return features, actions
+
+
 def _current_subgoal(env: GridWorldEnv) -> Position:
     task = env.task
     if task is None:
@@ -914,11 +1163,13 @@ def _behavior_cloning_report(payload: dict[str, object]) -> str:
     training = payload["training"]
     raster_training = payload["semantic_raster_training"]
     egocentric_training = payload["egocentric_training"]
+    rgb_training = payload["synthetic_rgb_training"]
     comparison = payload["representation_comparison"]
     policies = payload["policies"]
     assert isinstance(training, dict)
     assert isinstance(raster_training, dict)
     assert isinstance(egocentric_training, dict)
+    assert isinstance(rgb_training, dict)
     assert isinstance(comparison, dict)
     assert isinstance(policies, dict)
     policy_labels = {
@@ -928,12 +1179,16 @@ def _behavior_cloning_report(payload: dict[str, object]) -> str:
         "semantic_raster_mlp_shielded": "Semantic-raster MLP, filtered",
         "egocentric_mlp_raw": "Egocentric local-state MLP, raw",
         "egocentric_mlp_shielded": "Egocentric local-state MLP, filtered",
+        "synthetic_rgb_mlp_raw": "Synthetic RGB MLP, raw",
+        "synthetic_rgb_mlp_shielded": "Synthetic RGB MLP, filtered",
+        "synthetic_rgb_mlp_shifted_raw": "Synthetic RGB MLP, shifted appearance, raw",
+        "synthetic_rgb_mlp_shifted_shielded": "Synthetic RGB MLP, shifted appearance, filtered",
         "safety_shielded": "Deterministic A* reference",
     }
     lines = [
         "# Imitation-Policy Holdout Evaluation",
         "",
-        "Fixed-seed procedural construction-site simulation. All three learned models use the same expert demonstrations and disjoint holdout scenarios. This is not a learned foundation VLA or robot deployment.",
+        "Fixed-seed procedural construction-site simulation. Four learned policy families use the same expert demonstrations and disjoint holdout scenarios. The RGB model receives two training appearances; its unseen work-light appearance is reported separately. This is not a learned foundation VLA or robot deployment.",
         "",
         "## Shared Evaluation Protocol",
         "",
@@ -951,8 +1206,11 @@ def _behavior_cloning_report(payload: dict[str, object]) -> str:
         f"| Engineered state + random forest | {training['feature_count']} | {training['holdout_action_accuracy']} | {training['holdout_action_macro_f1']} |",
         f"| Flattened semantic raster + 64-unit MLP | {raster_training['feature_count']} | {raster_training['holdout_action_accuracy']} | {raster_training['holdout_action_macro_f1']} |",
         f"| Egocentric 5x5 local state + 64-unit MLP | {egocentric_training['feature_count']} | {egocentric_training['holdout_action_accuracy']} | {egocentric_training['holdout_action_macro_f1']} |",
+        f"| Synthetic 10x10 RGB crop + 10 telemetry values + 64-unit MLP | {rgb_training['feature_count']} | {rgb_training['standard_holdout_action_accuracy']} | {rgb_training['standard_holdout_action_macro_f1']} |",
+        f"| Same RGB model, unseen {rgb_training['shifted_palette']} palette | {rgb_training['feature_count']} | {rgb_training['shifted_holdout_action_accuracy']} | {rgb_training['shifted_holdout_action_macro_f1']} |",
+        f"| Same RGB model, pixels replaced by training means | 10 active telemetry values | {rgb_training['pixel_ablated_holdout_action_accuracy']} | {rgb_training['pixel_ablated_holdout_action_macro_f1']} |",
         "",
-        f"Agent-centered local encoding recovers {comparison['expert_action_accuracy_delta_egocentric_minus_raster']} action accuracy over the world-frame raster and trails the engineered-state model by {comparison['expert_action_accuracy_delta_structured_minus_egocentric']}. Both semantic encodings are generated from simulator state; they are not camera pixels or learned perception features.",
+        f"Agent-centered local encoding recovers {comparison['expert_action_accuracy_delta_egocentric_minus_raster']} action accuracy over the world-frame raster and trails the engineered-state model by {comparison['expert_action_accuracy_delta_structured_minus_egocentric']}. The RGB policy consumes rendered pixels, but those pixels are generated deterministically from privileged simulator state rather than captured by a camera.",
         "",
         "## Closed-Loop Holdout Results",
         "",
@@ -984,7 +1242,10 @@ def _behavior_cloning_report(payload: dict[str, object]) -> str:
             "- The flattened-raster MLP underperforms the engineered-state random forest. This negative result is retained because it shows that adding a neural network does not automatically improve a small-data spatial-control problem.",
             "- Centering a local semantic window on the agent recovers most of the raster MLP's action accuracy and produces the strongest filtered learned-policy success, despite hiding hazards outside the 5x5 window.",
             "- The egocentric policy still has weaker raw completion than the engineered-state policy and depends on many filter interventions. Filtered success is not model-only safety or control evidence.",
-            "- Neither MLP has convolution, temporal memory, camera input, or learned perception; neither establishes multimodal reasoning or VLA capability.",
+            "- The RGB policy reports both its standard appearance and an unseen palette shift. Any degradation remains visible rather than being averaged into the standard result.",
+            f"- Replacing every holdout pixel with its training-set mean reduces action accuracy by {rgb_training['standard_minus_pixel_ablated_accuracy']}. This ablation shows that the image contributes predictive information beyond the ten telemetry values.",
+            "- The RGB renderer removes direct semantic channels at the classifier boundary, but it still maps privileged grid state into clean synthetic pixels. It does not model detection, segmentation, depth, calibration, occlusion, or sensor noise.",
+            "- No MLP has convolution, temporal memory, a physical camera, or learned language conditioning; none establishes multimodal reasoning or foundation-VLA capability.",
             "- The deterministic A* policy is an oracle-style planning reference, not a learned baseline.",
             "- Results apply only to this small 2D procedural simulator.",
         ]
@@ -1076,6 +1337,46 @@ def _egocentric_model_card(payload: dict[str, object]) -> str:
     )
 
 
+def _synthetic_rgb_model_card(payload: dict[str, object]) -> str:
+    training = payload["synthetic_rgb_training"]
+    policies = payload["policies"]
+    assert isinstance(training, dict)
+    assert isinstance(policies, dict)
+    standard_raw = policies["synthetic_rgb_mlp_raw"]
+    standard_filtered = policies["synthetic_rgb_mlp_shielded"]
+    shifted_raw = policies["synthetic_rgb_mlp_shifted_raw"]
+    shifted_filtered = policies["synthetic_rgb_mlp_shifted_shielded"]
+    assert isinstance(standard_raw, dict)
+    assert isinstance(standard_filtered, dict)
+    assert isinstance(shifted_raw, dict)
+    assert isinstance(shifted_filtered, dict)
+    return (
+        "# Synthetic RGB Observation MLP Model Card\n\n"
+        "One-hidden-layer action classifier fitted to rendered egocentric RGB crops and the same bounded task/navigation telemetry used by the semantic local-state baseline.\n\n"
+        "## Observation Contract\n\n"
+        f"- {training['image_size']}x{training['image_size']} RGB image representing an agent-centered {training['window_size']}x{training['window_size']} crop.\n"
+        f"- Additional values: {', '.join(training['global_feature_names'])}.\n"
+        f"- {training['feature_count']} flattened inputs in total.\n"
+        f"- Training appearances: {', '.join(training['train_palettes'])}; standard holdout: {training['standard_palette']}; unseen shifted holdout: {training['shifted_palette']}.\n"
+        "- The classifier receives pixels rather than semantic channels, but the renderer creates clean pixels directly from privileged simulator state.\n\n"
+        "## Model And Output\n\n"
+        f"- StandardScaler followed by an MLPClassifier with hidden layers {training['hidden_layer_sizes']}.\n"
+        f"- Action classes: {', '.join(training['classes'])}.\n"
+        f"- {training['training_step_count']} expert states become {training['augmented_training_example_count']} appearance-variant training examples.\n"
+        "- The optional filter applies full simulator rules after classification and can see hazards outside the RGB crop.\n\n"
+        "## Measured Result\n\n"
+        f"- Standard holdout action accuracy / macro-F1: {training['standard_holdout_action_accuracy']} / {training['standard_holdout_action_macro_f1']}.\n"
+        f"- Shifted holdout action accuracy / macro-F1: {training['shifted_holdout_action_accuracy']} / {training['shifted_holdout_action_macro_f1']}.\n"
+        f"- Mean-pixel ablation action accuracy / macro-F1: {training['pixel_ablated_holdout_action_accuracy']} / {training['pixel_ablated_holdout_action_macro_f1']}.\n"
+        f"- Standard-minus-ablation accuracy: {training['standard_minus_pixel_ablated_accuracy']}.\n"
+        f"- Standard raw / filtered success: {standard_raw['success_rate']} / {standard_filtered['success_rate']}.\n"
+        f"- Shifted raw / filtered success: {shifted_raw['success_rate']} / {shifted_filtered['success_rate']}.\n"
+        f"- Standard / shifted filter interventions: {standard_filtered['intervention_count']} / {shifted_filtered['intervention_count']}.\n\n"
+        "## Not Demonstrated\n\n"
+        "This model does not establish physical-camera perception, object detection, segmentation, depth estimation, calibration, occlusion handling, realistic sensor noise, convolutional visual learning, language grounding, a foundation VLA, physics, ROS, sim-to-real transfer, hardware control, or physical-safety validation.\n"
+    )
+
+
 def _behavior_cloning_failure_analysis(payload: dict[str, object]) -> str:
     episodes = payload["episodes"]
     assert isinstance(episodes, list)
@@ -1086,6 +1387,10 @@ def _behavior_cloning_failure_analysis(payload: dict[str, object]) -> str:
         "semantic_raster_mlp_shielded",
         "egocentric_mlp_raw",
         "egocentric_mlp_shielded",
+        "synthetic_rgb_mlp_raw",
+        "synthetic_rgb_mlp_shielded",
+        "synthetic_rgb_mlp_shifted_raw",
+        "synthetic_rgb_mlp_shifted_shielded",
     }
     failures = [
         row

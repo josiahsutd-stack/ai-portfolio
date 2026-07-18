@@ -6,23 +6,30 @@ from vla_embodied_agent_simulator import (
     EGOCENTRIC_FEATURE_COUNT,
     EGOCENTRIC_WINDOW_SIZE,
     HOLDOUT_SCENARIOS_PER_TASK,
+    RGB_IMAGE_SIZE,
     SEMANTIC_RASTER_FEATURE_COUNT,
     SEMANTIC_RASTER_SIZE,
+    SYNTHETIC_RGB_FEATURE_COUNT,
+    SYNTHETIC_RGB_SHIFTED_PALETTE,
     TRAIN_SCENARIOS_PER_TASK,
     GridWorldEnv,
     PolicyPlan,
     default_construction_scenarios,
     encode_egocentric_local_state,
     encode_semantic_raster_state,
+    encode_synthetic_rgb_observation,
     evaluate_policy_suite,
     generate_behavior_cloning_scenarios,
     make_behavior_cloning_policy,
+    make_synthetic_rgb_policy,
     parse_instruction,
+    render_synthetic_rgb_observation,
     run_episode,
     safety_shielded_policy,
     train_behavior_cloning_policy,
     train_egocentric_policy,
     train_semantic_raster_policy,
+    train_synthetic_rgb_policy,
     write_behavior_cloning_artifacts,
     write_evaluation_artifacts,
 )
@@ -231,6 +238,69 @@ def test_egocentric_policy_fits_local_state_classifier(tmp_path: Path) -> None:
     assert (tmp_path / result.model_file).exists()
 
 
+def test_synthetic_rgb_encoder_is_pixel_derived_and_deterministic() -> None:
+    env = GridWorldEnv.from_scenario(default_construction_scenarios()[0])
+
+    standard = encode_synthetic_rgb_observation(env)
+    shifted = encode_synthetic_rgb_observation(
+        env,
+        palette_name=SYNTHETIC_RGB_SHIFTED_PALETTE,
+    )
+
+    assert len(standard) == SYNTHETIC_RGB_FEATURE_COUNT
+    assert standard == encode_synthetic_rgb_observation(env)
+    assert standard[:-10] != shifted[:-10]
+    assert standard[-10:] == shifted[-10:]
+    assert all(0.0 <= value <= 1.0 for value in standard[:-10])
+
+    image = render_synthetic_rgb_observation(env, env.objects["drywall_stack"])
+    assert image.shape == (RGB_IMAGE_SIZE, RGB_IMAGE_SIZE, 3)
+    assert image.dtype.name == "uint8"
+    assert len({tuple(pixel) for row in image for pixel in row}) >= 3
+
+    with pytest.raises(ValueError, match="unknown RGB palette"):
+        encode_synthetic_rgb_observation(env, palette_name="missing")
+
+
+def test_synthetic_rgb_encoder_hides_distant_hazards() -> None:
+    scenario = default_construction_scenarios()[0]
+    distant_hazard = replace(scenario, obstacles=scenario.obstacles | {(6, 5)})
+
+    base = encode_synthetic_rgb_observation(GridWorldEnv.from_scenario(scenario))
+    changed = encode_synthetic_rgb_observation(GridWorldEnv.from_scenario(distant_hazard))
+
+    assert base == changed
+
+
+def test_synthetic_rgb_policy_fits_and_reports_appearance_shift(tmp_path: Path) -> None:
+    model, result = train_synthetic_rgb_policy(model_output_dir=tmp_path)
+
+    assert result.train_scenario_count == 192
+    assert result.holdout_scenario_count == 96
+    assert result.training_step_count == 1830
+    assert result.augmented_training_example_count == 3660
+    assert result.feature_count == SYNTHETIC_RGB_FEATURE_COUNT
+    assert result.standard_holdout_action_accuracy >= 0.5
+    assert result.shifted_holdout_action_accuracy >= 0.2
+    assert result.pixel_ablated_holdout_action_accuracy < result.standard_holdout_action_accuracy
+    assert result.standard_minus_pixel_ablated_accuracy >= 0.2
+    assert result.standard_palette not in {result.shifted_palette}
+    assert result.shifted_palette not in result.train_palettes
+    assert {"pick", "drop", "inspect", "charge"}.issubset(result.classes)
+    assert len(model.classes_) == len(result.classes)
+    assert (tmp_path / result.model_file).exists()
+
+
+def test_synthetic_rgb_filtered_policy_executes_demo_scenario() -> None:
+    model, _result = train_synthetic_rgb_policy()
+    policy = make_synthetic_rgb_policy(model, safety_filter=True)
+
+    episode = run_episode(default_construction_scenarios()[0], policy)
+
+    assert episode.unsafe_action_count == 0
+    assert episode.blocked_action_count == 0
+
+
 def test_behavior_cloning_holdout_reports_failures_and_safety_effect(tmp_path: Path) -> None:
     payload = write_behavior_cloning_artifacts(
         tmp_path,
@@ -243,6 +313,10 @@ def test_behavior_cloning_holdout_reports_failures_and_safety_effect(tmp_path: P
     raster_shielded = payload["policies"]["semantic_raster_mlp_shielded"]
     egocentric_raw = payload["policies"]["egocentric_mlp_raw"]
     egocentric_shielded = payload["policies"]["egocentric_mlp_shielded"]
+    rgb_raw = payload["policies"]["synthetic_rgb_mlp_raw"]
+    rgb_shielded = payload["policies"]["synthetic_rgb_mlp_shielded"]
+    rgb_shifted_raw = payload["policies"]["synthetic_rgb_mlp_shifted_raw"]
+    rgb_shifted_shielded = payload["policies"]["synthetic_rgb_mlp_shifted_shielded"]
     comparison = payload["representation_comparison"]
 
     assert payload["split"]["scenario_id_overlap"] == []
@@ -259,6 +333,12 @@ def test_behavior_cloning_holdout_reports_failures_and_safety_effect(tmp_path: P
     assert egocentric_shielded["success_rate"] > shielded["success_rate"]
     assert egocentric_shielded["success_rate"] > raster_shielded["success_rate"]
     assert egocentric_shielded["intervention_count"] > 0
+    assert rgb_raw["unsafe_action_rate"] > 0
+    assert rgb_shielded["unsafe_action_rate"] == 0.0
+    assert rgb_shifted_raw["unsafe_action_rate"] > 0
+    assert rgb_shifted_shielded["unsafe_action_rate"] == 0.0
+    assert rgb_shielded["intervention_count"] > 0
+    assert rgb_shifted_shielded["intervention_count"] > 0
     assert comparison["expert_action_accuracy_delta_structured_minus_raster"] > 0
     assert comparison["shielded_success_delta_structured_minus_raster"] > 0
     assert comparison["expert_action_accuracy_delta_egocentric_minus_raster"] > 0
@@ -268,6 +348,9 @@ def test_behavior_cloning_holdout_reports_failures_and_safety_effect(tmp_path: P
     assert (tmp_path / "behavior_cloning_model_card.md").exists()
     assert (tmp_path / "semantic_raster_model_card.md").exists()
     assert (tmp_path / "egocentric_mlp_model_card.md").exists()
+    assert (tmp_path / "synthetic_rgb_mlp_model_card.md").exists()
+    assert (tmp_path / "synthetic_rgb_observation_day.png").exists()
+    assert (tmp_path / "synthetic_rgb_observation_worklight.png").exists()
     assert (tmp_path / "semantic_raster_comparison.svg").exists()
     assert (tmp_path / "behavior_cloning_failure_analysis.md").exists()
     assert (tmp_path / "site" / "semantic-raster-comparison.svg").exists()

@@ -18,6 +18,7 @@ from vla_embodied_agent_simulator import (
     make_behavior_cloning_policy,
     make_egocentric_policy,
     make_semantic_raster_policy,
+    make_synthetic_rgb_policy,
     naive_language_policy,
     random_policy,
     run_episode,
@@ -25,6 +26,8 @@ from vla_embodied_agent_simulator import (
     train_behavior_cloning_policy,
     train_egocentric_policy,
     train_semantic_raster_policy,
+    train_synthetic_rgb_policy,
+    SYNTHETIC_RGB_SHIFTED_PALETTE,
 )
 
 RULE_POLICIES = {
@@ -38,6 +41,10 @@ POLICY_NAMES = [
     "Engineered-state RF raw",
     "Egocentric local-state MLP + safety filter",
     "Egocentric local-state MLP raw",
+    "Synthetic RGB MLP + safety filter",
+    "Synthetic RGB MLP raw",
+    "Synthetic RGB MLP shifted + safety filter",
+    "Synthetic RGB MLP shifted raw",
     "Semantic state-raster MLP + safety filter",
     "Semantic state-raster MLP raw",
     "Naive language",
@@ -50,6 +57,7 @@ def learned_policies():
     structured_model, _structured_result = train_behavior_cloning_policy()
     raster_model, _raster_result = train_semantic_raster_policy()
     egocentric_model, _egocentric_result = train_egocentric_policy()
+    rgb_model, _rgb_result = train_synthetic_rgb_policy()
     return {
         "Engineered-state RF + safety filter": make_behavior_cloning_policy(
             structured_model,
@@ -66,6 +74,24 @@ def learned_policies():
         "Egocentric local-state MLP raw": make_egocentric_policy(
             egocentric_model,
             safety_filter=False,
+        ),
+        "Synthetic RGB MLP + safety filter": make_synthetic_rgb_policy(
+            rgb_model,
+            safety_filter=True,
+        ),
+        "Synthetic RGB MLP raw": make_synthetic_rgb_policy(
+            rgb_model,
+            safety_filter=False,
+        ),
+        "Synthetic RGB MLP shifted + safety filter": make_synthetic_rgb_policy(
+            rgb_model,
+            safety_filter=True,
+            palette_name=SYNTHETIC_RGB_SHIFTED_PALETTE,
+        ),
+        "Synthetic RGB MLP shifted raw": make_synthetic_rgb_policy(
+            rgb_model,
+            safety_filter=False,
+            palette_name=SYNTHETIC_RGB_SHIFTED_PALETTE,
         ),
         "Semantic state-raster MLP + safety filter": make_semantic_raster_policy(
             raster_model,
@@ -134,12 +160,12 @@ with right:
         }
         for row in episode.trace
     ]
-    st.dataframe(pd.DataFrame(trace_rows), use_container_width=True, hide_index=True)
+    st.dataframe(pd.DataFrame(trace_rows), width="stretch", hide_index=True)
 
 st.subheader("Policy Evaluation")
 payload = evaluate_policy_suite(scenarios)
 metrics = [{"policy": policy, **values} for policy, values in payload["policies"].items()]
-st.dataframe(pd.DataFrame(metrics), use_container_width=True, hide_index=True)
+st.dataframe(pd.DataFrame(metrics), width="stretch", hide_index=True)
 
 behavior_path = PROJECT_ROOT / "demo_outputs" / "behavior_cloning_eval_summary.json"
 if behavior_path.exists():
@@ -147,20 +173,21 @@ if behavior_path.exists():
     st.subheader("Learned Policy Holdout Evidence")
     st.caption(
         "Fixed-seed procedural holdout. Train and holdout scenario IDs are disjoint; "
-        "failures remain in the published evaluation artifacts. The semantic raster is "
-        "generated from simulator state, not camera input. The egocentric policy sees local "
-        "hazards within a 5x5 window plus relative subgoal geometry."
+        "failures remain in the published evaluation artifacts. Semantic inputs and rendered "
+        "RGB pixels originate from simulator state, not a physical camera. The shifted RGB "
+        "condition uses an unseen work-light palette."
     )
     behavior_metrics = [
         {"policy": name, **values} for name, values in behavior_payload["policies"].items()
     ]
-    st.dataframe(pd.DataFrame(behavior_metrics), use_container_width=True, hide_index=True)
+    st.dataframe(pd.DataFrame(behavior_metrics), width="stretch", hide_index=True)
     with st.expander("Training and split metadata"):
         st.json(
             {
                 "engineered_state_random_forest": behavior_payload["training"],
                 "semantic_raster_mlp": behavior_payload["semantic_raster_training"],
                 "egocentric_local_state_mlp": behavior_payload["egocentric_training"],
+                "synthetic_rgb_mlp": behavior_payload["synthetic_rgb_training"],
                 "scenario_id_overlap": behavior_payload["split"]["scenario_id_overlap"],
             }
         )

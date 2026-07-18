@@ -5,7 +5,7 @@
 | Order | Project | Evidence to inspect | Interpretation limit |
 | --- | --- | --- | --- |
 | 1 | `projects/aec-code-compliance-rag` | architecture, public provenance, retrieval ablation, failure analysis, demo answers, local service contract, and focused tests | Flagship retrieval system; not compliance certification or deployment evidence. |
-| 2 | `projects/vla-embodied-agent-simulator` | controlled engineered, world-raster, and egocentric local-state comparison, 96-scenario holdout, raw/filtered metrics, failures, model cards, and tests | Simulator state with a full-state rule filter; no camera perception, foundation VLA, or hardware evidence. |
+| 2 | `projects/vla-embodied-agent-simulator` | engineered, semantic-raster, egocentric-state, and rendered-RGB comparison; unseen appearance shift; 96-scenario holdout; raw/filtered metrics; failures; model cards; and tests | RGB pixels are state-rendered and filters see full rules; no physical-camera, foundation-VLA, or hardware evidence. |
 | 3 | `projects/constraint-aware-massing-explorer` | hard constraints, proxy objectives, Pareto ranking, baseline evaluation, diagrams, and tests | Rectangular proxy geometry; not professional design. |
 
 The specification and QS projects extend the same AEC workflow with auditability and commercial-review boundaries. Their [cross-project integration](../integrations/aec-design-to-cost/README.md) is executable and tested; it is not counted as a sixth selected project. Fourteen narrower baselines remain under [`experiments/`](../experiments/README.md).
@@ -37,7 +37,7 @@ The [evidence ledger](EVIDENCE_LEDGER.md) maps displayed metrics to versioned ar
 
 - How does page and authority metadata move from public AEC documents into citations?
 - Why compare lexical, probabilistic, latent-semantic, and hybrid retrieval locally?
-- How do raw and filtered learned-policy rollouts differ on disjoint scenarios?
+- How do raw and filtered policies differ, and what does the unseen RGB palette reveal about visual brittleness?
 - How are hard massing constraints separated from editable proxy objectives?
 - How do message ids, requirement versions, approval scopes, and draft clauses remain traceable?
 - How are shared walls deduplicated, rate units validated, and tender exceptions explained?

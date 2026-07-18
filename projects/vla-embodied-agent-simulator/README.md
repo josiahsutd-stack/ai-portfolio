@@ -1,8 +1,8 @@
 # Construction Embodied Agent Simulator
 
-A local 2D construction-site simulator for evaluating how task parsing, observation design, imitation learning, and action filtering affect closed-loop behavior. Three learned models share the same expert demonstrations and disjoint holdout layouts: an engineered-state random forest, a world-frame semantic-raster MLP, and an egocentric local-state MLP.
+A local 2D construction-site simulator for evaluating how task parsing, observation design, imitation learning, appearance shift, and action filtering affect closed-loop behavior. Four learned policy families share the same expert demonstrations and disjoint holdout layouts: an engineered-state random forest, a world-frame semantic-raster MLP, an egocentric local-state MLP, and an MLP over rendered egocentric RGB pixels plus bounded task telemetry.
 
-**Claim boundary:** both semantic observations are generated directly from simulator state. The egocentric classifier sees local hazards within a 5x5 window plus relative subgoal geometry; the safety filter still has full simulator-rule access. This project does not consume camera images, learn perception, use a language embedding, implement a foundation vision-language-action model, command robot hardware, or establish physical safety.
+**Claim boundary:** the semantic observations and RGB renderer are generated directly from privileged simulator state. The RGB classifier consumes actual pixel values, but not images from a physical or photorealistic simulated camera. All local classifiers see a 5x5 crop plus relative subgoal geometry; the safety filter still has full simulator-rule access. This project does not establish object detection, depth, realistic sensor handling, language grounding, a foundation vision-language-action model, robot control, or physical safety.
 
 ![Semantic raster and measured representation comparison](demo_outputs/semantic_raster_comparison.svg)
 
@@ -18,9 +18,13 @@ The evaluator generates 192 training and 96 holdout scenarios across delivery, i
 | Semantic raster + 64-unit MLP, filtered | `0.478` | `0.292` | `0.000` | Filtering suppresses observed violations but requires 3,529 interventions. |
 | Egocentric local state + 64-unit MLP, raw | `0.834` | `0.573` | `0.595` | Agent-centered encoding recovers action accuracy, but the unfiltered policy remains unsafe. |
 | Egocentric local state + 64-unit MLP, filtered | `0.834` | `0.760` | `0.000` | Highest learned-policy completion, with 943 interventions from full-state rules. |
+| Synthetic RGB crop + 64-unit MLP, raw | `0.813` | `0.635` | `0.041` | Rendered pixels support the standard appearance, but task-error rate is `0.489`. |
+| Synthetic RGB crop + 64-unit MLP, filtered | `0.813` | `0.719` | `0.000` | Standard appearance requires 965 full-state filter interventions. |
+| Same RGB model, unseen work-light palette, raw | `0.417` | `0.000` | `0.472` | Appearance shift exposes complete raw closed-loop failure. |
+| Same RGB model, unseen work-light palette, filtered | `0.417` | `0.427` | `0.000` | Filtering recovers partial completion but requires 3,315 interventions. |
 | Deterministic A* reference | Not applicable | `1.000` | `0.000` | Full-map oracle-style planning reference, not learned behavior. |
 
-The world-frame MLP result is retained as negative evidence. Agent-centered local encoding recovers `0.356` action accuracy and `0.468` filtered success over that baseline. It reaches filtered success `0.062` above the random forest while trailing the random forest's action accuracy by `0.021`. Success requires a task-specific terminal event; timeout and nonterminal battery recovery are failures. This is evidence about observation alignment and filter interaction, not visual perception or autonomous robot safety.
+The world-frame MLP result is retained as negative evidence. Agent-centered local encoding recovers `0.356` action accuracy and `0.468` filtered success over that baseline. It reaches filtered success `0.062` above the random forest while trailing the random forest's action accuracy by `0.021`. Replacing all RGB pixels with their training-set means reduces action accuracy from `0.813` to `0.474`, showing that the image contributes beyond the ten telemetry values. The unseen palette then reduces action accuracy by `0.396` and filtered success by `0.292`. Success requires a task-specific terminal event; timeout and nonterminal battery recovery are failures. These are synthetic observation and robustness results, not physical-camera perception or autonomous robot safety.
 
 ## Implemented Scope
 
@@ -30,7 +34,9 @@ The world-frame MLP result is retained as negative evidence. Agent-centered loca
 - A 24-feature engineered-state encoder with a random-forest action classifier.
 - An eight-channel semantic state raster plus six global features with a one-hidden-layer MLP classifier.
 - An agent-centered 5x5 semantic window plus ten task/navigation values with a second one-hidden-layer MLP.
-- Raw and safety-filtered closed-loop evaluation for all three learned models.
+- A deterministic 10x10 RGB renderer over the same 5x5 local crop, two training appearances, and a held-out work-light appearance.
+- A 64-unit MLP over 300 normalized RGB values plus ten task/navigation values.
+- Raw and safety-filtered closed-loop evaluation for all four learned policy families, including the unseen RGB appearance.
 - Versioned metrics, model cards, failure analysis, replay traces, and generated visual evidence.
 - Focused tests for parsing, simulation safety, terminal success semantics, split isolation, observation schemas, training, filtering, and artifact generation.
 
@@ -43,7 +49,7 @@ python -m pip install -r projects/vla-embodied-agent-simulator/requirements.txt
 streamlit run projects/vla-embodied-agent-simulator/app.py
 ```
 
-The policy selector distinguishes the **semantic state-raster MLP** from the **egocentric local-state MLP**. Neither consumes camera input.
+The policy selector distinguishes semantic state, egocentric local state, standard rendered RGB, and shifted rendered RGB. The RGB input is synthetic and state-rendered; it is not a physical-camera stream.
 
 Regenerate all evaluation artifacts:
 
@@ -69,6 +75,8 @@ The generated `joblib` models are written under `.artifacts/vla-embodied-agent-s
 | Engineered-state model boundary | [`demo_outputs/behavior_cloning_model_card.md`](demo_outputs/behavior_cloning_model_card.md) |
 | Semantic-raster model and non-capabilities | [`demo_outputs/semantic_raster_model_card.md`](demo_outputs/semantic_raster_model_card.md) |
 | Egocentric observation contract and filter dependence | [`demo_outputs/egocentric_mlp_model_card.md`](demo_outputs/egocentric_mlp_model_card.md) |
+| Rendered-pixel contract and appearance-shift result | [`demo_outputs/synthetic_rgb_mlp_model_card.md`](demo_outputs/synthetic_rgb_mlp_model_card.md) |
+| Standard and shifted RGB inputs | [`day`](demo_outputs/synthetic_rgb_observation_day.png) / [`work-light`](demo_outputs/synthetic_rgb_observation_worklight.png) |
 | Architecture and data flow | [`ARCHITECTURE.md`](ARCHITECTURE.md) |
 | Evaluation protocol and leakage controls | [`EVAL.md`](EVAL.md) |
 | Failure and deployment boundaries | [`LIMITATIONS.md`](LIMITATIONS.md) |
@@ -82,16 +90,21 @@ flowchart LR
   C["Fully observable grid state"] --> D["24 engineered features"]
   C --> E["8 x 7 x 7 semantic channels + 6 globals"]
   C --> M["Agent-centered 5 x 5 channels + 10 globals"]
+  C --> O["Rendered 10 x 10 RGB crop + 10 globals"]
   F["A* expert trajectories"] --> G["Shared state-action demonstrations"]
   G --> H["Random forest"]
   G --> I["Standardized 64-unit MLP"]
   G --> N["Standardized 64-unit MLP"]
+  G --> P["Two training appearances"]
   D --> H
   E --> I
   M --> N
+  O --> P
+  P --> R["Standardized 64-unit MLP"]
   H --> J["Raw or filtered action"]
   I --> J
   N --> J
+  R --> J
   J --> K["Environment transition"]
   K --> L["Trace, success, safety, and intervention metrics"]
 ```
@@ -111,7 +124,9 @@ See [`ARCHITECTURE.md`](ARCHITECTURE.md) for component responsibilities and the 
 
 - The environment is a fully observable discrete grid, not a physics simulator.
 - Semantic channels are privileged state, not sensed or predicted observations. The egocentric classifier hides off-window hazards, but its filter does not.
-- Both MLPs are small supervised baselines without convolution, recurrence, attention, memory, uncertainty estimation, or language conditioning.
+- All three MLPs are small supervised baselines without convolution, recurrence, attention, memory, uncertainty estimation, or learned language conditioning.
+- The RGB renderer produces clean categorical colors from privileged state. It does not model detection, depth, calibration, blur, occlusion, or realistic sensor noise.
+- The unseen work-light palette causes severe degradation, including zero raw closed-loop completion.
 - Expert labels come from the same simulator's A* planner.
 - Fixed-seed procedural layouts provide reproducible regression evidence, not benchmark-scale robotics coverage.
 - Simulator-rule filtering cannot establish real-world robot safety.
@@ -119,8 +134,8 @@ See [`ARCHITECTURE.md`](ARCHITECTURE.md) for component responsibilities and the 
 
 ## Next Steps
 
-1. Add temporal history, controlled observation noise, and uncertainty-aware abstention to the local policy.
-2. Compare the flat MLP with a convolutional encoder under the same split and parameter budget.
+1. Add controlled blur, occlusion, geometric perturbation, and uncertainty-aware abstention to the RGB policy.
+2. Compare the flat RGB MLP with a convolutional encoder under the same split and parameter budget.
 3. Add out-of-distribution layouts and dynamic worker trajectories.
 4. Introduce a Gymnasium interface and an RL baseline without changing the holdout protocol.
 5. Add offline ROS 2 or Isaac Sim adapters before making any middleware or robotics-integration claim.
