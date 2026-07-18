@@ -4,6 +4,8 @@ The [visual portfolio](https://josiahsutd-stack.github.io/ai-portfolio/) provide
 
 The [two-page portfolio brief](https://josiahsutd-stack.github.io/ai-portfolio/assets/Josiah_Lau_Applied_AI_Portfolio_Brief.pdf) is a generated take-away summary. Its project metrics come from the checked-in evaluation artifacts, and its professional chronology comes from portfolio-owner-supplied profile data; neither source is third-party validation.
 
+The complete visual journey follows [source-grounded AEC knowledge](https://josiahsutd-stack.github.io/ai-portfolio/pages/aec-rag.html), [approved project intent](https://josiahsutd-stack.github.io/ai-portfolio/pages/specification-assistant.html), [constraint-aware options](https://josiahsutd-stack.github.io/ai-portfolio/pages/massing-explorer.html), [traceable quantities](https://josiahsutd-stack.github.io/ai-portfolio/pages/qs-takeoff.html), and [simulated embodied action](https://josiahsutd-stack.github.io/ai-portfolio/pages/embodied-ai.html). Each case study links back to source, evaluation, tests, and limitations.
+
 ## Fifteen-Minute Technical Screen
 
 Each selected project opens with a generated system map using the same reading order: implemented stages, measured evidence, failure or control boundary, and required human review. The [system-map index](architecture-diagrams.md) collects those views without claiming cross-project behavior that has not been executed.

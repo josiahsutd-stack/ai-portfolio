@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Project Communication and Specification Assistant case study: role-tagged messages, requirement state, conflict handling, approval gates, citations, language stress tests, and explicit limits." />
+    <meta name="theme-color" content="#0d1b2a" />
+    <link rel="canonical" href="https://josiahsutd-stack.github.io/ai-portfolio/pages/specification-assistant.html" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Communication and Specification Assistant | Josiah Lau" />
+    <meta property="og:description" content="Role-tagged messages, requirement state, conflict handling, approval gates, citations, language stress tests, and explicit limits." />
+    <meta property="og:url" content="https://josiahsutd-stack.github.io/ai-portfolio/pages/specification-assistant.html" />
+    <meta property="og:image" content="https://josiahsutd-stack.github.io/ai-portfolio/assets/specification-copilot-demo.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>Communication and Specification Assistant | Josiah Lau</title>
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body class="case-page">
+    <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+    <header class="site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark">JL</span><span>Josiah Lau</span></a>
+      <button class="nav-toggle" type="button" aria-label="Open navigation" aria-controls="main-nav" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav id="main-nav" aria-label="Case study navigation">
+        <a href="#overview">Overview</a>
+        <a href="#system">System</a>
+        <a href="#evidence">Evidence</a>
+        <a href="#decisions">Decisions</a>
+        <a href="#run">Run locally</a>
+        <a href="../index.html#work">All work</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="case-hero case-hero--specification">
+        <div class="case-hero__media" aria-hidden="true"></div>
+        <div class="container case-hero__content">
+          <p class="eyebrow">Selected case study / Project communication</p>
+          <h1>Communication and Specification Assistant</h1>
+          <p class="hero-role">A governed path from project conversation to source-linked draft requirements.</p>
+          <p class="lede">
+            Role-tagged messages enter an immutable conversation record. Documented language forms become versioned requirements, conflicts stay visible, and only authorized approvals can produce cited draft clauses.
+          </p>
+          <div class="case-hero__actions">
+            <a class="button button--primary" href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/project-specification-copilot">Open source</a>
+            <a class="button" href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/projects/project-specification-copilot/EVAL.md">Read evaluation</a>
+          </div>
+        </div>
+        <p class="hero-image-note">Actual local interface / synthetic conversation data</p>
+      </section>
+
+      <section class="case-summary" id="overview">
+        <div class="container case-summary__grid">
+          <article><span>Problem</span><p>Project decisions are easily separated from their source message, current status, conflict history, and approval authority.</p></article>
+          <article><span>System</span><p>Immutable message IDs, deterministic extraction, requirement lifecycle, conflict detection, role gates, SQLite audit events, and cited draft clauses.</p></article>
+          <article><span>Evidence</span><p>Five synthetic conversations with 35 messages, plus 33 candidate-authored language stress cases that retain two known misses.</p></article>
+          <article><span>Boundary</span><p>Documented phrase coverage only. No open-domain chat, authenticated identity, professional specification, or stakeholder acceptance evidence.</p></article>
+        </div>
+      </section>
+
+      <section class="band case-system" id="system">
+        <div class="container">
+          <div class="case-heading">
+            <div><p class="eyebrow">System</p><h2>Approval changes state; conversation alone does not</h2></div>
+            <p class="section-copy">The ledger separates what was said, what was extracted, what conflicts, and what has been approved. A clause is generated only from an active requirement with a permitted approval event and a source-message reference.</p>
+          </div>
+          <figure class="case-diagram case-diagram--scrollable" tabindex="0" aria-label="Scrollable communication and specification system map">
+            <img src="../assets/specification-system-map.svg" alt="Communication and specification system map showing role-tagged messages, extraction, requirement state, conflict handling, approval gates, audit events, and source-linked draft clauses" />
+            <figcaption>Generated from the workflow regression and language stress artifacts. Supplied roles, deterministic language coverage, and mandatory professional review remain visible boundaries.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="band case-evidence" id="evidence">
+        <div class="container">
+          <div class="case-heading">
+            <div><p class="eyebrow">Measured behavior</p><h2>The stress set exposes where documented language coverage stops</h2></div>
+            <p class="section-copy">Perfect workflow-fixture results show deterministic regression consistency. The separate language set is the more useful boundary check because it includes paraphrases, negative controls, and retained failures.</p>
+          </div>
+          <div class="metric-grid">
+            <article><span>Requirement F1</span><strong>0.958</strong><small>Across 33 candidate-authored stress cases</small></article>
+            <article><span>Requirement recall</span><strong>0.920</strong><small>Two number-word requirements remain missed</small></article>
+            <article><span>Exact-case accuracy</span><strong>0.939</strong><small>Direct, paraphrase, and negative-control cases</small></article>
+            <article><span>Negative-control accuracy</span><strong>1.000</strong><small>Questions, history, rejection, and ignored references</small></article>
+          </div>
+          <div class="case-visual-grid case-visual-grid--wide">
+            <figure>
+              <img src="../assets/specification-language-stress.svg" alt="Exact-case accuracy comparison for direct language, paraphrases, and negative controls with two retained misses" />
+              <figcaption>Candidate-authored coverage comparison. The paraphrase group retains failures rather than hiding them behind the aggregate score.</figcaption>
+            </figure>
+            <figure>
+              <img src="../assets/specification-copilot-demo.png" alt="Local project communication interface with role-tagged messages, requirement ledger, conflicts, approvals, and source-linked draft clauses" />
+              <figcaption>Actual local interface using bundled synthetic roles, messages, and project requirements.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="band band--ink" id="decisions">
+        <div class="container">
+          <div class="case-heading">
+            <div><p class="eyebrow">Engineering decisions</p><h2>Governance is modeled as data, not prompt wording</h2></div>
+            <p class="section-copy">The implementation keeps provenance and state transitions inspectable instead of asking a language model to imply authority or silently reconcile conflicting instructions.</p>
+          </div>
+          <div class="decision-list">
+            <article><span>01</span><h3>Immutable message identity</h3><p>Every extracted value and draft clause points back to a stable message ID, sequence, role, and timestamp.</p></article>
+            <article><span>02</span><h3>Versioned requirement state</h3><p>Proposed, approved, superseded, and conflicting requirements remain distinct records rather than one mutable summary.</p></article>
+            <article><span>03</span><h3>Fail-closed approval gates</h3><p>Category-specific role permissions reject unauthorized approvals and record the denial without changing the clause set.</p></article>
+            <article><span>04</span><h3>Auditable abstention</h3><p>Questions, rejected values, historical references, unsupported chatter, and unresolved conflicts remain outside the approved draft.</p></article>
+          </div>
+          <div class="failure-callout">
+            <p class="eyebrow">Retained failure</p>
+            <h3>Number words fall outside the current extraction grammar.</h3>
+            <p>The fixed stress set misses "four thousand two hundred square metres" and "a dozen consultation rooms." These failures are checked in because the project does not claim open-domain understanding or silently infer unsupported values.</p>
+            <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/projects/project-specification-copilot/demo_outputs/language_stress_failures.md">Inspect retained failures</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="band case-run" id="run">
+        <div class="container case-run__grid">
+          <div>
+            <p class="eyebrow">Run locally</p>
+            <h2>Replay the workflow and language audit</h2>
+            <p class="section-copy">The evaluator rebuilds the workflow regression, source-linked trace, stress metrics, retained-failure report, and visual comparison from bundled synthetic fixtures.</p>
+          </div>
+          <div class="run-panel">
+            <code>python projects/project-specification-copilot/evaluate_specification.py</code>
+            <code>python -m pytest tests/test_project_specification_copilot.py</code>
+            <code>streamlit run projects/project-specification-copilot/app.py</code>
+          </div>
+        </div>
+        <div class="container case-footer-nav">
+          <a href="aec-rag.html">Previous case study: AEC RAG</a>
+          <a href="massing-explorer.html">Next case study: Massing Explorer</a>
+        </div>
+      </section>
+    </main>
+    <script src="../site.js"></script>
+  </body>
+</html>

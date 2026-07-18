@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="QS Takeoff and Tender Analysis Workbench case study: validated vector geometry, shared-wall measurement, traceable cost build-up, tender exceptions, evaluation, and explicit commercial limits." />
+    <meta name="theme-color" content="#0d1b2a" />
+    <link rel="canonical" href="https://josiahsutd-stack.github.io/ai-portfolio/pages/qs-takeoff.html" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="QS Takeoff and Tender Analysis | Josiah Lau" />
+    <meta property="og:description" content="Validated vector geometry, shared-wall measurement, traceable cost build-up, tender exceptions, evaluation, and explicit commercial limits." />
+    <meta property="og:url" content="https://josiahsutd-stack.github.io/ai-portfolio/pages/qs-takeoff.html" />
+    <meta property="og:image" content="https://josiahsutd-stack.github.io/ai-portfolio/assets/qs-takeoff-tender-demo.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>QS Takeoff and Tender Analysis | Josiah Lau</title>
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body class="case-page">
+    <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+    <header class="site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark">JL</span><span>Josiah Lau</span></a>
+      <button class="nav-toggle" type="button" aria-label="Open navigation" aria-controls="main-nav" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav id="main-nav" aria-label="Case study navigation">
+        <a href="#overview">Overview</a>
+        <a href="#system">System</a>
+        <a href="#evidence">Evidence</a>
+        <a href="#decisions">Decisions</a>
+        <a href="#run">Run locally</a>
+        <a href="../index.html#work">All work</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="case-hero case-hero--qs">
+        <div class="case-hero__media" aria-hidden="true"></div>
+        <div class="container case-hero__content">
+          <p class="eyebrow">Selected case study / QS automation</p>
+          <h1>QS Takeoff and Tender Analysis Workbench</h1>
+          <p class="hero-role">An auditable calculation path from explicit geometry to commercial review exceptions.</p>
+          <p class="lede">
+            Validated vector fixtures become traceable quantity lines, versioned synthetic rates, bounded cost ranges, and line-level tender flags. Every formula, source geometry ID, and exclusion remains inspectable.
+          </p>
+          <div class="case-hero__actions">
+            <a class="button button--primary" href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/qs-takeoff-tender-analysis">Open source</a>
+            <a class="button" href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/projects/qs-takeoff-tender-analysis/EVAL.md">Read evaluation</a>
+          </div>
+        </div>
+        <p class="hero-image-note">Actual local interface / synthetic plans, rates, and tenders</p>
+      </section>
+
+      <section class="case-summary" id="overview">
+        <div class="container case-summary__grid">
+          <article><span>Problem</span><p>Quantity and tender review becomes difficult to audit when geometry assumptions, measurement formulas, rates, and exceptions lose their provenance.</p></article>
+          <article><span>System</span><p>Validated vector geometry, atomic edge classification, opening deductions, seven measured items, rate joins, uncertainty bands, and tender review flags.</p></article>
+          <article><span>Evidence</span><p>Three hand-calculated synthetic plans, 21 quantity lines, seven synthetic rates, three tenders, and five authored exceptions.</p></article>
+          <article><span>Boundary</span><p>No PDF, CAD, BIM, or IFC ingestion; no market pricing, bill of quantities, professional QS output, or award recommendation.</p></article>
+        </div>
+      </section>
+
+      <section class="band case-system" id="system">
+        <div class="container">
+          <div class="case-heading">
+            <div><p class="eyebrow">System</p><h2>Geometry is validated before anything is priced</h2></div>
+            <p class="section-copy">The workbench rejects invalid rooms, overlaps, openings away from walls, missing rates, and unit or currency mismatches. Only accepted geometry can produce measured quantities and a commercial review queue.</p>
+          </div>
+          <figure class="case-diagram case-diagram--scrollable" tabindex="0" aria-label="Scrollable QS takeoff and tender analysis system map">
+            <img src="../assets/qs-system-map.svg" alt="QS system map showing vector geometry validation, edge classification, quantity formulas, rate provenance, uncertainty bands, tender exception checks, and human commercial review" />
+            <figcaption>Generated from the current fixture evaluation. Synthetic pricing, the weaker naive perimeter baseline, and the no-award boundary remain explicit.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="band case-evidence" id="evidence">
+        <div class="container">
+          <div class="case-heading">
+            <div><p class="eyebrow">Measured behavior</p><h2>Shared-wall classification fixes a visible baseline error</h2></div>
+            <p class="section-copy">The deterministic fixtures are deliberately small enough to calculate by hand. Perfect matches show formula regression correctness inside the supported schema, not arbitrary drawing interpretation or pricing accuracy.</p>
+          </div>
+          <div class="metric-grid">
+            <article><span>Quantity exact match</span><strong>1.000</strong><small>21 authored lines across three synthetic plans</small></article>
+            <article><span>Wall-length MAE</span><strong>0.000 m</strong><small>Atomic external and shared-wall classification</small></article>
+            <article><span>Naive baseline MAE</span><strong>6.333 m</strong><small>Room perimeters over-count shared geometry</small></article>
+            <article><span>Tender flag F1</span><strong>1.000</strong><small>Five authored exceptions across three tenders</small></article>
+          </div>
+          <div class="case-visual-grid case-visual-grid--wide">
+            <figure>
+              <img src="../assets/qs-cost-breakdown.svg" alt="Synthetic cost build-up with measured quantities, unit rates, provenance, and low to high illustrative ranges" />
+              <figcaption>Every priced line retains its quantity formula, geometry references, synthetic rate identifier, unit, and illustrative range.</figcaption>
+            </figure>
+            <figure>
+              <img src="../assets/qs-tender-comparison.svg" alt="Synthetic tender comparison with missing, low, high, extra, and within-band line-level review flags" />
+              <figcaption>Flags create a clarification queue. They neither rank bidders nor recommend an award.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="band band--ink" id="decisions">
+        <div class="container">
+          <div class="case-heading">
+            <div><p class="eyebrow">Engineering decisions</p><h2>Commercial outputs retain their calculation trail</h2></div>
+            <p class="section-copy">The implementation emphasizes rejectable contracts and line-level provenance rather than presenting a screenshot as evidence of automated estimating.</p>
+          </div>
+          <div class="decision-list">
+            <article><span>01</span><h3>Typed geometry contract</h3><p>Scale, room rectangles, openings, IDs, and adjacency enter through a schema that rejects overlap and unsupported placement.</p></article>
+            <article><span>02</span><h3>Atomic edge measurement</h3><p>Collinear edges are split and classified so adjoining rooms share one partition instead of duplicating their full perimeters.</p></article>
+            <article><span>03</span><h3>Dual provenance</h3><p>Each cost line carries both source geometry references and a versioned synthetic rate source with unit validation.</p></article>
+            <article><span>04</span><h3>Review, not recommendation</h3><p>Missing, unusually low, unusually high, and extra items are surfaced for clarification without bidder scoring or award logic.</p></article>
+          </div>
+          <div class="failure-callout">
+            <p class="eyebrow">Retained limitation</p>
+            <h3>Exact fixture results do not establish drawing understanding.</h3>
+            <p>The workbench consumes a narrow rectangular JSON schema and synthetic rate library. It cannot interpret drawings, reconcile revisions, apply a standard method of measurement, calibrate market prices, or replace qualified commercial review.</p>
+            <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/projects/qs-takeoff-tender-analysis/LIMITATIONS.md">Inspect limitations and human-review boundary</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="band case-run" id="run">
+        <div class="container case-run__grid">
+          <div>
+            <p class="eyebrow">Run locally</p>
+            <h2>Rebuild quantities, costs, and tender flags</h2>
+            <p class="section-copy">The evaluator replays all three plans and tenders, compares shared-wall measurement against the naive baseline, and rewrites the machine-readable and visual evidence.</p>
+          </div>
+          <div class="run-panel">
+            <code>python projects/qs-takeoff-tender-analysis/evaluate_qs.py</code>
+            <code>python -m pytest tests/test_qs_takeoff_tender_analysis.py</code>
+            <code>streamlit run projects/qs-takeoff-tender-analysis/app.py</code>
+          </div>
+        </div>
+        <div class="container case-footer-nav">
+          <a href="massing-explorer.html">Previous case study: Massing Explorer</a>
+          <a href="embodied-ai.html">Next case study: Embodied AI</a>
+        </div>
+      </section>
+    </main>
+    <script src="../site.js"></script>
+  </body>
+</html>

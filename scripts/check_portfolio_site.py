@@ -51,6 +51,8 @@ REQUIRED_HOME_SECTIONS = [
     'href="pages/aec-rag.html"',
     'href="pages/embodied-ai.html"',
     'href="pages/massing-explorer.html"',
+    'href="pages/specification-assistant.html"',
+    'href="pages/qs-takeoff.html"',
     "professional delivery",
     "2024 - present",
     "msc design + ai",
@@ -91,7 +93,40 @@ CASE_STUDY_REQUIREMENTS = {
         "open source",
         "read evaluation",
     ],
+    "pages/specification-assistant.html": [
+        "specification-system-map.svg",
+        "specification-language-stress.svg",
+        "requirement f1",
+        "exact-case accuracy",
+        "retained failure",
+        "no open-domain chat",
+        "evaluate_specification.py",
+        "test_project_specification_copilot.py",
+        "open source",
+        "read evaluation",
+    ],
+    "pages/qs-takeoff.html": [
+        "qs-system-map.svg",
+        "qs-cost-breakdown.svg",
+        "qs-tender-comparison.svg",
+        "quantity exact match",
+        "naive baseline mae",
+        "retained limitation",
+        "no pdf, cad, bim, or ifc ingestion",
+        "evaluate_qs.py",
+        "test_qs_takeoff_tender_analysis.py",
+        "open source",
+        "read evaluation",
+    ],
 }
+CASE_STUDY_COMMON_REQUIREMENTS = [
+    'rel="canonical"',
+    'property="og:title"',
+    'property="og:description"',
+    'property="og:url"',
+    'property="og:image"',
+    'name="twitter:card"',
+]
 CASE_STUDY_ASSET_MIRRORS = {
     "assets/aec-rag-system-map.svg": (
         "projects/aec-code-compliance-rag/demo_outputs/system_map.svg"
@@ -105,6 +140,19 @@ CASE_STUDY_ASSET_MIRRORS = {
     "assets/massing-option-comparison.svg": (
         "projects/constraint-aware-massing-explorer/demo_outputs/option_comparison.svg"
     ),
+    "assets/specification-system-map.svg": (
+        "projects/project-specification-copilot/demo_outputs/system_map.svg"
+    ),
+    "assets/specification-language-stress.svg": (
+        "projects/project-specification-copilot/demo_outputs/language_stress_comparison.svg"
+    ),
+    "assets/qs-system-map.svg": ("projects/qs-takeoff-tender-analysis/demo_outputs/system_map.svg"),
+    "assets/qs-cost-breakdown.svg": (
+        "projects/qs-takeoff-tender-analysis/demo_outputs/cost_breakdown.svg"
+    ),
+    "assets/qs-tender-comparison.svg": (
+        "projects/qs-takeoff-tender-analysis/demo_outputs/tender_comparison.svg"
+    ),
 }
 
 
@@ -113,12 +161,45 @@ class SiteLinkParser(HTMLParser):
         super().__init__()
         self.links: list[tuple[str, str]] = []
         self.ids: set[str] = set()
+        self.id_counts: dict[str, int] = {}
+        self.image_alts: list[str | None] = []
+        self.h1_count = 0
+        self.title_count = 0
+        self.html_lang: str | None = None
+        self.meta_description: str | None = None
+        self.meta_viewport: str | None = None
+        self.nav_toggles: list[dict[str, str | None]] = []
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         attributes = dict(attrs)
+        if tag == "html":
+            self.html_lang = attributes.get("lang")
+        elif tag == "h1":
+            self.h1_count += 1
+        elif tag == "title":
+            self.title_count += 1
+        elif tag == "img":
+            self.image_alts.append(attributes.get("alt"))
+        elif tag == "meta":
+            if attributes.get("name") == "description":
+                self.meta_description = attributes.get("content")
+            elif attributes.get("name") == "viewport":
+                self.meta_viewport = attributes.get("content")
+
+        classes = set((attributes.get("class") or "").split())
+        if tag == "button" and "nav-toggle" in classes:
+            self.nav_toggles.append(
+                {
+                    "aria-label": attributes.get("aria-label"),
+                    "aria-controls": attributes.get("aria-controls"),
+                    "aria-expanded": attributes.get("aria-expanded"),
+                }
+            )
+
         element_id = attributes.get("id")
         if element_id:
             self.ids.add(element_id)
+            self.id_counts[element_id] = self.id_counts.get(element_id, 0) + 1
         for attribute in ("href", "src"):
             value = attributes.get(attribute)
             if value:
@@ -208,6 +289,48 @@ def check_css_assets() -> list[str]:
     return issues
 
 
+def check_page_accessibility_contracts() -> list[str]:
+    issues: list[str] = []
+    for path in html_files():
+        parser = SiteLinkParser()
+        parser.feed(path.read_text(encoding="utf-8"))
+        label = path.relative_to(ROOT)
+
+        if parser.html_lang != "en":
+            issues.append(f"{label}: html language must be `en`")
+        if parser.title_count != 1:
+            issues.append(f"{label}: expected exactly one title element")
+        if parser.h1_count != 1:
+            issues.append(f"{label}: expected exactly one h1 element")
+        if not parser.meta_viewport:
+            issues.append(f"{label}: viewport metadata is missing")
+        if not parser.meta_description or len(parser.meta_description.strip()) < 40:
+            issues.append(f"{label}: meaningful page description metadata is missing")
+
+        for index, alt in enumerate(parser.image_alts, start=1):
+            if alt is None or not alt.strip():
+                issues.append(f"{label}: image {index} needs meaningful alternative text")
+
+        duplicate_ids = sorted(
+            element_id for element_id, count in parser.id_counts.items() if count > 1
+        )
+        for element_id in duplicate_ids:
+            issues.append(f"{label}: duplicate id `{element_id}`")
+
+        if len(parser.nav_toggles) != 1:
+            issues.append(f"{label}: expected exactly one mobile navigation toggle")
+            continue
+        toggle = parser.nav_toggles[0]
+        controlled_id = toggle["aria-controls"]
+        if not toggle["aria-label"]:
+            issues.append(f"{label}: navigation toggle needs an accessible label")
+        if not controlled_id or controlled_id not in parser.ids:
+            issues.append(f"{label}: navigation toggle aria-controls target is missing")
+        if toggle["aria-expanded"] != "false":
+            issues.append(f"{label}: navigation toggle must initialize collapsed")
+    return issues
+
+
 def check_home_evidence_labels() -> list[str]:
     index = SITE_ROOT / "index.html"
     text = index.read_text(encoding="utf-8").lower()
@@ -240,7 +363,7 @@ def check_case_studies() -> list[str]:
         text = path.read_text(encoding="utf-8").lower()
         issues.extend(
             f"portfolio-site/{relative_path}: required case-study evidence missing: {requirement}"
-            for requirement in requirements
+            for requirement in [*CASE_STUDY_COMMON_REQUIREMENTS, *requirements]
             if requirement not in text
         )
     return issues
@@ -270,6 +393,7 @@ def main() -> None:
     issues = (
         check_html_links()
         + check_css_assets()
+        + check_page_accessibility_contracts()
         + check_home_evidence_labels()
         + check_case_studies()
         + check_case_study_asset_mirrors()

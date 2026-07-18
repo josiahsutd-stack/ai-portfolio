@@ -430,6 +430,12 @@ claims:
         contains:
           - "{case_count}-case language stress: {stress_f1} F1 / {exact_accuracy} exact"
           - "{failure_count} number-word misses are retained"
+      - path: portfolio-site/pages/specification-assistant.html
+        contains:
+          - "<article><span>Requirement F1</span><strong>{stress_f1}</strong>"
+          - "<article><span>Requirement recall</span><strong>{stress_recall}</strong>"
+          - "<article><span>Exact-case accuracy</span><strong>{exact_accuracy}</strong>"
+          - "<article><span>Negative-control accuracy</span><strong>{negative_accuracy}</strong>"
       - path: projects/project-specification-copilot/README.md
         contains:
           - "contains `{case_count}` candidate-authored single-message cases"
@@ -487,6 +493,12 @@ claims:
       - path: portfolio-site/index.html
         contains:
           - "{quantity_count}/{quantity_count} quantities / 5/5 tender exceptions"
+      - path: portfolio-site/pages/qs-takeoff.html
+        contains:
+          - "<article><span>Quantity exact match</span><strong>{quantity_exact}</strong>"
+          - "<article><span>Wall-length MAE</span><strong>{wall_mae} m</strong>"
+          - "<article><span>Naive baseline MAE</span><strong>{baseline_wall_mae} m</strong>"
+          - "<article><span>Tender flag F1</span><strong>{tender_f1}</strong>"
       - path: projects/qs-takeoff-tender-analysis/README.md
         contains:
           - "| Hand-calculated floor-plan fixtures | {plan_count} |"

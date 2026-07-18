@@ -19,8 +19,8 @@ I build evaluated AI systems for design and construction decisions. My architect
 ## Applied AEC Workflow
 
 - [Executed design-to-cost integration contract](https://github.com/josiahsutd-stack/ai-portfolio/tree/main/integrations/aec-design-to-cost): approved-requirement gating, field-level sources, deterministic massing selection, schematic takeoff, rejection tests, and explicit human review boundaries.
-- [Project Communication and Specification Assistant](https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/project-specification-copilot): role-tagged communication, requirement versions, conflict detection, approval scopes, audit events, source-linked draft clauses, and a direct/paraphrase/negative language stress audit with retained failures.
-- [QS Takeoff and Tender Analysis Workbench](https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/qs-takeoff-tender-analysis): shared-wall measurement, opening deductions, rate provenance, uncertainty bands, and transparent tender exceptions.
+- [Project Communication and Specification Assistant](https://josiahsutd-stack.github.io/ai-portfolio/pages/specification-assistant.html): role-tagged communication, requirement versions, conflict detection, approval scopes, audit events, source-linked draft clauses, and a direct/paraphrase/negative language stress audit with retained failures.
+- [QS Takeoff and Tender Analysis Workbench](https://josiahsutd-stack.github.io/ai-portfolio/pages/qs-takeoff.html): shared-wall measurement, opening deductions, rate provenance, uncertainty bands, and transparent tender exceptions.
 
 ## Technical Focus
 

@@ -2,7 +2,7 @@
 
 [**Open the visual portfolio**](https://josiahsutd-stack.github.io/ai-portfolio/) | [Download the two-page portfolio brief](https://josiahsutd-stack.github.io/ai-portfolio/assets/Josiah_Lau_Applied_AI_Portfolio_Brief.pdf) | [GitHub profile](https://github.com/josiahsutd-stack) | [System maps](docs/architecture-diagrams.md) | [Five-minute evidence path](docs/how-to-review-this-portfolio.md) | [Evidence ledger](docs/EVIDENCE_LEDGER.md)
 
-[AEC RAG case study](https://josiahsutd-stack.github.io/ai-portfolio/pages/aec-rag.html) | [Embodied AI case study](https://josiahsutd-stack.github.io/ai-portfolio/pages/embodied-ai.html) | [Massing Explorer case study](https://josiahsutd-stack.github.io/ai-portfolio/pages/massing-explorer.html)
+[AEC RAG case study](https://josiahsutd-stack.github.io/ai-portfolio/pages/aec-rag.html) | [Specification Assistant case study](https://josiahsutd-stack.github.io/ai-portfolio/pages/specification-assistant.html) | [Massing Explorer case study](https://josiahsutd-stack.github.io/ai-portfolio/pages/massing-explorer.html) | [QS Workbench case study](https://josiahsutd-stack.github.io/ai-portfolio/pages/qs-takeoff.html) | [Embodied AI case study](https://josiahsutd-stack.github.io/ai-portfolio/pages/embodied-ai.html)
 
 [![Josiah Lau applied AI engineering visual portfolio home page](portfolio-site/assets/portfolio-home-preview.png)](https://josiahsutd-stack.github.io/ai-portfolio/)
 

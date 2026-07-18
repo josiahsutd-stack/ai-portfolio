@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="500" viewBox="0 0 860 500" role="img" aria-labelledby="title desc">
+  <title id="title">Language stress exact-case accuracy</title>
+  <desc id="desc">Exact-case accuracy for direct forms, paraphrases, and negative controls in a candidate-authored synthetic stress set.</desc>
+  <rect width="860" height="500" fill="#f7f8f6"/>
+  <text x="56" y="48" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#e85d3f">LANGUAGE COVERAGE STRESS AUDIT · SYNTHETIC</text>
+  <text x="56" y="86" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#17231f">Exact-case accuracy by wording group</text>
+  <text x="56" y="116" font-family="Arial, sans-serif" font-size="14" fill="#58645f">33 candidate-authored cases · not blinded or independently labeled</text>
+  <text x="56" y="178" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#17231f">Direct forms</text><rect x="250" y="152" width="500" height="34" rx="4" fill="#e7ece9"/><rect x="250" y="152" width="500.0" height="34" rx="4" fill="#167d6d"/><text x="770" y="178" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#17231f">1.000</text><text x="56" y="270" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#17231f">Paraphrases</text><rect x="250" y="244" width="500" height="34" rx="4" fill="#e7ece9"/><rect x="250" y="244" width="441.2" height="34" rx="4" fill="#e85d3f"/><text x="770" y="270" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#17231f">0.882</text><text x="56" y="362" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#17231f">Negative controls</text><rect x="250" y="336" width="500" height="34" rx="4" fill="#e7ece9"/><rect x="250" y="336" width="500.0" height="34" rx="4" fill="#d6a226"/><text x="770" y="362" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#17231f">1.000</text>
+  <line x1="56" y1="438" x2="804" y2="438" stroke="#c9d1cd"/>
+  <text x="56" y="470" font-family="Arial, sans-serif" font-size="14" fill="#17231f">Overall extraction F1 0.958 · Negative-control accuracy 1.000 · 2 exact-case misses retained</text>
+</svg>

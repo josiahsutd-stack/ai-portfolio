@@ -5,6 +5,7 @@ from scripts.check_portfolio_site import (
     check_case_study_asset_mirrors,
     check_home_evidence_labels,
     check_html_links,
+    check_page_accessibility_contracts,
     html_files,
 )
 
@@ -26,11 +27,28 @@ def test_site_navigation_and_local_assets_resolve() -> None:
     assert check_home_evidence_labels() == []
 
 
+def test_every_public_page_keeps_accessibility_metadata_and_controls() -> None:
+    assert check_page_accessibility_contracts() == []
+
+
 def test_every_public_page_uses_the_shared_navigation_script() -> None:
     pages = html_files()
 
-    assert len(pages) == 6
+    assert len(pages) == 8
     for page in pages:
         text = page.read_text(encoding="utf-8")
         assert 'class="site-header"' in text
         assert "site.js" in text
+
+
+def test_case_study_footer_navigation_follows_the_aec_journey() -> None:
+    expected_routes = {
+        "aec-rag.html": "specification-assistant.html",
+        "specification-assistant.html": "massing-explorer.html",
+        "massing-explorer.html": "qs-takeoff.html",
+        "qs-takeoff.html": "embodied-ai.html",
+    }
+
+    for page_name, next_page in expected_routes.items():
+        text = (SITE_ROOT / "pages" / page_name).read_text(encoding="utf-8")
+        assert f'href="{next_page}"' in text
