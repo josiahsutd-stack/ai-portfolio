@@ -392,28 +392,6 @@ def generate_bim_exports() -> None:
     )
 
 
-def generate_job_descriptions() -> None:
-    jobs = [
-        {
-            "title": "Applied AI Engineer - Construction Analytics",
-            "description": "Build LLM workflows, computer vision pipelines, and data products for construction progress, BIM QA, and site reporting. Python, FastAPI, ML evaluation, and architecture domain knowledge preferred.",
-        },
-        {
-            "title": "Machine Learning Engineer",
-            "description": "Own training pipelines, model evaluation, feature stores, and deployment for tabular and document intelligence workloads. Strong Python, sklearn, PyTorch, and API skills required.",
-        },
-        {
-            "title": "Architectural Designer",
-            "description": "Support concept design, drafting, presentation boards, planning submissions, and consultant coordination. Rhino, Revit, and construction documentation experience required.",
-        },
-        {
-            "title": "LLM Product Engineer - PropTech",
-            "description": "Prototype and ship LLM assistants for real estate workflows, retrieval augmented generation, structured outputs, and customer-facing AI features. Experience with AEC or property data is a plus.",
-        },
-    ]
-    write_json(ROOT / "experiments/ai-aec-job-fit-analyzer/sample_data/sample_jobs.json", jobs)
-
-
 def generate_energy_data() -> None:
     building_types = ["office", "residential", "school", "retail", "healthcare"]
     climates = ["tropical", "temperate", "cold", "hot-dry"]
@@ -771,7 +749,6 @@ def main() -> None:
     generate_aec_docs()
     generate_construction_progress()
     generate_bim_exports()
-    generate_job_descriptions()
     generate_energy_data()
     generate_massing_scenarios()
     generate_robot_task_planner_data()

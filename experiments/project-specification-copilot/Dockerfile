@@ -6,4 +6,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 EXPOSE 8501
-CMD ["streamlit", "run", "experiments/ai-aec-job-fit-analyzer/app.py", "--server.address=0.0.0.0"]
+CMD ["streamlit", "run", "experiments/project-specification-copilot/app.py", "--server.address=0.0.0.0"]

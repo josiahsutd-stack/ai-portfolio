@@ -1,0 +1,189 @@
+{
+  "artifact_schema_version": 1,
+  "boundaries": [
+    "Rule-based extraction over a documented phrase set; not open-domain language understanding.",
+    "Evaluation conversations and labels are synthetic and authored for this repository.",
+    "Specification clauses require recorded role-authorized approval and remain drafts for professional review."
+  ],
+  "case_count": 5,
+  "case_results": [
+    {
+      "active_requirement_pairs": [
+        [
+          "budget_cap_sgd",
+          "5500000"
+        ],
+        [
+          "consultation_room_count",
+          "12"
+        ],
+        [
+          "facade_material",
+          "terracotta rainscreen"
+        ],
+        [
+          "gross_floor_area_m2",
+          "4200.0"
+        ],
+        [
+          "handover_target",
+          "q3 2028"
+        ],
+        [
+          "step_free_access",
+          "true"
+        ],
+        [
+          "storey_count",
+          "4"
+        ]
+      ],
+      "approved_keys": [
+        "budget_cap_sgd",
+        "facade_material",
+        "gross_floor_area_m2",
+        "handover_target"
+      ],
+      "case_id": "clinic-brief-revision",
+      "denied_approval_count": 0,
+      "draft_status": "draft_for_review",
+      "open_conflict_keys": [],
+      "spec_clause_keys": [
+        "budget_cap_sgd",
+        "facade_material",
+        "gross_floor_area_m2",
+        "handover_target"
+      ]
+    },
+    {
+      "active_requirement_pairs": [
+        [
+          "budget_cap_sgd",
+          "12000000"
+        ],
+        [
+          "energy_use_intensity_kwh_m2_year",
+          "110.0"
+        ],
+        [
+          "loading_bay_count",
+          "3"
+        ],
+        [
+          "parking_space_count",
+          "80"
+        ],
+        [
+          "structural_system",
+          "steel frame"
+        ]
+      ],
+      "approved_keys": [
+        "budget_cap_sgd",
+        "energy_use_intensity_kwh_m2_year",
+        "structural_system"
+      ],
+      "case_id": "warehouse-role-gates",
+      "denied_approval_count": 3,
+      "draft_status": "draft_for_review",
+      "open_conflict_keys": [],
+      "spec_clause_keys": [
+        "budget_cap_sgd",
+        "energy_use_intensity_kwh_m2_year",
+        "structural_system"
+      ]
+    },
+    {
+      "active_requirement_pairs": [
+        [
+          "childcare_centre",
+          "true"
+        ],
+        [
+          "community_hall",
+          "true"
+        ],
+        [
+          "facade_material",
+          "brick cladding"
+        ],
+        [
+          "facade_material",
+          "timber rainscreen"
+        ],
+        [
+          "handover_target",
+          "march 2029"
+        ],
+        [
+          "step_free_access",
+          "true"
+        ]
+      ],
+      "approved_keys": [
+        "community_hall",
+        "handover_target",
+        "step_free_access"
+      ],
+      "case_id": "community-centre-open-conflict",
+      "denied_approval_count": 1,
+      "draft_status": "draft_for_review",
+      "open_conflict_keys": [
+        "facade_material"
+      ],
+      "spec_clause_keys": [
+        "community_hall",
+        "handover_target",
+        "step_free_access"
+      ]
+    },
+    {
+      "active_requirement_pairs": [],
+      "approved_keys": [],
+      "case_id": "unsupported-chatter",
+      "denied_approval_count": 0,
+      "draft_status": "needs_review",
+      "open_conflict_keys": [],
+      "spec_clause_keys": []
+    },
+    {
+      "active_requirement_pairs": [
+        [
+          "site_area_m2",
+          "3600.0"
+        ]
+      ],
+      "approved_keys": [
+        "site_area_m2"
+      ],
+      "case_id": "direct-approval-reference",
+      "denied_approval_count": 1,
+      "draft_status": "draft_for_review",
+      "open_conflict_keys": [],
+      "spec_clause_keys": [
+        "site_area_m2"
+      ]
+    }
+  ],
+  "data_status": "synthetic",
+  "expected_denied_approvals": 5,
+  "message_count": 35,
+  "metrics": {
+    "approval_state_f1": 1.0,
+    "approval_state_precision": 1.0,
+    "approval_state_recall": 1.0,
+    "denied_approval_count_accuracy": 1.0,
+    "draft_status_accuracy": 1.0,
+    "open_conflict_f1": 1.0,
+    "open_conflict_precision": 1.0,
+    "open_conflict_recall": 1.0,
+    "requirement_citation_coverage": 1.0,
+    "requirement_extraction_f1": 1.0,
+    "requirement_extraction_precision": 1.0,
+    "requirement_extraction_recall": 1.0,
+    "spec_clause_f1": 1.0,
+    "spec_clause_precision": 1.0,
+    "spec_clause_recall": 1.0
+  },
+  "observed_denied_approvals": 5
+}

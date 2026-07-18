@@ -9,6 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 ARTIFACT_DIRS = [
     ROOT / "projects" / "aec-code-compliance-rag" / "demo_outputs",
     ROOT / "experiments" / "constraint-aware-massing-explorer" / "demo_outputs",
+    ROOT / "experiments" / "project-specification-copilot" / "demo_outputs",
     ROOT / "projects" / "agentic-research-ops-assistant" / "demo_outputs",
     ROOT / "projects" / "mlops-model-serving-monitoring" / "demo_outputs",
     ROOT / "experiments" / "building-energy-ml-pipeline" / "demo_outputs",

@@ -12,7 +12,7 @@ MODULES = [
     "aec_code_compliance_rag",
     "construction_progress_cv",
     "bim_issue_detection_agent",
-    "ai_aec_job_fit_analyzer",
+    "project_specification_copilot",
     "building_energy_ml_pipeline",
     "constraint_aware_massing_explorer",
     "construction_robot_task_planner",
@@ -67,6 +67,15 @@ def check_imports() -> list[str]:
 
 def run_core_smoke() -> list[str]:
     issues: list[str] = []
+    try:
+        from project_specification_copilot import SpecificationEngine
+
+        specification_engine = SpecificationEngine()
+        specification_engine.submit_message("client", "The site area is 3,600 m2.")
+        if len(specification_engine.snapshot().requirements) != 1:
+            issues.append("project_specification_copilot core smoke failed: requirement missing")
+    except Exception as exc:  # noqa: BLE001
+        issues.append(f"project_specification_copilot core smoke failed: {exc}")
     try:
         from constraint_aware_massing_explorer import SiteScenario, generate_candidates
 

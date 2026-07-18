@@ -1,0 +1,409 @@
+[
+  {
+    "event_id": 1,
+    "event_type": "message_added",
+    "payload": {
+      "author": "Client Lead",
+      "data_status": "synthetic",
+      "message_id": "MSG-001",
+      "role": "client",
+      "sequence": 1,
+      "text": "The clinic needs 12 consultation rooms and step-free access from the main entrance."
+    }
+  },
+  {
+    "event_id": 2,
+    "event_type": "requirement_extracted",
+    "payload": {
+      "approval_message_id": null,
+      "approved_by_role": null,
+      "category": "program",
+      "confidence": 0.96,
+      "key": "consultation_room_count",
+      "proposed_by_role": "client",
+      "requirement_id": "REQ-001",
+      "source_message_ids": [
+        "MSG-001"
+      ],
+      "statement": "Consultation Rooms",
+      "status": "proposed",
+      "unit": "consultation rooms",
+      "value": 12
+    }
+  },
+  {
+    "event_id": 3,
+    "event_type": "requirement_extracted",
+    "payload": {
+      "approval_message_id": null,
+      "approved_by_role": null,
+      "category": "access",
+      "confidence": 0.92,
+      "key": "step_free_access",
+      "proposed_by_role": "client",
+      "requirement_id": "REQ-002",
+      "source_message_ids": [
+        "MSG-001"
+      ],
+      "statement": "Step-free access",
+      "status": "proposed",
+      "unit": null,
+      "value": true
+    }
+  },
+  {
+    "event_id": 4,
+    "event_type": "message_added",
+    "payload": {
+      "author": "Project Architect",
+      "data_status": "synthetic",
+      "message_id": "MSG-002",
+      "role": "architect",
+      "sequence": 2,
+      "text": "The gross floor area target is 4,200 m2 across 4 storeys."
+    }
+  },
+  {
+    "event_id": 5,
+    "event_type": "requirement_extracted",
+    "payload": {
+      "approval_message_id": null,
+      "approved_by_role": null,
+      "category": "program",
+      "confidence": 0.98,
+      "key": "gross_floor_area_m2",
+      "proposed_by_role": "architect",
+      "requirement_id": "REQ-003",
+      "source_message_ids": [
+        "MSG-002"
+      ],
+      "statement": "Gross floor area",
+      "status": "proposed",
+      "unit": "m2",
+      "value": 4200.0
+    }
+  },
+  {
+    "event_id": 6,
+    "event_type": "requirement_extracted",
+    "payload": {
+      "approval_message_id": null,
+      "approved_by_role": null,
+      "category": "program",
+      "confidence": 0.97,
+      "key": "storey_count",
+      "proposed_by_role": "architect",
+      "requirement_id": "REQ-004",
+      "source_message_ids": [
+        "MSG-002"
+      ],
+      "statement": "Storey count",
+      "status": "proposed",
+      "unit": "storeys",
+      "value": 4
+    }
+  },
+  {
+    "event_id": 7,
+    "event_type": "message_added",
+    "payload": {
+      "author": "Client Lead",
+      "data_status": "synthetic",
+      "message_id": "MSG-003",
+      "role": "client",
+      "sequence": 3,
+      "text": "The budget cap is SGD 6.0 million."
+    }
+  },
+  {
+    "event_id": 8,
+    "event_type": "requirement_extracted",
+    "payload": {
+      "approval_message_id": null,
+      "approved_by_role": null,
+      "category": "budget",
+      "confidence": 0.97,
+      "key": "budget_cap_sgd",
+      "proposed_by_role": "client",
+      "requirement_id": "REQ-005",
+      "source_message_ids": [
+        "MSG-003"
+      ],
+      "statement": "Project budget cap",
+      "status": "proposed",
+      "unit": "SGD",
+      "value": 6000000
+    }
+  },
+  {
+    "event_id": 9,
+    "event_type": "message_added",
+    "payload": {
+      "author": "Client Lead",
+      "data_status": "synthetic",
+      "message_id": "MSG-004",
+      "role": "client",
+      "sequence": 4,
+      "text": "I approve the budget cap of SGD 6.0 million."
+    }
+  },
+  {
+    "event_id": 10,
+    "event_type": "requirement_source_added",
+    "payload": {
+      "message_id": "MSG-004",
+      "requirement_id": "REQ-005"
+    }
+  },
+  {
+    "event_id": 11,
+    "event_type": "requirement_approved",
+    "payload": {
+      "message_id": "MSG-004",
+      "requirement_id": "REQ-005",
+      "role": "client"
+    }
+  },
+  {
+    "event_id": 12,
+    "event_type": "message_added",
+    "payload": {
+      "author": "Project Architect",
+      "data_status": "synthetic",
+      "message_id": "MSG-005",
+      "role": "architect",
+      "sequence": 5,
+      "text": "I confirm the gross floor area 4,200 m2."
+    }
+  },
+  {
+    "event_id": 13,
+    "event_type": "requirement_source_added",
+    "payload": {
+      "message_id": "MSG-005",
+      "requirement_id": "REQ-003"
+    }
+  },
+  {
+    "event_id": 14,
+    "event_type": "requirement_approved",
+    "payload": {
+      "message_id": "MSG-005",
+      "requirement_id": "REQ-003",
+      "role": "architect"
+    }
+  },
+  {
+    "event_id": 15,
+    "event_type": "message_added",
+    "payload": {
+      "author": "Client Lead",
+      "data_status": "synthetic",
+      "message_id": "MSG-006",
+      "role": "client",
+      "sequence": 6,
+      "text": "Please revise the budget cap to SGD 5.5 million."
+    }
+  },
+  {
+    "event_id": 16,
+    "event_type": "requirement_extracted",
+    "payload": {
+      "approval_message_id": null,
+      "approved_by_role": null,
+      "category": "budget",
+      "confidence": 0.97,
+      "key": "budget_cap_sgd",
+      "proposed_by_role": "client",
+      "requirement_id": "REQ-006",
+      "source_message_ids": [
+        "MSG-006"
+      ],
+      "statement": "Project budget cap",
+      "status": "proposed",
+      "unit": "SGD",
+      "value": 5500000
+    }
+  },
+  {
+    "event_id": 17,
+    "event_type": "conflict_opened",
+    "payload": {
+      "conflict_id": "CON-001",
+      "requirement_ids": [
+        "REQ-005",
+        "REQ-006"
+      ],
+      "requirement_key": "budget_cap_sgd",
+      "resolution_message_id": null,
+      "resolution_requirement_id": null,
+      "status": "open"
+    }
+  },
+  {
+    "event_id": 18,
+    "event_type": "message_added",
+    "payload": {
+      "author": "Client Lead",
+      "data_status": "synthetic",
+      "message_id": "MSG-007",
+      "role": "client",
+      "sequence": 7,
+      "text": "I approve the budget cap of SGD 5.5 million."
+    }
+  },
+  {
+    "event_id": 19,
+    "event_type": "requirement_source_added",
+    "payload": {
+      "message_id": "MSG-007",
+      "requirement_id": "REQ-006"
+    }
+  },
+  {
+    "event_id": 20,
+    "event_type": "conflict_resolved",
+    "payload": {
+      "conflict_id": "CON-001",
+      "requirement_ids": [
+        "REQ-005",
+        "REQ-006"
+      ],
+      "requirement_key": "budget_cap_sgd",
+      "resolution_message_id": "MSG-007",
+      "resolution_requirement_id": "REQ-006",
+      "status": "resolved"
+    }
+  },
+  {
+    "event_id": 21,
+    "event_type": "requirement_approved",
+    "payload": {
+      "message_id": "MSG-007",
+      "requirement_id": "REQ-006",
+      "role": "client"
+    }
+  },
+  {
+    "event_id": 22,
+    "event_type": "message_added",
+    "payload": {
+      "author": "Project Architect",
+      "data_status": "synthetic",
+      "message_id": "MSG-008",
+      "role": "architect",
+      "sequence": 8,
+      "text": "The facade must use terracotta rainscreen."
+    }
+  },
+  {
+    "event_id": 23,
+    "event_type": "requirement_extracted",
+    "payload": {
+      "approval_message_id": null,
+      "approved_by_role": null,
+      "category": "design",
+      "confidence": 0.88,
+      "key": "facade_material",
+      "proposed_by_role": "architect",
+      "requirement_id": "REQ-007",
+      "source_message_ids": [
+        "MSG-008"
+      ],
+      "statement": "Facade material",
+      "status": "proposed",
+      "unit": null,
+      "value": "terracotta rainscreen"
+    }
+  },
+  {
+    "event_id": 24,
+    "event_type": "message_added",
+    "payload": {
+      "author": "Project Architect",
+      "data_status": "synthetic",
+      "message_id": "MSG-009",
+      "role": "architect",
+      "sequence": 9,
+      "text": "I approve facade as terracotta rainscreen."
+    }
+  },
+  {
+    "event_id": 25,
+    "event_type": "requirement_source_added",
+    "payload": {
+      "message_id": "MSG-009",
+      "requirement_id": "REQ-007"
+    }
+  },
+  {
+    "event_id": 26,
+    "event_type": "requirement_approved",
+    "payload": {
+      "message_id": "MSG-009",
+      "requirement_id": "REQ-007",
+      "role": "architect"
+    }
+  },
+  {
+    "event_id": 27,
+    "event_type": "message_added",
+    "payload": {
+      "author": "Client Lead",
+      "data_status": "synthetic",
+      "message_id": "MSG-010",
+      "role": "client",
+      "sequence": 10,
+      "text": "Handover must be by Q3 2028."
+    }
+  },
+  {
+    "event_id": 28,
+    "event_type": "requirement_extracted",
+    "payload": {
+      "approval_message_id": null,
+      "approved_by_role": null,
+      "category": "schedule",
+      "confidence": 0.94,
+      "key": "handover_target",
+      "proposed_by_role": "client",
+      "requirement_id": "REQ-008",
+      "source_message_ids": [
+        "MSG-010"
+      ],
+      "statement": "Handover target",
+      "status": "proposed",
+      "unit": null,
+      "value": "Q3 2028"
+    }
+  },
+  {
+    "event_id": 29,
+    "event_type": "message_added",
+    "payload": {
+      "author": "Client Lead",
+      "data_status": "synthetic",
+      "message_id": "MSG-011",
+      "role": "client",
+      "sequence": 11,
+      "text": "I confirm handover by Q3 2028."
+    }
+  },
+  {
+    "event_id": 30,
+    "event_type": "requirement_source_added",
+    "payload": {
+      "message_id": "MSG-011",
+      "requirement_id": "REQ-008"
+    }
+  },
+  {
+    "event_id": 31,
+    "event_type": "requirement_approved",
+    "payload": {
+      "message_id": "MSG-011",
+      "requirement_id": "REQ-008",
+      "role": "client"
+    }
+  }
+]

@@ -36,16 +36,19 @@ flowchart LR
   D --> F["Issue report"]
 ```
 
-## AI/AEC Job Description Match Baseline
+## Project Brief and Specification Copilot
 
 ```mermaid
 flowchart LR
-  A["Job description"] --> B["Skill extraction"]
-  B --> C["Role classification"]
-  B --> D["Applicant profile skill matching"]
-  C --> E["Fit score"]
-  D --> E
-  E --> F["Application strategy"]
+  A["Role-tagged project messages"] --> B["Requirement extraction"]
+  B --> C["Versioned requirement ledger"]
+  C --> D["Conflict register"]
+  C --> E["Role authorization gate"]
+  E --> F["Source-linked draft clauses"]
+  A --> G["Append-only audit events"]
+  B --> G
+  D --> G
+  E --> G
 ```
 
 ## Building Energy Regression Pipeline
