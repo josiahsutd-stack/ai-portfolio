@@ -84,6 +84,10 @@ nav {
   max-width: 860px;
 }
 
+section[id] {
+  scroll-margin-top: 82px;
+}
+
 .hero-role {
   max-width: 820px;
   margin-bottom: 14px;
@@ -579,12 +583,23 @@ h3 {
   margin: 0;
 }
 
+.visual-stack {
+  display: grid;
+  gap: 18px;
+}
+
 .visual-figure img {
   display: block;
   width: 100%;
   aspect-ratio: 3 / 2;
   object-fit: cover;
   border-radius: 8px;
+}
+
+.visual-figure--diagram img {
+  aspect-ratio: 1000 / 540;
+  object-fit: contain;
+  background: #f4f3ed;
 }
 
 .visual-figure figcaption,
