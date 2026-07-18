@@ -683,15 +683,15 @@ h3 {
   color: var(--white);
 }
 
-.archive-note {
+.experiment-note {
   max-width: 820px;
   margin: 28px 0 0;
-  color: rgba(255, 255, 255, 0.72);
+  color: var(--muted);
   line-height: 1.65;
 }
 
-.archive-note a {
-  color: var(--gold);
+.experiment-note a {
+  color: var(--moss);
   font-weight: 800;
   text-underline-offset: 4px;
 }
