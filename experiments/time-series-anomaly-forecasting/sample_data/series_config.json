@@ -1,9 +1,0 @@
-{
-  "series": "api_traffic",
-  "periods": 96,
-  "anomaly_points": [
-    28,
-    64,
-    81
-  ]
-}

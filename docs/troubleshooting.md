@@ -119,7 +119,7 @@ streamlit run projects/<project-folder>/app.py
 Example:
 
 ```bash
-streamlit run experiments/multimodal-vlm-visual-qa/app.py
+streamlit run experiments/visual-provider-contract/app.py
 ```
 
 ## Smoke Tests

@@ -838,9 +838,9 @@ claims:
           - "raw egocentric commands contact named rigid geometry on {raw_contacts}/{raw_moves} movements; filtered egocentric and A* traces record {filtered_contacts} contacts across {filtered_moves} and {reference_moves} movements."
 
   - id: public-sms-classification
-    project_slug: real-model-finetune-lab
-    artifact: experiments/real-model-finetune-lab/demo_outputs/public_sms_metrics.json
-    command: python experiments/real-model-finetune-lab/evaluate_model.py
+    project_slug: local-text-classification-lab
+    artifact: experiments/local-text-classification-lab/demo_outputs/public_sms_metrics.json
+    command: python experiments/local-text-classification-lab/evaluate_model.py
     evaluation_scope: Deterministic source-traceable {train_rows}/{validation_rows}/{test_rows} split of a compact balanced UCI SMS subset
     metrics:
       train_rows:
@@ -863,13 +863,13 @@ claims:
         decimals: 3
     result_template: "Test accuracy {test_accuracy}; macro-F1 {test_macro_f1}; baseline accuracy {baseline_accuracy}; {test_rows} test rows"
     public_surfaces:
-      - path: experiments/real-model-finetune-lab/README.md
+      - path: experiments/local-text-classification-lab/README.md
         contains:
           - "| Public SMS baseline accuracy | `{baseline_accuracy}` |"
           - "| Public SMS validation accuracy | `{validation_accuracy}` |"
           - "| Public SMS test accuracy | `{test_accuracy}` |"
           - "| Public SMS test macro-F1 | `{test_macro_f1}` |"
-      - path: experiments/real-model-finetune-lab/EVAL.md
+      - path: experiments/local-text-classification-lab/EVAL.md
         contains:
           - "| Train rows | `{train_rows}` |"
           - "| Validation rows | `{validation_rows}` |"

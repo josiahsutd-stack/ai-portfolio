@@ -30,11 +30,11 @@ projects:
     boundary: "No PDF/CAD/BIM parsing, live market pricing, professional quantity survey, or tender recommendation"
     readme_path: projects/qs-takeoff-tender-analysis/README.md
   - name: BIM Schedule Rule Checker
-    slug: bim-issue-detection-agent
+    slug: bim-schedule-rule-checker
     category: AI for the Built Environment
     skill_area: Structured-data validation and optional explanations
     flagship: false
-    demo_command: streamlit run experiments/bim-issue-detection-agent/app.py
+    demo_command: streamlit run experiments/bim-schedule-rule-checker/app.py
     test_command: pytest tests/test_bim_issues.py
     tech_stack: [Python, pandas, Streamlit]
     summary: Applies deterministic coordination rules to synthetic BIM room schedules and optionally formats explanations.
@@ -43,7 +43,7 @@ projects:
     data_mode: "Synthetic BIM room schedules"
     implementation_mode: "Deterministic rule engine with optional mock or hosted explanation provider"
     boundary: "Not BIM model parsing, geometric clash detection, or professional QA"
-    readme_path: experiments/bim-issue-detection-agent/README.md
+    readme_path: experiments/bim-schedule-rule-checker/README.md
   - name: Project Communication and Specification Assistant
     slug: project-specification-copilot
     category: AI for the Built Environment
@@ -119,12 +119,12 @@ projects:
     implementation_mode: "Deterministic threshold and zone rules"
     boundary: "Not a certified safety system or physical robot validation"
     readme_path: experiments/site-robot-safety-monitor/README.md
-  - name: Visual QA Provider Contract
-    slug: multimodal-vlm-visual-qa
+  - name: Visual Provider Contract
+    slug: visual-provider-contract
     category: General AI Engineering
     skill_area: Multimodal provider integration
     flagship: false
-    demo_command: streamlit run experiments/multimodal-vlm-visual-qa/app.py
+    demo_command: streamlit run experiments/visual-provider-contract/app.py
     test_command: pytest tests/test_general_ai_projects.py
     tech_stack: [Python, Streamlit, FastAPI, Pydantic]
     summary: Validates image bytes, builds image-plus-question requests, and parses structured responses through an honest mock or optional hosted provider.
@@ -133,7 +133,7 @@ projects:
     data_mode: "User-supplied image bytes; checked-in output is mock only"
     implementation_mode: "Zero-confidence mock and optional OpenAI-compatible hosted request path"
     boundary: "No local VLM, OCR, visual reasoning, or defect-detection evidence"
-    readme_path: experiments/multimodal-vlm-visual-qa/README.md
+    readme_path: experiments/visual-provider-contract/README.md
   - name: Deterministic Research Workflow Assistant
     slug: agentic-research-ops-assistant
     category: General AI Engineering
@@ -164,51 +164,6 @@ projects:
     implementation_mode: "Random-forest plus world-raster, egocentric-state, and rendered-RGB MLP behavior cloning, A* reference, appearance shift, deterministic safety filter, and headless planar MuJoCo command replay"
     boundary: "Pixels are rendered from simulator state and the filter has full rules; MuJoCo uses a planar body and static proxies, with no physical-camera perception, foundation VLA, mobile-robot dynamics, ROS, hardware, or physical-safety validation"
     readme_path: projects/vla-embodied-agent-simulator/README.md
-  - name: Sequential Decision Simulation Baselines
-    slug: reinforcement-learning-portfolio
-    category: General AI Engineering
-    skill_area: Sequential-decision simulation
-    flagship: false
-    demo_command: streamlit run experiments/reinforcement-learning-portfolio/app.py
-    test_command: pytest tests/test_general_ai_projects.py
-    tech_stack: [Python, Streamlit]
-    summary: Inventory and pricing environments with random and hand-written policy evaluation; no policy is learned.
-    skills: [environment design, rewards, simulation, baseline evaluation]
-    status: experiment
-    data_mode: "Synthetic simulator trajectories"
-    implementation_mode: "Custom environments with random and heuristic policies"
-    boundary: "No Q-learning, policy gradients, DQN, PPO, or other learned policy"
-    readme_path: experiments/reinforcement-learning-portfolio/README.md
-  - name: Vision Baseline / Threshold Model Lab
-    slug: deep-learning-vision-lab
-    category: General AI Engineering
-    skill_area: Computer vision baselines
-    flagship: false
-    demo_command: streamlit run experiments/deep-learning-vision-lab/app.py
-    test_command: pytest tests/test_general_ai_projects.py
-    tech_stack: [Python, NumPy, FastAPI, Streamlit]
-    summary: Synthetic defect-detection workflow with a classical threshold baseline, metrics, and model card.
-    skills: [computer vision, baseline modeling, evaluation, model card]
-    status: experiment
-    data_mode: "Programmatically generated 16x16 synthetic images"
-    implementation_mode: "Deterministic bright-pixel threshold classifier"
-    boundary: "No neural network, learned vision features, or real image benchmark"
-    readme_path: experiments/deep-learning-vision-lab/README.md
-  - name: Prompt and Output Validation Checks
-    slug: llm-evals-guardrails-platform
-    category: General AI Engineering
-    skill_area: Deterministic application-output checks
-    flagship: false
-    demo_command: streamlit run experiments/llm-evals-guardrails-platform/app.py
-    test_command: pytest tests/test_general_ai_projects.py
-    tech_stack: [Python, Streamlit, FastAPI]
-    summary: Runs deterministic prompt-pattern, citation-coverage, and structured-output checks over supplied text.
-    skills: [regression cases, schema validation, citation checks]
-    status: experiment
-    data_mode: "Synthetic prompts and outputs"
-    implementation_mode: "Deterministic pattern and schema checks"
-    boundary: "Not a comprehensive model-safety, security, or guardrail platform"
-    readme_path: experiments/llm-evals-guardrails-platform/README.md
   - name: Local Model Serving and Monitoring Scaffold
     slug: mlops-model-serving-monitoring
     category: General AI Engineering
@@ -224,43 +179,13 @@ projects:
     implementation_mode: "Random-forest training, FastAPI, joblib artifacts, SQLite logs, and PSI drift checks"
     boundary: "Not a deployed registry, orchestrator, alerting service, or delayed-label monitoring system"
     readme_path: experiments/mlops-model-serving-monitoring/README.md
-  - name: Content-Based Ranking Baseline
-    slug: recommender-system-ranking-engine
-    category: General AI Engineering
-    skill_area: Recommender systems
-    flagship: false
-    demo_command: streamlit run experiments/recommender-system-ranking-engine/app.py
-    test_command: pytest tests/test_general_ai_projects.py
-    tech_stack: [Python, pandas, scikit-learn, FastAPI]
-    summary: Popularity and TF-IDF content-similarity ranking with small offline metrics.
-    skills: [recommendations, ranking, metrics]
-    status: experiment
-    data_mode: "Synthetic users, items, and interactions"
-    implementation_mode: "Popularity and TF-IDF content-similarity baselines"
-    boundary: "No collaborative filtering training, online feedback, or production ranking evaluation"
-    readme_path: experiments/recommender-system-ranking-engine/README.md
-  - name: Time-Series Forecast and Anomaly Baselines
-    slug: time-series-anomaly-forecasting
-    category: General AI Engineering
-    skill_area: Time-series baselines
-    flagship: false
-    demo_command: streamlit run experiments/time-series-anomaly-forecasting/app.py
-    test_command: pytest tests/test_general_ai_projects.py
-    tech_stack: [Python, pandas, scikit-learn, FastAPI]
-    summary: Applies moving-average forecasting and threshold anomaly detection to synthetic traffic.
-    skills: [time-series, anomaly detection, forecast baselines]
-    status: experiment
-    data_mode: "Synthetic traffic time series"
-    implementation_mode: "Moving-average forecast and deterministic anomaly threshold"
-    boundary: "No learned forecasting model, probabilistic intervals, or operational alerting"
-    readme_path: experiments/time-series-anomaly-forecasting/README.md
   - name: Local Text Classification Lab
-    slug: real-model-finetune-lab
+    slug: local-text-classification-lab
     category: General AI Engineering
     skill_area: Classical text-model training and evaluation
     flagship: false
-    demo_command: streamlit run experiments/real-model-finetune-lab/app.py
-    test_command: pytest tests/test_real_model_finetune_lab.py
+    demo_command: streamlit run experiments/local-text-classification-lab/app.py
+    test_command: pytest tests/test_local_text_classification_lab.py
     tech_stack: [Python, scikit-learn, joblib, Streamlit]
     summary: Trains TF-IDF plus logistic-regression classifiers with deterministic source-traceable splits, baseline comparisons, held-out metrics, and locally generated fitted artifacts.
     skills: [model training, text classification, evaluation, generated artifacts]
@@ -268,4 +193,4 @@ projects:
     data_mode: "Synthetic quick set and deterministic source-traceable compact UCI SMS subset"
     implementation_mode: "TF-IDF plus logistic-regression training with dummy baselines and held-out metrics"
     boundary: "Classical supervised learning, not pretrained-model fine-tuning or a benchmark claim"
-    readme_path: experiments/real-model-finetune-lab/README.md
+    readme_path: experiments/local-text-classification-lab/README.md

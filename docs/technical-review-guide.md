@@ -1,6 +1,6 @@
 # Technical Review Guide
 
-The selected set contains one flagship, two role-defining primary projects, and two supporting AEC workflow systems. Thirteen narrower baselines remain under `experiments/`.
+The selected set contains one flagship, two role-defining primary projects, and two supporting AEC workflow systems. Eight focused baselines and workflow studies remain under `experiments/`.
 
 ## 1. AEC Code Compliance RAG - Flagship
 
@@ -58,7 +58,7 @@ The [AEC design-to-cost integration](../integrations/aec-design-to-cost/README.m
 
 ## Experiments And Baselines
 
-The [`experiments/`](../experiments/README.md) directory contains generic model, workflow, MLOps, vision, ranking, time-series, BIM, energy, and smaller robotics studies. Their limitations are part of the public record; none carries equal depth to the flagship.
+The [`experiments/`](../experiments/README.md) directory contains focused BIM and robotics rules, a visual-provider contract, local model training and monitoring, energy regression, and a deterministic research workflow. Five low-signal generic baselines were removed rather than preserved for breadth. None of the retained studies carries equal depth to the flagship.
 
 ## Verification
 

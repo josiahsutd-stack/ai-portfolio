@@ -11,7 +11,6 @@ AEC RAG is the sole flagship. The other selected projects are ranked by role rel
 | AEC Product Engineer | Communication and Specification Assistant, QS Workbench | Executed design-to-cost contract, AEC RAG, Massing Explorer | One synthetic cross-project fixture and explicit human review boundaries. |
 | ML Engineer | Construction Embodied Agent | Text Classification, Model Monitoring, Energy Regression experiments | Compact classical models; no large-scale training. |
 | MLOps Engineer | Model Monitoring experiment | Text Classification experiment | Local SQLite and artifact scaffolds, not a deployed platform. |
-| Multimodal / CV Engineer | Visual QA Provider Contract experiment | Vision Threshold Baseline | No trained deep-vision model or real-image benchmark. |
 
 ## Strongest Role Match
 

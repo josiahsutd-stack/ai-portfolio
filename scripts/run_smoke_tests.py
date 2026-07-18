@@ -12,22 +12,17 @@ MODULES = [
     "shared.aec_workflow",
     "aec_code_compliance_rag",
     "qs_takeoff_tender_analysis",
-    "bim_issue_detection_agent",
+    "bim_schedule_rule_checker",
     "project_specification_copilot",
     "building_energy_ml_pipeline",
     "constraint_aware_massing_explorer",
     "construction_robot_task_planner",
     "site_robot_safety_monitor",
-    "multimodal_vlm_visual_qa",
+    "visual_provider_contract",
     "agentic_research_ops_assistant",
     "vla_embodied_agent_simulator",
-    "reinforcement_learning_portfolio",
-    "deep_learning_vision_lab",
-    "llm_evals_guardrails_platform",
     "mlops_model_serving_monitoring",
-    "recommender_system_ranking_engine",
-    "time_series_anomaly_forecasting",
-    "real_model_finetune_lab",
+    "local_text_classification_lab",
 ]
 
 
@@ -143,11 +138,11 @@ def run_core_smoke() -> list[str]:
     except Exception as exc:  # noqa: BLE001
         issues.append(f"aec workflow integration core smoke failed: {exc}")
     try:
-        from multimodal_vlm_visual_qa import MockVLMProvider
+        from visual_provider_contract import MockVLMProvider
 
         MockVLMProvider().answer(b"\x89PNG\r\n\x1a\nsmoke", "Extract JSON")
     except Exception as exc:  # noqa: BLE001
-        issues.append(f"multimodal_vlm_visual_qa core smoke failed: {exc}")
+        issues.append(f"visual_provider_contract core smoke failed: {exc}")
     try:
         from vla_embodied_agent_simulator import GridWorldEnv
 
@@ -155,30 +150,22 @@ def run_core_smoke() -> list[str]:
     except Exception as exc:  # noqa: BLE001
         issues.append(f"vla_embodied_agent_simulator core smoke failed: {exc}")
     try:
-        from reinforcement_learning_portfolio import WarehouseInventoryEnv
-
-        env = WarehouseInventoryEnv()
-        env.reset()
-        env.step(5)
-    except Exception as exc:  # noqa: BLE001
-        issues.append(f"reinforcement_learning_portfolio core smoke failed: {exc}")
-    try:
         from mlops_model_serving_monitoring import generate_churn_data, train_churn_model
 
         train_churn_model(generate_churn_data(40))
     except Exception as exc:  # noqa: BLE001
         issues.append(f"mlops_model_serving_monitoring core smoke failed: {exc}")
     try:
-        from real_model_finetune_lab import train_text_classifier
+        from local_text_classification_lab import train_text_classifier
 
         with tempfile.TemporaryDirectory() as tmp_dir:
             _model, result = train_text_classifier(output_dir=tmp_dir)
         if result.trained_accuracy <= result.baseline_accuracy:
             issues.append(
-                "real_model_finetune_lab core smoke failed: trained model did not improve"
+                "local_text_classification_lab core smoke failed: trained model did not improve"
             )
     except Exception as exc:  # noqa: BLE001
-        issues.append(f"real_model_finetune_lab core smoke failed: {exc}")
+        issues.append(f"local_text_classification_lab core smoke failed: {exc}")
     return issues
 
 

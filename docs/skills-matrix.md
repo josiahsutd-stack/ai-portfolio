@@ -4,7 +4,7 @@ Evidence levels refer to code, tests, evaluation fixtures, and generated artifac
 
 | Skill | Strong evidence | Supporting evidence | Boundary |
 | --- | --- | --- | --- |
-| Python engineering | All five selected projects | Thirteen experiment modules | No large production multi-service system. |
+| Python engineering | All five selected projects | Eight focused experiment modules | No large production multi-service system. |
 | RAG and retrieval evaluation | AEC RAG | Research-workflow experiment | Hosted embedding and reranking quality is not evaluated. |
 | Citations and abstention | AEC RAG | Specification source ids and research traces | Deterministic support checks are not full factual verification. |
 | Embodied-agent simulation | Construction Embodied Agent: engineered, semantic-raster, egocentric-state, and rendered-RGB imitation with held-out appearance shift and planar MuJoCo contact replay | Grid Route Planner, Telemetry Monitor | RGB pixels and filter rules come from simulator state; physics uses a planar body and static proxies, with no physical-camera perception, mobile-robot dynamics, ROS, or hardware. |

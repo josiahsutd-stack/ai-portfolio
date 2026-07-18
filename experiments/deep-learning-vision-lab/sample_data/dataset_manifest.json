@@ -1,9 +1,0 @@
-{
-  "dataset": "synthetic_defects",
-  "classes": [
-    "ok",
-    "scratch",
-    "crack"
-  ],
-  "samples": 72
-}

@@ -151,7 +151,7 @@ Architecture is the domain context for the AEC and embodied-AI projects, not a s
 
 ## Experiments And Baselines
 
-Narrow generic AI and AEC baselines are kept under [`experiments/`](experiments/README.md), outside the selected project set. They remain runnable and tested, but they do not support the first-screen claims.
+Eight focused AEC and AI engineering studies remain under [`experiments/`](experiments/README.md), outside the selected project set. The retained experiments prioritize implementation evidence over project count; they remain runnable and tested but do not support the first-screen claims.
 
 ## Evidence Labels
 
@@ -169,7 +169,7 @@ Narrow generic AI and AEC baselines are kept under [`experiments/`](experiments/
 ```text
 projects/                 five selected AEC and embodied-AI projects
 integrations/             tested contracts between selected project interfaces
-experiments/              thirteen narrower baselines and workflow studies
+experiments/              eight focused baselines and workflow studies
 tests/                    focused and cross-project regression tests
 scripts/                  setup, verification, claim, site, and artifact checks
 docs/                     reviewer guides, design notes, provenance, and boundaries
@@ -184,8 +184,8 @@ shared/                   small reusable local AI utilities
 - [Role-to-project map](docs/role-to-project-map.md)
 - [Scope and limitations](docs/SCOPE_AND_LIMITATIONS.md)
 - [Claims policy](docs/CLAIMS_POLICY.md)
-- [Authenticity and ownership](docs/AUTHENTICITY_AND_OWNERSHIP.md)
-- [Engineering review history](PORTFOLIO_REVIEW_ROUNDS.md)
+- [Engineering decisions and evidence boundaries](docs/ENGINEERING_DECISIONS.md)
+- [Engineering review log](ENGINEERING_REVIEW_LOG.md)
 - [Evidence coverage audit](EVIDENCE_COVERAGE_AUDIT.md)
 
 ## Static Portfolio

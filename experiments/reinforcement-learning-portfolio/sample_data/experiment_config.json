@@ -1,6 +1,0 @@
-{
-  "seed": 7,
-  "episodes": 40,
-  "environment": "inventory_control",
-  "policy": "heuristic"
-}

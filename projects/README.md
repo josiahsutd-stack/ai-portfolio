@@ -10,6 +10,6 @@ Five projects carry the portfolio's main claims. Together they connect source-gr
 | Supporting | [Project Communication and Specification Assistant](project-specification-copilot/README.md) | Shared role-tagged chat, requirement lifecycle, conflict detection, scoped approval gates, SQLite audit events, source-linked draft clauses, and a 33-case language stress audit. | Candidate-authored deterministic coverage checks; no authenticated authority, open-domain understanding, multi-user messaging service, or professional specification. |
 | Supporting | [QS Takeoff and Tender Analysis Workbench](qs-takeoff-tender-analysis/README.md) | Shared-wall vector measurement, opening deductions, rate provenance, uncertainty bands, tender exception checks, fourteen focused tests, and visual evidence. | No PDF/CAD/BIM parsing, live pricing, professional quantity survey, or award recommendation. |
 
-The [experiment inventory](../experiments/README.md) retains narrower generic AI and AEC baselines. They remain runnable and tested, but they do not carry first-screen portfolio claims.
+The [experiment inventory](../experiments/README.md) retains eight focused AEC and AI engineering studies. They remain runnable and tested, but they do not carry first-screen portfolio claims.
 
 The [AEC design-to-cost integration](../integrations/aec-design-to-cost/README.md) demonstrates one tested handoff across three selected project interfaces. It remains outside the project count because it adds contract evidence rather than a separate capability claim.

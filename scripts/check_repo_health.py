@@ -13,13 +13,14 @@ REQUIRED_DOCS = [
     "README.md",
     "EVIDENCE_COVERAGE_AUDIT.md",
     "profile-readme.md",
+    "ENGINEERING_REVIEW_LOG.md",
     "docs/troubleshooting.md",
     "docs/how-to-review-this-portfolio.md",
     "docs/technical-review-guide.md",
     "docs/skills-matrix.md",
     "docs/role-to-project-map.md",
     "docs/REVIEWER_GUIDE.md",
-    "docs/AUTHENTICITY_AND_OWNERSHIP.md",
+    "docs/ENGINEERING_DECISIONS.md",
     "docs/CLAIMS_POLICY.md",
     "docs/EVIDENCE_LEDGER.md",
     "docs/evidence_claims.yml",
@@ -39,11 +40,15 @@ REQUIRED_DOCS = [
     "integrations/aec-design-to-cost/LIMITATIONS.md",
     "integrations/aec-design-to-cost/sample_data/synthetic_workflow_case.json",
     ".github/workflows/verify.yml",
-    "experiments/real-model-finetune-lab/EVAL.md",
-    "experiments/real-model-finetune-lab/sample_data/uci_sms_subset_manifest.json",
-    "experiments/real-model-finetune-lab/scripts/build_uci_sms_subset.py",
+    "experiments/local-text-classification-lab/EVAL.md",
+    "experiments/local-text-classification-lab/sample_data/uci_sms_subset_manifest.json",
+    "experiments/local-text-classification-lab/scripts/build_uci_sms_subset.py",
 ]
-FORBIDDEN_PUBLIC_DOCS = ["FINAL_HIRING_MANAGER_REVIEW.md"]
+FORBIDDEN_PUBLIC_DOCS = [
+    "FINAL_HIRING_MANAGER_REVIEW.md",
+    "docs/AUTHENTICITY_AND_OWNERSHIP.md",
+    "PORTFOLIO_REVIEW_ROUNDS.md",
+]
 REQUIRED_README_PATTERNS = {
     "demo command": r"streamlit run (projects|experiments)/.+/app\.py",
     "tests": r"## Tests|pytest tests/|python -m pytest tests/",
@@ -107,6 +112,7 @@ REQUIRED_MANIFEST_FIELDS = {
     "readme_path",
 }
 INFLATED_PROJECT_NAME_PHRASES = {
+    "deep learning",
     "fine-tune",
     "fine-tuning",
     "reinforcement learning",
@@ -114,7 +120,17 @@ INFLATED_PROJECT_NAME_PHRASES = {
     "platform",
     "vlm",
 }
-REMOVED_WEAK_EXPERIMENT_SLUGS = {"fine-tuning-lora-lab"}
+REMOVED_WEAK_EXPERIMENT_SLUGS = {
+    "bim-issue-detection-agent",
+    "deep-learning-vision-lab",
+    "fine-tuning-lora-lab",
+    "llm-evals-guardrails-platform",
+    "multimodal-vlm-visual-qa",
+    "real-model-finetune-lab",
+    "recommender-system-ranking-engine",
+    "reinforcement-learning-portfolio",
+    "time-series-anomaly-forecasting",
+}
 
 
 def contains_files(path: Path) -> bool:
@@ -200,9 +216,12 @@ def check_project_manifest() -> list[str]:
 
         name = str(row.get("name", ""))
         lowered_name = name.lower()
+        normalized_slug = slug.lower().replace("-", " ")
         for phrase in INFLATED_PROJECT_NAME_PHRASES:
             if phrase in lowered_name:
                 issues.append(f"{slug}: public name contains inflated capability phrase `{phrase}`")
+            if phrase in normalized_slug:
+                issues.append(f"{slug}: public slug contains inflated capability phrase `{phrase}`")
 
         readme_path = ROOT / str(row.get("readme_path", ""))
         expected_root = EXPERIMENTS_DIR if status == "experiment" else PROJECTS_DIR

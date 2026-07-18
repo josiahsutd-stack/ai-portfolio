@@ -15,7 +15,7 @@ COMMANDS = [
     [sys.executable, "scripts/run_smoke_tests.py"],
     [
         sys.executable,
-        "experiments/real-model-finetune-lab/scripts/build_uci_sms_subset.py",
+        "experiments/local-text-classification-lab/scripts/build_uci_sms_subset.py",
         "--check",
     ],
     [sys.executable, "scripts/generate_review_artifacts.py"],

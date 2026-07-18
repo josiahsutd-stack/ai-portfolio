@@ -46,6 +46,10 @@ SIMULATED_ENDORSEMENT_PHRASES = [
     "interview readiness",
     "recruiter verdict",
 ]
+DEPRECATED_PUBLIC_PHRASES = [
+    "project brief and specification copilot",
+    "visual qa provider contract",
+]
 SELF_SCORE_PATTERN = re.compile(r"\b\d+(?:\.\d+)?/10\b")
 ALLOWED_CONTEXT = [
     "do not claim",
@@ -100,6 +104,9 @@ def line_issues(path: Path, lineno: int, line: str) -> list[str]:
             issues.append(
                 f"{relative}:{lineno}: simulated hiring endorsement `{phrase}` is not evidence"
             )
+    for phrase in DEPRECATED_PUBLIC_PHRASES:
+        if phrase in lowered:
+            issues.append(f"{relative}:{lineno}: deprecated public project name `{phrase}`")
     if SELF_SCORE_PATTERN.search(line):
         issues.append(
             f"{relative}:{lineno}: candidate-authored numeric portfolio score is not evidence"

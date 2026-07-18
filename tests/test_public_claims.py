@@ -1,5 +1,5 @@
 from scripts.check_claims import ROOT, collect_issues, line_issues, public_text_files
-from scripts.check_repo_health import check_forbidden_public_docs
+from scripts.check_repo_health import REMOVED_WEAK_EXPERIMENT_SLUGS, check_forbidden_public_docs
 
 
 def test_claim_scan_includes_static_site_and_integration_docs() -> None:
@@ -37,3 +37,28 @@ def test_current_public_surfaces_pass_claim_scan() -> None:
 
 def test_obsolete_hiring_verdict_document_remains_removed() -> None:
     assert check_forbidden_public_docs() == []
+
+
+def test_claim_scan_rejects_deprecated_project_name() -> None:
+    issues = line_issues(
+        ROOT / "profile-readme.md",
+        1,
+        "Project Brief and Specification Copilot",
+    )
+
+    assert any("deprecated public project name" in issue for issue in issues)
+
+
+def test_removed_or_renamed_inflated_experiment_slugs_stay_absent() -> None:
+    expected = {
+        "bim-issue-detection-agent",
+        "deep-learning-vision-lab",
+        "llm-evals-guardrails-platform",
+        "multimodal-vlm-visual-qa",
+        "real-model-finetune-lab",
+        "recommender-system-ranking-engine",
+        "reinforcement-learning-portfolio",
+        "time-series-anomaly-forecasting",
+    }
+
+    assert expected <= REMOVED_WEAK_EXPERIMENT_SLUGS

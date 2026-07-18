@@ -16,8 +16,8 @@ ARTIFACT_DIRS = [
     ROOT / "experiments" / "mlops-model-serving-monitoring" / "demo_outputs",
     ROOT / "experiments" / "building-energy-ml-pipeline" / "demo_outputs",
     ROOT / "experiments" / "site-robot-safety-monitor" / "demo_outputs",
-    ROOT / "experiments" / "multimodal-vlm-visual-qa" / "demo_outputs",
-    ROOT / "experiments" / "real-model-finetune-lab" / "demo_outputs",
+    ROOT / "experiments" / "visual-provider-contract" / "demo_outputs",
+    ROOT / "experiments" / "local-text-classification-lab" / "demo_outputs",
     ROOT / "projects" / "vla-embodied-agent-simulator" / "demo_outputs",
 ]
 ARTIFACT_FILES = [

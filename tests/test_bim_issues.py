@@ -1,5 +1,5 @@
 import pandas as pd
-from bim_issue_detection_agent import detect_issues
+from bim_schedule_rule_checker import detect_issues
 
 
 def test_detects_core_bim_issues() -> None:

@@ -4,22 +4,17 @@ pythonpath = [
   ".",
   "projects/aec-code-compliance-rag/src",
   "projects/qs-takeoff-tender-analysis/src",
-  "experiments/bim-issue-detection-agent/src",
+  "experiments/bim-schedule-rule-checker/src",
   "projects/project-specification-copilot/src",
   "experiments/building-energy-ml-pipeline/src",
   "projects/constraint-aware-massing-explorer/src",
   "experiments/construction-robot-task-planner/src",
   "experiments/site-robot-safety-monitor/src",
-  "experiments/multimodal-vlm-visual-qa/src",
+  "experiments/visual-provider-contract/src",
   "experiments/agentic-research-ops-assistant/src",
   "projects/vla-embodied-agent-simulator/src",
-  "experiments/reinforcement-learning-portfolio/src",
-  "experiments/deep-learning-vision-lab/src",
-  "experiments/llm-evals-guardrails-platform/src",
   "experiments/mlops-model-serving-monitoring/src",
-  "experiments/recommender-system-ranking-engine/src",
-  "experiments/time-series-anomaly-forecasting/src",
-  "experiments/real-model-finetune-lab/src"
+  "experiments/local-text-classification-lab/src"
 ]
 
 [tool.ruff]

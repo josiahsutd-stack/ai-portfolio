@@ -21,8 +21,8 @@ COMMANDS = [
     [sys.executable, "experiments/mlops-model-serving-monitoring/scripts/evaluate_model.py"],
     [sys.executable, "experiments/building-energy-ml-pipeline/evaluate_model.py"],
     [sys.executable, "experiments/site-robot-safety-monitor/generate_demo_report.py"],
-    [sys.executable, "experiments/multimodal-vlm-visual-qa/generate_contract_artifact.py"],
-    [sys.executable, "experiments/real-model-finetune-lab/evaluate_model.py"],
+    [sys.executable, "experiments/visual-provider-contract/generate_contract_artifact.py"],
+    [sys.executable, "experiments/local-text-classification-lab/evaluate_model.py"],
     [sys.executable, "projects/vla-embodied-agent-simulator/evaluate_vla.py"],
     [sys.executable, "scripts/check_evidence_claims.py", "--write"],
 ]

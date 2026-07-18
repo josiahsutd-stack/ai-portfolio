@@ -40,3 +40,5 @@ If a claim cannot be traced to code, tests, eval output, demo output, or a clear
 - Do not use numeric ratings such as `9/10` as evidence. Report implemented scope, measured outputs, and missing validation instead.
 - Do not frame a self-review as an independent assessment. Engineering audits must identify their scope and source of evidence.
 - Preserve negative results and corrected metrics when they materially change the interpretation of a project.
+- Keep titles, directory slugs, module names, and role maps consistent with implemented capability. A limitation note does not excuse an identity that implies an unimplemented model family or platform.
+- Remove low-signal experiments when they dilute the selected evidence; do not preserve generic breadth solely to increase project count.

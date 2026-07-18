@@ -29,6 +29,10 @@ REQUIRED_HOME_BOUNDARIES = [
     "not commissioned or built",
     "not structural design or a fabrication package",
 ]
+REQUIRED_HOME_SECTIONS = [
+    "focused experiments",
+    "prioritizes implementation evidence over project count",
+]
 
 
 class SiteLinkParser(HTMLParser):
@@ -143,6 +147,11 @@ def check_home_evidence_labels() -> list[str]:
         f"portfolio-site/index.html: visual boundary missing: {boundary}"
         for boundary in REQUIRED_HOME_BOUNDARIES
         if boundary not in text
+    )
+    issues.extend(
+        f"portfolio-site/index.html: required section text missing: {section}"
+        for section in REQUIRED_HOME_SECTIONS
+        if section not in text
     )
     return issues
 

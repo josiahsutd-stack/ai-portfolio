@@ -8,7 +8,7 @@
 | 2 | `projects/vla-embodied-agent-simulator` | engineered, semantic-raster, egocentric-state, and rendered-RGB comparison; unseen appearance shift; 96-scenario holdout; 12-scenario MuJoCo command replay; raw/filtered metrics; failures; model cards; and tests | RGB pixels are state-rendered and filters see full rules; physics is planar contact replay, not physical-camera, mobile-robot-controller, ROS, or hardware evidence. |
 | 3 | `projects/constraint-aware-massing-explorer` | hard constraints, proxy objectives, Pareto ranking, baseline evaluation, diagrams, and tests | Rectangular proxy geometry; not professional design. |
 
-The specification and QS projects extend the same AEC workflow with auditability and commercial-review boundaries. The specification assistant also publishes a separate candidate-authored direct/paraphrase/negative language stress audit instead of relying only on its perfect grammar regression. Their [cross-project integration](../integrations/aec-design-to-cost/README.md) is executable and tested; it is not counted as a sixth selected project. Thirteen narrower baselines remain under [`experiments/`](../experiments/README.md).
+The specification and QS projects extend the same AEC workflow with auditability and commercial-review boundaries. The specification assistant also publishes a separate candidate-authored direct/paraphrase/negative language stress audit instead of relying only on its perfect grammar regression. Their [cross-project integration](../integrations/aec-design-to-cost/README.md) is executable and tested; it is not counted as a sixth selected project. Eight focused baselines and workflow studies remain under [`experiments/`](../experiments/README.md).
 
 ## Fast Verification
 
@@ -32,7 +32,6 @@ The [evidence ledger](EVIDENCE_LEDGER.md) maps displayed metrics to versioned ar
 - Embodied AI and robotics: Construction Embodied Agent, Grid Route Planner, then Robot Telemetry Monitor.
 - Retrieval and LLM systems: AEC RAG, Communication and Specification Assistant state machine, then the deterministic research-workflow experiment.
 - ML and MLOps: the text-classification and model-monitoring experiments retain focused classical-model evidence but are not selected work.
-- Multimodal and CV: the visual-provider and threshold-model experiments prove only bounded interface and baseline behavior.
 
 ## Technical Questions Supported By Evidence
 
