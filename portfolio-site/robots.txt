@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://josiahsutd-stack.github.io/ai-portfolio/sitemap.xml

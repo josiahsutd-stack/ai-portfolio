@@ -23,7 +23,79 @@
     <title>Josiah Lau | Applied AI Engineering</title>
     <link rel="canonical" href="https://josiahsutd-stack.github.io/ai-portfolio/" />
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link
+      rel="preload"
+      as="image"
+      href="assets/applied-ai-construction-hero.webp"
+      type="image/webp"
+      fetchpriority="high"
+    />
     <link rel="stylesheet" href="styles.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ProfilePage",
+        "@id": "https://josiahsutd-stack.github.io/ai-portfolio/#portfolio",
+        "url": "https://josiahsutd-stack.github.io/ai-portfolio/",
+        "name": "Josiah Lau | Applied AI Engineering",
+        "description": "Evidence-backed applied AI work for architecture, construction, and the built environment.",
+        "mainEntity": {
+          "@type": "Person",
+          "@id": "https://josiahsutd-stack.github.io/ai-portfolio/#josiah-lau",
+          "name": "Josiah Lau",
+          "url": "https://josiahsutd-stack.github.io/ai-portfolio/",
+          "sameAs": [
+            "https://github.com/josiahsutd-stack",
+            "https://www.linkedin.com/in/josiah-lau-8041822b6/"
+          ],
+          "jobTitle": "Applied AI Engineer",
+          "knowsAbout": [
+            "Retrieval-augmented generation",
+            "Embodied AI",
+            "Computational design",
+            "Architecture",
+            "Construction technology"
+          ]
+        },
+        "hasPart": [
+          {
+            "@type": "SoftwareSourceCode",
+            "name": "AEC Code Compliance RAG",
+            "url": "https://josiahsutd-stack.github.io/ai-portfolio/pages/aec-rag.html",
+            "codeRepository": "https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/aec-code-compliance-rag",
+            "programmingLanguage": "Python"
+          },
+          {
+            "@type": "SoftwareSourceCode",
+            "name": "Communication and Specification Assistant",
+            "url": "https://josiahsutd-stack.github.io/ai-portfolio/pages/specification-assistant.html",
+            "codeRepository": "https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/project-specification-copilot",
+            "programmingLanguage": "Python"
+          },
+          {
+            "@type": "SoftwareSourceCode",
+            "name": "Constraint-Aware Massing Explorer",
+            "url": "https://josiahsutd-stack.github.io/ai-portfolio/pages/massing-explorer.html",
+            "codeRepository": "https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/constraint-aware-massing-explorer",
+            "programmingLanguage": "Python"
+          },
+          {
+            "@type": "SoftwareSourceCode",
+            "name": "QS Takeoff and Tender Analysis",
+            "url": "https://josiahsutd-stack.github.io/ai-portfolio/pages/qs-takeoff.html",
+            "codeRepository": "https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/qs-takeoff-tender-analysis",
+            "programmingLanguage": "Python"
+          },
+          {
+            "@type": "SoftwareSourceCode",
+            "name": "Construction Embodied Agent Simulator",
+            "url": "https://josiahsutd-stack.github.io/ai-portfolio/pages/embodied-ai.html",
+            "codeRepository": "https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/vla-embodied-agent-simulator",
+            "programmingLanguage": "Python"
+          }
+        ]
+      }
+    </script>
   </head>
   <body id="top">
     <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -136,7 +208,7 @@
           </div>
           <div class="evidence-grid">
             <article class="evidence-card evidence-card--primary">
-              <img class="evidence-card__visual" src="assets/aec-rag-demo.png" alt="Local AEC retrieval interface with a grounded answer and source citations" />
+              <img class="evidence-card__visual" src="assets/aec-rag-demo.png" alt="Local AEC retrieval interface with a grounded answer and source citations" width="1440" height="1100" loading="lazy" decoding="async" />
               <span>01 / Flagship</span>
               <h3>AEC Code Compliance RAG</h3>
               <p>Public-source ingestion, four retrieval modes, citations, abstention, evals, and focused tests.</p>
@@ -146,7 +218,7 @@
               <a href="pages/aec-rag.html">Read visual case study</a>
             </article>
             <article class="evidence-card">
-              <img class="evidence-card__visual" src="assets/semantic-raster-comparison.svg" alt="Construction-grid observations and measured holdout behavior across state and rendered-pixel policies" />
+              <img class="evidence-card__visual" src="assets/semantic-raster-comparison.svg" alt="Construction-grid observations and measured holdout behavior across state and rendered-pixel policies" width="1000" height="800" loading="lazy" decoding="async" />
               <span>02 / Embodied AI</span>
               <h3>Construction Embodied Agent Simulator</h3>
               <p>Shared expert demonstrations, rendered-pixel shift tests, raw and filtered rollouts, and planar MuJoCo command replay.</p>
@@ -156,7 +228,7 @@
               <a href="pages/embodied-ai.html">Read visual case study</a>
             </article>
             <article class="evidence-card">
-              <img class="evidence-card__visual" src="assets/massing-explorer-demo.png" alt="Constraint-aware massing plan, isometric view, and transparent proxy measurements" />
+              <img class="evidence-card__visual" src="assets/massing-explorer-demo.png" alt="Constraint-aware massing plan, isometric view, and transparent proxy measurements" width="1440" height="1000" loading="lazy" decoding="async" />
               <span>03 / Computational Design</span>
               <h3>Constraint-Aware Massing Explorer</h3>
               <p>Seeded geometric options, hard constraints, Pareto ranking, editable objectives, and transparent environmental and access proxies.</p>
@@ -167,7 +239,7 @@
             </article>
           </div>
           <figure class="workflow-proof workflow-proof--light">
-            <img src="assets/physics-replay-comparison.svg" alt="Measured target-reach and rigid-contact rates for raw, filtered, and reference embodied-agent command traces" />
+            <img src="assets/physics-replay-comparison.svg" alt="Measured target-reach and rigid-contact rates for raw, filtered, and reference embodied-agent command traces" width="980" height="438" loading="lazy" decoding="async" />
             <figcaption>
               Headless planar MuJoCo replay: raw egocentric commands contact named rigid geometry on 51/150 movements; filtered egocentric and A* traces record 0 contacts across 148 and 98 movements. Not a mobile-robot or safety validation.
             </figcaption>
@@ -192,7 +264,7 @@
             </p>
           </div>
           <figure class="workflow-proof workflow-proof--system" tabindex="0" aria-label="Scrollable executed AEC system journey">
-            <img src="assets/aec-workflow-trace.svg" alt="Executed AEC system journey with two input streams, source and approval gates, typed project handoffs, traceability, and professional review" />
+            <img src="assets/aec-workflow-trace.svg" alt="Executed AEC system journey with two input streams, source and approval gates, typed project handoffs, traceability, and professional review" width="1400" height="860" loading="lazy" decoding="async" />
             <figcaption>
               5 approved / 3 mapped / 2 retained; 16/16 sourced fields; 96 candidates / 92 feasible / 42 storey-matched; 7/7 priced takeoff lines / tender not_run.
             </figcaption>
@@ -204,7 +276,7 @@
           </div>
           <div class="support-grid support-grid--three">
             <article class="project-card project-card--visual">
-              <img src="assets/specification-copilot-demo.png" alt="Role-tagged project messages, requirement ledger, and source-linked draft clauses" />
+              <img src="assets/specification-copilot-demo.png" alt="Role-tagged project messages, requirement ledger, and source-linked draft clauses" width="1440" height="1000" loading="lazy" decoding="async" />
               <span>Project Communication</span>
               <h3>Communication and Specification Assistant</h3>
               <p>Shared role-tagged chat, versioned requirements, conflict detection, scoped approvals, audit events, and source-linked draft clauses.</p>
@@ -213,7 +285,7 @@
               <a href="pages/specification-assistant.html">Read visual case study</a>
             </article>
             <article class="project-card project-card--visual">
-              <img src="assets/massing-explorer-demo.png" alt="Constraint-aware massing plan, isometric option, and proxy metrics" />
+              <img src="assets/massing-explorer-demo.png" alt="Constraint-aware massing plan, isometric option, and proxy metrics" width="1440" height="1000" loading="lazy" decoding="async" />
               <span>Computational Design</span>
               <h3>Constraint-Aware Massing Explorer</h3>
               <p>Hard geometry checks, baseline comparison, Pareto ranking, and inspectable proxy scores.</p>
@@ -221,7 +293,7 @@
               <a href="pages/massing-explorer.html">Read visual case study</a>
             </article>
             <article class="project-card project-card--visual">
-              <img src="assets/qs-takeoff-tender-demo.png" alt="Vector quantity takeoff, cost build-up, and synthetic tender comparison" />
+              <img src="assets/qs-takeoff-tender-demo.png" alt="Vector quantity takeoff, cost build-up, and synthetic tender comparison" width="1200" height="1968" loading="lazy" decoding="async" />
               <span>QS Automation</span>
               <h3>Takeoff and Tender Analysis Workbench</h3>
               <p>Shared-wall measurement, opening deductions, rate provenance, uncertainty bands, and line-level tender exceptions.</p>
@@ -314,19 +386,23 @@
             <img
               src="assets/aec-rag-demo.png"
               alt="Local AEC RAG Streamlit interface showing an answer and source citations"
+              width="1440"
+              height="1100"
+              loading="lazy"
+              decoding="async"
             />
             <figcaption>Actual local Streamlit run using labeled demo data.</figcaption>
           </figure>
         </div>
         <div class="container">
           <figure class="workflow-proof workflow-proof--light">
-            <img src="assets/retrieval-granularity.svg" alt="Document-level, exact-chunk, and source-page retrieval metrics for the fixed AEC public-source snapshot" />
+            <img src="assets/retrieval-granularity.svg" alt="Document-level, exact-chunk, and source-page retrieval metrics for the fixed AEC public-source snapshot" width="1200" height="720" loading="lazy" decoding="async" />
             <figcaption>
               Document Hit@1 0.952 / MRR 0.976; exact-target Hit@1 0.810 / MRR 0.881; source-page Hit@1 0.778 / MRR 0.861. Finding the expected publication is easier than retrieving the labeled supporting passage. Exact targets were authored from the fixed local snapshot and have not been independently reviewed.
             </figcaption>
           </figure>
           <figure class="workflow-proof workflow-proof--light">
-            <img src="assets/retrieval-uncertainty.svg" alt="Point estimates and 95 percent intervals for the authored AEC public-source retrieval snapshot" />
+            <img src="assets/retrieval-uncertainty.svg" alt="Point estimates and 95 percent intervals for the authored AEC public-source retrieval snapshot" width="1200" height="760" loading="lazy" decoding="async" />
             <figcaption>
               Public Hit@1 0.952 has a 95% Wilson interval of [0.773, 0.992] over 21 answerable cases; MRR 0.976 has a 95% bootstrap interval of [0.929, 1.000]. No-answer 1.000 is 2/2 with a Wilson interval of [0.342, 1.000]. The intervals resample this fixed authored set; they are not external-validity claims.
               Exact-target uncertainty: Hit@1 0.810 [0.600, 0.923] and MRR 0.881 [0.762, 0.976] across 21 candidate-authored targets.
@@ -339,11 +415,11 @@
         <div class="container embodied__grid">
           <div class="visual-stack">
             <figure class="visual-figure visual-figure--diagram">
-              <img src="assets/semantic-raster-comparison.svg" alt="Synthetic construction grid, rendered RGB crops, and measured holdout results across four observation families" />
+              <img src="assets/semantic-raster-comparison.svg" alt="Synthetic construction grid, rendered RGB crops, and measured holdout results across four observation families" width="1000" height="800" loading="lazy" decoding="async" />
               <figcaption>Generated from evaluator output. RGB pixels are rendered from privileged simulator state, not a physical camera.</figcaption>
             </figure>
             <figure class="visual-figure">
-              <img src="assets/embodied-ai-concept.webp" alt="Concept illustration of a construction robot following a planned safe route" />
+              <img src="assets/embodied-ai-concept.webp" alt="Concept illustration of a construction robot following a planned safe route" width="1536" height="1024" loading="lazy" decoding="async" />
               <figcaption>Generated concept image. It is not a simulator screenshot or hardware evidence.</figcaption>
             </figure>
           </div>
@@ -387,20 +463,20 @@
             <a class="text-link" href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/docs/ARCHITECTURE_BACKGROUND.md">Read the project statuses and image provenance</a>
           </div>
           <figure class="architecture-map">
-            <img src="assets/architecture-ai-transfer-map.webp" alt="Architecture-to-AI transfer map" />
+            <img src="assets/architecture-ai-transfer-map.webp" alt="Architecture-to-AI transfer map" width="1800" height="1013" loading="lazy" decoding="async" />
           </figure>
         </div>
         <div class="container architecture-gallery">
           <figure class="architecture-tile">
-            <img src="assets/bamboo-factory-thesis.webp" alt="Bamboo Factory thesis visualization" />
+            <img src="assets/bamboo-factory-thesis.webp" alt="Bamboo Factory thesis visualization" width="1600" height="912" loading="lazy" decoding="async" />
             <figcaption><strong>Bamboo Factory</strong><span>2019 M.Arch thesis; AI-assisted visualization anchored to original drawings.</span></figcaption>
           </figure>
           <figure class="architecture-tile">
-            <img src="assets/tideline-commons-concept.webp" alt="Tideline Commons adaptive-reuse concept" />
+            <img src="assets/tideline-commons-concept.webp" alt="Tideline Commons adaptive-reuse concept" width="1536" height="1024" loading="lazy" decoding="async" />
             <figcaption><strong>Tideline Commons</strong><span>Self-initiated 2026 concept; generic context, not commissioned or built.</span></figcaption>
           </figure>
           <figure class="architecture-tile">
-            <img src="assets/monsoon-works-concept.webp" alt="Monsoon Works steel-hall concept" />
+            <img src="assets/monsoon-works-concept.webp" alt="Monsoon Works steel-hall concept" width="1536" height="1024" loading="lazy" decoding="async" />
             <figcaption><strong>Monsoon Works</strong><span>Self-initiated concept; not structural design or a fabrication package.</span></figcaption>
           </figure>
         </div>

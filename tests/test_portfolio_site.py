@@ -7,6 +7,7 @@ from scripts.check_portfolio_site import (
     check_html_links,
     check_page_accessibility_contracts,
     check_palette_contrast,
+    check_public_discovery_contracts,
     check_shared_interaction_contracts,
     html_files,
 )
@@ -33,6 +34,10 @@ def test_every_public_page_keeps_accessibility_metadata_and_controls() -> None:
     assert check_page_accessibility_contracts() == []
 
 
+def test_public_site_keeps_search_share_and_recovery_contracts() -> None:
+    assert check_public_discovery_contracts() == []
+
+
 def test_shared_site_keeps_keyboard_motion_and_contrast_contracts() -> None:
     assert check_shared_interaction_contracts() == []
 
@@ -44,7 +49,7 @@ def test_shared_palette_keeps_readable_text_contrast() -> None:
 def test_every_public_page_uses_the_shared_navigation_script() -> None:
     pages = html_files()
 
-    assert len(pages) == 8
+    assert len(pages) == 9
     for page in pages:
         text = page.read_text(encoding="utf-8")
         assert 'class="site-header"' in text
@@ -62,3 +67,12 @@ def test_case_study_footer_navigation_follows_the_aec_journey() -> None:
     for page_name, next_page in expected_routes.items():
         text = (SITE_ROOT / "pages" / page_name).read_text(encoding="utf-8")
         assert f'href="{next_page}"' in text
+
+
+def test_custom_404_routes_visitors_back_to_primary_evidence() -> None:
+    text = (SITE_ROOT / "404.html").read_text(encoding="utf-8")
+
+    assert 'content="noindex, follow"' in text
+    assert 'href="index.html"' in text
+    assert 'href="pages/aec-rag.html"' in text
+    assert 'href="pages/recruiter-view.html"' in text

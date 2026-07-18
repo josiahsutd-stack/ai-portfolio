@@ -1,13 +1,16 @@
 from __future__ import annotations
 
+import json
 import re
 import sys
+import xml.etree.ElementTree as ET
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE_ROOT = ROOT / "portfolio-site"
+PUBLIC_BASE_URL = "https://josiahsutd-stack.github.io/ai-portfolio/"
 PLACEHOLDER_PATTERNS = [
     "your-username",
     "your-name",
@@ -16,6 +19,10 @@ PLACEHOLDER_PATTERNS = [
 ]
 URL_PATTERN = re.compile(r"url\((?P<quote>['\"]?)(?P<path>.*?)(?P=quote)\)")
 CSS_VARIABLE_PATTERN = re.compile(r"--(?P<name>[a-z0-9-]+):\s*(?P<value>#[0-9a-fA-F]{6})")
+JSON_LD_PATTERN = re.compile(
+    r'<script\s+type="application/ld\+json">\s*(?P<payload>.*?)\s*</script>',
+    re.DOTALL,
+)
 REQUIRED_CONTRAST_PAIRS = [
     ("clay", "white", 4.5),
     ("clay", "paper", 4.5),
@@ -186,12 +193,18 @@ class SiteLinkParser(HTMLParser):
         self.links: list[tuple[str, str]] = []
         self.ids: set[str] = set()
         self.id_counts: dict[str, int] = {}
-        self.image_alts: list[str | None] = []
+        self.images: list[dict[str, str | None]] = []
         self.h1_count = 0
         self.title_count = 0
         self.html_lang: str | None = None
         self.meta_description: str | None = None
         self.meta_viewport: str | None = None
+        self.meta_theme_color: str | None = None
+        self.meta_robots: str | None = None
+        self.open_graph: dict[str, str | None] = {}
+        self.twitter_card: str | None = None
+        self.canonical_links: list[str | None] = []
+        self.image_preloads: list[dict[str, str | None]] = []
         self.nav_toggles: list[dict[str, str | None]] = []
         self.skip_links: list[str | None] = []
         self.main_content_tabindexes: list[str | None] = []
@@ -205,12 +218,26 @@ class SiteLinkParser(HTMLParser):
         elif tag == "title":
             self.title_count += 1
         elif tag == "img":
-            self.image_alts.append(attributes.get("alt"))
+            self.images.append(attributes)
         elif tag == "meta":
             if attributes.get("name") == "description":
                 self.meta_description = attributes.get("content")
             elif attributes.get("name") == "viewport":
                 self.meta_viewport = attributes.get("content")
+            elif attributes.get("name") == "theme-color":
+                self.meta_theme_color = attributes.get("content")
+            elif attributes.get("name") == "robots":
+                self.meta_robots = attributes.get("content")
+            elif attributes.get("name") == "twitter:card":
+                self.twitter_card = attributes.get("content")
+            if attributes.get("property", "").startswith("og:"):
+                self.open_graph[attributes["property"]] = attributes.get("content")
+        elif tag == "link":
+            rels = set((attributes.get("rel") or "").split())
+            if "canonical" in rels:
+                self.canonical_links.append(attributes.get("href"))
+            if "preload" in rels and attributes.get("as") == "image":
+                self.image_preloads.append(attributes)
 
         classes = set((attributes.get("class") or "").split())
         if tag == "a" and "skip-link" in classes:
@@ -238,6 +265,15 @@ class SiteLinkParser(HTMLParser):
 
 def html_files() -> list[Path]:
     return sorted(SITE_ROOT.rglob("*.html"))
+
+
+def public_url(path: Path) -> str:
+    relative = path.relative_to(SITE_ROOT).as_posix()
+    return PUBLIC_BASE_URL if relative == "index.html" else f"{PUBLIC_BASE_URL}{relative}"
+
+
+def indexable_html_files() -> list[Path]:
+    return [path for path in html_files() if path.name != "404.html"]
 
 
 def is_external(target: str) -> bool:
@@ -341,9 +377,20 @@ def check_page_accessibility_contracts() -> list[str]:
         if parser.main_content_tabindexes != ["-1"]:
             issues.append(f"{label}: expected one focusable main landmark with id `main-content`")
 
-        for index, alt in enumerate(parser.image_alts, start=1):
+        for index, image in enumerate(parser.images, start=1):
+            alt = image.get("alt")
             if alt is None or not alt.strip():
                 issues.append(f"{label}: image {index} needs meaningful alternative text")
+            width = image.get("width") or ""
+            height = image.get("height") or ""
+            if not width.isdigit() or int(width) <= 0:
+                issues.append(f"{label}: image {index} needs a positive intrinsic width")
+            if not height.isdigit() or int(height) <= 0:
+                issues.append(f"{label}: image {index} needs a positive intrinsic height")
+            if image.get("loading") != "lazy":
+                issues.append(f"{label}: image {index} must use lazy loading")
+            if image.get("decoding") != "async":
+                issues.append(f"{label}: image {index} must use asynchronous decoding")
 
         duplicate_ids = sorted(
             element_id for element_id, count in parser.id_counts.items() if count > 1
@@ -362,6 +409,106 @@ def check_page_accessibility_contracts() -> list[str]:
             issues.append(f"{label}: navigation toggle aria-controls target is missing")
         if toggle["aria-expanded"] != "false":
             issues.append(f"{label}: navigation toggle must initialize collapsed")
+    return issues
+
+
+def check_public_discovery_contracts() -> list[str]:
+    issues: list[str] = []
+    required_open_graph = {"og:type", "og:title", "og:description", "og:url", "og:image"}
+
+    for path in indexable_html_files():
+        parser = SiteLinkParser()
+        text = path.read_text(encoding="utf-8")
+        parser.feed(text)
+        label = path.relative_to(ROOT)
+        expected_url = public_url(path)
+
+        if parser.canonical_links != [expected_url]:
+            issues.append(f"{label}: canonical URL must match `{expected_url}`")
+        if not parser.meta_theme_color:
+            issues.append(f"{label}: theme-color metadata is missing")
+        missing_open_graph = sorted(required_open_graph - parser.open_graph.keys())
+        for property_name in missing_open_graph:
+            issues.append(f"{label}: social metadata missing: {property_name}")
+        if parser.open_graph.get("og:url") != expected_url:
+            issues.append(f"{label}: og:url must match the canonical URL")
+        if parser.twitter_card != "summary_large_image":
+            issues.append(f"{label}: twitter card must use `summary_large_image`")
+
+    home = SITE_ROOT / "index.html"
+    home_text = home.read_text(encoding="utf-8")
+    home_parser = SiteLinkParser()
+    home_parser.feed(home_text)
+    expected_preload = {
+        "href": "assets/applied-ai-construction-hero.webp",
+        "type": "image/webp",
+        "fetchpriority": "high",
+    }
+    if len(home_parser.image_preloads) != 1 or any(
+        home_parser.image_preloads[0].get(key) != value for key, value in expected_preload.items()
+    ):
+        issues.append("portfolio-site/index.html: expected one high-priority WebP hero preload")
+
+    json_ld_matches = list(JSON_LD_PATTERN.finditer(home_text))
+    if len(json_ld_matches) != 1:
+        issues.append("portfolio-site/index.html: expected exactly one JSON-LD profile block")
+    else:
+        try:
+            profile = json.loads(json_ld_matches[0].group("payload"))
+        except json.JSONDecodeError as error:
+            issues.append(f"portfolio-site/index.html: invalid JSON-LD: {error}")
+        else:
+            if profile.get("@type") != "ProfilePage":
+                issues.append("portfolio-site/index.html: JSON-LD must describe a ProfilePage")
+            if profile.get("mainEntity", {}).get("@type") != "Person":
+                issues.append("portfolio-site/index.html: JSON-LD mainEntity must be a Person")
+            projects = profile.get("hasPart", [])
+            if len(projects) != len(CASE_STUDY_REQUIREMENTS):
+                issues.append("portfolio-site/index.html: JSON-LD must list five selected projects")
+            expected_project_urls = {
+                f"{PUBLIC_BASE_URL}{relative_path}" for relative_path in CASE_STUDY_REQUIREMENTS
+            }
+            project_urls = {str(project.get("url", "")) for project in projects}
+            if project_urls != expected_project_urls:
+                issues.append(
+                    "portfolio-site/index.html: JSON-LD project URLs must match the five case studies"
+                )
+            for project in projects:
+                if project.get("@type") != "SoftwareSourceCode":
+                    issues.append(
+                        "portfolio-site/index.html: each JSON-LD project must be SoftwareSourceCode"
+                    )
+                if not str(project.get("codeRepository", "")).startswith(
+                    "https://github.com/josiahsutd-stack/ai-portfolio/"
+                ):
+                    issues.append(
+                        "portfolio-site/index.html: JSON-LD project repository is invalid"
+                    )
+
+    not_found = SiteLinkParser()
+    not_found.feed((SITE_ROOT / "404.html").read_text(encoding="utf-8"))
+    if not_found.meta_robots != "noindex, follow":
+        issues.append("portfolio-site/404.html: expected `noindex, follow` robots metadata")
+
+    sitemap_path = SITE_ROOT / "sitemap.xml"
+    try:
+        sitemap = ET.parse(sitemap_path)
+    except (ET.ParseError, OSError) as error:
+        issues.append(f"portfolio-site/sitemap.xml: invalid sitemap: {error}")
+    else:
+        namespace = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
+        sitemap_urls = {element.text for element in sitemap.findall("s:url/s:loc", namespace)}
+        expected_urls = {public_url(path) for path in indexable_html_files()}
+        if sitemap_urls != expected_urls:
+            issues.append("portfolio-site/sitemap.xml: URLs must match all indexable HTML pages")
+
+    robots_path = SITE_ROOT / "robots.txt"
+    robots = robots_path.read_text(encoding="utf-8") if robots_path.exists() else ""
+    if "User-agent: *" not in robots or "Allow: /" not in robots:
+        issues.append("portfolio-site/robots.txt: public crawl policy is missing")
+    if f"Sitemap: {PUBLIC_BASE_URL}sitemap.xml" not in robots:
+        issues.append("portfolio-site/robots.txt: sitemap route is missing")
+
     return issues
 
 
@@ -485,6 +632,7 @@ def main() -> None:
         check_html_links()
         + check_css_assets()
         + check_page_accessibility_contracts()
+        + check_public_discovery_contracts()
         + check_shared_interaction_contracts()
         + check_palette_contrast()
         + check_home_evidence_labels()
