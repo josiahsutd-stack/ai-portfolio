@@ -14,7 +14,7 @@ ML systems need serving, schema checks, logging, drift detection, and model life
 streamlit run projects/mlops-model-serving-monitoring/app.py
 ```
 
-Reviewer artifacts:
+Evidence artifacts:
 
 - [ARCHITECTURE.md](ARCHITECTURE.md)
 - [EVAL.md](EVAL.md)
@@ -51,6 +51,12 @@ flowchart LR
   F --> G["Drift history"]
 ```
 
+## Tests
+
+```bash
+python -m pytest tests/test_general_ai_projects.py -k mlops
+```
+
 ## Limitations
 
 - Synthetic customer data only.
@@ -61,20 +67,20 @@ flowchart LR
 
 - Add MLflow-compatible registry, production alerting, delayed-label monitoring, and retraining workflows.
 
-## Reviewer Signal
+## Evidence
 
 MLOps, model serving, artifact management, inference logging, monitoring, drift detection, API engineering, and production-aware ML thinking.
 
-## Engineering Notes
+## Implementation Notes
 
 - The project demonstrates the operational side of ML: training artifact, version metadata, serving API, SQLite inference logs, metrics, drift checks, drift history, and Docker packaging.
 - Synthetic churn data keeps setup simple while preserving the same serving and monitoring patterns used in real systems.
 - Drift detection is intentionally lightweight and explainable so the monitoring signal can be discussed without external infrastructure.
 - Production use would add an MLflow-compatible model registry, feature store or batch pipelines, alerting, delayed-label feedback, and retraining workflows.
 
-## Technical Review Discussion Points
+## Design Decisions
 
-- Reviewers can trace the path from training data to a local prediction endpoint.
+- The code traces the path from training data to a local prediction endpoint.
 - Schema validation, model metadata, and prediction logging are shown as core ML serving requirements.
 - Drift detection is documented with its uses and limits.
 - MLflow, delayed labels, retraining triggers, and production alerts are clear production extensions.

@@ -1,6 +1,6 @@
 # Retrieval Evaluation
 
-This project includes a 51-case synthetic retrieval and abstention evaluation set plus an optional Singapore public-source evaluation set for reviewer inspection. The goal is not to claim production accuracy. The goal is to show how retrieval quality, citation coverage, PDF-backed citation behavior, source metadata handling, no-evidence handling, and unsupported-scope handling are measured before real use.
+This project includes a 51-case synthetic retrieval and abstention evaluation set plus an optional Singapore public-source evaluation set. It does not establish production accuracy. It measures retrieval quality, citation coverage, PDF-backed citation behavior, source metadata handling, no-evidence handling, and unsupported-scope handling before real use.
 
 ## Run The Evaluation
 
@@ -57,7 +57,7 @@ Each case includes:
 - `expected_no_answer`
 - `notes`
 
-The synthetic dataset is useful for regression checks and reviewer clarity. The public-source dataset checks whether the same pipeline can ingest and retrieve from official Singapore public documents such as BCA Accessibility, URA GFA, NEA COPEH, SCDF Fire Code, LTA interface references, PUB drainage/sewerage references, and NParks greenery/tree-conservation references. Neither dataset is a benchmark for a real compliance product.
+The synthetic dataset supports deterministic regression checks. The public-source dataset checks whether the same pipeline can ingest and retrieve from official Singapore public documents such as BCA Accessibility, URA GFA, NEA COPEH, SCDF Fire Code, LTA interface references, PUB drainage/sewerage references, and NParks greenery/tree-conservation references. Neither dataset is a benchmark for a real compliance product.
 
 ## Metrics
 
@@ -93,7 +93,7 @@ The evaluation script also compares four local retrieval modes over the same cas
 
 The ablation artifacts are meant to show retrieval evaluation discipline. They are not a claim that the best synthetic-mode score will transfer to real compliance documents.
 
-Optional modes `semantic` and `hybrid_cross_encoder` are exposed in the app and assistant boundary, but they require `requirements-embeddings.txt` and local model downloads. The committed eval artifacts keep the default portable modes so reviewers can reproduce them without a GPU or model cache.
+Optional modes `semantic` and `hybrid_cross_encoder` are exposed in the app and assistant boundary, but they require `requirements-embeddings.txt` and local model downloads. The committed evaluation artifacts use portable modes that reproduce without a GPU or model cache.
 
 ## What The Current Eval Catches
 

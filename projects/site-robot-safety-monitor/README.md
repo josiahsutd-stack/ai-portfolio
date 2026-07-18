@@ -1,106 +1,78 @@
 # Robot Telemetry Safety Rule Monitor
 
-Deterministic monitoring demo that analyzes synthetic construction-robot telemetry and applies explicit rules for human proximity, obstacle clearance, restricted-zone speed, payload stability, and emergency-stop events.
+> **Evidence boundary:** this experiment applies hand-authored deterministic rules to 36 synthetic telemetry rows. It is not a learned safety model, labeled detection benchmark, certified safety system, or physical robot validation.
 
-## Problem
+This supporting embodied-AI project demonstrates inspectable telemetry parsing and rule-event generation for worker proximity, obstacle clearance, restricted-zone speed, payload stability, and emergency-stop signals.
 
-Construction robots operate near workers, temporary materials, uneven surfaces, and changing site zones. Robotics teams need monitoring systems that translate raw telemetry into safety events and operational actions.
+## Current Fixture Result
 
-## Why It Matters
+| Check | Artifact-backed result |
+| --- | ---: |
+| Synthetic telemetry rows | `36` |
+| Emitted rule events | `26` |
+| High-severity events | `19` |
+| Medium-severity events | `7` |
 
-Embodied AI is not only model inference. It includes sensing, actuation, physical risk, human-robot interaction, and feedback loops that keep autonomous systems useful and safe.
+The first emitted event is `worker_proximity`: "Worker distance 0.76 m while speed was 1.06 m/s." It is traced to the checked-in synthetic telemetry rather than written as an illustrative result.
 
-## Demo
+[`safety_monitor_demo_summary.json`](demo_outputs/safety_monitor_demo_summary.json) contains the thresholds, counts, event distribution, and first event. [`safety_monitor_demo_report.md`](demo_outputs/safety_monitor_demo_report.md) explains why these counts are an execution result rather than a precision or recall evaluation.
+
+## Reproduce
+
+From the repository root:
 
 ```bash
-streamlit run projects/site-robot-safety-monitor/app.py
+python projects/site-robot-safety-monitor/generate_demo_report.py
+python -m pytest tests/test_site_robot_safety.py
 ```
 
-## Features
+## Implementation
 
-- Synthetic robot telemetry
-- Risk-event classification
-- Worker proximity checks
-- Obstacle clearance checks
-- Restricted-zone speed checks
-- Payload stability checks
-- Emergency-stop handling
-- FastAPI `/safety-events` endpoint
-
-## Tech Stack
-
-Python, pandas, FastAPI, Streamlit, pytest.
+- [`monitor.py`](src/site_robot_safety_monitor/monitor.py) defines named rule thresholds and emits typed event records with source evidence and a recommended action.
+- [`api.py`](src/site_robot_safety_monitor/api.py) exposes the generated event register through `/safety-events`.
+- [`app.py`](app.py) displays the synthetic telemetry, severity counts, and emitted events.
+- [`generate_demo_report.py`](generate_demo_report.py) regenerates the versioned JSON and Markdown evidence.
 
 ## Architecture
 
 ```mermaid
 flowchart LR
-  A["Synthetic robot telemetry"] --> B["Telemetry parser"]
-  B --> C["Risk rules"]
-  C --> D["Safety events"]
-  D --> E["Recommended action"]
-  E --> F["Dashboard/API"]
+  A["Synthetic telemetry fixture"] --> B["CSV parser"]
+  B --> C["Named deterministic thresholds"]
+  C --> D["Typed safety-rule events"]
+  D --> E["Evidence and recommended action"]
+  D --> F["Local API and dashboard"]
+  D --> G["Versioned execution report"]
 ```
 
-## How It Works
-
-The monitor reads robot telemetry rows, applies deterministic safety rules, and returns an explainable event register. This is a local prototype for the kind of monitoring layer that could sit around robot autonomy stacks.
-
-## Example Outputs
-
-```text
-Risk: worker_proximity
-Severity: high
-Evidence: Worker distance 0.74 m while speed was 1.21 m/s.
-Action: Reduce speed, increase exclusion buffer, or switch to escorted/manual mode.
-```
-
-## Run Locally
+## Run The Interfaces
 
 ```bash
-pip install -r requirements.txt
-python scripts/generate_sample_data.py
 streamlit run projects/site-robot-safety-monitor/app.py
 python -m uvicorn site_robot_safety_monitor.api:app --app-dir projects/site-robot-safety-monitor/src --reload
 ```
 
-## Tests
+## What The Evidence Supports
 
-```bash
-pytest tests/test_site_robot_safety.py
-```
+- Deterministic rule execution over a versioned synthetic telemetry fixture.
+- Exact tracing from input values to the event evidence string.
+- Explicit rule thresholds and tests for high-risk, boundary, empty-input, and artifact-consistency behavior.
+
+## Evaluation Gap
+
+The fixture does not contain independently labeled safety events. Therefore, precision, recall, false-positive rate, and false-negative rate are unknown. Event counts must not be read as detection quality.
 
 ## Limitations
 
-- Uses synthetic telemetry, not live robots.
-- Rules are simplified and do not replace robotics safety standards.
-- Does not integrate ROS bags, sensor fusion, SLAM maps, or real-time control loops.
+- All telemetry is synthetic; no ROS bags, sensor streams, customer data, employer data, or real construction-project data are included.
+- Thresholds are demonstration values and are not derived from or validated against a robotics safety standard.
+- No perception confidence, sensor fusion, localization, map state, moving-worker prediction, latency test, controller integration, or fail-safe mechanism is modeled.
+- Recommended actions are explanatory demo text, not control commands or professional safety instructions.
+- The project provides no evidence of physical safety, field readiness, certification, or deployment.
 
-## Deployment-Relevant Extensions
+## Credible Next Steps
 
-- Ingest ROS 2 topics, robot logs, and site-zone maps.
-- Add perception-derived worker and obstacle tracks.
-- Add real-time alerting with human acknowledgement.
-- Add incident review dashboards and risk trend analysis.
-- Validate thresholds with robotics safety engineers and site teams.
-
-## Reviewer Signal
-
-- Deterministic validation of synthetic robot telemetry.
-- Explicit proximity, speed, payload, and emergency-stop rules with event records.
-- Construction-domain safety framing without a certified-system or hardware claim.
-
-## Engineering Notes
-
-- The monitor treats safety as a streaming decision problem over robot telemetry: proximity, obstacles, load, emergency stops, and zone violations.
-- Rules are transparent so every alert can be explained to a site supervisor or robotics engineer.
-- The project complements the task planner by focusing on runtime monitoring instead of pre-task planning.
-- Production use would require ROS/log ingestion, sensor fusion, calibrated thresholds, alert routing, incident review, and validation against robotics safety standards.
-
-## Technical Review Discussion Points
-
-- Reviewers can distinguish robot task planning from robot safety monitoring.
-- The telemetry schema highlights human-robot interaction signals for construction sites.
-- False alarms and missed alerts are the primary evaluation concerns for future work.
-- The architecture points toward ROS 2 topics, fleet dashboards, and digital twin integration.
-- The current rules are documented as a demo layer, not certified safety logic.
+- Create an independently labeled synthetic test matrix covering each threshold boundary and multi-event case.
+- Report confusion matrices and failure slices only after labeled truth is available.
+- Define a ROS 2 message adapter and replay harness without implying live-control authority.
+- Map requirements to applicable standards with qualified robotics-safety review before changing thresholds.

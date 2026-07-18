@@ -1,9 +1,17 @@
+import json
+from pathlib import Path
+
 import pandas as pd
 from building_energy_ml_pipeline.model import (
     evaluate_energy_model,
+    evaluate_energy_model_detailed,
+    load_energy_data,
     predict_energy_use,
     train_energy_model,
 )
+
+ROOT = Path(__file__).resolve().parents[1]
+PROJECT_ROOT = ROOT / "projects" / "building-energy-ml-pipeline"
 
 
 def _energy_frame() -> pd.DataFrame:
@@ -52,3 +60,32 @@ def test_energy_prediction_rejects_missing_fields() -> None:
         assert "Missing prediction fields" in str(exc)
     else:
         raise AssertionError("Expected missing fields to raise ValueError")
+
+
+def test_energy_evaluation_uses_fixed_holdout_and_beats_mean_baseline() -> None:
+    details = evaluate_energy_model_detailed(_energy_frame())
+
+    assert details["split"] == {
+        "train_rows": 27,
+        "test_rows": 9,
+        "test_fraction": 0.25,
+        "random_state": 13,
+    }
+    assert details["model"]["metrics"]["mae"] < details["baseline"]["metrics"]["mae"]
+    assert details["comparison"]["mae_reduction_fraction_vs_mean_baseline"] > 0
+
+
+def test_versioned_energy_artifact_matches_current_fixture() -> None:
+    data = load_energy_data(PROJECT_ROOT / "sample_data" / "synthetic_building_energy.csv")
+    expected = evaluate_energy_model_detailed(data)
+    artifact = json.loads(
+        (PROJECT_ROOT / "demo_outputs" / "energy_eval_summary.json").read_text(encoding="utf-8")
+    )
+
+    assert artifact["data_status"] == "synthetic"
+    assert artifact["dataset"]["row_count"] == len(data)
+    assert artifact["split"] == expected["split"]
+    assert artifact["model"] == expected["model"]
+    assert artifact["baseline"] == expected["baseline"]
+    assert artifact["comparison"] == expected["comparison"]
+    assert artifact["holdout_example"] == expected["holdout_example"]

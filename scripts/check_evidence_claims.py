@@ -208,9 +208,9 @@ def _markdown_cell(value: str) -> str:
 
 def render_ledger(contexts: list[ClaimContext]) -> str:
     lines = [
-        "# Headline Evidence Ledger",
+        "# Reproducible Evidence Ledger",
         "",
-        "This recruiter-facing ledger maps each headline result to the versioned JSON artifact and local command that produced it. The values are regenerated and checked for drift by `scripts/check_evidence_claims.py`.",
+        "This ledger maps selected quantitative results to versioned JSON artifacts and the local commands that produced them. Values and metric-bearing scope text are regenerated and checked for drift by `scripts/check_evidence_claims.py`.",
         "",
         "| Project | Evaluation scope | Current artifact-backed result | Versioned evidence | Reproduce | Interpretation boundary |",
         "| --- | --- | --- | --- | --- | --- |",
@@ -223,7 +223,7 @@ def render_ledger(contexts: list[ClaimContext]) -> str:
         project_link = f"../projects/{claim['project_slug']}/README.md"
         row = [
             f"[{context.project_name}]({project_link})",
-            str(claim["evaluation_scope"]),
+            render_template(str(claim["evaluation_scope"]), context.values),
             result,
             f"[`{Path(artifact).name}`]({artifact_link})",
             f"`{claim['command']}`",

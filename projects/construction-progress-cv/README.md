@@ -78,22 +78,22 @@ pytest
 - Add schedule-baseline comparison.
 - Add confidence calibration and human review queues.
 
-## Reviewer Signal
+## Evidence
 
 - Tabular random-forest classification over labeled image metadata.
 - Train/test metrics and report generation around a construction workflow.
 - Explicit separation between metadata classification and pixel-based computer vision.
 
-## Engineering Notes
+## Implementation Notes
 
 - The current system uses synthetic progress metadata so the workflow can be reviewed without private site photos or labeling dependencies.
 - The classifier is intentionally lightweight; the app/API boundary shows the same broad stages a fuller CV system would need: ingest, classify, summarize, and report.
 - The report layer is a key product feature because construction teams need digestible status signals, not just raw predictions.
 - A production version would add image/video ingestion, object detection, calibration across camera locations, privacy review, and schedule-baseline integration.
 
-## Technical Review Discussion Points
+## Design Decisions
 
-- Reviewers can distinguish the current metadata prototype from a full visual progress model.
+- The project distinguishes the current metadata prototype from a full visual progress model.
 - The project supports discussion of site-image labeling, milestone definitions, and progress taxonomy design.
 - Confidence thresholds and human review are the key risk controls for operational use.
 - The FastAPI and Streamlit split demonstrates separate service and demo surfaces.

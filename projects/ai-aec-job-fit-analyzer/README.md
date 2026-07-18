@@ -80,22 +80,22 @@ pytest tests/test_job_fit.py
 - Add LLM-based evidence mapping from portfolio projects to job requirements.
 - Add cover-letter and recruiter-message drafts with review controls.
 
-## Reviewer Signal
+## Evidence
 
 - Transparent token matching and weighted scoring over job text.
 - Inspectable matched and missing terms rather than an opaque fit prediction.
 - A small career-workflow interface with an explicit non-hiring-model boundary.
 
-## Engineering Notes
+## Implementation Notes
 
 - The project uses transparent role rules because the goal is explainable career matching, not opaque resume ranking.
 - The output is structured around decisions a job seeker actually makes: role fit, skill gaps, portfolio evidence, and next actions.
 - Synthetic sample jobs keep the workflow safe to share while demonstrating how AI can organize ambiguous job descriptions.
 - A production version would add resume parsing, LLM evidence extraction, calibrated scoring, prompt/version tracking, and recruiter-message review controls.
 
-## Technical Review Discussion Points
+## Design Decisions
 
-- Reviewers can assess why interpretability matters in career and hiring-adjacent tools.
+- Transparent term matching keeps the basis of each fit score inspectable in this hiring-adjacent workflow.
 - The role classifier can be evaluated across AI, ML, and AEC postings.
 - The project shows how portfolio evidence can be mapped to job requirements.
 - The design separates where an LLM could help from where deterministic rules are preferable.

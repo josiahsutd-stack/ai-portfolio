@@ -35,6 +35,12 @@ flowchart LR
   D --> E["Evaluation metrics"]
 ```
 
+## Tests
+
+```bash
+python -m pytest tests/test_general_ai_projects.py -k rl_environment
+```
+
 ## Limitations
 
 - Lightweight custom environments rather than heavy RL libraries.
@@ -45,20 +51,20 @@ flowchart LR
 
 - Add Gymnasium wrappers, DQN/PPO integrations, experiment tracking, and richer simulations.
 
-## Reviewer Signal
+## Evidence
 
 Environment design, reward shaping, sequential decision-making, simulation, and baseline evaluation without a learned-policy claim.
 
-## Engineering Notes
+## Implementation Notes
 
 - The project focuses on small environments where state, action, reward, and policy behavior can be inspected without heavy dependencies.
 - Baseline policies make reward tradeoffs visible before introducing DQN, PPO, or other learned agents.
 - The environments are intentionally business-flavored so RL is connected to operational decisions rather than abstract benchmarks only.
 - Production use would require Gymnasium-compatible wrappers, experiment tracking, reproducible seeds, stronger baselines, and safety-aware evaluation.
 
-## Technical Review Discussion Points
+## Design Decisions
 
-- Reviewers can inspect the state, action, reward, and transition design for each environment.
+- Each environment exposes its state, action, reward, and transition design directly.
 - Reward shaping is framed as both a design tool and a source of unintended behavior.
 - Baseline policies are included before deep RL to make comparisons meaningful.
 - PPO/DQN are documented as future extensions to compare against heuristic policies.

@@ -4,7 +4,7 @@ This project does not compute real fine-tuned model metrics because no model wei
 
 ## What Exists
 
-`build_evaluation_template()` creates a reviewer-facing evaluation plan with:
+`build_evaluation_template()` creates an explicit evaluation plan with:
 
 - held-out prompts
 - expected behavior

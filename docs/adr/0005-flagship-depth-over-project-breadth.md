@@ -2,20 +2,20 @@
 
 ## Context
 
-The repo contains many projects, which can look generated if all are presented equally.
+The repository contains projects with different levels of depth and evidence.
 
 ## Decision
 
-Concentrate hiring-manager attention on three flagship projects and label the rest as supporting or experimental.
+Present AEC Code Compliance RAG as the single flagship, with embodied-agent simulation and local text classification as complementary selected work. Label the remaining projects as supporting systems or experiments.
 
 ## Consequences
 
-Reviewers can find the best evidence faster, while secondary projects remain available for role-specific breadth.
+The strongest evidence remains prominent, while secondary projects provide role-specific breadth.
 
 ## Alternatives Considered
 
-Deleting secondary projects was rejected because they still show domain breadth, but they should not carry the main hiring signal.
+Deleting secondary projects was rejected because they still show domain breadth, but they do not support the repository's main claims.
 
 ## Production Change
 
-Future work should deepen the three flagship projects before adding new ones.
+Future work should deepen the flagship and selected projects before adding new ones.

@@ -93,3 +93,12 @@ def test_generated_ledger_must_match_current_artifact(tmp_path: Path) -> None:
 
     assert not changed_issues
     assert check_ledger(changed_contexts, tmp_path)
+
+
+def test_ledger_scope_is_rendered_from_artifact_values(tmp_path: Path) -> None:
+    config = write_fixture_repo(tmp_path)
+    config["claims"][0]["evaluation_scope"] = "Synthetic fixture at {accuracy} accuracy"
+    contexts, issues = materialize_claims(config, tmp_path)
+
+    assert not issues
+    assert "Synthetic fixture at 0.750 accuracy" in render_ledger(contexts)

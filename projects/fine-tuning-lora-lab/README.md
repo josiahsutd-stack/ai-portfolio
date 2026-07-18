@@ -14,7 +14,7 @@ Fine-tuning projects often fail before training because datasets, validation, co
 streamlit run projects/fine-tuning-lora-lab/app.py
 ```
 
-Reviewer docs:
+Evidence docs:
 
 - [DATASET.md](DATASET.md)
 - [EVAL.md](EVAL.md)
@@ -44,6 +44,12 @@ flowchart LR
   D --> E["Simulated run report"]
 ```
 
+## Tests
+
+```bash
+python -m pytest tests/test_general_ai_projects.py -k "lora or fine_tuning"
+```
+
 ## Limitations
 
 - No pretrained model, tokenizer, PEFT adapter, or optimizer is loaded.
@@ -54,20 +60,20 @@ flowchart LR
 
 - Add tokenizer, PEFT/LoRA trainer, GPU instructions, model registry, and held-out evaluation.
 
-## Reviewer Signal
+## Evidence
 
 Dataset validation, split checks, adaptation-configuration literacy, and explicit separation between planning artifacts and actual model training.
 
-## Engineering Notes
+## Implementation Notes
 
 - The validator covers dataset checks, split planning, LoRA configuration, simulated run reporting, and model-card-style documentation.
 - The simulated path stays CPU-only and makes the absence of PEFT/LoRA training explicit.
 - Dataset quality and leakage checks are treated as prerequisites rather than evidence that adaptation occurred.
 - Production use would require tokenizer/model loading, GPU training, experiment tracking, held-out evals, artifact storage, and safety review.
 
-## Technical Review Discussion Points
+## Design Decisions
 
-- Reviewers can inspect the data and configuration prerequisites for a hypothetical LoRA experiment.
+- The checked-in validator exposes the data and configuration prerequisites for a hypothetical LoRA experiment.
 - Dataset formatting, deduplication, train/validation splits, and leakage risks are treated as first-class concerns.
 - The LoRA configuration fields expose key adaptation tradeoffs.
 - The evaluation document lists measurements a future trained adapter would need; none are reported here.

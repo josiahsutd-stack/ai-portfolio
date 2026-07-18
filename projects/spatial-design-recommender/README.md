@@ -80,22 +80,22 @@ pytest tests/test_recommender.py
 - Add preference learning from designer feedback.
 - Generate option-comparison reports.
 
-## Reviewer Signal
+## Evidence
 
 - Explicit multi-criteria scoring over synthetic layout attributes.
 - Traceable rule contributions and suggestions for design review.
 - Clear separation between a handcrafted scorer and learned ranking or optimization.
 
-## Engineering Notes
+## Implementation Notes
 
-- The recommender uses handcrafted scoring so reviewers can inspect every factor that affects the recommendation.
+- The recommender uses handcrafted scoring so every factor affecting the recommendation remains inspectable.
 - The product surface emphasizes comparisons and explanations because design teams need to understand tradeoffs, not accept a black-box layout score.
 - The project intentionally stops short of geometry generation; it focuses on preference modeling and decision support.
 - Production use would require BIM/geometry ingestion, user preference learning, constraint solving, and validation with designers or planners.
 
-## Technical Review Discussion Points
+## Design Decisions
 
-- Reviewers can assess why recommendations are useful before generative floor-plan tooling is introduced.
+- The project isolates recommendation and explanation before introducing generative floor-plan tooling.
 - Spatial constraints, accessibility, daylight, circulation, and adjacency are clear feature-extension paths.
 - Explanations make the recommendations more credible for designers and planners.
 - The project shows a path from handcrafted scoring to learned ranking or multi-objective optimization.

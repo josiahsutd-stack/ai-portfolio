@@ -35,6 +35,12 @@ flowchart LR
   D --> E["Demo/API"]
 ```
 
+## Tests
+
+```bash
+python -m pytest tests/test_general_ai_projects.py -k recommender
+```
+
 ## Limitations
 
 - Small synthetic dataset.
@@ -44,20 +50,20 @@ flowchart LR
 
 - Add matrix factorization, two-tower retrieval, online feedback, and ranking experiments.
 
-## Reviewer Signal
+## Evidence
 
 Popularity comparison, TF-IDF content similarity, precision@k, and NDCG over a small synthetic catalog. No learned embedding or collaborative-ranking model is implied.
 
-## Engineering Notes
+## Implementation Notes
 
 - The engine separates retrieval, ranking, explanation, and metric reporting so each part can be tested and improved independently.
 - Synthetic catalog and interaction data make the demo portable while preserving core recommender decisions.
 - Ranking metrics are included because recommenders should be judged by list quality, not only individual item similarity.
 - Production use would require larger interaction logs, candidate generation, two-tower retrieval, online experiments, feedback loops, and bias monitoring.
 
-## Technical Review Discussion Points
+## Design Decisions
 
-- Reviewers can assess retrieval versus ranking and why recommender systems often need both.
+- The code separates retrieval from ranking so both stages and their metrics can be inspected independently.
 - Precision@k and NDCG@k are included as list-quality evaluation metrics.
 - The project distinguishes content-based ranking from collaborative filtering.
 - The roadmap points toward offline and online evaluation planning.

@@ -6,7 +6,7 @@ This is conventional TF-IDF plus logistic-regression training, not fine-tuning o
 
 ## Problem
 
-Some portfolio projects show mock provider boundaries or simulated fine-tuning workflows. A reviewer also needs at least one small, runnable example where training changes model weights and produces measurable before/after metrics.
+Some projects in this repository use mock provider boundaries or simulated fine-tuning workflows. This lab provides a small, runnable example where training changes model parameters and produces measurable before-and-after metrics.
 
 ## Demo
 
@@ -76,18 +76,24 @@ flowchart LR
   F --> H["Demo outputs"]
 ```
 
-## Reviewer Signal
+## Tests
+
+```bash
+python -m pytest tests/test_real_model_finetune_lab.py
+```
+
+## Evidence
 
 Real model fitting, before/after evaluation, public-dataset held-out testing, saved model artifact handling, lightweight NLP feature extraction, and honest distinction between data source quality and learned weights.
 
-## Engineering Notes
+## Implementation Notes
 
 - Both models are intentionally CPU-friendly and fast enough for CI.
 - The synthetic path is tiny and deterministic; the public SMS path is larger and more credible while still locally bundled.
 - The baseline is deliberately weak so the evaluation shows whether training adds measurable signal.
 - The evaluator saves fitted binaries locally and keeps deterministic metrics and reports under version control.
 
-## Technical Review Discussion Points
+## Design Decisions
 
 - Why a small fitted classifier is more honest than claiming a mock LoRA run updated weights.
 - How fixed splits make the before/after metrics repeatable.
@@ -102,3 +108,9 @@ Real model fitting, before/after evaluation, public-dataset held-out testing, sa
 - This is classical ML, not transformer fine-tuning.
 - Metrics demonstrate workflow correctness, not production NLP quality.
 - No hosted model registry or production deployment is claimed.
+
+## Credible Next Steps
+
+- Evaluate against the complete public corpus with repeated stratified splits.
+- Add probability calibration and document threshold selection by error cost.
+- Compare the classical baseline with a compact transformer under the same held-out protocol.

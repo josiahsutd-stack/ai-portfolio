@@ -82,22 +82,22 @@ pytest tests/test_bim_issues.py
 - Add owner, discipline, due date, and status fields.
 - Integrate with issue trackers such as BIMcollab or Jira.
 
-## Reviewer Signal
+## Evidence
 
 - Deterministic validation of structured BIM schedule exports.
 - Traceable severity rules and exportable issue records.
 - Optional explanation formatting kept separate from issue detection.
 
-## Engineering Notes
+## Implementation Notes
 
 - The agent centers deterministic checks first, then uses explanation/reporting layers to make issues easier for design teams to review.
 - Mock CSV/JSON exports keep the data model simple while representing realistic BIM coordination artifacts such as room schedules and drawing notes.
 - The design avoids treating the LLM as the source of truth; rules and data checks produce the findings, while explanations help humans triage them.
 - Production use would require IFC/Revit ingestion, issue ownership, model revision tracking, severity calibration, and integration with coordination platforms.
 
-## Technical Review Discussion Points
+## Design Decisions
 
-- Reviewers can assess why deterministic validation is safer than pure LLM reasoning for BIM QA.
+- Deterministic findings remain separate from optional explanation text, making the validation path inspectable.
 - The project points toward IFC/Revit entity mapping into checkable schemas.
 - False positives and issue severity are framed as calibration problems with project teams.
 - Report generation makes the agent useful for coordination meetings and issue triage.

@@ -59,7 +59,7 @@ projects:
     implementation_mode: "Keyword matching and weighted rules"
     boundary: "Not a learned hiring model or evidence of candidate suitability"
     readme_path: projects/ai-aec-job-fit-analyzer/README.md
-  - name: Building Energy Regression Pipeline
+  - name: Building Energy Regression Experiment
     slug: building-energy-ml-pipeline
     category: AI for the Built Environment
     skill_area: Classical ML

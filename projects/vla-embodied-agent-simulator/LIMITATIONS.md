@@ -25,7 +25,7 @@
 
 - Action accuracy is evaluated on expert states and overestimates closed-loop reliability.
 - The raw policy's high unsafe-action rate shows substantial distribution-shift failure.
-- The action filter eliminates observed simulator violations but completes only 62.5% of holdout tasks.
+- The action filter eliminates observed simulator violations but completes only `0.625` of holdout tasks.
 - A* has full map access and should be read as an oracle-style reference.
 - None of the metrics are comparable to a standard robotics benchmark without a shared environment and protocol.
 

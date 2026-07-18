@@ -35,6 +35,12 @@ flowchart LR
   D --> E["Dashboard/API"]
 ```
 
+## Tests
+
+```bash
+python -m pytest tests/test_general_ai_projects.py -k guardrails
+```
+
 ## Limitations
 
 - Rules are transparent baselines.
@@ -44,20 +50,20 @@ flowchart LR
 
 - Add model-graded evals, prompt version registry, SQLite persistence, and CI regression gates.
 
-## Reviewer Signal
+## Evidence
 
 Deterministic regression checks for known prompt patterns, required JSON fields, and citation presence. These checks expose inspectable failures but do not establish model safety or security.
 
-## Engineering Notes
+## Implementation Notes
 
 - The check library treats evals as a repeatable engineering workflow: cases, checks, findings, metrics, and dashboard/API outputs.
 - Transparent guardrails are used first so failures can be inspected before adding model-graded evals.
 - The scope covers practical LLM risks: prompt injection, unsafe content, missing citations, and invalid structured outputs.
 - Production use would require prompt/version registries, persisted eval history, CI regression gates, red-team datasets, and human review workflows.
 
-## Technical Review Discussion Points
+## Design Decisions
 
-- Reviewers can assess why LLM evals should run before and after prompt/model changes.
+- The regression cases show why LLM checks should run before and after prompt or model changes.
 - The project distinguishes deterministic checks from model-graded evaluation.
 - Prompt injection and schema failures are represented as inspectable eval cases.
 - The workflow can become a CI gate for an LLM application.

@@ -7,7 +7,7 @@
 - Real VLM outputs depend on provider behavior and are not benchmarked here.
 - The project demonstrates provider contracts and schema boundaries, not visual QA capability or reliability.
 
-## What Reviewers Should Not Infer
+## Unsupported Inferences
 
 - Do not infer real visual reasoning from mock output.
 - Do not infer defect-detection accuracy.

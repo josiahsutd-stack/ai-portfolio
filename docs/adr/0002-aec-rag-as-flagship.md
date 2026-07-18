@@ -2,15 +2,15 @@
 
 ## Context
 
-The candidate's differentiator is applied AI for built-environment workflows.
+My strongest domain advantage is applying AI to built-environment workflows.
 
 ## Decision
 
-Make AEC Code Compliance RAG the primary review project.
+Use AEC Code Compliance RAG as the portfolio's primary project.
 
 ## Consequences
 
-The repo has a clearer hiring signal and avoids presenting all projects as equally deep.
+The repository presents one deeply evaluated project instead of implying that every experiment has equal depth.
 
 ## Alternatives Considered
 

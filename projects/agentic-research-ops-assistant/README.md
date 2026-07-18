@@ -14,7 +14,7 @@ Research agents can be useful only when their plans, tools, citations, and appro
 streamlit run projects/agentic-research-ops-assistant/app.py
 ```
 
-Reviewer artifacts:
+Evidence artifacts:
 
 - [ARCHITECTURE.md](ARCHITECTURE.md)
 - [EVAL.md](EVAL.md)
@@ -55,6 +55,12 @@ flowchart LR
   G --> H["SQLite trace store + eval"]
 ```
 
+## Tests
+
+```bash
+python -m pytest tests/test_general_ai_projects.py -k agent
+```
+
 ## Limitations
 
 - Uses local mock documents.
@@ -65,21 +71,21 @@ flowchart LR
 - Add web search connectors, PDF ingestion, richer memory, richer retry policies, and larger eval suites.
 - Add review queues and role-based approvals.
 
-## Reviewer Signal
+## Evidence
 
 Tool orchestration, local retrieval, trace persistence, retries, observability, and human-in-the-loop design with a rule-based default planner.
 
-## Engineering Notes
+## Implementation Notes
 
 - The assistant is organized as a planner-executor workflow with a small tool registry, permission-aware planning, local document search, structured outputs, and approval checkpoints.
 - Deterministic local documents keep the agent auditable and runnable while demonstrating the same control flow needed for external tools.
-- Each run is persisted to SQLite with the full trace and a simple evaluation result so reviewers can inspect repeatable agent behavior.
+- Each run is persisted to SQLite with the full trace and a simple evaluation result for repeatable inspection.
 - Human-in-the-loop review is treated as part of the system design, not an afterthought, because research agents can easily overreach.
 - Production use would add authenticated connectors, richer retrieval, role-based tool permissioning, stronger retries, and evals for citation quality.
 
-## Technical Review Discussion Points
+## Design Decisions
 
-- Reviewers can inspect the planner, tool registry, retrieval, approval loop, persisted trace, and trace evaluation in order.
+- The planner, tool registry, retrieval, approval loop, persisted trace, and trace evaluation are separated for direct inspection.
 - The design shows how an agent can reduce unsupported claims through retrieved evidence and citations.
 - The project makes the boundary between local RAG and live web/tool access explicit.
 - Observability needs are represented through persisted traces, tool calls, citations, latency, attempts, evaluation findings, and failure states.

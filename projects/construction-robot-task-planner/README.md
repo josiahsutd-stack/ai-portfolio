@@ -84,22 +84,22 @@ pytest tests/test_robot_task_planner.py
 - Add human approval workflows for restricted-zone crossings.
 - Use simulation before deployment on physical hardware.
 
-## Reviewer Signal
+## Evidence
 
 - A* route planning over explicit construction-grid constraints.
 - Inspectable handling of restricted, slow, payload, and battery conditions.
 - API and UI packaging for a deterministic simulator, without a robotics-stack claim.
 
-## Engineering Notes
+## Implementation Notes
 
 - The planner models construction tasks as constrained action selection: battery, payload, route risk, restricted zones, and task priority all affect decisions.
 - The grid abstraction is intentionally simple so the safety and planning logic can be reviewed without hiding behind a robotics stack.
 - This is an embodied AI project because it connects environment state, action feasibility, and task goals rather than only producing text.
 - Production use would require ROS 2, navigation stacks, site maps, robot kinematics, perception feeds, simulation validation, and human approval workflows.
 
-## Technical Review Discussion Points
+## Design Decisions
 
-- Reviewers can assess how construction robotics differs from generic warehouse navigation.
+- The construction-specific constraints show how this planning problem differs from generic warehouse navigation.
 - Task feasibility changes with payload, obstacles, battery state, and restricted zones.
 - Simulation and safety gates are treated as prerequisites before any hardware deployment.
 - VLA-style language goals are identified as a future path for mapping site instructions to robot actions.

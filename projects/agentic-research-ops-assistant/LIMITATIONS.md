@@ -8,7 +8,7 @@
 - SQLite traces are local development artifacts, not production observability.
 - The project demonstrates agent workflow shape, not autonomous research capability.
 
-## What Reviewers Should Not Infer
+## Unsupported Inferences
 
 - Do not infer that this agent can safely operate external tools.
 - Do not infer production reliability from the local trace evaluator.

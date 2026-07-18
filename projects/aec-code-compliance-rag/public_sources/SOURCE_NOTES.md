@@ -27,7 +27,7 @@ The repository does not commit downloaded BCA, URA, NEA, SCDF, LTA, PUB, or NPar
 
 - These files are for local retrieval and evaluation experiments only.
 - The assistant is not a compliance authority and must not certify design compliance.
-- Reviewers should verify current requirements from official BCA, URA, NEA, SCDF, LTA, PUB, NParks, CORENET, and Singapore Statutes Online sources before using any output.
+- Any use beyond this retrieval experiment requires verification against current BCA, URA, NEA, SCDF, LTA, PUB, NParks, CORENET, and Singapore Statutes Online sources.
 - The downloader records source URLs, publisher, document version, and download timestamp in `public_sources/downloaded/source_manifest.json`.
 
 ## Usage

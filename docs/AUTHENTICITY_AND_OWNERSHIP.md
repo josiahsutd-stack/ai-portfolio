@@ -6,7 +6,7 @@ This repository is intentionally local-first. That choice keeps the core workflo
 
 - Synthetic data is used because real AEC, customer, and robot-site data would create privacy and professional-liability issues.
 - Mock LLM and visual-provider paths exist so tests can exercise workflow behavior without paid services.
-- AEC RAG is the primary project because it best connects the candidate's built-environment background with applied AI engineering.
+- I selected AEC RAG as the primary project because it connects my built-environment background with applied AI engineering.
 - TF-IDF was kept because it is transparent and fast. BM25, dense LSA, and hybrid retrieval were added to compare local baselines without pretending to use hosted neural retrieval.
 - Research-workflow planning is deterministic by default so tool selection, retries, citations, and approval checkpoints can be tested.
 - MLOps uses synthetic churn data to show schema validation, artifact metadata, logging, and drift simulation without claiming production monitoring.

@@ -49,7 +49,7 @@ python -m pytest tests/test_vla_embodied_agent.py
 
 The fitted `behavior_cloning_policy.joblib` file is generated under `.artifacts/vla-embodied-agent-simulator/` and ignored by Git. Deterministic metrics and reports are versioned in `demo_outputs/`.
 
-## Reviewer Evidence
+## Evaluation Evidence
 
 - `src/vla_embodied_agent_simulator/environment.py`: state, actions, rewards, safety checks, scenarios, and A* route planning.
 - `src/vla_embodied_agent_simulator/policies.py`: random, naive-language, and deterministic safety-shielded baselines.
@@ -109,18 +109,18 @@ See [LIMITATIONS.md](LIMITATIONS.md) for failure modes and claim boundaries.
 - Add ROS 2 or Isaac Sim adapters as offline interfaces before any hardware claim.
 - Validate task definitions and safety constraints with construction robotics practitioners.
 
-## Reviewer Signal
+## Evidence
 
 Embodied-AI simulation, real supervised policy fitting, train/holdout discipline, closed-loop evaluation, action masking, safety interventions, baseline comparison, and honest failure analysis.
 
-## Engineering Notes
+## Implementation Notes
 
 - High action accuracy is not presented as control success; the lower closed-loop rate demonstrates compounding imitation error.
 - The raw learned policy is retained because its failures show what the safety filter changes.
 - The filtered policy has no A* fallback toward the task goal. A separate battery-reserve controller may route only to a charger, so unresolved task failures remain visible.
 - The fitted model binary is a runtime artifact while deterministic evidence remains reviewable in Git.
 
-## Technical Review Discussion Points
+## Design Decisions
 
 - Why expert-state action accuracy overestimates closed-loop policy quality.
 - How train/holdout scenario leakage is prevented and tested.

@@ -37,6 +37,12 @@ flowchart LR
   E --> F
 ```
 
+## Tests
+
+```bash
+python -m pytest tests/test_general_ai_projects.py -k time_series
+```
+
 ## Limitations
 
 - Synthetic data only.
@@ -46,20 +52,20 @@ flowchart LR
 
 - Add richer backtesting, seasonality models, alert routing, and data-quality monitoring.
 
-## Reviewer Signal
+## Evidence
 
 Moving-average forecasting, deterministic anomaly thresholds, synthetic-series generation, and baseline metric packaging. No learned forecaster is implied.
 
-## Engineering Notes
+## Implementation Notes
 
 - The project combines forecasting and anomaly detection because operational monitoring usually needs both expected trend and alerting logic.
 - Synthetic data keeps the repository lightweight while demonstrating backtesting, thresholds, metrics, and dashboard/API packaging.
 - The baseline is intentionally interpretable so alert behavior can be explained before adding heavier forecasting models.
 - Production use would require richer seasonality handling, data-quality checks, alert routing, incident feedback, and model monitoring over time.
 
-## Technical Review Discussion Points
+## Design Decisions
 
-- Reviewers can distinguish forecasting error from anomaly detection.
+- The implementation reports forecasting error separately from anomaly detections.
 - Threshold calibration is presented as the main control for noisy alerts.
 - Backtesting and time-aware splits are part of the evaluation story.
 - The project identifies when statistical baselines, tree models, or deep forecasting models may be appropriate.

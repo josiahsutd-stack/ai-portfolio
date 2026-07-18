@@ -8,7 +8,7 @@
 - The dataset is synthetic and too small for real adaptation claims.
 - The evaluation template is a plan, not measured model quality.
 
-## What Reviewers Should Not Infer
+## Unsupported Inferences
 
 - Do not infer that a model was fine-tuned.
 - Do not infer the placeholder base model exists locally.

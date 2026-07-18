@@ -5,6 +5,13 @@ from pathlib import Path
 
 import pandas as pd
 
+RULE_THRESHOLDS = {
+    "worker_proximity": {"distance_m_lt": 1.2, "speed_mps_gt": 0.8},
+    "obstacle_clearance": {"distance_m_lt": 0.7, "speed_mps_gt": 0.5},
+    "restricted_zone_speed": {"speed_mps_gt": 1.0},
+    "payload_stability": {"payload_kg_gt": 60.0, "tilt_deg_gt": 8.0},
+}
+
 
 @dataclass(frozen=True)
 class RiskEvent:
@@ -49,7 +56,8 @@ def classify_risk_event(row: pd.Series) -> list[RiskEvent]:
                 "Pause autonomy, inspect the robot, and log the incident before resuming.",
             )
         )
-    if worker_distance < 1.2 and speed > 0.8:
+    worker_rule = RULE_THRESHOLDS["worker_proximity"]
+    if worker_distance < worker_rule["distance_m_lt"] and speed > worker_rule["speed_mps_gt"]:
         events.append(
             RiskEvent(
                 timestamp,
@@ -60,7 +68,8 @@ def classify_risk_event(row: pd.Series) -> list[RiskEvent]:
                 "Reduce speed, increase exclusion buffer, or switch to escorted/manual mode.",
             )
         )
-    if obstacle_distance < 0.7 and speed > 0.5:
+    obstacle_rule = RULE_THRESHOLDS["obstacle_clearance"]
+    if obstacle_distance < obstacle_rule["distance_m_lt"] and speed > obstacle_rule["speed_mps_gt"]:
         events.append(
             RiskEvent(
                 timestamp,
@@ -71,7 +80,8 @@ def classify_risk_event(row: pd.Series) -> list[RiskEvent]:
                 "Slow down and re-plan around temporary site obstruction.",
             )
         )
-    if "restricted" in zone.lower() and speed > 1.0:
+    restricted_rule = RULE_THRESHOLDS["restricted_zone_speed"]
+    if "restricted" in zone.lower() and speed > restricted_rule["speed_mps_gt"]:
         events.append(
             RiskEvent(
                 timestamp,
@@ -82,7 +92,8 @@ def classify_risk_event(row: pd.Series) -> list[RiskEvent]:
                 "Require explicit human authorization and speed cap for restricted zones.",
             )
         )
-    if payload > 60 and tilt > 8:
+    payload_rule = RULE_THRESHOLDS["payload_stability"]
+    if payload > payload_rule["payload_kg_gt"] and tilt > payload_rule["tilt_deg_gt"]:
         events.append(
             RiskEvent(
                 timestamp,

@@ -2,7 +2,7 @@
 
 Mock mode can validate upload handling and response schema, but it cannot confirm whether an actual defect is visible.
 
-If a reviewer asks:
+Example question:
 
 > Is the crack on the left beam structurally dangerous?
 

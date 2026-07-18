@@ -20,7 +20,7 @@ Regenerate the checked-in mock contract output:
 python projects/multimodal-vlm-visual-qa/generate_contract_artifact.py
 ```
 
-Reviewer artifacts:
+Evidence artifacts:
 
 - [LIMITATIONS.md](LIMITATIONS.md)
 - [demo_outputs/mock_vqa_output.json](demo_outputs/mock_vqa_output.json)
@@ -51,23 +51,29 @@ flowchart LR
   D --> E["History + UI/API"]
 ```
 
+## Tests
+
+```bash
+python -m pytest tests/test_general_ai_projects.py -k vlm
+```
+
 ## Limitations
 
 - Mock mode validates file signatures and response contracts but performs no visual inference.
 - Hosted provider mode requires `VLM_PROVIDER=openai`, `OPENAI_API_KEY`, and access to a vision-capable model.
 - No local vision model implementation is exposed.
 
-## Meaningful Next Extensions
+## Credible Next Steps
 
 - Add BLIP/Qwen/SigLIP local provider implementations.
 - Add OCR, bounding boxes, and image-region grounding.
 - Add eval sets for visual hallucination and extraction accuracy.
 
-## Reviewer Signal
+## Evidence
 
 Multimodal provider integration, structured response validation, image request construction, and an explicit distinction between interface testing and model capability.
 
-## Engineering Notes
+## Implementation Notes
 
 - The provider abstraction separates workflow validation from the optional hosted model implementation.
 - The OpenAI-compatible provider builds a real image-plus-text chat-completions request and parses a schema-constrained JSON response when credentials are present.
@@ -75,9 +81,9 @@ Multimodal provider integration, structured response validation, image request c
 - Mock mode validates uploads, prompts, schemas, and UI/API behavior while returning zero confidence and no semantic detections.
 - Production use would require OCR/region grounding, benchmark image sets, latency tests, and visual hallucination evaluation.
 
-## Technical Review Discussion Points
+## Design Decisions
 
-- Reviewers can assess why schema design matters for multimodal model integrations.
+- The request and response contracts make the role of schema design in multimodal integrations explicit.
 - The project distinguishes captioning, VQA, OCR, and structured visual extraction.
 - The evaluation path should include visual hallucination and abstention behavior.
 - The provider boundary currently supports an honest mock and an optional hosted implementation; no local model is claimed.

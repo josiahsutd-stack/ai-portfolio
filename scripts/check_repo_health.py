@@ -21,6 +21,7 @@ REQUIRED_DOCS = [
     "docs/CLAIMS_POLICY.md",
     "docs/EVIDENCE_LEDGER.md",
     "docs/evidence_claims.yml",
+    "docs/ARCHITECTURE_BACKGROUND.md",
     "docs/adr/0001-local-first-synthetic-data.md",
     "docs/adr/0002-aec-rag-as-flagship.md",
     "docs/adr/0003-mock-provider-boundaries.md",
@@ -33,17 +34,20 @@ REQUIRED_DOCS = [
 ]
 REQUIRED_README_PATTERNS = {
     "demo command": r"streamlit run projects/.+/app\.py",
-    "reviewer signal": r"## Reviewer Signal",
+    "tests": r"## Tests|pytest tests/|python -m pytest tests/",
     "limitations": r"## Limitations",
-    "engineering notes": r"## Engineering Notes",
-    "technical review discussion points": r"## Technical Review Discussion Points",
+    "next steps": r"## (Credible Next Steps|Deployment-Relevant Extensions|Next Steps)",
 }
 REQUIRED_ROOT_README_PATTERNS = {
-    "recruiter fast path": r"## Recruiter Fast Path",
-    "measured result column": r"Current local result",
+    "selected work": r"## Selected Work",
+    "measured result column": r"Current result",
     "quick evidence command": r"python projects/aec-code-compliance-rag/scripts/evaluate_retrieval\.py",
-    "local run path": r"## Run Evidence Locally",
-    "flagship evidence": r"## Flagship Evidence",
+    "local run path": r"## Run Locally",
+    "flagship project": r"## Flagship Project",
+    "system overview": r"## System Overview",
+    "architecture background": r"## Architecture Background",
+    "generated visual boundary": r"not a simulator screenshot or hardware claim",
+    "architecture provenance link": r"docs/ARCHITECTURE_BACKGROUND\.md",
     "evidence labels": r"## Evidence Labels",
     "limitations link": r"docs/SCOPE_AND_LIMITATIONS\.md",
     "evidence ledger link": r"docs/EVIDENCE_LEDGER\.md",
@@ -57,6 +61,13 @@ GENERIC_PHRASES = [
     "state-of-the-art",
     "production-ready",
     "production-grade",
+    "designed for technical review",
+    "candidate's applied ai profile",
+    "without pretending every project is a flagship",
+    "## reviewer signal",
+    "## engineering notes",
+    "## technical review discussion points",
+    "reviewers can",
 ]
 ALLOWED_PROJECT_STATUSES = {"flagship", "primary", "supporting", "experiment"}
 REQUIRED_MANIFEST_FIELDS = {

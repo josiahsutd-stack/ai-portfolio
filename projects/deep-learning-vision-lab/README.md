@@ -35,6 +35,12 @@ flowchart LR
   C --> E["Demo/API"]
 ```
 
+## Tests
+
+```bash
+python -m pytest tests/test_general_ai_projects.py -k deep_learning
+```
+
 ## Limitations
 
 - Synthetic image data and simple threshold baseline.
@@ -49,20 +55,20 @@ flowchart LR
 
 No CNN is implemented. A credible extension would train a small PyTorch model on a fixed split, compare it with the threshold baseline, and publish learned weights, a confusion matrix, and model-card notes.
 
-## Reviewer Signal
+## Evidence
 
 Computer-vision baseline design, dataset generation, evaluation discipline, and inference packaging. The current model is deliberately classical and should not be read as evidence of trained deep-learning weights.
 
-## Engineering Notes
+## Implementation Notes
 
 - The lab is shaped around a future deep learning workflow: dataset manifest, preprocessing, metrics, model card, API, and demo.
 - Synthetic data keeps the project lightweight while allowing the repository to show evaluation and packaging discipline.
 - The threshold baseline is deliberately simple so the model interface can be replaced by PyTorch training without restructuring the app.
 - Production use would require real labeled images, CNN/ViT training, augmentation, calibration, latency profiling, and error analysis by defect type.
 
-## Technical Review Discussion Points
+## Design Decisions
 
-- Reviewers can distinguish baseline workflow competence from production inspection accuracy claims.
+- The implementation separates baseline workflow evidence from production inspection accuracy claims.
 - The project supports discussion of collecting, labeling, splitting, and auditing a real vision dataset.
 - The metrics path extends beyond accuracy to error analysis and model behavior.
 - The model card documents assumptions, limitations, and failure modes.

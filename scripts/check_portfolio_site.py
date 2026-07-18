@@ -15,6 +15,20 @@ PLACEHOLDER_PATTERNS = [
     "example.com",
 ]
 URL_PATTERN = re.compile(r"url\((?P<quote>['\"]?)(?P<path>.*?)(?P=quote)\)")
+REQUIRED_HOME_ASSETS = [
+    "assets/applied-ai-construction-hero.webp",
+    "assets/embodied-ai-concept.webp",
+    "assets/architecture-ai-transfer-map.webp",
+    "assets/bamboo-factory-thesis.webp",
+    "assets/tideline-commons-concept.webp",
+    "assets/monsoon-works-concept.webp",
+]
+REQUIRED_HOME_BOUNDARIES = [
+    "not a simulator screenshot or hardware evidence",
+    "ai-assisted visualization anchored to original drawings",
+    "not commissioned or built",
+    "not structural design or a fabrication package",
+]
 
 
 class SiteLinkParser(HTMLParser):
@@ -117,10 +131,26 @@ def check_css_assets() -> list[str]:
     return issues
 
 
+def check_home_evidence_labels() -> list[str]:
+    index = SITE_ROOT / "index.html"
+    text = index.read_text(encoding="utf-8").lower()
+    issues = [
+        f"portfolio-site/index.html: required visual missing: {asset}"
+        for asset in REQUIRED_HOME_ASSETS
+        if asset not in text and asset not in (SITE_ROOT / "styles.css").read_text(encoding="utf-8")
+    ]
+    issues.extend(
+        f"portfolio-site/index.html: visual boundary missing: {boundary}"
+        for boundary in REQUIRED_HOME_BOUNDARIES
+        if boundary not in text
+    )
+    return issues
+
+
 def main() -> None:
     if not SITE_ROOT.exists():
         raise SystemExit("portfolio-site directory is missing")
-    issues = check_html_links() + check_css_assets()
+    issues = check_html_links() + check_css_assets() + check_home_evidence_labels()
     if issues:
         print("Portfolio site check failed:")
         for issue in issues:

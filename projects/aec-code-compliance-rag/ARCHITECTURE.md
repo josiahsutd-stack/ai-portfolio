@@ -1,6 +1,6 @@
 # Architecture
 
-This project is a local RAG assistant for AEC guidance. It is designed to be inspectable by recruiters and technical reviewers, not to provide real compliance advice. The default path uses synthetic documents; the optional public-source path downloads official Singapore BCA, URA, NEA, SCDF, LTA, PUB, and NParks documents locally for more realistic retrieval testing.
+This project is a local RAG assistant for AEC guidance, not a source of compliance advice. The default path uses synthetic documents; the optional public-source path downloads official Singapore BCA, URA, NEA, SCDF, LTA, PUB, and NParks documents locally for more realistic retrieval testing.
 
 ## System Flow
 
@@ -11,7 +11,7 @@ flowchart LR
   M["source_manifest.json or generated public source manifest"] --> C["Chunk metadata contract"]
   B --> C["Chunk metadata contract"]
   C --> D["Filtered local hybrid lexical retriever"]
-  Q["Reviewer question"] --> D
+  Q["User question"] --> D
   D --> E["Top-k chunks with scores"]
   E --> F["Grounded answer builder"]
   E --> G["Citation formatter"]
@@ -36,7 +36,7 @@ flowchart LR
 | Faithfulness | `src/aec_code_compliance_rag/faithfulness.py` | Applies deterministic citation-marker and lexical-support checks for demo answers. |
 | Observability | `src/aec_code_compliance_rag/observability.py` | Persists local query metadata to SQLite for review and debugging. |
 | Evaluation | `src/aec_code_compliance_rag/evaluation.py` | Loads evaluation cases and computes retrieval metrics. |
-| Evaluation CLI | `evaluate_retrieval.py` | Runs the evaluator and writes reviewer artifacts in `demo_outputs/`. |
+| Evaluation CLI | `evaluate_retrieval.py` | Runs the evaluator and writes versioned artifacts in `demo_outputs/`. |
 | Demo UI | `app.py` | Streamlit interface for local question answering and citation inspection. |
 | API | `api.py` | FastAPI review surface for health, source catalog, query, retrieve, and recent local logs. |
 
@@ -54,7 +54,7 @@ Every retrieved chunk carries this metadata:
 | `source_url` | Official source URL captured by the downloader manifest. |
 | `rights` | Local-use and redistribution boundary note. |
 | `downloaded_at` | Timestamp for public-source download snapshots. |
-| `source_note` | Short source-role note used for reviewer context. |
+| `source_note` | Short note describing the source's role in the corpus. |
 | `document_id` | Stable document identifier derived from the source. |
 | `jurisdiction` | Synthetic jurisdiction label when supplied in the document header. |
 | `code_year` | Synthetic code year when supplied in the document header. |
@@ -73,7 +73,7 @@ The optional public corpus uses `public_sources/sources.json` as the committed s
 
 ## Retrieval Design
 
-The default retriever combines local TF-IDF and BM25 scores, then applies a small lexical coverage boost. The project also includes TF-IDF-only, BM25-only, and dense LSA modes for comparison. These committed modes stay runnable without paid APIs, local model downloads, or external infrastructure. This is intentionally transparent: reviewers can inspect exact chunk text, component scores, dense scores, metadata, filters, and citations.
+The default retriever combines local TF-IDF and BM25 scores, then applies a small lexical coverage boost. The project also includes TF-IDF-only, BM25-only, and dense LSA modes for comparison. These committed modes stay runnable without paid APIs, local model downloads, or external infrastructure. Exact chunk text, component scores, dense scores, metadata, filters, and citations remain inspectable.
 
 Optional `semantic` and `hybrid_cross_encoder` modes use `sentence-transformers` for embedding retrieval and cross-encoder reranking. They are useful extension points, but the default review path does not require downloading model weights.
 
@@ -93,7 +93,7 @@ Citations are structured dictionaries, not just rendered strings. Each citation 
 - `citation_id`, for answer references such as `[C1]`.
 - `source`, `title`, `source_type`, `allowed_use`, `heading`, `clause_id`, `page`, and `chunk_id`.
 - public-source provenance fields such as `publisher`, `source_url`, `rights`, `downloaded_at`, and `source_note`.
-- `score`, so reviewers can see retrieval confidence.
+- `score`, which exposes the retriever's relative confidence.
 - retrieval-specific scores such as `tfidf_score`, `bm25_score`, or `dense_score`.
 - `excerpt`, so the answer evidence is visible.
 - `reference`, a readable citation label.

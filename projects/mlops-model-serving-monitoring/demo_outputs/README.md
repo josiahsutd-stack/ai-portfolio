@@ -1,6 +1,6 @@
 # Demo Outputs
 
-Synthetic local monitoring artifacts for reviewer inspection.
+Synthetic local monitoring artifacts for direct inspection.
 
 - `sample_monitoring_report.json` shows the expected monitoring-report shape.
 

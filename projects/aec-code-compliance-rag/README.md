@@ -18,7 +18,7 @@ Design writeup: [Designing A Source-Grounded AEC RAG Assistant](../../docs/AEC_R
 
 The project connects AI engineering with the built environment. It shows how a junior/applied AI engineer can structure a domain RAG system without pretending the demo is a deployed compliance product.
 
-Key reviewer signals:
+Evidence in this repository:
 
 - Evidence-first retrieval over synthetic AEC guidance and optional Singapore public-source documents.
 - Singapore source inventory for BCA Accessibility, BCA Approved Document, BCA Green Mark, URA GFA, NEA COPEH, SCDF Fire Code, LTA interface codes, PUB drainage/sewerage codes, and NParks greenery/tree-conservation guidelines.
@@ -72,7 +72,7 @@ Try these questions:
 - Which assumptions should be logged before a planning submission?
 - What should PDF extracted accessible parking notes record for wet-weather transfers?
 
-Generated reviewer artifacts are in [`demo_outputs/`](demo_outputs/):
+Generated evaluation artifacts are in [`demo_outputs/`](demo_outputs/):
 
 - [`retrieval_eval_summary.json`](demo_outputs/retrieval_eval_summary.json)
 - [`retrieval_eval_report.md`](demo_outputs/retrieval_eval_report.md)
@@ -104,7 +104,7 @@ python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
 - Source-status analysis that flags retrieved evidence requiring version/jurisdiction review.
 - Retrieval evaluation over sample questions.
 - No-answer evaluation for unsupported compliance questions.
-- Demo output generation for reviewers.
+- Versioned demo-output generation.
 - Streamlit public/synthetic corpus switch and FastAPI query/retrieval endpoints for API-style review.
 - Tests covering chunking, retrieval, citations, no-result handling, and eval scoring.
 
@@ -182,17 +182,17 @@ The API exposes `/health`, `/sources`, `/query`, `/retrieve`, and `/logs/recent`
 - Strengthen citation-faithfulness checks beyond the current deterministic lexical coverage check.
 - Expand the evaluation set with negative questions, ambiguous jurisdiction cases, and adversarial wording.
 - Add stronger conflict detection for contradictory source content and superseded clauses.
-- Add a reviewer workflow where uncertain answers are routed to a qualified professional.
+- Add an expert-review queue for uncertain answers.
 
-## Reviewer Signal
+## Evidence
 
 - Practical RAG system design for a domain workflow.
 - Source-grounded answer design and citation ergonomics.
 - Retrieval evaluation and failure analysis discipline.
-- Local-first engineering that reviewers can run without paid APIs.
+- Local-first execution without paid APIs.
 - Honest separation between demo behavior and production compliance requirements.
 
-## Engineering Notes
+## Implementation Notes
 
 - The system uses deterministic chunk IDs and metadata so retrieval results can be inspected and tested.
 - `source_manifest.json` makes document status explicit instead of relying only on file headers.
@@ -200,7 +200,7 @@ The API exposes `/health`, `/sources`, `/query`, `/retrieve`, and `/logs/recent`
 - The assistant refuses empty questions and returns a no-evidence response when retrieval has no matching chunks.
 - The included retrieval modes are portable baselines, not final retrieval choices for a real compliance product.
 
-## Technical Review Discussion Points
+## Design Decisions
 
 - How should retrieval be evaluated before an AEC assistant is trusted by practitioners?
 - What metadata is required for citations to be auditable?

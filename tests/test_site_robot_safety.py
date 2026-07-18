@@ -1,5 +1,11 @@
+import json
+from pathlib import Path
+
 import pandas as pd
-from site_robot_safety_monitor import analyze_telemetry
+from site_robot_safety_monitor import RULE_THRESHOLDS, analyze_telemetry, load_telemetry
+
+ROOT = Path(__file__).resolve().parents[1]
+PROJECT_ROOT = ROOT / "projects" / "site-robot-safety-monitor"
 
 
 def test_robot_safety_monitor_flags_high_risk_events() -> None:
@@ -33,3 +39,46 @@ def test_robot_safety_monitor_handles_empty_inputs() -> None:
 
     assert result["event_count"] == 0
     assert result["events"] == []
+
+
+def test_worker_proximity_rule_is_exclusive_at_threshold() -> None:
+    threshold = RULE_THRESHOLDS["worker_proximity"]
+    row = pd.Series(
+        {
+            "timestamp": "2026-06-18T09:00:00",
+            "robot_id": "cart-01",
+            "speed_mps": threshold["speed_mps_gt"],
+            "nearest_worker_m": threshold["distance_m_lt"],
+            "nearest_obstacle_m": 5.0,
+            "zone_type": "open deck",
+            "payload_kg": 0,
+            "tilt_deg": 0,
+            "emergency_stop": False,
+        }
+    )
+
+    result = analyze_telemetry(pd.DataFrame([row]))
+
+    assert result["event_count"] == 0
+
+
+def test_versioned_safety_artifact_matches_current_fixture() -> None:
+    data = load_telemetry(PROJECT_ROOT / "sample_data" / "synthetic_robot_telemetry.csv")
+    result = analyze_telemetry(data)
+    artifact = json.loads(
+        (PROJECT_ROOT / "demo_outputs" / "safety_monitor_demo_summary.json").read_text(
+            encoding="utf-8"
+        )
+    )
+
+    assert artifact["data_status"] == "synthetic"
+    assert artifact["report_type"] == "deterministic_rule_execution"
+    assert artifact["dataset"]["row_count"] == len(data)
+    assert artifact["thresholds"] == RULE_THRESHOLDS
+    assert artifact["result"]["event_count"] == result["event_count"]
+    assert artifact["result"]["high_count"] == result["high_count"]
+    assert artifact["result"]["medium_count"] == result["medium_count"]
+    assert artifact["first_event"] == result["events"][0]
+    assert artifact["first_event"]["evidence"] == (
+        "Worker distance 0.76 m while speed was 1.06 m/s."
+    )

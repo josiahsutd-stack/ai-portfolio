@@ -1,6 +1,6 @@
 # Demo Outputs
 
-This folder stores reviewer-facing outputs generated from the synthetic demo corpus. The optional Singapore public-source eval writes the same artifact shape under `public_sources/`.
+This folder stores versioned outputs generated from the synthetic demo corpus. The optional Singapore public-source evaluation writes the same artifact shape under `public_sources/`.
 
 Regenerate the artifacts from the repository root:
 
