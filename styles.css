@@ -531,6 +531,64 @@ h3 {
   font-size: 0.92rem;
 }
 
+.command-copy {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  min-width: 0;
+}
+
+.command-copy code {
+  min-width: 0;
+}
+
+.copy-command {
+  width: 96px;
+  min-width: 96px;
+  padding: 10px 12px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: var(--moss);
+  color: var(--white);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.copy-command:disabled {
+  cursor: wait;
+}
+
+.copy-command[data-state="success"] {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+.copy-command[data-state="error"] {
+  border-color: var(--clay);
+  background: var(--white);
+  color: var(--clay);
+}
+
+.run-panel .copy-command,
+.workflow-callout .copy-command {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+.copy-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
 .project-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
