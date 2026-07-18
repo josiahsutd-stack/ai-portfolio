@@ -70,9 +70,9 @@
             <article class="evidence-card">
               <span>02 / Embodied AI</span>
               <h3>Construction Embodied Agent Simulator</h3>
-              <p>Shared expert demonstrations, two observation encodings, raw and filtered rollouts, and visible negative results.</p>
-              <strong>RF 0.698 / raster MLP 0.469 filtered success</strong>
-              <small>96 unseen structured-grid scenarios; both filtered policies record a 0.000 unsafe-action rate. State channels, not camera vision.</small>
+              <p>Shared expert demonstrations, three observation designs, raw and filtered rollouts, and visible filter dependence.</p>
+              <strong>Egocentric MLP 0.760 / RF 0.698 / world raster 0.292</strong>
+              <small>96 unseen grids. Egocentric result uses 943 interventions; simulator state, not camera vision.</small>
               <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/vla-embodied-agent-simulator">View project</a>
             </article>
             <article class="evidence-card">
@@ -224,14 +224,14 @@
             <h2>Language, state, action, and visible failure</h2>
             <p class="section-copy">
               The simulator maps task instructions and structured construction grids to closed-loop actions.
-              It compares engineered-state random-forest imitation with a semantic-raster MLP on the same
-              demonstrations and holdout layouts. The weaker neural result remains visible.
+              It compares engineered-state, world-raster, and agent-centered local-state imitation on the same
+              demonstrations and holdout layouts. Raw failures and filter interventions remain visible.
             </p>
             <dl class="fact-list">
-              <div><dt>Policies</dt><dd>24-feature random forest and 398-value state-raster MLP fitted from shared A* demonstrations</dd></div>
+              <div><dt>Policies</dt><dd>24-feature random forest, 398-value world-raster MLP, and 210-value egocentric MLP fitted from shared A* demonstrations</dd></div>
               <div><dt>Holdout</dt><dd>96 disjoint procedural scenarios with raw and filtered closed-loop rollouts</dd></div>
-              <div><dt>Finding</dt><dd>MLP action accuracy 0.478 versus 0.855 for the engineered-state baseline</dd></div>
-              <div><dt>Limit</dt><dd>Privileged 2D state only; no camera perception, ROS, physics, hardware, or physical-safety validation</dd></div>
+              <div><dt>Finding</dt><dd>Egocentric action accuracy 0.834 versus world-raster 0.478; filtered success 0.760 with 943 interventions</dd></div>
+              <div><dt>Limit</dt><dd>Simulator-state observations and full-state rule filter; no camera perception, ROS, physics, hardware, or physical-safety validation</dd></div>
             </dl>
             <div class="inline-links">
               <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/vla-embodied-agent-simulator">Project</a>
@@ -245,9 +245,9 @@
           <div class="flow-track">
             <div class="flow-node"><span>01</span><strong>Task and grid</strong><small>Language instruction plus structured state</small></div>
             <span class="flow-connector" aria-hidden="true"></span>
-            <div class="flow-node"><span>02</span><strong>Observation</strong><small>Engineered features or semantic state raster</small></div>
+            <div class="flow-node"><span>02</span><strong>Observation</strong><small>Engineered, world-raster, or egocentric local state</small></div>
             <span class="flow-connector" aria-hidden="true"></span>
-            <div class="flow-node"><span>03</span><strong>Learned action</strong><small>Random forest or MLP probabilities</small></div>
+            <div class="flow-node"><span>03</span><strong>Learned action</strong><small>Random forest or one of two MLPs</small></div>
             <span class="flow-connector" aria-hidden="true"></span>
             <div class="flow-node"><span>04</span><strong>Safety filter</strong><small>Optional rejection of invalid actions</small></div>
             <span class="flow-connector" aria-hidden="true"></span>
