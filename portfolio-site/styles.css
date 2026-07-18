@@ -45,6 +45,31 @@ a {
   text-decoration: none;
 }
 
+:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 5px var(--ink);
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 100;
+  top: 12px;
+  left: 12px;
+  padding: 10px 14px;
+  border: 2px solid var(--gold);
+  border-radius: 6px;
+  background: var(--ink);
+  color: var(--white);
+  font-weight: 800;
+  transform: translateY(-180%);
+  transition: transform 120ms ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
 .site-header {
   position: fixed;
   z-index: 10;
@@ -159,7 +184,7 @@ section[id] {
 
 .eyebrow {
   margin: 0 0 12px;
-  color: var(--gold);
+  color: var(--clay);
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0;
@@ -172,6 +197,12 @@ h3,
 p {
   margin-top: 0;
   overflow-wrap: anywhere;
+}
+
+.hero .eyebrow,
+.case-hero .eyebrow,
+.band--ink .eyebrow {
+  color: var(--gold);
 }
 
 h1 {
@@ -1511,9 +1542,13 @@ h3 {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .evidence-card,
-  .project-card {
-    transition: none;
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 

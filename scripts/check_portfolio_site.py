@@ -15,6 +15,14 @@ PLACEHOLDER_PATTERNS = [
     "example.com",
 ]
 URL_PATTERN = re.compile(r"url\((?P<quote>['\"]?)(?P<path>.*?)(?P=quote)\)")
+CSS_VARIABLE_PATTERN = re.compile(r"--(?P<name>[a-z0-9-]+):\s*(?P<value>#[0-9a-fA-F]{6})")
+REQUIRED_CONTRAST_PAIRS = [
+    ("clay", "white", 4.5),
+    ("clay", "paper", 4.5),
+    ("gold", "ink", 4.5),
+    ("muted", "white", 4.5),
+    ("muted", "paper", 4.5),
+]
 REQUIRED_HOME_ASSETS = [
     "assets/favicon.svg",
     "assets/applied-ai-construction-hero.webp",
@@ -127,6 +135,22 @@ CASE_STUDY_COMMON_REQUIREMENTS = [
     'property="og:image"',
     'name="twitter:card"',
 ]
+REQUIRED_CSS_INTERACTION_CONTRACTS = [
+    ":focus-visible",
+    ".skip-link",
+    ".skip-link:focus",
+    "color: var(--clay)",
+    "@media (prefers-reduced-motion: reduce)",
+    "scroll-behavior: auto !important",
+    "transition-duration: 0.01ms !important",
+]
+REQUIRED_SCRIPT_INTERACTION_CONTRACTS = [
+    "function closeNavigation(restoreFocus)",
+    'event.key === "Escape"',
+    "closeNavigation(true)",
+    "toggle.focus()",
+    'window.addEventListener("resize"',
+]
 CASE_STUDY_ASSET_MIRRORS = {
     "assets/aec-rag-system-map.svg": (
         "projects/aec-code-compliance-rag/demo_outputs/system_map.svg"
@@ -169,6 +193,8 @@ class SiteLinkParser(HTMLParser):
         self.meta_description: str | None = None
         self.meta_viewport: str | None = None
         self.nav_toggles: list[dict[str, str | None]] = []
+        self.skip_links: list[str | None] = []
+        self.main_content_tabindexes: list[str | None] = []
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         attributes = dict(attrs)
@@ -187,6 +213,10 @@ class SiteLinkParser(HTMLParser):
                 self.meta_viewport = attributes.get("content")
 
         classes = set((attributes.get("class") or "").split())
+        if tag == "a" and "skip-link" in classes:
+            self.skip_links.append(attributes.get("href"))
+        if tag == "main" and attributes.get("id") == "main-content":
+            self.main_content_tabindexes.append(attributes.get("tabindex"))
         if tag == "button" and "nav-toggle" in classes:
             self.nav_toggles.append(
                 {
@@ -306,6 +336,10 @@ def check_page_accessibility_contracts() -> list[str]:
             issues.append(f"{label}: viewport metadata is missing")
         if not parser.meta_description or len(parser.meta_description.strip()) < 40:
             issues.append(f"{label}: meaningful page description metadata is missing")
+        if parser.skip_links != ["#main-content"]:
+            issues.append(f"{label}: expected one skip link targeting `#main-content`")
+        if parser.main_content_tabindexes != ["-1"]:
+            issues.append(f"{label}: expected one focusable main landmark with id `main-content`")
 
         for index, alt in enumerate(parser.image_alts, start=1):
             if alt is None or not alt.strip():
@@ -328,6 +362,63 @@ def check_page_accessibility_contracts() -> list[str]:
             issues.append(f"{label}: navigation toggle aria-controls target is missing")
         if toggle["aria-expanded"] != "false":
             issues.append(f"{label}: navigation toggle must initialize collapsed")
+    return issues
+
+
+def check_shared_interaction_contracts() -> list[str]:
+    issues: list[str] = []
+    css = (SITE_ROOT / "styles.css").read_text(encoding="utf-8")
+    script = (SITE_ROOT / "site.js").read_text(encoding="utf-8")
+
+    issues.extend(
+        f"portfolio-site/styles.css: interaction contract missing: {requirement}"
+        for requirement in REQUIRED_CSS_INTERACTION_CONTRACTS
+        if requirement not in css
+    )
+    issues.extend(
+        f"portfolio-site/site.js: interaction contract missing: {requirement}"
+        for requirement in REQUIRED_SCRIPT_INTERACTION_CONTRACTS
+        if requirement not in script
+    )
+    return issues
+
+
+def relative_luminance(hex_color: str) -> float:
+    channels = [int(hex_color[index : index + 2], 16) / 255 for index in (1, 3, 5)]
+    linear = [
+        channel / 12.92 if channel <= 0.04045 else ((channel + 0.055) / 1.055) ** 2.4
+        for channel in channels
+    ]
+    return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2]
+
+
+def contrast_ratio(foreground: str, background: str) -> float:
+    light, dark = sorted(
+        [relative_luminance(foreground), relative_luminance(background)],
+        reverse=True,
+    )
+    return (light + 0.05) / (dark + 0.05)
+
+
+def check_palette_contrast() -> list[str]:
+    css = (SITE_ROOT / "styles.css").read_text(encoding="utf-8")
+    palette = {
+        match.group("name"): match.group("value") for match in CSS_VARIABLE_PATTERN.finditer(css)
+    }
+    issues: list[str] = []
+    for foreground, background, minimum in REQUIRED_CONTRAST_PAIRS:
+        if foreground not in palette or background not in palette:
+            issues.append(
+                "portfolio-site/styles.css: required contrast color variable missing: "
+                f"{foreground} or {background}"
+            )
+            continue
+        ratio = contrast_ratio(palette[foreground], palette[background])
+        if ratio < minimum:
+            issues.append(
+                "portfolio-site/styles.css: contrast failure for "
+                f"{foreground} on {background}: {ratio:.2f}:1 < {minimum:.1f}:1"
+            )
     return issues
 
 
@@ -394,6 +485,8 @@ def main() -> None:
         check_html_links()
         + check_css_assets()
         + check_page_accessibility_contracts()
+        + check_shared_interaction_contracts()
+        + check_palette_contrast()
         + check_home_evidence_labels()
         + check_case_studies()
         + check_case_study_asset_mirrors()

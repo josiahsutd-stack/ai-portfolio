@@ -6,6 +6,8 @@ from scripts.check_portfolio_site import (
     check_home_evidence_labels,
     check_html_links,
     check_page_accessibility_contracts,
+    check_palette_contrast,
+    check_shared_interaction_contracts,
     html_files,
 )
 
@@ -29,6 +31,14 @@ def test_site_navigation_and_local_assets_resolve() -> None:
 
 def test_every_public_page_keeps_accessibility_metadata_and_controls() -> None:
     assert check_page_accessibility_contracts() == []
+
+
+def test_shared_site_keeps_keyboard_motion_and_contrast_contracts() -> None:
+    assert check_shared_interaction_contracts() == []
+
+
+def test_shared_palette_keeps_readable_text_contrast() -> None:
+    assert check_palette_contrast() == []
 
 
 def test_every_public_page_uses_the_shared_navigation_script() -> None:
