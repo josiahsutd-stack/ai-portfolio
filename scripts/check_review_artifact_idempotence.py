@@ -10,9 +10,9 @@ ARTIFACT_DIRS = [
     ROOT / "projects" / "aec-code-compliance-rag" / "demo_outputs",
     ROOT / "projects" / "agentic-research-ops-assistant" / "demo_outputs",
     ROOT / "projects" / "mlops-model-serving-monitoring" / "demo_outputs",
-    ROOT / "projects" / "building-energy-ml-pipeline" / "demo_outputs",
-    ROOT / "projects" / "site-robot-safety-monitor" / "demo_outputs",
-    ROOT / "projects" / "multimodal-vlm-visual-qa" / "demo_outputs",
+    ROOT / "experiments" / "building-energy-ml-pipeline" / "demo_outputs",
+    ROOT / "experiments" / "site-robot-safety-monitor" / "demo_outputs",
+    ROOT / "experiments" / "multimodal-vlm-visual-qa" / "demo_outputs",
     ROOT / "projects" / "real-model-finetune-lab" / "demo_outputs",
     ROOT / "projects" / "vla-embodied-agent-simulator" / "demo_outputs",
 ]

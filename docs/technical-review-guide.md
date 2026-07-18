@@ -1,6 +1,6 @@
 # Technical Review Guide
 
-This guide separates implementation evidence from portfolio framing. The repository contains one flagship, two role-defining projects, two substantial supporting systems, and fourteen smaller experiments or baselines.
+This guide separates implementation evidence from portfolio framing. The `projects/` directory contains one flagship, two role-defining projects, and two substantial supporting systems. Fourteen smaller baselines live separately under `experiments/`.
 
 ## 1. AEC Code Compliance RAG - Flagship
 
@@ -44,7 +44,7 @@ Synthetic churn training, generated artifact metadata, FastAPI validation, SQLit
 
 ## Experiments And Baselines
 
-The visual-provider contract, LoRA data/configuration validator, vision threshold model, sequential-decision environments, ranking and time-series baselines, BIM and energy checks, construction metadata classifier, spatial scorer, job matcher, and smaller robotics simulations provide supporting breadth. Their README limitations are part of the evidence; none should be interpreted as equal depth to the flagship.
+The [`experiments/`](../experiments/README.md) directory contains the visual-provider contract, LoRA data/configuration validator, vision threshold model, sequential-decision environments, ranking and time-series baselines, BIM and energy checks, construction metadata classifier, spatial scorer, job matcher, and smaller robotics simulations. Their README limitations are part of the record; none supports the headline claims or carries equal depth to the flagship.
 
 ## Verification
 
@@ -52,4 +52,4 @@ The visual-provider contract, LoRA data/configuration validator, vision threshol
 python scripts/verify.py
 ```
 
-The verifier scans public claims and links, imports all project modules, regenerates deterministic review artifacts, checks formatting and linting, and runs the full test suite.
+The verifier scans public claims and links, imports selected-project and experiment modules, regenerates deterministic evidence artifacts, checks formatting and linting, and runs the full test suite.

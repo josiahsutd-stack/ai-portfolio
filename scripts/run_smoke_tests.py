@@ -7,6 +7,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PROJECTS_DIR = ROOT / "projects"
+EXPERIMENTS_DIR = ROOT / "experiments"
 MODULES = [
     "aec_code_compliance_rag",
     "construction_progress_cv",
@@ -32,23 +33,25 @@ MODULES = [
 
 def add_project_paths() -> None:
     sys.path.insert(0, str(ROOT))
-    for project in sorted(PROJECTS_DIR.iterdir()):
-        src = project / "src"
-        if src.exists():
-            sys.path.insert(0, str(src))
+    for root in (PROJECTS_DIR, EXPERIMENTS_DIR):
+        for project in sorted(root.iterdir()):
+            src = project / "src"
+            if src.exists():
+                sys.path.insert(0, str(src))
 
 
 def check_structure() -> list[str]:
     issues: list[str] = []
-    for project in sorted(PROJECTS_DIR.iterdir()):
-        if not project.is_dir():
-            continue
-        if not (project / "README.md").exists():
-            issues.append(f"{project.name}: missing README.md")
-        if not (project / "app.py").exists():
-            issues.append(f"{project.name}: missing app.py")
-        if not (project / "sample_data").exists():
-            issues.append(f"{project.name}: missing sample_data")
+    for root in (PROJECTS_DIR, EXPERIMENTS_DIR):
+        for project in sorted(root.iterdir()):
+            if not project.is_dir():
+                continue
+            if not (project / "README.md").exists():
+                issues.append(f"{project.name}: missing README.md")
+            if not (project / "app.py").exists():
+                issues.append(f"{project.name}: missing app.py")
+            if not (project / "sample_data").exists():
+                issues.append(f"{project.name}: missing sample_data")
     return issues
 
 

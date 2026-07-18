@@ -11,7 +11,7 @@ from building_energy_ml_pipeline.model import (
 )
 
 ROOT = Path(__file__).resolve().parents[1]
-PROJECT_ROOT = ROOT / "projects" / "building-energy-ml-pipeline"
+PROJECT_ROOT = ROOT / "experiments" / "building-energy-ml-pipeline"
 
 
 def _energy_frame() -> pd.DataFrame:

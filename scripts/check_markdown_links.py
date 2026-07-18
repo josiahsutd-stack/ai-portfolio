@@ -13,6 +13,7 @@ def public_markdown_files() -> list[Path]:
     files = list(ROOT.glob("*.md"))
     files.extend((ROOT / "docs").rglob("*.md"))
     files.extend((ROOT / "projects").rglob("*.md"))
+    files.extend((ROOT / "experiments").rglob("*.md"))
     return sorted(set(files))
 
 

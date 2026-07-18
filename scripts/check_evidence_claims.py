@@ -20,6 +20,7 @@ class ClaimContext:
     claim: dict[str, Any]
     values: dict[str, str]
     project_name: str
+    project_readme: str
     boundary: str
 
 
@@ -154,6 +155,7 @@ def materialize_claims(
                 claim=claim,
                 values=values,
                 project_name=str(project.get("name", slug)),
+                project_readme=str(project.get("readme_path", f"projects/{slug}/README.md")),
                 boundary=str(project.get("boundary", "")),
             )
         )
@@ -220,7 +222,7 @@ def render_ledger(contexts: list[ClaimContext]) -> str:
         result = render_template(str(claim["result_template"]), context.values)
         artifact = str(claim["artifact"])
         artifact_link = f"../{artifact}"
-        project_link = f"../projects/{claim['project_slug']}/README.md"
+        project_link = f"../{context.project_readme}"
         row = [
             f"[{context.project_name}]({project_link})",
             render_template(str(claim["evaluation_scope"]), context.values),

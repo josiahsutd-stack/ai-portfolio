@@ -5,7 +5,7 @@ import pandas as pd
 from site_robot_safety_monitor import RULE_THRESHOLDS, analyze_telemetry, load_telemetry
 
 ROOT = Path(__file__).resolve().parents[1]
-PROJECT_ROOT = ROOT / "projects" / "site-robot-safety-monitor"
+PROJECT_ROOT = ROOT / "experiments" / "site-robot-safety-monitor"
 
 
 def test_robot_safety_monitor_flags_high_risk_events() -> None:

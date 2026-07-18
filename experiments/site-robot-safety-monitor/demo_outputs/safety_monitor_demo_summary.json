@@ -1,0 +1,47 @@
+{
+  "artifact_schema_version": 1,
+  "data_status": "synthetic",
+  "report_type": "deterministic_rule_execution",
+  "dataset": {
+    "path": "experiments/site-robot-safety-monitor/sample_data/synthetic_robot_telemetry.csv",
+    "row_count": 36
+  },
+  "thresholds": {
+    "worker_proximity": {
+      "distance_m_lt": 1.2,
+      "speed_mps_gt": 0.8
+    },
+    "obstacle_clearance": {
+      "distance_m_lt": 0.7,
+      "speed_mps_gt": 0.5
+    },
+    "restricted_zone_speed": {
+      "speed_mps_gt": 1.0
+    },
+    "payload_stability": {
+      "payload_kg_gt": 60.0,
+      "tilt_deg_gt": 8.0
+    }
+  },
+  "result": {
+    "event_count": 26,
+    "high_count": 19,
+    "medium_count": 7,
+    "events_by_type": {
+      "emergency_stop": 2,
+      "obstacle_clearance": 5,
+      "payload_stability": 2,
+      "restricted_zone_speed": 7,
+      "worker_proximity": 10
+    }
+  },
+  "first_event": {
+    "timestamp": "2026-06-18T09:01:00",
+    "robot_id": "cart-runner-02",
+    "severity": "high",
+    "risk_type": "worker_proximity",
+    "evidence": "Worker distance 0.76 m while speed was 1.06 m/s.",
+    "recommended_action": "Reduce speed, increase exclusion buffer, or switch to escorted/manual mode."
+  },
+  "evaluation_boundary": "Rule execution over an unlabeled synthetic fixture; no precision, recall, false-positive, or physical-safety claim."
+}

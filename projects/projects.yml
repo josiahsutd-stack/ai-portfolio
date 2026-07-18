@@ -19,7 +19,7 @@ projects:
     category: AI for the Built Environment
     skill_area: Metadata classification around an image-review workflow
     flagship: false
-    demo_command: streamlit run projects/construction-progress-cv/app.py
+    demo_command: streamlit run experiments/construction-progress-cv/app.py
     test_command: pytest
     tech_stack: [Python, pandas, scikit-learn, FastAPI]
     summary: Fits a random-forest classifier on synthetic site-image metadata; no image pixels are loaded or modeled.
@@ -28,13 +28,13 @@ projects:
     data_mode: "Synthetic image metadata"
     implementation_mode: "Random-forest tabular classifier"
     boundary: "No computer-vision model or pixel-level inference"
-    readme_path: projects/construction-progress-cv/README.md
+    readme_path: experiments/construction-progress-cv/README.md
   - name: BIM Schedule Rule Checker
     slug: bim-issue-detection-agent
     category: AI for the Built Environment
     skill_area: Structured-data validation and optional explanations
     flagship: false
-    demo_command: streamlit run projects/bim-issue-detection-agent/app.py
+    demo_command: streamlit run experiments/bim-issue-detection-agent/app.py
     test_command: pytest tests/test_bim_issues.py
     tech_stack: [Python, pandas, Streamlit]
     summary: Applies deterministic coordination rules to synthetic BIM room schedules and optionally formats explanations.
@@ -43,13 +43,13 @@ projects:
     data_mode: "Synthetic BIM room schedules"
     implementation_mode: "Deterministic rule engine with optional mock or hosted explanation provider"
     boundary: "Not BIM model parsing, geometric clash detection, or professional QA"
-    readme_path: projects/bim-issue-detection-agent/README.md
+    readme_path: experiments/bim-issue-detection-agent/README.md
   - name: AI/AEC Job Description Match Baseline
     slug: ai-aec-job-fit-analyzer
     category: AI for the Built Environment
     skill_area: Deterministic text matching
     flagship: false
-    demo_command: streamlit run projects/ai-aec-job-fit-analyzer/app.py
+    demo_command: streamlit run experiments/ai-aec-job-fit-analyzer/app.py
     test_command: pytest tests/test_job_fit.py
     tech_stack: [Python, Streamlit]
     summary: Scores job-description terms against a supplied skill profile using transparent keyword rules.
@@ -58,13 +58,13 @@ projects:
     data_mode: "User-supplied or bundled example job text"
     implementation_mode: "Keyword matching and weighted rules"
     boundary: "Not a learned hiring model or evidence of candidate suitability"
-    readme_path: projects/ai-aec-job-fit-analyzer/README.md
+    readme_path: experiments/ai-aec-job-fit-analyzer/README.md
   - name: Building Energy Regression Experiment
     slug: building-energy-ml-pipeline
     category: AI for the Built Environment
     skill_area: Classical ML
     flagship: false
-    demo_command: streamlit run projects/building-energy-ml-pipeline/app.py
+    demo_command: streamlit run experiments/building-energy-ml-pipeline/app.py
     test_command: pytest tests/test_energy_model.py
     tech_stack: [Python, pandas, scikit-learn, FastAPI]
     summary: Predicts synthetic building energy intensity from design features.
@@ -73,13 +73,13 @@ projects:
     data_mode: "Synthetic building-performance rows"
     implementation_mode: "Random-forest regression pipeline"
     boundary: "Not calibrated energy simulation or professional performance analysis"
-    readme_path: projects/building-energy-ml-pipeline/README.md
+    readme_path: experiments/building-energy-ml-pipeline/README.md
   - name: Spatial Design Scoring Baseline
     slug: spatial-design-recommender
     category: AI for the Built Environment
     skill_area: Recommendation systems
     flagship: false
-    demo_command: streamlit run projects/spatial-design-recommender/app.py
+    demo_command: streamlit run experiments/spatial-design-recommender/app.py
     test_command: pytest tests/test_recommender.py
     tech_stack: [Python, FastAPI, Streamlit]
     summary: Scores synthetic design scenarios with explicit weighted rules and returns traceable suggestions.
@@ -88,13 +88,13 @@ projects:
     data_mode: "Synthetic design scenarios"
     implementation_mode: "Deterministic weighted-rule scorer"
     boundary: "Not generative design, optimization, or validated architectural advice"
-    readme_path: projects/spatial-design-recommender/README.md
+    readme_path: experiments/spatial-design-recommender/README.md
   - name: Construction Grid Route Planner
     slug: construction-robot-task-planner
     category: AI for the Built Environment
     skill_area: Embodied AI planning
     flagship: false
-    demo_command: streamlit run projects/construction-robot-task-planner/app.py
+    demo_command: streamlit run experiments/construction-robot-task-planner/app.py
     test_command: pytest tests/test_robot_task_planner.py
     tech_stack: [Python, Streamlit, FastAPI]
     summary: Uses A* to route a simulated construction robot through synthetic grid constraints.
@@ -103,13 +103,13 @@ projects:
     data_mode: "Synthetic grid maps"
     implementation_mode: "Deterministic A* route planning"
     boundary: "No perception, motion planning, physics, ROS, or robot hardware"
-    readme_path: projects/construction-robot-task-planner/README.md
+    readme_path: experiments/construction-robot-task-planner/README.md
   - name: Robot Telemetry Safety Rule Monitor
     slug: site-robot-safety-monitor
     category: AI for the Built Environment
     skill_area: Robotics safety monitoring
     flagship: false
-    demo_command: streamlit run projects/site-robot-safety-monitor/app.py
+    demo_command: streamlit run experiments/site-robot-safety-monitor/app.py
     test_command: pytest tests/test_site_robot_safety.py
     tech_stack: [Python, pandas, FastAPI]
     summary: Applies explicit safety rules to synthetic construction-robot telemetry.
@@ -118,13 +118,13 @@ projects:
     data_mode: "Synthetic robot telemetry"
     implementation_mode: "Deterministic threshold and zone rules"
     boundary: "Not a certified safety system or physical robot validation"
-    readme_path: projects/site-robot-safety-monitor/README.md
+    readme_path: experiments/site-robot-safety-monitor/README.md
   - name: Visual QA Provider Contract
     slug: multimodal-vlm-visual-qa
     category: General AI Engineering
     skill_area: Multimodal provider integration
     flagship: false
-    demo_command: streamlit run projects/multimodal-vlm-visual-qa/app.py
+    demo_command: streamlit run experiments/multimodal-vlm-visual-qa/app.py
     test_command: pytest tests/test_general_ai_projects.py
     tech_stack: [Python, Streamlit, FastAPI, Pydantic]
     summary: Validates image bytes, builds image-plus-question requests, and parses structured responses through an honest mock or optional hosted provider.
@@ -133,7 +133,7 @@ projects:
     data_mode: "User-supplied image bytes; checked-in output is mock only"
     implementation_mode: "Zero-confidence mock and optional OpenAI-compatible hosted request path"
     boundary: "No local VLM, OCR, visual reasoning, or defect-detection evidence"
-    readme_path: projects/multimodal-vlm-visual-qa/README.md
+    readme_path: experiments/multimodal-vlm-visual-qa/README.md
   - name: Deterministic Research Workflow Assistant
     slug: agentic-research-ops-assistant
     category: General AI Engineering
@@ -169,7 +169,7 @@ projects:
     category: General AI Engineering
     skill_area: Sequential-decision simulation
     flagship: false
-    demo_command: streamlit run projects/reinforcement-learning-portfolio/app.py
+    demo_command: streamlit run experiments/reinforcement-learning-portfolio/app.py
     test_command: pytest tests/test_general_ai_projects.py
     tech_stack: [Python, Streamlit]
     summary: Inventory and pricing environments with random and hand-written policy evaluation; no policy is learned.
@@ -178,13 +178,13 @@ projects:
     data_mode: "Synthetic simulator trajectories"
     implementation_mode: "Custom environments with random and heuristic policies"
     boundary: "No Q-learning, policy gradients, DQN, PPO, or other learned policy"
-    readme_path: projects/reinforcement-learning-portfolio/README.md
+    readme_path: experiments/reinforcement-learning-portfolio/README.md
   - name: Vision Baseline / Threshold Model Lab
     slug: deep-learning-vision-lab
     category: General AI Engineering
     skill_area: Computer vision baselines
     flagship: false
-    demo_command: streamlit run projects/deep-learning-vision-lab/app.py
+    demo_command: streamlit run experiments/deep-learning-vision-lab/app.py
     test_command: pytest tests/test_general_ai_projects.py
     tech_stack: [Python, NumPy, FastAPI, Streamlit]
     summary: Synthetic defect-detection workflow with a classical threshold baseline, metrics, and model card.
@@ -193,13 +193,13 @@ projects:
     data_mode: "Programmatically generated 16x16 synthetic images"
     implementation_mode: "Deterministic bright-pixel threshold classifier"
     boundary: "No neural network, learned vision features, or real image benchmark"
-    readme_path: projects/deep-learning-vision-lab/README.md
+    readme_path: experiments/deep-learning-vision-lab/README.md
   - name: Prompt and Output Validation Checks
     slug: llm-evals-guardrails-platform
     category: General AI Engineering
     skill_area: Deterministic application-output checks
     flagship: false
-    demo_command: streamlit run projects/llm-evals-guardrails-platform/app.py
+    demo_command: streamlit run experiments/llm-evals-guardrails-platform/app.py
     test_command: pytest tests/test_general_ai_projects.py
     tech_stack: [Python, Streamlit, FastAPI]
     summary: Runs deterministic prompt-pattern, citation-coverage, and structured-output checks over supplied text.
@@ -208,7 +208,7 @@ projects:
     data_mode: "Synthetic prompts and outputs"
     implementation_mode: "Deterministic pattern and schema checks"
     boundary: "Not a comprehensive model-safety, security, or guardrail platform"
-    readme_path: projects/llm-evals-guardrails-platform/README.md
+    readme_path: experiments/llm-evals-guardrails-platform/README.md
   - name: Local Model Serving and Monitoring Scaffold
     slug: mlops-model-serving-monitoring
     category: General AI Engineering
@@ -229,7 +229,7 @@ projects:
     category: General AI Engineering
     skill_area: Recommender systems
     flagship: false
-    demo_command: streamlit run projects/recommender-system-ranking-engine/app.py
+    demo_command: streamlit run experiments/recommender-system-ranking-engine/app.py
     test_command: pytest tests/test_general_ai_projects.py
     tech_stack: [Python, pandas, scikit-learn, FastAPI]
     summary: Popularity and TF-IDF content-similarity ranking with small offline metrics.
@@ -238,13 +238,13 @@ projects:
     data_mode: "Synthetic users, items, and interactions"
     implementation_mode: "Popularity and TF-IDF content-similarity baselines"
     boundary: "No collaborative filtering training, online feedback, or production ranking evaluation"
-    readme_path: projects/recommender-system-ranking-engine/README.md
+    readme_path: experiments/recommender-system-ranking-engine/README.md
   - name: Time-Series Forecast and Anomaly Baselines
     slug: time-series-anomaly-forecasting
     category: General AI Engineering
     skill_area: Time-series baselines
     flagship: false
-    demo_command: streamlit run projects/time-series-anomaly-forecasting/app.py
+    demo_command: streamlit run experiments/time-series-anomaly-forecasting/app.py
     test_command: pytest tests/test_general_ai_projects.py
     tech_stack: [Python, pandas, scikit-learn, FastAPI]
     summary: Applies moving-average forecasting and threshold anomaly detection to synthetic traffic.
@@ -253,13 +253,13 @@ projects:
     data_mode: "Synthetic traffic time series"
     implementation_mode: "Moving-average forecast and deterministic anomaly threshold"
     boundary: "No learned forecasting model, probabilistic intervals, or operational alerting"
-    readme_path: projects/time-series-anomaly-forecasting/README.md
+    readme_path: experiments/time-series-anomaly-forecasting/README.md
   - name: LoRA Dataset and Configuration Validator
     slug: fine-tuning-lora-lab
     category: General AI Engineering
     skill_area: Adaptation data and configuration validation
     flagship: false
-    demo_command: streamlit run projects/fine-tuning-lora-lab/app.py
+    demo_command: streamlit run experiments/fine-tuning-lora-lab/app.py
     test_command: pytest tests/test_general_ai_projects.py
     tech_stack: [Python, Streamlit]
     summary: Validates instruction rows, duplicates, splits, and LoRA configuration before producing a simulated run report.
@@ -268,7 +268,7 @@ projects:
     data_mode: "Synthetic support-ticket instructions"
     implementation_mode: "Dataset and configuration validation with a simulated no-training report"
     boundary: "No tokenizer, pretrained model, PEFT adapter, GPU training, or updated parameters"
-    readme_path: projects/fine-tuning-lora-lab/README.md
+    readme_path: experiments/fine-tuning-lora-lab/README.md
   - name: Local Text Classification Lab
     slug: real-model-finetune-lab
     category: General AI Engineering

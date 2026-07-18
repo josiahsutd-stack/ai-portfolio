@@ -7,4 +7,3 @@ COPY . .
 
 EXPOSE 8501
 CMD ["streamlit", "run", "projects/aec-code-compliance-rag/app.py", "--server.address=0.0.0.0"]
-

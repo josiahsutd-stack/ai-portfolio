@@ -10,7 +10,7 @@ This guide gives recruiters and technical interviewers a short path through the 
 | 2 | `projects/vla-embodied-agent-simulator` | procedural splits, fitted behavior-cloning model, raw/filtered holdout metrics, failure analysis, replay traces, and focused tests | Structured embodied-agent simulation; not a foundation VLA or hardware. |
 | 3 | `projects/real-model-finetune-lab` | held-out metrics, confusion matrix, training code, focused tests | Real classical-model fitting on small datasets; no transformer training. |
 
-Deterministic Research Workflow Assistant and Local Model Serving and Monitoring are the strongest supporting workflow projects. The other fourteen projects are narrower experiments or baselines.
+Deterministic Research Workflow Assistant and Local Model Serving and Monitoring are the strongest supporting workflow projects. Fourteen narrower baselines are separated under [`experiments/`](../experiments/README.md); they remain tested but do not support the headline claims.
 
 ## Fast Verification
 

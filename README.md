@@ -114,29 +114,7 @@ Architecture is the domain context for the AEC and embodied-AI projects, not a s
 
 ## Experiments And Baselines
 
-The remaining projects are deliberately tiered below the flagship and supporting systems. They demonstrate narrower workflows, baselines, or interface contracts rather than comparable depth.
-
-[Open the complete project evidence inventory](projects/README.md) for each implementation mode and hard boundary.
-
-<details>
-<summary>View experiments and baselines</summary>
-
-- [Construction Progress Metadata Classifier](projects/construction-progress-cv/README.md)
-- [BIM Schedule Rule Checker](projects/bim-issue-detection-agent/README.md)
-- [AI/AEC Job Description Match Baseline](projects/ai-aec-job-fit-analyzer/README.md)
-- [Building Energy Regression Pipeline](projects/building-energy-ml-pipeline/README.md)
-- [Spatial Design Scoring Baseline](projects/spatial-design-recommender/README.md)
-- [Construction Grid Route Planner](projects/construction-robot-task-planner/README.md)
-- [Robot Telemetry Safety Rule Monitor](projects/site-robot-safety-monitor/README.md)
-- [Visual QA Provider Contract](projects/multimodal-vlm-visual-qa/README.md)
-- [Sequential Decision Simulation Baselines](projects/reinforcement-learning-portfolio/README.md)
-- [Vision Baseline / Threshold Model Lab](projects/deep-learning-vision-lab/README.md)
-- [Prompt and Output Validation Checks](projects/llm-evals-guardrails-platform/README.md)
-- [Content-Based Ranking Baseline](projects/recommender-system-ranking-engine/README.md)
-- [Time-Series Forecast and Anomaly Baselines](projects/time-series-anomaly-forecasting/README.md)
-- [LoRA Dataset and Configuration Validator](projects/fine-tuning-lora-lab/README.md)
-
-</details>
+Narrow baselines and interface contracts are kept under [`experiments/`](experiments/README.md), outside the selected project tree. They remain runnable and tested, but they do not support the portfolio's headline claims.
 
 ## Evidence Labels
 
@@ -152,7 +130,8 @@ The remaining projects are deliberately tiered below the flagship and supporting
 ## Repository Map
 
 ```text
-projects/                 project code, project-level evidence, and limitations
+projects/                 five selected projects and their evidence
+experiments/              narrow baselines and interface-contract studies
 tests/                    cross-project and focused regression tests
 scripts/                  setup, verification, claim, site, and artifact checks
 docs/                     reviewer guides, design notes, and portfolio-wide boundaries

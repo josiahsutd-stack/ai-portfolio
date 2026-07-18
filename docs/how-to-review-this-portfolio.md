@@ -35,7 +35,7 @@ This path downloads official Singapore sources locally. It demonstrates provenan
 2. Construction Embodied Agent Simulator: strongest embodied-AI evidence, with real behavior cloning and disjoint holdout episodes inside a structured 2D environment.
 3. Local Text Classification Lab: clearest proof that classical model parameters are actually fitted and evaluated.
 4. Deterministic Research Workflow Assistant and Local Model Serving and Monitoring: substantial supporting workflow systems.
-5. Remaining projects: narrower experiments and baselines.
+5. Remaining work under [`experiments/`](../experiments/README.md): narrower baselines and interface contracts.
 
 ## Full Verification
 
@@ -43,4 +43,4 @@ This path downloads official Singapore sources locally. It demonstrates provenan
 python scripts/verify.py
 ```
 
-The full check covers fixture generation, repository health, claim and link scans, project imports, deterministic review-artifact generation, formatting, linting, and pytest.
+The full check covers fixture generation, repository health, claim and link scans, selected-project and experiment imports, deterministic evidence-artifact generation, formatting, linting, and pytest.

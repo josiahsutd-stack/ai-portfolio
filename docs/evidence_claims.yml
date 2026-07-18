@@ -159,8 +159,8 @@ claims:
 
   - id: synthetic-building-energy-regression
     project_slug: building-energy-ml-pipeline
-    artifact: projects/building-energy-ml-pipeline/demo_outputs/energy_eval_summary.json
-    command: python projects/building-energy-ml-pipeline/evaluate_model.py
+    artifact: experiments/building-energy-ml-pipeline/demo_outputs/energy_eval_summary.json
+    command: python experiments/building-energy-ml-pipeline/evaluate_model.py
     evaluation_scope: Fixed {train_rows}/{test_rows} split of {row_count} bundled synthetic building rows
     metrics:
       row_count:
@@ -186,7 +186,7 @@ claims:
         decimals: 3
     result_template: "Random-forest MAE {model_mae} and R2 {model_r2} vs mean-baseline MAE {baseline_mae}; {test_rows} synthetic holdout rows"
     public_surfaces:
-      - path: projects/building-energy-ml-pipeline/README.md
+      - path: experiments/building-energy-ml-pipeline/README.md
         contains:
           - "| Data | `{row_count}` synthetic rows |"
           - "| Fixed split | `{train_rows}` train / `{test_rows}` holdout rows |"
@@ -195,7 +195,7 @@ claims:
           - "| Training-mean baseline MAE | `{baseline_mae}` kWh/m2/year |"
           - "| Training-mean baseline R2 | `{baseline_r2}` |"
           - "| MAE reduction relative to baseline | `{mae_reduction}` |"
-      - path: projects/building-energy-ml-pipeline/MODEL_CARD.md
+      - path: experiments/building-energy-ml-pipeline/MODEL_CARD.md
         contains:
           - "contains `{train_rows}` training rows and `{test_rows}` holdout rows"
           - "records MAE `{model_mae}` and R2 `{model_r2}`"
@@ -204,8 +204,8 @@ claims:
 
   - id: synthetic-robot-safety-rule-execution
     project_slug: site-robot-safety-monitor
-    artifact: projects/site-robot-safety-monitor/demo_outputs/safety_monitor_demo_summary.json
-    command: python projects/site-robot-safety-monitor/generate_demo_report.py
+    artifact: experiments/site-robot-safety-monitor/demo_outputs/safety_monitor_demo_summary.json
+    command: python experiments/site-robot-safety-monitor/generate_demo_report.py
     evaluation_scope: Deterministic rule execution over {row_count} bundled unlabeled synthetic telemetry rows
     metrics:
       row_count:
@@ -222,7 +222,7 @@ claims:
         json_path: first_event.evidence
     result_template: "{event_count} rule events ({high_count} high, {medium_count} medium) from {row_count} synthetic rows; no labeled accuracy evaluation"
     public_surfaces:
-      - path: projects/site-robot-safety-monitor/README.md
+      - path: experiments/site-robot-safety-monitor/README.md
         contains:
           - "| Synthetic telemetry rows | `{row_count}` |"
           - "| Emitted rule events | `{event_count}` |"

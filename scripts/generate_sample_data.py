@@ -310,7 +310,7 @@ def generate_construction_progress() -> None:
             }
         )
     pd.DataFrame(rows).to_csv(
-        ROOT / "projects/construction-progress-cv/sample_data/synthetic_progress_metadata.csv",
+        ROOT / "experiments/construction-progress-cv/sample_data/synthetic_progress_metadata.csv",
         index=False,
     )
 
@@ -379,11 +379,11 @@ def generate_bim_exports() -> None:
         },
     ]
     pd.DataFrame(rooms).to_csv(
-        ROOT / "projects/bim-issue-detection-agent/sample_data/mock_bim_room_schedule.csv",
+        ROOT / "experiments/bim-issue-detection-agent/sample_data/mock_bim_room_schedule.csv",
         index=False,
     )
     write_json(
-        ROOT / "projects/bim-issue-detection-agent/sample_data/mock_drawing_notes.json",
+        ROOT / "experiments/bim-issue-detection-agent/sample_data/mock_drawing_notes.json",
         [
             {"sheet": "A-101", "note": "Verify lobby threshold transition before issue."},
             {"sheet": "A-210", "note": "Accessible WC layout pending final consultant overlay."},
@@ -411,7 +411,7 @@ def generate_job_descriptions() -> None:
             "description": "Prototype and ship LLM assistants for real estate workflows, retrieval augmented generation, structured outputs, and customer-facing AI features. Experience with AEC or property data is a plus.",
         },
     ]
-    write_json(ROOT / "projects/ai-aec-job-fit-analyzer/sample_data/sample_jobs.json", jobs)
+    write_json(ROOT / "experiments/ai-aec-job-fit-analyzer/sample_data/sample_jobs.json", jobs)
 
 
 def generate_energy_data() -> None:
@@ -450,7 +450,7 @@ def generate_energy_data() -> None:
             }
         )
     pd.DataFrame(rows).to_csv(
-        ROOT / "projects/building-energy-ml-pipeline/sample_data/synthetic_building_energy.csv",
+        ROOT / "experiments/building-energy-ml-pipeline/sample_data/synthetic_building_energy.csv",
         index=False,
     )
 
@@ -486,7 +486,8 @@ def generate_spatial_scenarios() -> None:
         },
     ]
     write_json(
-        ROOT / "projects/spatial-design-recommender/sample_data/example_scenarios.json", scenarios
+        ROOT / "experiments/spatial-design-recommender/sample_data/example_scenarios.json",
+        scenarios,
     )
 
 
@@ -523,7 +524,7 @@ def generate_robot_task_planner_data() -> None:
         ],
     }
     write_json(
-        ROOT / "projects/construction-robot-task-planner/sample_data/site_tasks.json", payload
+        ROOT / "experiments/construction-robot-task-planner/sample_data/site_tasks.json", payload
     )
 
 
@@ -556,14 +557,14 @@ def generate_site_robot_safety_data() -> None:
             }
         )
     pd.DataFrame(rows).to_csv(
-        ROOT / "projects/site-robot-safety-monitor/sample_data/synthetic_robot_telemetry.csv",
+        ROOT / "experiments/site-robot-safety-monitor/sample_data/synthetic_robot_telemetry.csv",
         index=False,
     )
 
 
 def generate_general_ai_sample_data() -> None:
     write_json(
-        ROOT / "projects/multimodal-vlm-visual-qa/sample_data/evaluation_examples.json",
+        ROOT / "experiments/multimodal-vlm-visual-qa/sample_data/evaluation_examples.json",
         [
             {
                 "image_name": "synthetic_product_panel.png",
@@ -658,15 +659,15 @@ def generate_general_ai_sample_data() -> None:
         ],
     )
     write_json(
-        ROOT / "projects/reinforcement-learning-portfolio/sample_data/experiment_config.json",
+        ROOT / "experiments/reinforcement-learning-portfolio/sample_data/experiment_config.json",
         {"seed": 7, "episodes": 40, "environment": "inventory_control", "policy": "heuristic"},
     )
     write_json(
-        ROOT / "projects/deep-learning-vision-lab/sample_data/dataset_manifest.json",
+        ROOT / "experiments/deep-learning-vision-lab/sample_data/dataset_manifest.json",
         {"dataset": "synthetic_defects", "classes": ["ok", "scratch", "crack"], "samples": 72},
     )
     write_json(
-        ROOT / "projects/llm-evals-guardrails-platform/sample_data/eval_cases.json",
+        ROOT / "experiments/llm-evals-guardrails-platform/sample_data/eval_cases.json",
         [
             {
                 "case_id": "inj-001",
@@ -685,7 +686,7 @@ def generate_general_ai_sample_data() -> None:
         {"note": "Local demo registry. Generated models are synthetic and not production assets."},
     )
     write_json(
-        ROOT / "projects/recommender-system-ranking-engine/sample_data/catalog.json",
+        ROOT / "experiments/recommender-system-ranking-engine/sample_data/catalog.json",
         [
             {"item_id": "course-llm", "title": "LLM Systems", "tags": ["llm", "rag", "agents"]},
             {"item_id": "course-mlops", "title": "MLOps", "tags": ["deployment", "monitoring"]},
@@ -693,11 +694,11 @@ def generate_general_ai_sample_data() -> None:
         ],
     )
     write_json(
-        ROOT / "projects/time-series-anomaly-forecasting/sample_data/series_config.json",
+        ROOT / "experiments/time-series-anomaly-forecasting/sample_data/series_config.json",
         {"series": "api_traffic", "periods": 96, "anomaly_points": [28, 64, 81]},
     )
     write_json(
-        ROOT / "projects/fine-tuning-lora-lab/sample_data/lora_config.json",
+        ROOT / "experiments/fine-tuning-lora-lab/sample_data/lora_config.json",
         {
             "base_model": "small-local-or-remote-model-placeholder",
             "task": "support_ticket_classification",
@@ -724,7 +725,7 @@ def main() -> None:
     generate_robot_task_planner_data()
     generate_site_robot_safety_data()
     generate_general_ai_sample_data()
-    print("Synthetic sample data generated for all portfolio projects.")
+    print("Synthetic sample data generated for selected projects and experiments.")
 
 
 if __name__ == "__main__":

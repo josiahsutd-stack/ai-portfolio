@@ -4,7 +4,12 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-PUBLIC_TEXT_ROOTS = [ROOT / "docs", ROOT / "projects", ROOT / "portfolio-site"]
+PUBLIC_TEXT_ROOTS = [
+    ROOT / "docs",
+    ROOT / "projects",
+    ROOT / "experiments",
+    ROOT / "portfolio-site",
+]
 RISKY_PHRASES = [
     "production-ready",
     "production-grade",
@@ -48,7 +53,7 @@ ALLOWED_CONTEXT = [
 
 def markdown_files() -> list[Path]:
     files = list(ROOT.glob("*.md"))
-    for directory in PUBLIC_TEXT_ROOTS[:2]:
+    for directory in PUBLIC_TEXT_ROOTS[:3]:
         files.extend(directory.rglob("*.md"))
     return sorted(
         {

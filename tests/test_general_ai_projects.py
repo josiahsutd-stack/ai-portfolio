@@ -373,7 +373,7 @@ def test_hosted_vlm_without_key_falls_back_to_zero_confidence_mock(monkeypatch) 
 
 
 def test_visual_provider_app_exposes_mock_boundary_without_errors() -> None:
-    app = AppTest.from_file("projects/multimodal-vlm-visual-qa/app.py").run(timeout=15)
+    app = AppTest.from_file("experiments/multimodal-vlm-visual-qa/app.py").run(timeout=15)
 
     assert not app.exception
     assert app.title[0].value == "Visual QA Provider Contract"

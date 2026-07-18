@@ -3,23 +3,23 @@ testpaths = ["tests"]
 pythonpath = [
   ".",
   "projects/aec-code-compliance-rag/src",
-  "projects/construction-progress-cv/src",
-  "projects/bim-issue-detection-agent/src",
-  "projects/ai-aec-job-fit-analyzer/src",
-  "projects/building-energy-ml-pipeline/src",
-  "projects/spatial-design-recommender/src",
-  "projects/construction-robot-task-planner/src",
-  "projects/site-robot-safety-monitor/src",
-  "projects/multimodal-vlm-visual-qa/src",
+  "experiments/construction-progress-cv/src",
+  "experiments/bim-issue-detection-agent/src",
+  "experiments/ai-aec-job-fit-analyzer/src",
+  "experiments/building-energy-ml-pipeline/src",
+  "experiments/spatial-design-recommender/src",
+  "experiments/construction-robot-task-planner/src",
+  "experiments/site-robot-safety-monitor/src",
+  "experiments/multimodal-vlm-visual-qa/src",
   "projects/agentic-research-ops-assistant/src",
   "projects/vla-embodied-agent-simulator/src",
-  "projects/reinforcement-learning-portfolio/src",
-  "projects/deep-learning-vision-lab/src",
-  "projects/llm-evals-guardrails-platform/src",
+  "experiments/reinforcement-learning-portfolio/src",
+  "experiments/deep-learning-vision-lab/src",
+  "experiments/llm-evals-guardrails-platform/src",
   "projects/mlops-model-serving-monitoring/src",
-  "projects/recommender-system-ranking-engine/src",
-  "projects/time-series-anomaly-forecasting/src",
-  "projects/fine-tuning-lora-lab/src",
+  "experiments/recommender-system-ranking-engine/src",
+  "experiments/time-series-anomaly-forecasting/src",
+  "experiments/fine-tuning-lora-lab/src",
   "projects/real-model-finetune-lab/src"
 ]
 
@@ -33,6 +33,7 @@ ignore = ["E501"]
 
 [tool.ruff.lint.per-file-ignores]
 "projects/*/app.py" = ["E402", "I001"]
+"experiments/*/app.py" = ["E402", "I001"]
 
 [tool.black]
 line-length = 100

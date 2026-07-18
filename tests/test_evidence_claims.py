@@ -23,6 +23,7 @@ def write_fixture_repo(root: Path, public_text: str = "Accuracy 0.750") -> dict[
                     {
                         "slug": "demo",
                         "name": "Demo Classifier",
+                        "readme_path": "projects/demo/README.md",
                         "boundary": "Synthetic fixture only",
                     }
                 ]
@@ -102,3 +103,16 @@ def test_ledger_scope_is_rendered_from_artifact_values(tmp_path: Path) -> None:
 
     assert not issues
     assert "Synthetic fixture at 0.750 accuracy" in render_ledger(contexts)
+
+
+def test_ledger_uses_manifest_readme_path_for_experiments(tmp_path: Path) -> None:
+    config = write_fixture_repo(tmp_path)
+    manifest_path = tmp_path / "projects" / "projects.yml"
+    manifest = yaml.safe_load(manifest_path.read_text(encoding="utf-8"))
+    manifest["projects"][0]["readme_path"] = "experiments/demo/README.md"
+    manifest_path.write_text(yaml.safe_dump(manifest, sort_keys=False), encoding="utf-8")
+
+    contexts, issues = materialize_claims(config, tmp_path)
+
+    assert not issues
+    assert "[Demo Classifier](../experiments/demo/README.md)" in render_ledger(contexts)

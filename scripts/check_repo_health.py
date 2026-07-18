@@ -8,6 +8,7 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 PROJECTS_DIR = ROOT / "projects"
+EXPERIMENTS_DIR = ROOT / "experiments"
 REQUIRED_DOCS = [
     "README.md",
     "profile-readme.md",
@@ -28,12 +29,14 @@ REQUIRED_DOCS = [
     "docs/adr/0004-evaluation-over-claims.md",
     "docs/adr/0005-flagship-depth-over-project-breadth.md",
     "projects/projects.yml",
+    "experiments/README.md",
+    ".github/workflows/verify.yml",
     "projects/real-model-finetune-lab/EVAL.md",
     "projects/real-model-finetune-lab/sample_data/uci_sms_subset_manifest.json",
     "projects/real-model-finetune-lab/scripts/build_uci_sms_subset.py",
 ]
 REQUIRED_README_PATTERNS = {
-    "demo command": r"streamlit run projects/.+/app\.py",
+    "demo command": r"streamlit run (projects|experiments)/.+/app\.py",
     "tests": r"## Tests|pytest tests/|python -m pytest tests/",
     "limitations": r"## Limitations",
     "next steps": r"## (Credible Next Steps|Deployment-Relevant Extensions|Next Steps)",
@@ -51,6 +54,12 @@ REQUIRED_ROOT_README_PATTERNS = {
     "evidence labels": r"## Evidence Labels",
     "limitations link": r"docs/SCOPE_AND_LIMITATIONS\.md",
     "evidence ledger link": r"docs/EVIDENCE_LEDGER\.md",
+}
+REQUIRED_WORKFLOW_PATTERNS = {
+    "pull-request trigger": r"(?m)^\s*pull_request:\s*$",
+    "manual trigger": r"(?m)^\s*workflow_dispatch:\s*$",
+    "read-only contents permission": r"(?m)^\s*contents:\s*read\s*$",
+    "repository verifier": r"python scripts/verify\.py",
 }
 GENERIC_PHRASES = [
     "leveraging cutting-edge",
@@ -98,7 +107,10 @@ INFLATED_PROJECT_NAME_PHRASES = {
 
 
 def project_dirs() -> list[Path]:
-    return sorted(path for path in PROJECTS_DIR.iterdir() if path.is_dir())
+    directories: list[Path] = []
+    for root in (PROJECTS_DIR, EXPERIMENTS_DIR):
+        directories.extend(path for path in root.iterdir() if path.is_dir())
+    return sorted(directories, key=lambda path: path.name)
 
 
 def check_required_docs() -> list[str]:
@@ -114,6 +126,16 @@ def check_root_readme() -> list[str]:
         if not re.search(pattern, text, flags=re.IGNORECASE)
     ]
     return issues
+
+
+def check_verification_workflow() -> list[str]:
+    workflow = ROOT / ".github" / "workflows" / "verify.yml"
+    text = workflow.read_text(encoding="utf-8") if workflow.exists() else ""
+    return [
+        f".github/workflows/verify.yml: missing {label}"
+        for label, pattern in REQUIRED_WORKFLOW_PATTERNS.items()
+        if not re.search(pattern, text)
+    ]
 
 
 def check_project_manifest() -> list[str]:
@@ -158,9 +180,11 @@ def check_project_manifest() -> list[str]:
                 issues.append(f"{slug}: public name contains inflated capability phrase `{phrase}`")
 
         readme_path = ROOT / str(row.get("readme_path", ""))
-        expected_readme = ROOT / "projects" / slug / "README.md"
+        expected_root = EXPERIMENTS_DIR if status == "experiment" else PROJECTS_DIR
+        expected_readme = expected_root / slug / "README.md"
         if readme_path != expected_readme:
-            issues.append(f"{slug}: readme_path must be `projects/{slug}/README.md`")
+            expected_relative = expected_readme.relative_to(ROOT).as_posix()
+            issues.append(f"{slug}: readme_path must be `{expected_relative}`")
         elif readme_path.exists():
             lines = readme_path.read_text(encoding="utf-8").splitlines()
             first_line = lines[0] if lines else ""
@@ -175,7 +199,9 @@ def check_project_manifest() -> list[str]:
         missing_rows = sorted(directory_slugs - set(slugs))
         unknown_rows = sorted(set(slugs) - directory_slugs)
         if missing_rows:
-            issues.append(f"manifest missing project directories: {', '.join(missing_rows)}")
+            issues.append(
+                f"manifest missing project or experiment directories: {', '.join(missing_rows)}"
+            )
         if unknown_rows:
             issues.append(f"manifest has unknown project directories: {', '.join(unknown_rows)}")
     if flagship_count != 1:
@@ -225,6 +251,7 @@ def main() -> None:
     issues = (
         check_required_docs()
         + check_root_readme()
+        + check_verification_workflow()
         + check_project_manifest()
         + check_project_readmes()
         + check_generic_language()
@@ -234,7 +261,12 @@ def main() -> None:
         for issue in issues:
             print(f"- {issue}")
         sys.exit(1)
-    print(f"Repo health check passed for {len(project_dirs())} projects.")
+    selected_count = sum(1 for path in PROJECTS_DIR.iterdir() if path.is_dir())
+    experiment_count = sum(1 for path in EXPERIMENTS_DIR.iterdir() if path.is_dir())
+    print(
+        "Repo health check passed for "
+        f"{selected_count} selected projects and {experiment_count} experiments."
+    )
 
 
 if __name__ == "__main__":
