@@ -27,6 +27,7 @@ REVIEW_TEST_FILES = [
     "tests/test_public_claims.py",
     "tests/test_documented_commands.py",
     "tests/test_profile_readme.py",
+    "tests/test_portfolio_site.py",
     "tests/test_visual_contract.py",
 ]
 

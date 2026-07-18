@@ -2,6 +2,8 @@
 
 [**Open the visual portfolio**](https://josiahsutd-stack.github.io/ai-portfolio/) | [GitHub profile](https://github.com/josiahsutd-stack) | [System maps](docs/architecture-diagrams.md) | [Five-minute evidence path](docs/how-to-review-this-portfolio.md) | [Evidence ledger](docs/EVIDENCE_LEDGER.md)
 
+[AEC RAG case study](https://josiahsutd-stack.github.io/ai-portfolio/pages/aec-rag.html) | [Embodied AI case study](https://josiahsutd-stack.github.io/ai-portfolio/pages/embodied-ai.html) | [Massing Explorer case study](https://josiahsutd-stack.github.io/ai-portfolio/pages/massing-explorer.html)
+
 [![Josiah Lau applied AI engineering visual portfolio home page](portfolio-site/assets/portfolio-home-preview.png)](https://josiahsutd-stack.github.io/ai-portfolio/)
 
 *Homepage preview. The construction-robot backdrop is a generated concept image; measured project evidence and explicit boundaries begin below.*

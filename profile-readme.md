@@ -12,9 +12,9 @@ I build evaluated AI systems for design and construction decisions. My architect
 
 | Project | Engineering evidence | Boundary |
 | --- | --- | --- |
-| [AEC Code Compliance RAG](https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/aec-code-compliance-rag) | Validated Singapore public-source downloads, four local retrieval modes, citations, abstention, an authenticated service contract, bounded durable telemetry, fixed query objectives, evals, and tests. | Document assistance and in-process reliability evidence, not compliance certification, deployment, uptime, or capacity. |
-| [Construction Embodied Agent Simulator](https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/vla-embodied-agent-simulator) | Procedural train/holdout grids, expert trajectories, behavior cloning, closed-loop metrics, action filtering, and visible failures. | Structured 2D simulation, not a foundation VLA or robot deployment. |
-| [Constraint-Aware Massing Explorer](https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/constraint-aware-massing-explorer) | Seeded geometry, hard constraints, Pareto ranking, baseline comparison, transparent proxy metrics, tests, and generated diagrams. | Rectangular proxy model, not code compliance or professional design. |
+| [AEC Code Compliance RAG](https://josiahsutd-stack.github.io/ai-portfolio/pages/aec-rag.html) | Validated Singapore public-source downloads, four local retrieval modes, citations, abstention, an authenticated service contract, bounded durable telemetry, fixed query objectives, evals, and tests. | Document assistance and in-process reliability evidence, not compliance certification, deployment, uptime, or capacity. |
+| [Construction Embodied Agent Simulator](https://josiahsutd-stack.github.io/ai-portfolio/pages/embodied-ai.html) | Procedural train/holdout grids, expert trajectories, behavior cloning, closed-loop metrics, action filtering, and visible failures. | Structured 2D simulation, not a foundation VLA or robot deployment. |
+| [Constraint-Aware Massing Explorer](https://josiahsutd-stack.github.io/ai-portfolio/pages/massing-explorer.html) | Seeded geometry, hard constraints, Pareto ranking, baseline comparison, transparent proxy metrics, tests, and generated diagrams. | Rectangular proxy model, not code compliance or professional design. |
 
 ## Applied AEC Workflow
 

@@ -47,7 +47,62 @@ REQUIRED_HOME_SECTIONS = [
     "workflow-proof--system",
     'property="og:image"',
     'rel="canonical"',
+    'href="pages/aec-rag.html"',
+    'href="pages/embodied-ai.html"',
+    'href="pages/massing-explorer.html"',
+    "professional delivery",
+    "2024 - present",
+    "msc design + ai",
 ]
+CASE_STUDY_REQUIREMENTS = {
+    "pages/aec-rag.html": [
+        "aec-rag-system-map.svg",
+        "document hit@1",
+        "exact-target hit@1",
+        "retained failure",
+        "document assistance only",
+        "evaluate_retrieval.py",
+        "test_rag.py",
+        "open source",
+        "read evaluation",
+    ],
+    "pages/embodied-ai.html": [
+        "embodied-system-map.svg",
+        "filtered success",
+        "shifted rgb success",
+        "retained failure",
+        "no physical camera",
+        "evaluate_vla.py",
+        "test_vla_embodied_agent.py",
+        "open source",
+        "read evaluation",
+    ],
+    "pages/massing-explorer.html": [
+        "massing-system-map.svg",
+        "massing-option-comparison.svg",
+        "feasible rate",
+        "retained limitation",
+        "no code inference",
+        "evaluate_massing.py",
+        "test_massing_explorer.py",
+        "open source",
+        "read evaluation",
+    ],
+}
+CASE_STUDY_ASSET_MIRRORS = {
+    "assets/aec-rag-system-map.svg": (
+        "projects/aec-code-compliance-rag/demo_outputs/system_map.svg"
+    ),
+    "assets/embodied-system-map.svg": (
+        "projects/vla-embodied-agent-simulator/demo_outputs/system_map.svg"
+    ),
+    "assets/massing-system-map.svg": (
+        "projects/constraint-aware-massing-explorer/demo_outputs/system_map.svg"
+    ),
+    "assets/massing-option-comparison.svg": (
+        "projects/constraint-aware-massing-explorer/demo_outputs/option_comparison.svg"
+    ),
+}
 
 
 class SiteLinkParser(HTMLParser):
@@ -171,10 +226,50 @@ def check_home_evidence_labels() -> list[str]:
     return issues
 
 
+def check_case_studies() -> list[str]:
+    issues: list[str] = []
+    for relative_path, requirements in CASE_STUDY_REQUIREMENTS.items():
+        path = SITE_ROOT / relative_path
+        if not path.exists():
+            issues.append(f"portfolio-site/{relative_path}: required case study is missing")
+            continue
+        text = path.read_text(encoding="utf-8").lower()
+        issues.extend(
+            f"portfolio-site/{relative_path}: required case-study evidence missing: {requirement}"
+            for requirement in requirements
+            if requirement not in text
+        )
+    return issues
+
+
+def check_case_study_asset_mirrors() -> list[str]:
+    issues: list[str] = []
+    for site_asset, source_artifact in CASE_STUDY_ASSET_MIRRORS.items():
+        site_path = SITE_ROOT / site_asset
+        source_path = ROOT / source_artifact
+        if not site_path.exists() or not source_path.exists():
+            issues.append(
+                f"portfolio-site/{site_asset}: mirrored evidence asset or source is missing"
+            )
+            continue
+        if site_path.read_bytes() != source_path.read_bytes():
+            issues.append(
+                f"portfolio-site/{site_asset}: mirrored evidence asset is stale; "
+                f"copy {source_artifact}"
+            )
+    return issues
+
+
 def main() -> None:
     if not SITE_ROOT.exists():
         raise SystemExit("portfolio-site directory is missing")
-    issues = check_html_links() + check_css_assets() + check_home_evidence_labels()
+    issues = (
+        check_html_links()
+        + check_css_assets()
+        + check_home_evidence_labels()
+        + check_case_studies()
+        + check_case_study_asset_mirrors()
+    )
     if issues:
         print("Portfolio site check failed:")
         for issue in issues:

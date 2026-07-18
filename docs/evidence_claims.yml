@@ -112,6 +112,11 @@ claims:
         contains:
           - "{case_count} authored public-source cases over a fingerprinted {document_count}-document snapshot"
           - "Document Hit@1 {hit_at_1} / MRR {mrr}; exact-target Hit@1 {exact_hit_at_1} / MRR {exact_mrr}; source-page Hit@1 {page_hit_at_1} / MRR {page_mrr}."
+      - path: portfolio-site/pages/aec-rag.html
+        contains:
+          - "<article><span>Document Hit@1</span><strong>{hit_at_1}</strong>"
+          - "<article><span>Exact-target Hit@1</span><strong>{exact_hit_at_1}</strong>"
+          - "<article><span>Source-page Hit@1</span><strong>{page_hit_at_1}</strong>"
 
   - id: aec-public-source-uncertainty
     project_slug: aec-code-compliance-rag
@@ -216,6 +221,10 @@ claims:
         contains:
           - "Public Hit@1 {hit_at_1} has a 95% Wilson interval of [{hit_lower}, {hit_upper}] over {answerable_case_count} answerable cases; MRR {mrr} has a 95% bootstrap interval of [{mrr_lower}, {mrr_upper}]. No-answer {no_answer} is {no_answer_case_count}/{no_answer_case_count} with a Wilson interval of [{no_answer_lower}, {no_answer_upper}]."
           - "Exact-target uncertainty: Hit@1 {exact_hit_at_1} [{exact_hit_lower}, {exact_hit_upper}] and MRR {exact_mrr} [{exact_mrr_lower}, {exact_mrr_upper}] across {answerable_case_count} candidate-authored targets."
+      - path: portfolio-site/pages/aec-rag.html
+        contains:
+          - "95% Wilson interval [{hit_lower}, {hit_upper}], n={answerable_case_count}"
+          - "<article><span>No-answer</span><strong>{no_answer_case_count} / {no_answer_case_count}</strong>"
 
   - id: aec-local-service-contract
     project_slug: aec-code-compliance-rag
@@ -318,6 +327,12 @@ claims:
         contains:
           - "{constrained_feasible} feasible rate / {constrained_gfa_error_percent}% mean best GFA error"
           - "{candidate_count} candidates per method across synthetic sites"
+      - path: portfolio-site/pages/massing-explorer.html
+        contains:
+          - "<article><span>Feasible rate</span><strong>{constrained_feasible}</strong>"
+          - "<article><span>Baseline feasible rate</span><strong>{baseline_feasible}</strong>"
+          - "<article><span>Best GFA error</span><strong>{constrained_gfa_error_percent}%</strong>"
+          - "<article><span>Baseline GFA error</span><strong>{baseline_gfa_error_percent}%</strong>"
       - path: projects/constraint-aware-massing-explorer/README.md
         contains:
           - "(`{candidate_count}` candidates per mode in total)"
@@ -728,6 +743,12 @@ claims:
           - "Egocentric action accuracy {egocentric_action_accuracy} versus world-raster {raster_action_accuracy}; filtered success {egocentric_filtered_success} with {egocentric_interventions} interventions"
           - "Rendered-RGB action accuracy falls from {rgb_standard_action_accuracy} to {rgb_pixel_ablated_action_accuracy} when pixels are replaced by training means"
           - "Action accuracy {rgb_standard_action_accuracy} to {rgb_shifted_action_accuracy}; raw success {rgb_raw_success} to {rgb_shifted_raw_success}; shifted filter interventions {rgb_shifted_interventions}"
+      - path: portfolio-site/pages/embodied-ai.html
+        contains:
+          - "<article><span>Filtered success</span><strong>{egocentric_filtered_success}</strong>"
+          - "<article><span>Shifted RGB success</span><strong>{rgb_shifted_raw_success}</strong>"
+          - "{holdout_scenarios} unseen procedural scenarios"
+          - "Action accuracy falls from {rgb_standard_action_accuracy} to {rgb_shifted_action_accuracy} and raw success falls from {rgb_raw_success} to {rgb_shifted_raw_success}"
       - path: projects/vla-embodied-agent-simulator/README.md
         contains:
           - "The evaluator generates {train_scenarios} training and {holdout_scenarios} holdout scenarios"
@@ -831,6 +852,10 @@ claims:
       - path: portfolio-site/index.html
         contains:
           - "raw egocentric commands contact named rigid geometry on {raw_contacts}/{raw_moves} movements; filtered egocentric and A* traces record {filtered_contacts} contacts across {filtered_moves} and {reference_moves} movements."
+      - path: portfolio-site/pages/embodied-ai.html
+        contains:
+          - "<article><span>Raw contacts</span><strong>{raw_contacts}</strong><small>Across {raw_moves} MuJoCo command movements</small>"
+          - "<article><span>Filtered contacts</span><strong>{filtered_contacts}</strong><small>Across {filtered_moves} filtered movements</small>"
 
   - id: public-sms-classification
     project_slug: local-text-classification-lab

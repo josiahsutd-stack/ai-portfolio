@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Constraint-Aware Massing Explorer case study: seeded geometric options, hard checks, Pareto ranking, transparent proxies, evaluation, and visual outputs." />
+    <meta name="theme-color" content="#0d1b2a" />
+    <title>Constraint-Aware Massing Explorer | Josiah Lau</title>
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body class="case-page">
+    <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+    <header class="site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark">JL</span><span>Josiah Lau</span></a>
+      <button class="nav-toggle" type="button" aria-label="Open navigation" aria-controls="main-nav" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav id="main-nav" aria-label="Case study navigation">
+        <a href="#overview">Overview</a>
+        <a href="#system">System</a>
+        <a href="#evidence">Evidence</a>
+        <a href="#decisions">Decisions</a>
+        <a href="#run">Run locally</a>
+        <a href="../index.html#work">All work</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="case-hero case-hero--massing">
+        <div class="case-hero__media" aria-hidden="true"></div>
+        <div class="container case-hero__content">
+          <p class="eyebrow">Primary case study / Computational design</p>
+          <h1>Constraint-Aware Massing Explorer</h1>
+          <p class="hero-role">A transparent geometric search tool for early option comparison.</p>
+          <p class="lede">
+            Supplied site and programme parameters generate seeded rectangular massing options. Hard feasibility checks are applied before transparent proxy objectives and Pareto ranking.
+          </p>
+          <div class="case-hero__actions">
+            <a class="button button--primary" href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/constraint-aware-massing-explorer">Open source</a>
+            <a class="button" href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/projects/constraint-aware-massing-explorer/EVAL.md">Read evaluation</a>
+          </div>
+        </div>
+        <p class="hero-image-note">Actual local interface / synthetic site inputs</p>
+      </section>
+
+      <section class="case-summary" id="overview">
+        <div class="container case-summary__grid">
+          <article><span>Problem</span><p>Early design options must satisfy supplied constraints before environmental, access, area, and form trade-offs are compared.</p></article>
+          <article><span>System</span><p>Typed site schema, seeded generators, hard feasibility checks, editable proxy objectives, Pareto ranking, and SVG outputs.</p></article>
+          <article><span>Evidence</span><p>864 candidates per method across authored synthetic sites, compared with an unconstrained random baseline.</p></article>
+          <article><span>Boundary</span><p>Rectangular schematic envelopes only. No code inference, developed plan, calibrated simulation, structure, or approvable design.</p></article>
+        </div>
+      </section>
+
+      <section class="band case-system" id="system">
+        <div class="container">
+          <div class="case-heading">
+            <div><p class="eyebrow">System</p><h2>Hard checks precede ranking</h2></div>
+            <p class="section-copy">The tool does not ask a score to compensate for a failed setback or height constraint. Infeasible options are rejected first; proxy objectives only compare the remaining schematic envelopes.</p>
+          </div>
+          <figure class="case-diagram case-diagram--scrollable" tabindex="0" aria-label="Scrollable massing explorer system map">
+            <img src="../assets/massing-system-map.svg" alt="Massing explorer system map showing site inputs, seeded generators, hard constraints, proxy objectives, Pareto ranking, and generated geometry" />
+            <figcaption>Generated from checked-in evaluator outputs and typed project metadata. Environmental and access values are labeled proxies.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="band case-evidence" id="evidence">
+        <div class="container">
+          <div class="case-heading">
+            <div><p class="eyebrow">Measured behavior</p><h2>Constraint-aware search sharply reduces invalid options</h2></div>
+            <p class="section-copy">The baseline establishes whether the generator is doing more than sampling rectangles. Results describe the authored synthetic scenarios and simplified geometry, not design quality.</p>
+          </div>
+          <div class="metric-grid">
+            <article><span>Feasible rate</span><strong>0.977</strong><small>Constraint-aware candidate generation</small></article>
+            <article><span>Baseline feasible rate</span><strong>0.052</strong><small>Unconstrained random option generator</small></article>
+            <article><span>Best GFA error</span><strong>0.19%</strong><small>Mean across authored synthetic sites</small></article>
+            <article><span>Baseline GFA error</span><strong>34.47%</strong><small>Mean best error from the random baseline</small></article>
+          </div>
+          <div class="case-visual-grid case-visual-grid--wide">
+            <figure>
+              <img src="../assets/massing-option-comparison.svg" alt="Comparison of ranked massing options with plan geometry and proxy measurements" />
+              <figcaption>Generated plans and scores expose the trade-offs that produce the ranking.</figcaption>
+            </figure>
+            <figure>
+              <img src="../assets/massing-explorer-demo.png" alt="Local massing explorer interface with plan, isometric view, constraints, and proxy results" />
+              <figcaption>Actual local interface using bundled synthetic site parameters.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="band band--ink" id="decisions">
+        <div class="container">
+          <div class="case-heading">
+            <div><p class="eyebrow">Engineering decisions</p><h2>Geometry and assumptions stay inspectable</h2></div>
+            <p class="section-copy">The project favors explicit schemas and simple geometry over an opaque claim of AI-generated architecture.</p>
+          </div>
+          <div class="decision-list">
+            <article><span>01</span><h3>Typed project parameters</h3><p>Site dimensions, setbacks, height, target GFA, access edge, and proxy weights enter through a validated schema rather than free-form prompting.</p></article>
+            <article><span>02</span><h3>Seeded option generation</h3><p>Every option set can be regenerated from its method, parameters, and seed. This makes ranking changes and test failures reproducible.</p></article>
+            <article><span>03</span><h3>Hard feasibility gate</h3><p>Boundary, setback, floor-count, and supplied height rules reject options before multi-objective comparison.</p></article>
+            <article><span>04</span><h3>Transparent proxy objectives</h3><p>Solar exposure, wind openness, access distance, and compactness remain visible heuristics. They are not presented as calibrated environmental analysis.</p></article>
+          </div>
+          <div class="failure-callout">
+            <p class="eyebrow">Retained limitation</p>
+            <h3>A feasible envelope is not a resolved building.</h3>
+            <p>The current schema cannot reason about internal egress, accessibility routes, structure, cores, servicing, or detailed code clauses. These omissions remain outside the score and the integration contract.</p>
+            <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/projects/constraint-aware-massing-explorer/demo_outputs/failure_analysis.md">Inspect failure analysis</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="band case-run" id="run">
+        <div class="container case-run__grid">
+          <div>
+            <p class="eyebrow">Run locally</p>
+            <h2>Regenerate options and evaluation</h2>
+            <p class="section-copy">The evaluator regenerates the authored synthetic scenarios, compares the constrained method with the baseline, and rewrites the visual evidence deterministically.</p>
+          </div>
+          <div class="run-panel">
+            <code>python projects/constraint-aware-massing-explorer/evaluate_massing.py</code>
+            <code>python -m pytest tests/test_massing_explorer.py</code>
+            <code>streamlit run projects/constraint-aware-massing-explorer/app.py</code>
+          </div>
+        </div>
+        <div class="container case-footer-nav">
+          <a href="embodied-ai.html">Previous case study: Embodied AI</a>
+          <a href="../index.html#workflow">Continue through the AEC journey</a>
+        </div>
+      </section>
+    </main>
+    <script src="../site.js"></script>
+  </body>
+</html>

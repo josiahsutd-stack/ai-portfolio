@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="840" viewBox="0 0 1400 840" role="img" aria-labelledby="map-title map-desc">
+<metadata>{&quot;badges&quot;:[&quot;SEEDED SEARCH&quot;,&quot;SYNTHETIC SITES&quot;,&quot;PROXY METRICS&quot;],&quot;boundary&quot;:&quot;A designer supplies every rule and judges architectural, regulatory, and engineering quality.&quot;,&quot;connectors&quot;:[&quot;parameterize&quot;,&quot;sample&quot;,&quot;assess&quot;,&quot;render&quot;],&quot;evidence&quot;:[{&quot;accent&quot;:&quot;#00A896&quot;,&quot;details&quot;:[&quot;864 evaluated candidates&quot;,&quot;mean best GFA error 0.19%&quot;],&quot;headline&quot;:&quot;97.7% feasible&quot;,&quot;tag&quot;:&quot;constraint-aware&quot;},{&quot;accent&quot;:&quot;#F2B134&quot;,&quot;details&quot;:[&quot;same validator and run count&quot;,&quot;mean best GFA error 34.47%&quot;],&quot;headline&quot;:&quot;5.2% feasible&quot;,&quot;tag&quot;:&quot;comparison baseline&quot;},{&quot;accent&quot;:&quot;#E66A47&quot;,&quot;details&quot;:[&quot;environmental values are proxies&quot;,&quot;no code inference or internal egress&quot;],&quot;headline&quot;:&quot;Geometry, not design approval&quot;,&quot;tag&quot;:&quot;model boundary&quot;}],&quot;sources&quot;:[&quot;evaluation_summary.json&quot;,&quot;candidate geometry&quot;],&quot;stages&quot;:[{&quot;details&quot;:[&quot;setbacks and height&quot;,&quot;coverage and max GFA&quot;,&quot;access + objective weights&quot;],&quot;output&quot;:&quot;validated scenario&quot;,&quot;tag&quot;:&quot;brief&quot;,&quot;title&quot;:[&quot;Explicit site and&quot;,&quot;project inputs&quot;]},{&quot;details&quot;:[&quot;slab and twin bar&quot;,&quot;courtyard and stepped&quot;,&quot;fixed-seed candidates&quot;],&quot;output&quot;:&quot;candidate geometry set&quot;,&quot;tag&quot;:&quot;generation&quot;,&quot;title&quot;:[&quot;Four bounded&quot;,&quot;typologies&quot;]},{&quot;details&quot;:[&quot;site and setback bounds&quot;,&quot;height / GFA / coverage&quot;,&quot;open-site access routes&quot;],&quot;output&quot;:&quot;feasible + failure sets&quot;,&quot;tag&quot;:&quot;hard gate&quot;,&quot;title&quot;:[&quot;Reject invalid&quot;,&quot;options&quot;]},{&quot;details&quot;:[&quot;solar orientation proxy&quot;,&quot;daylight / wind proxies&quot;,&quot;target-area fit&quot;],&quot;output&quot;:&quot;ranked option frontier&quot;,&quot;tag&quot;:&quot;comparison&quot;,&quot;title&quot;:[&quot;Pareto and&quot;,&quot;weighted ranking&quot;]},{&quot;details&quot;:[&quot;candidate ids retained&quot;,&quot;metrics beside geometry&quot;,&quot;invalid cases published&quot;],&quot;output&quot;:&quot;design review record&quot;,&quot;tag&quot;:&quot;review&quot;,&quot;title&quot;:[&quot;Inspectable plan&quot;,&quot;and isometric&quot;]}],&quot;subtitle&quot;:&quot;How supplied site rules become comparable early-stage geometry&quot;,&quot;title&quot;:&quot;Constraint-Aware Massing Explorer&quot;}</metadata>
+<title id="map-title">Constraint-Aware Massing Explorer system map</title>
+<desc id="map-desc">How supplied site rules become comparable early-stage geometry Five implementation stages lead to measured evidence, explicit controls, and a bounded professional-review output.</desc>
+<defs>
+  <filter id="card-shadow" x="-20%" y="-20%" width="140%" height="150%">
+    <feDropShadow dx="0" dy="7" stdDeviation="8" flood-color="#0D1B2A" flood-opacity="0.11"/>
+  </filter>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+    <path d="M 0 0 L 10 5 L 0 10 z" fill="#5D6A78"/>
+  </marker>
+  <style>
+    text { font-family: Inter, "Segoe UI", Arial, sans-serif; letter-spacing: 0; }
+    .title { font-size: 34px; font-weight: 700; fill: #FFFFFF; }
+    .subtitle { font-size: 17px; font-weight: 400; fill: #C9D4DE; }
+    .badge { font-size: 12px; font-weight: 700; fill: #FFFFFF; }
+    .section { font-size: 13px; font-weight: 700; fill: #526170; }
+    .tag { font-size: 11px; font-weight: 700; fill: #526170; }
+    .stage-title { font-size: 20px; font-weight: 700; fill: #142333; }
+    .detail { font-size: 14px; font-weight: 400; fill: #425466; }
+    .output-label { font-size: 10px; font-weight: 700; fill: #6A7785; }
+    .output { font-size: 13px; font-weight: 600; fill: #203447; }
+    .connector { font-size: 11px; font-weight: 700; fill: #526170; }
+    .panel-tag { font-size: 11px; font-weight: 700; fill: #526170; }
+    .panel-headline { font-size: 22px; font-weight: 700; fill: #142333; }
+    .panel-detail { font-size: 14px; font-weight: 400; fill: #425466; }
+    .footer { font-size: 14px; font-weight: 600; fill: #26394C; }
+    .source { font-size: 11px; font-weight: 600; fill: #6A7785; }
+  </style>
+</defs>
+<rect width="1400" height="840" fill="#F4F7FA"/>
+<rect width="1400" height="140" fill="#0D1B2A"/>
+<path d="M0 140 H1400" stroke="#1E88E5" stroke-width="4"/>
+<text x="40" y="58" class="title" text-anchor="start">Constraint-Aware Massing Explorer</text>
+<text x="40" y="94" class="subtitle" text-anchor="start">How supplied site rules become comparable early-stage geometry</text>
+<rect x="982.6" y="48" width="114.2" height="30" rx="4" fill="#20364A" stroke="#4C6478"/>
+<text x="1039.7" y="68" class="badge" text-anchor="middle">SEEDED SEARCH</text>
+<rect x="1106.8" y="48" width="129.0" height="30" rx="4" fill="#20364A" stroke="#4C6478"/>
+<text x="1171.3" y="68" class="badge" text-anchor="middle">SYNTHETIC SITES</text>
+<rect x="1245.8" y="48" width="114.2" height="30" rx="4" fill="#20364A" stroke="#4C6478"/>
+<text x="1302.8999999999999" y="68" class="badge" text-anchor="middle">PROXY METRICS</text>
+<text x="40" y="172" class="section" text-anchor="start">EXECUTED SYSTEM JOURNEY</text>
+<rect x="40" y="195" width="240" height="300" rx="7" fill="#FFFFFF" filter="url(#card-shadow)"/>
+<rect x="40" y="195" width="240" height="7" rx="7" fill="#1E88E5"/>
+<circle cx="70" cy="233" r="17" fill="#1E88E5"/>
+<text x="70" y="238" class="badge" text-anchor="middle">1</text>
+<text x="96" y="237" class="tag" text-anchor="start">BRIEF</text>
+<text x="60" y="287" class="stage-title" text-anchor="start">Explicit site and</text>
+<text x="60" y="311" class="stage-title" text-anchor="start">project inputs</text>
+<path d="M60 346 H260" stroke="#DCE3EA"/>
+<circle cx="65" cy="371" r="3" fill="#1E88E5"/>
+<text x="78" y="376" class="detail" text-anchor="start">setbacks and height</text>
+<circle cx="65" cy="395" r="3" fill="#1E88E5"/>
+<text x="78" y="400" class="detail" text-anchor="start">coverage and max GFA</text>
+<circle cx="65" cy="419" r="3" fill="#1E88E5"/>
+<text x="78" y="424" class="detail" text-anchor="start">access + objective weights</text>
+<text x="60" y="464" class="output-label" text-anchor="start">OUTPUT</text>
+<text x="60" y="484" class="output" text-anchor="start">validated scenario</text>
+<rect x="304" y="195" width="240" height="300" rx="7" fill="#FFFFFF" filter="url(#card-shadow)"/>
+<rect x="304" y="195" width="240" height="7" rx="7" fill="#00A896"/>
+<circle cx="334" cy="233" r="17" fill="#00A896"/>
+<text x="334" y="238" class="badge" text-anchor="middle">2</text>
+<text x="360" y="237" class="tag" text-anchor="start">GENERATION</text>
+<text x="324" y="287" class="stage-title" text-anchor="start">Four bounded</text>
+<text x="324" y="311" class="stage-title" text-anchor="start">typologies</text>
+<path d="M324 346 H524" stroke="#DCE3EA"/>
+<circle cx="329" cy="371" r="3" fill="#00A896"/>
+<text x="342" y="376" class="detail" text-anchor="start">slab and twin bar</text>
+<circle cx="329" cy="395" r="3" fill="#00A896"/>
+<text x="342" y="400" class="detail" text-anchor="start">courtyard and stepped</text>
+<circle cx="329" cy="419" r="3" fill="#00A896"/>
+<text x="342" y="424" class="detail" text-anchor="start">fixed-seed candidates</text>
+<text x="324" y="464" class="output-label" text-anchor="start">OUTPUT</text>
+<text x="324" y="484" class="output" text-anchor="start">candidate geometry set</text>
+<rect x="568" y="195" width="240" height="300" rx="7" fill="#FFFFFF" filter="url(#card-shadow)"/>
+<rect x="568" y="195" width="240" height="7" rx="7" fill="#F2B134"/>
+<circle cx="598" cy="233" r="17" fill="#F2B134"/>
+<text x="598" y="238" class="badge" text-anchor="middle">3</text>
+<text x="624" y="237" class="tag" text-anchor="start">HARD GATE</text>
+<text x="588" y="287" class="stage-title" text-anchor="start">Reject invalid</text>
+<text x="588" y="311" class="stage-title" text-anchor="start">options</text>
+<path d="M588 346 H788" stroke="#DCE3EA"/>
+<circle cx="593" cy="371" r="3" fill="#F2B134"/>
+<text x="606" y="376" class="detail" text-anchor="start">site and setback bounds</text>
+<circle cx="593" cy="395" r="3" fill="#F2B134"/>
+<text x="606" y="400" class="detail" text-anchor="start">height / GFA / coverage</text>
+<circle cx="593" cy="419" r="3" fill="#F2B134"/>
+<text x="606" y="424" class="detail" text-anchor="start">open-site access routes</text>
+<text x="588" y="464" class="output-label" text-anchor="start">OUTPUT</text>
+<text x="588" y="484" class="output" text-anchor="start">feasible + failure sets</text>
+<rect x="832" y="195" width="240" height="300" rx="7" fill="#FFFFFF" filter="url(#card-shadow)"/>
+<rect x="832" y="195" width="240" height="7" rx="7" fill="#E66A47"/>
+<circle cx="862" cy="233" r="17" fill="#E66A47"/>
+<text x="862" y="238" class="badge" text-anchor="middle">4</text>
+<text x="888" y="237" class="tag" text-anchor="start">COMPARISON</text>
+<text x="852" y="287" class="stage-title" text-anchor="start">Pareto and</text>
+<text x="852" y="311" class="stage-title" text-anchor="start">weighted ranking</text>
+<path d="M852 346 H1052" stroke="#DCE3EA"/>
+<circle cx="857" cy="371" r="3" fill="#E66A47"/>
+<text x="870" y="376" class="detail" text-anchor="start">solar orientation proxy</text>
+<circle cx="857" cy="395" r="3" fill="#E66A47"/>
+<text x="870" y="400" class="detail" text-anchor="start">daylight / wind proxies</text>
+<circle cx="857" cy="419" r="3" fill="#E66A47"/>
+<text x="870" y="424" class="detail" text-anchor="start">target-area fit</text>
+<text x="852" y="464" class="output-label" text-anchor="start">OUTPUT</text>
+<text x="852" y="484" class="output" text-anchor="start">ranked option frontier</text>
+<rect x="1096" y="195" width="240" height="300" rx="7" fill="#FFFFFF" filter="url(#card-shadow)"/>
+<rect x="1096" y="195" width="240" height="7" rx="7" fill="#6B5DD3"/>
+<circle cx="1126" cy="233" r="17" fill="#6B5DD3"/>
+<text x="1126" y="238" class="badge" text-anchor="middle">5</text>
+<text x="1152" y="237" class="tag" text-anchor="start">REVIEW</text>
+<text x="1116" y="287" class="stage-title" text-anchor="start">Inspectable plan</text>
+<text x="1116" y="311" class="stage-title" text-anchor="start">and isometric</text>
+<path d="M1116 346 H1316" stroke="#DCE3EA"/>
+<circle cx="1121" cy="371" r="3" fill="#6B5DD3"/>
+<text x="1134" y="376" class="detail" text-anchor="start">candidate ids retained</text>
+<circle cx="1121" cy="395" r="3" fill="#6B5DD3"/>
+<text x="1134" y="400" class="detail" text-anchor="start">metrics beside geometry</text>
+<circle cx="1121" cy="419" r="3" fill="#6B5DD3"/>
+<text x="1134" y="424" class="detail" text-anchor="start">invalid cases published</text>
+<text x="1116" y="464" class="output-label" text-anchor="start">OUTPUT</text>
+<text x="1116" y="484" class="output" text-anchor="start">design review record</text>
+<path d="M287 348 H295" stroke="#5D6A78" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="251.0" y="321" width="80" height="20" rx="3" fill="#F4F7FA"/>
+<text x="291.0" y="335" class="connector" text-anchor="middle">PARAMETERIZE</text>
+<path d="M551 348 H559" stroke="#5D6A78" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="515.0" y="321" width="80" height="20" rx="3" fill="#F4F7FA"/>
+<text x="555.0" y="335" class="connector" text-anchor="middle">SAMPLE</text>
+<path d="M815 348 H823" stroke="#5D6A78" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="779.0" y="321" width="80" height="20" rx="3" fill="#F4F7FA"/>
+<text x="819.0" y="335" class="connector" text-anchor="middle">ASSESS</text>
+<path d="M1079 348 H1087" stroke="#5D6A78" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="1043.0" y="321" width="80" height="20" rx="3" fill="#F4F7FA"/>
+<text x="1083.0" y="335" class="connector" text-anchor="middle">RENDER</text>
+<text x="40" y="542" class="section" text-anchor="start">PROOF, CONTROLS, AND FAILURE BOUNDARIES</text>
+<rect x="40" y="565" width="424" height="168" rx="7" fill="#FFFFFF" stroke="#D8E0E8"/>
+<rect x="40" y="565" width="8" height="168" rx="4" fill="#00A896"/>
+<text x="68" y="595" class="panel-tag" text-anchor="start">CONSTRAINT-AWARE</text>
+<text x="68" y="630" class="panel-headline" text-anchor="start">97.7% feasible</text>
+<text x="68" y="663" class="panel-detail" text-anchor="start">864 evaluated candidates</text>
+<text x="68" y="686" class="panel-detail" text-anchor="start">mean best GFA error 0.19%</text>
+<rect x="488" y="565" width="424" height="168" rx="7" fill="#FFFFFF" stroke="#D8E0E8"/>
+<rect x="488" y="565" width="8" height="168" rx="4" fill="#F2B134"/>
+<text x="516" y="595" class="panel-tag" text-anchor="start">COMPARISON BASELINE</text>
+<text x="516" y="630" class="panel-headline" text-anchor="start">5.2% feasible</text>
+<text x="516" y="663" class="panel-detail" text-anchor="start">same validator and run count</text>
+<text x="516" y="686" class="panel-detail" text-anchor="start">mean best GFA error 34.47%</text>
+<rect x="936" y="565" width="424" height="168" rx="7" fill="#FFFFFF" stroke="#D8E0E8"/>
+<rect x="936" y="565" width="8" height="168" rx="4" fill="#E66A47"/>
+<text x="964" y="595" class="panel-tag" text-anchor="start">MODEL BOUNDARY</text>
+<text x="964" y="630" class="panel-headline" text-anchor="start">Geometry, not design approval</text>
+<text x="964" y="663" class="panel-detail" text-anchor="start">environmental values are proxies</text>
+<text x="964" y="686" class="panel-detail" text-anchor="start">no code inference or internal egress</text>
+<rect x="40" y="770" width="1320" height="45" rx="6" fill="#E7EDF3"/>
+<rect x="40" y="770" width="8" height="45" rx="4" fill="#E66A47"/>
+<text x="64" y="798" class="footer" text-anchor="start">HUMAN REVIEW BOUNDARY: A designer supplies every rule and judges architectural, regulatory, and engineering quality.</text>
+<text x="1360" y="829" class="source" text-anchor="end">GENERATED FROM evaluation_summary.json + candidate geometry</text>
+</svg>
