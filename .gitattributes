@@ -1,1 +1,2 @@
 *.pdf binary
+projects/real-model-finetune-lab/sample_data/uci_sms_subset.tsv text eol=lf

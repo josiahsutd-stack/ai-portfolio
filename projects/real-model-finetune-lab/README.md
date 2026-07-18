@@ -20,10 +20,12 @@ Generate model artifacts:
 python projects/real-model-finetune-lab/evaluate_model.py
 ```
 
+Evaluation protocol and interpretation limits: [EVAL.md](EVAL.md).
+
 ## Features
 
 - Synthetic but labeled text-classification dataset with fixed train/eval splits.
-- Larger public-dataset path using a compact UCI SMS Spam Collection subset with train/validation/test splits.
+- Larger public-dataset path using a deterministic, source-traceable UCI SMS Spam Collection subset with train/validation/test splits.
 - Real scikit-learn training using `TfidfVectorizer` and `LogisticRegression`.
 - Dummy-classifier baseline for before/after comparison.
 - Fitted model artifacts generated under `.artifacts/real-model-finetune-lab/` during local evaluation. Runtime binaries are ignored by Git; metrics and reports remain versioned in `demo_outputs/`.
@@ -35,9 +37,27 @@ python projects/real-model-finetune-lab/evaluate_model.py
 | Path | Dataset | Split | Outputs |
 | --- | --- | --- | --- |
 | Synthetic quick path | 27 synthetic portfolio-task examples | fixed train/eval | Versioned metrics, prediction, and model card; locally generated `text_classifier.joblib` |
-| Public SMS path | 240-row balanced subset of the UCI SMS Spam Collection | 160 train, 40 validation, 40 test | Versioned metrics, confusion matrix, and report; locally generated `public_sms_classifier.joblib` |
+| Public SMS path | 240-row deterministic balanced subset of the UCI SMS Spam Collection | 160 train, 40 validation, 40 test | Source-row manifest, versioned metrics, confusion matrix, and report; locally generated `public_sms_classifier.joblib` |
+
+## Current Measured Results
+
+| Metric | Result |
+| --- | --- |
+| Public SMS baseline accuracy | `0.500` |
+| Public SMS validation accuracy | `0.850` |
+| Public SMS test accuracy | `0.950` |
+| Public SMS test macro-F1 | `0.950` |
+
+These values come from the fixed compact subset and are checked against [`demo_outputs/public_sms_metrics.json`](demo_outputs/public_sms_metrics.json). See [EVAL.md](EVAL.md) for the protocol and sampling limitations.
 
 Dataset source notes for the public path are in [sample_data/uci_sms_subset_README.md](sample_data/uci_sms_subset_README.md).
+
+Rebuild or verify the checked-in subset provenance:
+
+```bash
+python projects/real-model-finetune-lab/scripts/build_uci_sms_subset.py
+python projects/real-model-finetune-lab/scripts/build_uci_sms_subset.py --check
+```
 
 ## Tech Stack
 

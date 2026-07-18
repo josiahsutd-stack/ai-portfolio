@@ -9,15 +9,15 @@
   ],
   "baseline_test_accuracy": 0.5,
   "baseline_test_macro_f1": 0.333,
-  "validation_accuracy": 0.825,
-  "validation_macro_f1": 0.825,
-  "test_accuracy": 0.975,
-  "test_macro_f1": 0.975,
-  "improvement_test_accuracy": 0.475,
-  "improvement_test_macro_f1": 0.642,
+  "validation_accuracy": 0.85,
+  "validation_macro_f1": 0.848,
+  "test_accuracy": 0.95,
+  "test_macro_f1": 0.95,
+  "improvement_test_accuracy": 0.45,
+  "improvement_test_macro_f1": 0.617,
   "learned_weight_shape": [
     1,
-    691
+    634
   ],
   "confusion_matrix": [
     [
@@ -25,8 +25,8 @@
       1
     ],
     [
-      0,
-      20
+      1,
+      19
     ]
   ],
   "model_path": ".artifacts/real-model-finetune-lab/public_sms_classifier.joblib"

@@ -122,7 +122,7 @@ def train_on_public_dataset(
     output_dir: str | Path | None = None,
 ) -> tuple[Pipeline, PublicDatasetTrainingResult]:
     rows = pd.read_csv(dataset_path, sep="\t")
-    required_columns = {"split", "label", "text"}
+    required_columns = {"source_row", "split", "label", "text"}
     missing = required_columns - set(rows.columns)
     if missing:
         raise ValueError(f"public dataset missing columns: {sorted(missing)}")
@@ -132,6 +132,10 @@ def train_on_public_dataset(
     test_rows = rows[rows["split"] == "test"]
     if train_rows.empty or validation_rows.empty or test_rows.empty:
         raise ValueError("public dataset must include train, validation, and test rows")
+    if rows["source_row"].duplicated().any():
+        raise ValueError("public dataset source rows must be unique")
+    if rows["text"].astype(str).duplicated().any():
+        raise ValueError("public dataset messages must be unique across splits")
 
     x_train = train_rows["text"].astype(str).tolist()
     y_train = train_rows["label"].astype(str).tolist()
@@ -309,7 +313,7 @@ def _public_dataset_report(result: PublicDatasetTrainingResult) -> str:
                 json.dumps(result.confusion_matrix),
                 "```",
                 "",
-                "The public-dataset path uses a locally bundled UCI SMS Spam subset. It is a stronger signal than the tiny synthetic demo, while still staying small enough for offline CI.",
+                "The public-dataset path uses a deterministic, source-traceable UCI SMS Spam subset that remains small enough for offline CI.",
             ]
         )
         + "\n"

@@ -12,19 +12,19 @@ Dataset: UCI SMS Spam Collection compact subset
 ## Metrics
 
 - Baseline test accuracy: 0.5
-- Trained validation accuracy: 0.825
-- Trained test accuracy: 0.975
+- Trained validation accuracy: 0.85
+- Trained test accuracy: 0.95
 - Baseline test macro-F1: 0.333
-- Trained validation macro-F1: 0.825
-- Trained test macro-F1: 0.975
-- Learned coefficient shape: (1, 691)
+- Trained validation macro-F1: 0.848
+- Trained test macro-F1: 0.95
+- Learned coefficient shape: (1, 634)
 
 ## Confusion Matrix
 
 Labels: ham, spam
 
 ```json
-[[19, 1], [0, 20]]
+[[19, 1], [1, 19]]
 ```
 
-The public-dataset path uses a locally bundled UCI SMS Spam subset. It is a stronger signal than the tiny synthetic demo, while still staying small enough for offline CI.
+The public-dataset path uses a deterministic, source-traceable UCI SMS Spam subset that remains small enough for offline CI.

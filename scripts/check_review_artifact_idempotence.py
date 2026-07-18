@@ -14,12 +14,18 @@ ARTIFACT_DIRS = [
     ROOT / "projects" / "real-model-finetune-lab" / "demo_outputs",
     ROOT / "projects" / "vla-embodied-agent-simulator" / "demo_outputs",
 ]
+ARTIFACT_FILES = [ROOT / "docs" / "EVIDENCE_LEDGER.md"]
 VERSIONED_SUFFIXES = {".json", ".md"}
 
 
 def artifact_hashes() -> dict[Path, str]:
     tracked = subprocess.run(
-        ["git", "ls-files", "--", *[str(path.relative_to(ROOT)) for path in ARTIFACT_DIRS]],
+        [
+            "git",
+            "ls-files",
+            "--",
+            *[str(path.relative_to(ROOT)) for path in [*ARTIFACT_DIRS, *ARTIFACT_FILES]],
+        ],
         cwd=ROOT,
         check=True,
         capture_output=True,

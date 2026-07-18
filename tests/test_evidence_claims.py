@@ -1,0 +1,95 @@
+import json
+from pathlib import Path
+
+import yaml
+
+from scripts.check_evidence_claims import (
+    check_ledger,
+    check_public_assertions,
+    format_metric,
+    materialize_claims,
+    render_ledger,
+    resolve_json_path,
+)
+
+
+def write_fixture_repo(root: Path, public_text: str = "Accuracy 0.750") -> dict[str, object]:
+    (root / "projects" / "demo").mkdir(parents=True)
+    (root / "docs").mkdir()
+    (root / "projects" / "projects.yml").write_text(
+        yaml.safe_dump(
+            {
+                "projects": [
+                    {
+                        "slug": "demo",
+                        "name": "Demo Classifier",
+                        "boundary": "Synthetic fixture only",
+                    }
+                ]
+            },
+            sort_keys=False,
+        ),
+        encoding="utf-8",
+    )
+    (root / "projects" / "demo" / "metrics.json").write_text(
+        json.dumps({"summary": {"accuracy": 0.75}}), encoding="utf-8"
+    )
+    (root / "README.md").write_text(public_text, encoding="utf-8")
+    return {
+        "claims": [
+            {
+                "id": "demo-accuracy",
+                "project_slug": "demo",
+                "artifact": "projects/demo/metrics.json",
+                "command": "python evaluate.py",
+                "evaluation_scope": "Synthetic fixture",
+                "metrics": {"accuracy": {"json_path": "summary.accuracy", "decimals": 3}},
+                "result_template": "Accuracy {accuracy}",
+                "public_surfaces": [{"path": "README.md", "contains": ["Accuracy {accuracy}"]}],
+            }
+        ]
+    }
+
+
+def test_metric_resolution_and_precision() -> None:
+    payload = {"summary": {"score": 0.5, "count": 12}}
+
+    assert resolve_json_path(payload, "summary.score") == 0.5
+    assert format_metric(payload["summary"]["score"], {"decimals": 3}) == "0.500"
+    assert format_metric(payload["summary"]["count"], {}) == "12"
+
+
+def test_public_assertion_detects_stale_displayed_metric(tmp_path: Path) -> None:
+    config = write_fixture_repo(tmp_path, public_text="Accuracy 0.700")
+    contexts, issues = materialize_claims(config, tmp_path)
+
+    assert not issues
+    assertion_issues = check_public_assertions(contexts, tmp_path)
+    assert len(assertion_issues) == 1
+    assert "Accuracy 0.750" in assertion_issues[0]
+
+
+def test_missing_artifact_fails_materialization(tmp_path: Path) -> None:
+    config = write_fixture_repo(tmp_path)
+    (tmp_path / "projects" / "demo" / "metrics.json").unlink()
+
+    contexts, issues = materialize_claims(config, tmp_path)
+
+    assert not contexts
+    assert issues == ["demo-accuracy: missing evidence artifact `projects/demo/metrics.json`"]
+
+
+def test_generated_ledger_must_match_current_artifact(tmp_path: Path) -> None:
+    config = write_fixture_repo(tmp_path)
+    contexts, issues = materialize_claims(config, tmp_path)
+    assert not issues
+    (tmp_path / "docs" / "EVIDENCE_LEDGER.md").write_text(render_ledger(contexts), encoding="utf-8")
+
+    assert check_ledger(contexts, tmp_path) == []
+    (tmp_path / "projects" / "demo" / "metrics.json").write_text(
+        json.dumps({"summary": {"accuracy": 0.8}}), encoding="utf-8"
+    )
+    changed_contexts, changed_issues = materialize_claims(config, tmp_path)
+
+    assert not changed_issues
+    assert check_ledger(changed_contexts, tmp_path)

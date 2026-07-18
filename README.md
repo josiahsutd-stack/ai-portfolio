@@ -12,9 +12,11 @@ Start with these three projects. They carry the clearest evidence and represent 
 | --- | --- | --- | --- | --- |
 | 1 - Flagship | [AEC Code Compliance RAG](projects/aec-code-compliance-rag/README.md) | Public-source ingestion, page-aware chunks, four retrieval modes, citations, abstention, 51-case synthetic regression set, and focused tests. | Hybrid retrieval: `Recall@4 1.000`, `MRR 0.906`, `Hit@3 1.000` on the bundled synthetic eval. | Document-assistance prototype; not compliance certification or professional advice. |
 | 2 - Embodied AI | [Construction Embodied Agent Simulator](projects/vla-embodied-agent-simulator/README.md) | Procedural construction grids, expert demonstrations, a fitted behavior-cloning model, disjoint holdout episodes, action filtering, failure analysis, and tests. | Filtered learned policy: `0.625` success with `0.000` unsafe-action rate on 24 unseen scenarios; raw policy succeeds on `0.500`. | Structured 2D simulation; not a foundation VLA, perception stack, ROS integration, or hardware validation. |
-| 3 - Model Training | [Local Text Classification Lab](projects/real-model-finetune-lab/README.md) | TF-IDF/logistic-regression fitting, fixed splits, dummy baseline, held-out metrics, confusion matrix, and generated coefficients. | Compact UCI SMS subset: `0.975` accuracy and macro-F1 on a 40-row test split. | Small classical-ML exercise; not pretrained-model fine-tuning or a benchmark claim. |
+| 3 - Model Training | [Local Text Classification Lab](projects/real-model-finetune-lab/README.md) | TF-IDF/logistic-regression fitting, deterministic source-traceable splits, dummy baseline, held-out metrics, confusion matrix, and generated coefficients. | Compact UCI SMS subset: `0.950` accuracy and macro-F1 on a 40-row test split. | Small classical-ML exercise; not pretrained-model fine-tuning or a benchmark claim. |
 
 The metric values above are regression evidence for the included datasets and scenarios. They are not claims of real-world compliance, robot safety, or production model quality.
+
+[Trace every headline value to its JSON artifact and reproduction command.](docs/EVIDENCE_LEDGER.md)
 
 ![Portfolio site showing the evidence-first project hierarchy](docs/assets/screenshots/portfolio-home.png)
 

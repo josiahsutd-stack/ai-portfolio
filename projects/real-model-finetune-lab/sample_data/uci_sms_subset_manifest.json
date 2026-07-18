@@ -1,0 +1,43 @@
+{
+  "source": {
+    "name": "UCI SMS Spam Collection",
+    "url": "https://archive.ics.uci.edu/dataset/228/sms%2Bspam%2Bcollection",
+    "doi": "10.24432/C5CC84",
+    "license": "CC BY 4.0",
+    "archive_url": "https://archive.ics.uci.edu/static/public/228/sms%2Bspam%2Bcollection.zip",
+    "archive_sha256": "1587ea43e58e82b14ff1f5425c88e17f8496bfcdb67a583dbff9eefaf9963ce3",
+    "member": "SMSSpamCollection",
+    "source_row_numbering": "one-based line number in SMSSpamCollection"
+  },
+  "selection": {
+    "version": "sha256-ranked-balanced-v1",
+    "seed": "ai-portfolio-public-sms-v1",
+    "normalization": "NFKD to ASCII, then collapse whitespace",
+    "deduplication": "retain first source row for each normalized text before selection",
+    "ranking": "SHA-256 rank for selection, split assignment, and output order",
+    "rows_per_label": 120,
+    "split_rows_per_label": {
+      "train": 80,
+      "validation": 20,
+      "test": 20
+    }
+  },
+  "output": {
+    "row_count": 240,
+    "split_label_counts": {
+      "train": {
+        "ham": 80,
+        "spam": 80
+      },
+      "validation": {
+        "ham": 20,
+        "spam": 20
+      },
+      "test": {
+        "ham": 20,
+        "spam": 20
+      }
+    },
+    "tsv_sha256": "020a1da6a102aa44864d6aad3cc6c2d9aea81eca0f7948f5f278b6367f2081c9"
+  }
+}

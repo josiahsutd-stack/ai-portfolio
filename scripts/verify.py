@@ -13,7 +13,13 @@ COMMANDS = [
     [sys.executable, "scripts/check_portfolio_site.py"],
     [sys.executable, "scripts/check_markdown_links.py"],
     [sys.executable, "scripts/run_smoke_tests.py"],
+    [
+        sys.executable,
+        "projects/real-model-finetune-lab/scripts/build_uci_sms_subset.py",
+        "--check",
+    ],
     [sys.executable, "scripts/generate_review_artifacts.py"],
+    [sys.executable, "scripts/check_evidence_claims.py"],
     [sys.executable, "scripts/check_review_artifact_idempotence.py"],
     [sys.executable, "-m", "black", "--check", "."],
     [sys.executable, "-m", "ruff", "check", "."],

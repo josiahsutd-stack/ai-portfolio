@@ -1,6 +1,6 @@
 PYTHON ?= python
 
-.PHONY: setup verify sample-data test lint format smoke health claims site review-artifacts demo clean run-portfolio
+.PHONY: setup verify sample-data test lint format smoke health claims evidence provenance site review-artifacts demo clean run-portfolio
 
 setup:
 	$(PYTHON) scripts/setup.py
@@ -29,6 +29,12 @@ health:
 
 claims:
 	$(PYTHON) scripts/check_claims.py
+
+evidence:
+	$(PYTHON) scripts/check_evidence_claims.py
+
+provenance:
+	$(PYTHON) projects/real-model-finetune-lab/scripts/build_uci_sms_subset.py --check
 
 site:
 	$(PYTHON) scripts/check_portfolio_site.py

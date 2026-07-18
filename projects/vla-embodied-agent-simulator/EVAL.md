@@ -49,7 +49,7 @@ This setup evaluates behavior cloning from a simulator expert. It does not evalu
 | A* holdout success | `1.000` |
 | A* holdout unsafe-action rate | `0.000` |
 
-The gap between `0.863` action accuracy and `0.500` raw closed-loop success is treated as a failure-analysis result, not hidden variance. The filtered policy removes observed simulator safety violations but still fails 9 of 24 tasks.
+The gap between `0.863` action accuracy and `0.500` raw closed-loop success is treated as a failure-analysis result, not hidden variance. The filtered policy removes observed simulator safety violations but does not complete every holdout task.
 
 ## Leakage Controls
 

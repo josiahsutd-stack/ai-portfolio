@@ -3,10 +3,11 @@
 ## Five-Minute Path
 
 1. Read the root `README.md` evidence table and boundaries.
-2. Open `projects/aec-code-compliance-rag/EVAL.md`.
-3. Inspect `projects/aec-code-compliance-rag/demo_outputs/retrieval_ablation_report.md`.
-4. Skim `tests/test_rag.py` for retrieval, citation, and abstention coverage.
-5. Choose either the Construction Embodied Agent Simulator or Local Text Classification Lab based on the target role.
+2. Open `docs/EVIDENCE_LEDGER.md` to trace the headline values to versioned JSON.
+3. Open `projects/aec-code-compliance-rag/EVAL.md`.
+4. Inspect `projects/aec-code-compliance-rag/demo_outputs/retrieval_ablation_report.md`.
+5. Skim `tests/test_rag.py` for retrieval, citation, and abstention coverage.
+6. Choose either the Construction Embodied Agent Simulator or Local Text Classification Lab based on the target role.
 
 ## Fifteen-Minute Path
 

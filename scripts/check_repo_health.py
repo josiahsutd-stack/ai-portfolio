@@ -19,12 +19,17 @@ REQUIRED_DOCS = [
     "docs/REVIEWER_GUIDE.md",
     "docs/AUTHENTICITY_AND_OWNERSHIP.md",
     "docs/CLAIMS_POLICY.md",
+    "docs/EVIDENCE_LEDGER.md",
+    "docs/evidence_claims.yml",
     "docs/adr/0001-local-first-synthetic-data.md",
     "docs/adr/0002-aec-rag-as-flagship.md",
     "docs/adr/0003-mock-provider-boundaries.md",
     "docs/adr/0004-evaluation-over-claims.md",
     "docs/adr/0005-flagship-depth-over-project-breadth.md",
     "projects/projects.yml",
+    "projects/real-model-finetune-lab/EVAL.md",
+    "projects/real-model-finetune-lab/sample_data/uci_sms_subset_manifest.json",
+    "projects/real-model-finetune-lab/scripts/build_uci_sms_subset.py",
 ]
 REQUIRED_README_PATTERNS = {
     "demo command": r"streamlit run projects/.+/app\.py",
@@ -41,6 +46,7 @@ REQUIRED_ROOT_README_PATTERNS = {
     "flagship evidence": r"## Flagship Evidence",
     "evidence labels": r"## Evidence Labels",
     "limitations link": r"docs/SCOPE_AND_LIMITATIONS\.md",
+    "evidence ledger link": r"docs/EVIDENCE_LEDGER\.md",
 }
 GENERIC_PHRASES = [
     "leveraging cutting-edge",

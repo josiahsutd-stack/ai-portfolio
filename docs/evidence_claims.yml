@@ -1,0 +1,155 @@
+version: 1
+claims:
+  - id: aec-hybrid-retrieval
+    project_slug: aec-code-compliance-rag
+    artifact: projects/aec-code-compliance-rag/demo_outputs/retrieval_eval_summary.json
+    command: python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
+    evaluation_scope: Bundled synthetic retrieval and abstention regression set
+    metrics:
+      case_count:
+        json_path: summary.case_count
+      retrieval_k:
+        json_path: summary.k
+      recall_at_4:
+        json_path: summary.recall_at_k
+        decimals: 3
+      mrr:
+        json_path: summary.mean_reciprocal_rank
+        decimals: 3
+      hit_at_3:
+        json_path: summary.retrieval_hit_at_3
+        decimals: 3
+    result_template: "Recall@{retrieval_k} {recall_at_4}; MRR {mrr}; Hit@3 {hit_at_3}; {case_count} cases"
+    public_surfaces:
+      - path: README.md
+        contains:
+          - "{case_count}-case synthetic regression set"
+          - "Hybrid retrieval: `Recall@{retrieval_k} {recall_at_4}`, `MRR {mrr}`, `Hit@3 {hit_at_3}`"
+      - path: portfolio-site/index.html
+        contains:
+          - "Recall@{retrieval_k} {recall_at_4}"
+          - "MRR {mrr}"
+          - "Synthetic {case_count}-case regression set"
+      - path: projects/README.md
+        contains:
+          - "{case_count}-case regression evaluation"
+      - path: docs/technical-review-guide.md
+        contains:
+          - "default {case_count}-case set is synthetic"
+      - path: projects/aec-code-compliance-rag/EVAL.md
+        contains:
+          - "{case_count}-case synthetic retrieval and abstention evaluation set"
+
+  - id: embodied-behavior-cloning
+    project_slug: vla-embodied-agent-simulator
+    artifact: projects/vla-embodied-agent-simulator/demo_outputs/behavior_cloning_eval_summary.json
+    command: python projects/vla-embodied-agent-simulator/evaluate_vla.py
+    evaluation_scope: Fixed-seed disjoint procedural construction-grid holdout
+    metrics:
+      holdout_scenarios:
+        json_path: training.holdout_scenario_count
+      holdout_expert_steps:
+        json_path: training.holdout_expert_step_count
+      action_accuracy:
+        json_path: training.holdout_action_accuracy
+        decimals: 3
+      action_macro_f1:
+        json_path: training.holdout_action_macro_f1
+        decimals: 3
+      raw_success:
+        json_path: policies.behavior_cloning_raw.success_rate
+        decimals: 3
+      raw_unsafe_rate:
+        json_path: policies.behavior_cloning_raw.unsafe_action_rate
+        decimals: 3
+      filtered_success:
+        json_path: policies.behavior_cloning_shielded.success_rate
+        decimals: 3
+      filtered_unsafe_rate:
+        json_path: policies.behavior_cloning_shielded.unsafe_action_rate
+        decimals: 3
+      interventions:
+        json_path: policies.behavior_cloning_shielded.intervention_count
+      reference_success:
+        json_path: policies.safety_shielded.success_rate
+        decimals: 3
+      reference_unsafe_rate:
+        json_path: policies.safety_shielded.unsafe_action_rate
+        decimals: 3
+    result_template: "Filtered policy success {filtered_success}; unsafe-action rate {filtered_unsafe_rate}; raw success {raw_success}; {holdout_scenarios} holdout scenarios"
+    public_surfaces:
+      - path: README.md
+        contains:
+          - "`{filtered_success}` success with `{filtered_unsafe_rate}` unsafe-action rate on {holdout_scenarios} unseen scenarios"
+          - "raw policy succeeds on `{raw_success}`"
+      - path: portfolio-site/index.html
+        contains:
+          - "{filtered_success} holdout success"
+          - "{filtered_unsafe_rate} unsafe-action rate"
+          - "{holdout_scenarios} unseen structured-grid scenarios"
+      - path: projects/vla-embodied-agent-simulator/README.md
+        contains:
+          - "`{action_accuracy}` accuracy and `{action_macro_f1}` macro-F1 over {holdout_expert_steps} expert states from {holdout_scenarios} unseen scenarios"
+          - "`{raw_success}` success and `{raw_unsafe_rate}` unsafe-action rate over {holdout_scenarios} unseen scenarios"
+          - "`{filtered_success}` success, `{filtered_unsafe_rate}` unsafe-action rate, and {interventions} interventions"
+          - "`{reference_success}` success and `{reference_unsafe_rate}` unsafe-action rate"
+      - path: projects/vla-embodied-agent-simulator/EVAL.md
+        contains:
+          - "| Holdout expert-action accuracy | `{action_accuracy}` |"
+          - "| Holdout expert-action macro-F1 | `{action_macro_f1}` |"
+          - "| Raw behavior-cloning success | `{raw_success}` |"
+          - "| Raw behavior-cloning unsafe-action rate | `{raw_unsafe_rate}` |"
+          - "| Filtered behavior-cloning success | `{filtered_success}` |"
+          - "| Filtered behavior-cloning unsafe-action rate | `{filtered_unsafe_rate}` |"
+          - "| Filter interventions | `{interventions}` |"
+          - "| A* holdout success | `{reference_success}` |"
+          - "| A* holdout unsafe-action rate | `{reference_unsafe_rate}` |"
+
+  - id: public-sms-classification
+    project_slug: real-model-finetune-lab
+    artifact: projects/real-model-finetune-lab/demo_outputs/public_sms_metrics.json
+    command: python projects/real-model-finetune-lab/evaluate_model.py
+    evaluation_scope: Deterministic source-traceable 160/40/40 split of a compact balanced UCI SMS subset
+    metrics:
+      train_rows:
+        json_path: train_rows
+      validation_rows:
+        json_path: validation_rows
+      test_rows:
+        json_path: test_rows
+      baseline_accuracy:
+        json_path: baseline_test_accuracy
+        decimals: 3
+      validation_accuracy:
+        json_path: validation_accuracy
+        decimals: 3
+      test_accuracy:
+        json_path: test_accuracy
+        decimals: 3
+      test_macro_f1:
+        json_path: test_macro_f1
+        decimals: 3
+    result_template: "Test accuracy {test_accuracy}; macro-F1 {test_macro_f1}; baseline accuracy {baseline_accuracy}; {test_rows} test rows"
+    public_surfaces:
+      - path: README.md
+        contains:
+          - "`{test_accuracy}` accuracy and macro-F1 on a {test_rows}-row test split"
+      - path: portfolio-site/index.html
+        contains:
+          - "{test_accuracy} test accuracy and macro-F1"
+          - "with {test_rows} test rows"
+      - path: projects/real-model-finetune-lab/README.md
+        contains:
+          - "| Public SMS baseline accuracy | `{baseline_accuracy}` |"
+          - "| Public SMS validation accuracy | `{validation_accuracy}` |"
+          - "| Public SMS test accuracy | `{test_accuracy}` |"
+          - "| Public SMS test macro-F1 | `{test_macro_f1}` |"
+      - path: projects/real-model-finetune-lab/EVAL.md
+        contains:
+          - "| Train rows | `{train_rows}` |"
+          - "| Validation rows | `{validation_rows}` |"
+          - "| Test rows | `{test_rows}` |"
+          - "| Baseline test accuracy | `{baseline_accuracy}` |"
+          - "| Validation accuracy | `{validation_accuracy}` |"
+          - "| Test accuracy | `{test_accuracy}` |"
+          - "| Test macro-F1 | `{test_macro_f1}` |"

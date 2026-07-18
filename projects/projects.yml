@@ -277,10 +277,10 @@ projects:
     demo_command: streamlit run projects/real-model-finetune-lab/app.py
     test_command: pytest tests/test_real_model_finetune_lab.py
     tech_stack: [Python, scikit-learn, joblib, Streamlit]
-    summary: Trains TF-IDF plus logistic-regression classifiers with baseline comparisons, held-out metrics, and locally generated fitted artifacts.
+    summary: Trains TF-IDF plus logistic-regression classifiers with deterministic source-traceable splits, baseline comparisons, held-out metrics, and locally generated fitted artifacts.
     skills: [model training, text classification, evaluation, generated artifacts]
     status: primary
-    data_mode: "Synthetic quick set and compact locally bundled UCI SMS subset"
+    data_mode: "Synthetic quick set and deterministic source-traceable compact UCI SMS subset"
     implementation_mode: "TF-IDF plus logistic-regression training with dummy baselines and held-out metrics"
     boundary: "Classical supervised learning, not pretrained-model fine-tuning or a benchmark claim"
     readme_path: projects/real-model-finetune-lab/README.md

@@ -27,6 +27,8 @@ Full repository check:
 python scripts/verify.py
 ```
 
+The [headline evidence ledger](EVIDENCE_LEDGER.md) maps each displayed metric to an exact JSON path, versioned artifact, evaluation scope, and reproduction command.
+
 ## Role-Specific Paths
 
 - Applied AI / LLM: AEC RAG, Deterministic Research Workflow Assistant, then Local Text Classification Lab.
