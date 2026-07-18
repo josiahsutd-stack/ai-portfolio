@@ -72,16 +72,17 @@ REQUIRED_ROOT_README_PATTERNS = {
     "cross-project integration command": r"python integrations/aec-design-to-cost/run_workflow\.py",
 }
 REQUIRED_WORKFLOW_PATTERNS = {
-    "push trigger": r"(?m)^\s*push:\s*$",
-    "pull-request trigger": r"(?m)^\s*pull_request:\s*$",
     "manual trigger": r"(?m)^\s*workflow_dispatch:\s*$",
-    "main branch trigger": r'(?m)^\s*branches:\s*\["main"\]\s*$',
     "read-only contents permission": r"(?m)^\s*contents:\s*read\s*$",
     "bounded runtime": r"(?m)^\s*timeout-minutes:\s*20\s*$",
     "current checkout action": r"actions/checkout@v6",
     "current Python setup action": r"actions/setup-python@v6",
     "dependency cache": r"(?m)^\s*cache:\s*pip\s*$",
     "repository verifier": r"python scripts/verify\.py",
+}
+FORBIDDEN_WORKFLOW_PATTERNS = {
+    "automatic push trigger": r"(?m)^\s*push:\s*$",
+    "automatic pull-request trigger": r"(?m)^\s*pull_request:\s*$",
 }
 GENERIC_PHRASES = [
     "leveraging cutting-edge",
@@ -181,14 +182,24 @@ def check_root_readme() -> list[str]:
     return issues
 
 
-def check_verification_workflow() -> list[str]:
-    workflow = ROOT / ".github" / "workflows" / "ci.yml"
-    text = workflow.read_text(encoding="utf-8") if workflow.exists() else ""
+def workflow_contract_issues(text: str) -> list[str]:
     issues = [
         f".github/workflows/ci.yml: missing {label}"
         for label, pattern in REQUIRED_WORKFLOW_PATTERNS.items()
         if not re.search(pattern, text)
     ]
+    issues.extend(
+        f".github/workflows/ci.yml: unexpected {label}"
+        for label, pattern in FORBIDDEN_WORKFLOW_PATTERNS.items()
+        if re.search(pattern, text)
+    )
+    return issues
+
+
+def check_verification_workflow() -> list[str]:
+    workflow = ROOT / ".github" / "workflows" / "ci.yml"
+    text = workflow.read_text(encoding="utf-8") if workflow.exists() else ""
+    issues = workflow_contract_issues(text)
     duplicate = ROOT / ".github" / "workflows" / "verify.yml"
     if duplicate.exists():
         issues.append(".github/workflows/verify.yml: duplicate verifier workflow must stay removed")

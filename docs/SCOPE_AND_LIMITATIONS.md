@@ -22,7 +22,7 @@ This is a local-first applied AI engineering portfolio for the built environment
 - Specification fixtures use a deterministic phrase grammar and do not prove open-domain conversation understanding.
 - QS fixtures do not parse PDF/CAD/BIM drawings or use live market rates.
 - The cross-project workflow is one synthetic contract fixture. It does not establish design quality, interoperability with professional tools, or end-to-end delivery.
-- CI execution can be blocked by GitHub account state even when local verification passes.
+- The hosted workflow is manual-dispatch only; current verification evidence comes from the local verifier rather than workflow history.
 
 ## What Not To Infer
 

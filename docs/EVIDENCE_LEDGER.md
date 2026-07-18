@@ -24,7 +24,7 @@ This ledger maps versioned quantitative results to JSON artifacts and the local 
 
 The evidence configuration is stored in [`evidence_claims.yml`](evidence_claims.yml). Each metric names an exact JSON path and display precision. The checker fails when an artifact is missing, a JSON path changes, a displayed value becomes stale, or this generated ledger differs from the current artifacts.
 
-The full local and CI gate is:
+The complete local gate, also used by the manually dispatchable workflow, is:
 
 ```bash
 python scripts/verify.py

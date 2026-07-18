@@ -3,6 +3,7 @@ from scripts.check_repo_health import (
     RETIRED_EXPERIMENT_SLUGS,
     check_forbidden_public_docs,
     check_verification_workflow,
+    workflow_contract_issues,
 )
 
 
@@ -55,6 +56,29 @@ def test_obsolete_hiring_verdict_document_remains_removed() -> None:
 
 def test_single_current_verification_workflow_remains_configured() -> None:
     assert check_verification_workflow() == []
+
+
+def test_verification_workflow_rejects_automatic_failure_triggers() -> None:
+    workflow = """
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          cache: pip
+      - run: python scripts/verify.py
+"""
+
+    issues = workflow_contract_issues(workflow)
+
+    assert ".github/workflows/ci.yml: unexpected automatic push trigger" in issues
 
 
 def test_claim_scan_rejects_deprecated_project_name() -> None:
