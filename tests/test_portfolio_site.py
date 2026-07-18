@@ -1,3 +1,6 @@
+import json
+
+import scripts.check_portfolio_site as portfolio_site
 from scripts.check_portfolio_site import (
     CASE_STUDY_REQUIREMENTS,
     SITE_ROOT,
@@ -43,6 +46,20 @@ def test_public_site_keeps_search_share_and_recovery_contracts() -> None:
 
 def test_every_indexable_page_keeps_complete_social_preview_contracts() -> None:
     assert check_social_preview_contracts() == []
+
+
+def test_social_preview_manifest_detects_stale_page_and_card_hashes(tmp_path, monkeypatch) -> None:
+    manifest = json.loads(portfolio_site.SOCIAL_CARD_MANIFEST_PATH.read_text(encoding="utf-8"))
+    manifest["pages"]["index.html"]["page_sha256"] = "0" * 64
+    manifest["pages"]["index.html"]["card_sha256"] = "0" * 64
+    stale_manifest = tmp_path / "social-card-manifest.json"
+    stale_manifest.write_text(json.dumps(manifest), encoding="utf-8")
+    monkeypatch.setattr(portfolio_site, "SOCIAL_CARD_MANIFEST_PATH", stale_manifest)
+
+    issues = check_social_preview_contracts()
+
+    assert any("page changed after its social preview was captured" in issue for issue in issues)
+    assert any("social-card-home.png: social preview hash is stale" in issue for issue in issues)
 
 
 def test_visual_entry_pages_preload_only_their_first_screen_hero() -> None:

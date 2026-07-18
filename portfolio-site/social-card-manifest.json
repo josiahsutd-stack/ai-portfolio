@@ -1,0 +1,48 @@
+{
+  "capture": {
+    "width": 1200,
+    "height": 630
+  },
+  "pages": {
+    "index.html": {
+      "card": "assets/social-card-home.png",
+      "page_sha256": "f6ecc1f0e0b57dde350af6f14eca351c9c5cc81a45abdf9ab7c07d6d4e506144",
+      "card_sha256": "ae2ce4bb585a603bf63f6a0b34652c318818d345ae42cab9ab52804ef1226ccb"
+    },
+    "pages/aec-rag.html": {
+      "card": "assets/social-card-aec-rag.png",
+      "page_sha256": "c93acf461e04961a01034c9fdb760e0d24c0b7d263b6a18f017991b703199b50",
+      "card_sha256": "13117144ffb630e09b891fa512d0c7bee07fa24dfa854ab6be1c78cdb020984b"
+    },
+    "pages/embodied-ai.html": {
+      "card": "assets/social-card-embodied-ai.png",
+      "page_sha256": "0bcfb883de1d2e7ec2e16b841b189d3c3cea15a5ee00def8cd660ed1d7a56431",
+      "card_sha256": "13090c1080ce2d1a0f9e3abe6ff78df9b847aadd79118c439a450ff26bf2d3da"
+    },
+    "pages/massing-explorer.html": {
+      "card": "assets/social-card-massing-explorer.png",
+      "page_sha256": "ce32bb43656c0c31609d9366b408a29b48b5397325ac3a7792886e7b0c6de301",
+      "card_sha256": "9c7ac5d5ff1c3ba4b77e0c4f4031355c55e99687b24d2901aed8e64ac21f0ce0"
+    },
+    "pages/specification-assistant.html": {
+      "card": "assets/social-card-specification-assistant.png",
+      "page_sha256": "7a78d7fcc2089eda140ed2ff4a10e0b4fd5bdb891e27511ff78a645896e4d282",
+      "card_sha256": "9d35ab59657278496a2be841e3da22808c8291f060e2bb08ba8a7a58080b0555"
+    },
+    "pages/qs-takeoff.html": {
+      "card": "assets/social-card-qs-takeoff.png",
+      "page_sha256": "9472ed4705e4039c6c9b1123eda3e6125f3a8e27b22e1ca74d588d9de8b4a24b",
+      "card_sha256": "4f2ff1bc2ab921aa2dac9a0c906e09898b41079820bc5afde1344ebc65fcdea3"
+    },
+    "pages/project-guide.html": {
+      "card": "assets/social-card-project-guide.png",
+      "page_sha256": "af44046974daa797348c5e8e4d12b499fd30bd85945e2508a62b07dc5b3c53e2",
+      "card_sha256": "7a6f01112d852962f5a0c5ad1fbc5dae77e77937a571d5cc3f45ae6a030bb11f"
+    },
+    "pages/skills-matrix.html": {
+      "card": "assets/social-card-skills-matrix.png",
+      "page_sha256": "cbd4a04a4beb111fd96489193e2836f48af4d5108b08318602b68f1166f5638e",
+      "card_sha256": "33e820d24f01f7c818bc6eb63f7ca9a7748fd1bf54541772eca19abd5c50c8c8"
+    }
+  }
+}

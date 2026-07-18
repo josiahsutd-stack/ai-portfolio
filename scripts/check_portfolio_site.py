@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import struct
@@ -14,6 +15,7 @@ SITE_ROOT = ROOT / "portfolio-site"
 PUBLIC_BASE_URL = "https://josiahsutd-stack.github.io/ai-portfolio/"
 SOCIAL_SITE_NAME = "Josiah Lau | Applied AI Engineering"
 SOCIAL_LOCALE = "en_SG"
+SOCIAL_CARD_MANIFEST_PATH = SITE_ROOT / "social-card-manifest.json"
 PLACEHOLDER_PATTERNS = [
     "your-username",
     "your-name",
@@ -629,12 +631,34 @@ def check_social_preview_contracts() -> list[str]:
         if stale:
             issues.append(f"social preview manifest has stale pages: {', '.join(stale)}")
 
+    try:
+        source_manifest = json.loads(SOCIAL_CARD_MANIFEST_PATH.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as error:
+        issues.append(f"portfolio-site/social-card-manifest.json: invalid manifest: {error}")
+        source_manifest = {}
+
+    if source_manifest.get("capture") != {"width": 1200, "height": 630}:
+        issues.append("social preview source manifest must declare a 1200x630 capture")
+
+    manifest_pages = source_manifest.get("pages", {})
+    if set(manifest_pages) != configured_paths:
+        issues.append("social preview source manifest pages must match the preview manifest")
+
     for relative_page, (relative_card, expected_alt) in SOCIAL_CARD_REQUIREMENTS.items():
         page_path = SITE_ROOT / relative_page
         label = page_path.relative_to(ROOT)
         if not page_path.is_file():
             issues.append(f"{label}: social preview page is missing")
             continue
+
+        source_entry = manifest_pages.get(relative_page, {})
+        if source_entry.get("card") != relative_card:
+            issues.append(f"{label}: social preview source manifest card is stale")
+        page_digest = hashlib.sha256(page_path.read_bytes()).hexdigest()
+        if source_entry.get("page_sha256") != page_digest:
+            issues.append(
+                f"{label}: page changed after its social preview was captured; refresh the card"
+            )
 
         parser = SiteLinkParser()
         parser.feed(page_path.read_text(encoding="utf-8"))
@@ -673,7 +697,11 @@ def check_social_preview_contracts() -> list[str]:
         card_path = SITE_ROOT / relative_card
         if not card_path.is_file():
             issues.append(f"portfolio-site/{relative_card}: social preview image is missing")
-        elif png_dimensions(card_path) != (1200, 630):
+            continue
+        card_digest = hashlib.sha256(card_path.read_bytes()).hexdigest()
+        if source_entry.get("card_sha256") != card_digest:
+            issues.append(f"portfolio-site/{relative_card}: social preview hash is stale")
+        if png_dimensions(card_path) != (1200, 630):
             issues.append(f"portfolio-site/{relative_card}: social preview must be a 1200x630 PNG")
     return issues
 
