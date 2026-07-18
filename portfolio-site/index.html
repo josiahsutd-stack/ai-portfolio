@@ -62,8 +62,8 @@
               <span>01 / Flagship</span>
               <h3>AEC Code Compliance RAG</h3>
               <p>Public-source ingestion, four retrieval modes, citations, abstention, evals, and focused tests.</p>
-              <strong>Recall@4 1.000 / MRR 0.906</strong>
-              <small>Synthetic 51-case regression set; not compliance certification.</small>
+              <strong>Public Hit@1 0.952 / MRR 0.976</strong>
+              <small>Public 24-case snapshot over 15 local documents. Synthetic 51-case regression set: Recall@4 1.000 / MRR 0.906. Not compliance certification.</small>
               <a href="#flagship">View project</a>
             </article>
             <article class="evidence-card">
@@ -120,7 +120,7 @@
               hybrid retrieval, citation checks, and unsupported-scope handling.
             </p>
             <dl class="fact-list">
-              <div><dt>Evaluation</dt><dd>51 synthetic regression cases plus an optional local public-source suite</dd></div>
+              <div><dt>Evaluation</dt><dd>51 synthetic cases plus 24 public-source cases over a fingerprinted 15-document snapshot</dd></div>
               <div><dt>Proof</dt><dd>Architecture, eval design, ablation report, failure analysis, demo answers, and tests</dd></div>
               <div><dt>Limit</dt><dd>No authority validation, professional sign-off, OCR, or live amendment guarantee</dd></div>
             </dl>
@@ -149,7 +149,7 @@
             <span class="flow-connector" aria-hidden="true"></span>
             <div class="flow-node"><span>04</span><strong>Response</strong><small>Citations, warnings, or abstention</small></div>
             <span class="flow-connector" aria-hidden="true"></span>
-            <div class="flow-node"><span>05</span><strong>Evaluation</strong><small>51 synthetic cases and failure outputs</small></div>
+            <div class="flow-node"><span>05</span><strong>Evaluation</strong><small>51 synthetic and 24 public-source cases</small></div>
           </div>
         </div>
       </section>

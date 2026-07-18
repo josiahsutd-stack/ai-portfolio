@@ -19,6 +19,7 @@ python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py --corpus p
 
 This writes:
 
+- `demo_outputs/evaluation_manifest.json`
 - `demo_outputs/retrieval_eval_summary.json`
 - `demo_outputs/retrieval_eval_report.md`
 - `demo_outputs/retrieval_ablation_summary.json`
@@ -59,6 +60,24 @@ Each case includes:
 
 The synthetic dataset supports deterministic regression checks. The public-source dataset checks whether the same pipeline can ingest and retrieve from official Singapore public documents such as BCA Accessibility, URA GFA, NEA COPEH, SCDF Fire Code, LTA interface references, PUB drainage/sewerage references, and NParks greenery/tree-conservation references. Neither dataset is a benchmark for a real compliance product.
 
+## Current Public-Source Snapshot
+
+The committed snapshot was generated on 18 July 2026 after 15 official-source payloads passed HTTP and file-type validation. The versioned artifacts identify the exact source inventory, document corpus, and eval set with SHA-256 fingerprints.
+
+| Measure | Result |
+| --- | ---: |
+| Documents | `15` |
+| Cases | `24` |
+| Direct / paraphrase / no-evidence / professional-review | `15 / 6 / 2 / 1` |
+| Hybrid Hit@1 | `0.952` |
+| Hybrid MRR | `0.976` |
+| Paraphrase MRR | `0.917` |
+| Citation coverage | `0.968` |
+| Grounding check rate | `0.905` |
+| No-answer accuracy | `1.000` |
+
+The correct source appears within the top four for every answerable case, but this does not mean every retrieved chunk contains every expected phrase. Two paraphrase cases miss one expected phrase at top four and are retained in the versioned failure analysis.
+
 ## Metrics
 
 | Metric | Meaning |
@@ -75,7 +94,7 @@ The synthetic dataset supports deterministic regression checks. The public-sourc
 | `answer_sentence_support_rate` | Share of generated answer sentences that pass deterministic citation-support checks. |
 | `unsupported_sentence_rate` | Share of generated answer sentences flagged as unsupported by the deterministic citation checker. |
 | `retrieval_hit_at_1` / `retrieval_hit_at_3` | Whether the expected source appears early in the retrieved result list. |
-| `no_answer_accuracy` | Whether absent-evidence questions correctly return no retrieved support. |
+| `no_answer_accuracy` | Whether absent-evidence questions correctly return a `no_evidence` status. Candidate retrieval may still be logged for diagnosis. |
 | `unsupported_scope_accuracy` | Whether live-code, jurisdiction, or professional-review questions are refused with the expected status. |
 
 Because the corpus is synthetic and contains overlapping topics, `precision_at_k` is less important than status accuracy, hit@3, citation coverage, and failure analysis.
@@ -107,11 +126,16 @@ Optional modes `semantic` and `hybrid_cross_encoder` are exposed in the app and 
 - Whether retrieval can support answer generation without paid APIs.
 - Whether no-answer, unsupported-scope, prompt-injection, and professional-review questions avoid invented compliance requirements.
 - Whether Singapore public-source retrieval can find authority-specific documents across BCA, URA, NEA, SCDF, LTA, PUB, and NParks without committing the downloaded PDFs to Git.
+- Whether paraphrased public-source questions still rank the expected document early.
+- Whether project-specific questions abstain when only generic public references are available.
+- Whether committed results match a fingerprinted source inventory, corpus, and eval set.
 
 ## Known Failure Modes
 
 - Questions that require a real jurisdiction, code year, or amendment cannot be answered from the synthetic corpus.
 - The public-source corpus uses official public downloads, but it does not verify amendments, authority interpretations, project-specific applicability, or professional sign-off.
+- The public eval has only 24 authored cases and no independent domain-expert labels.
+- Two current paraphrase cases retrieve the expected source but miss one expected phrase in the top-four chunks.
 - TF-IDF can miss semantically related wording if key terms are absent from the query.
 - Citation coverage only checks expected terms in retrieved evidence; it is not full answer faithfulness.
 - The grounding check is lexical and section-based; it is not a semantic entailment model.
@@ -119,9 +143,8 @@ Optional modes `semantic` and `hybrid_cross_encoder` are exposed in the app and 
 
 ## Better Evaluation Next
 
-- Add negative questions where the correct behavior is no answer.
-- Add paraphrased questions to stress semantic retrieval.
-- Add multi-document and multi-PDF cases where precision matters.
+- Add independently reviewed clause/page targets and multi-document cases where precision matters.
 - Add citation-faithfulness checks from answer sentence to supporting chunk.
-- Add deeper Singapore jurisdiction and version metadata cases, including amendment refresh checks.
+- Add Singapore amendment-refresh and superseded-document tests.
+- Compare optional embedding and cross-encoder modes on the same fingerprinted public snapshot.
 - Track no-result rate and low-confidence answer rate over a larger eval set.

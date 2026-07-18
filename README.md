@@ -10,7 +10,7 @@ These three projects best represent my current work in retrieval, embodied AI, a
 
 | Project | Focus | Evidence | Current result | Limits |
 | --- | --- | --- | --- | --- |
-| [AEC Code Compliance RAG](projects/aec-code-compliance-rag/README.md) | Retrieval and document intelligence | Public-source ingestion, page-aware chunks, four retrieval modes, citations, abstention, a 51-case synthetic regression set, and focused tests. | Hybrid retrieval: `Recall@4 1.000`, `MRR 0.906`, and `Hit@3 1.000` on the bundled synthetic evaluation. | Document-assistance prototype; not compliance certification or professional advice. |
+| [AEC Code Compliance RAG](projects/aec-code-compliance-rag/README.md) | Retrieval and document intelligence | Validated public-source downloads, corpus fingerprints, page-aware chunks, four retrieval modes, citations, abstention, a 51-case synthetic regression set, a public-source eval, and focused tests. | Hybrid retrieval: `Recall@4 1.000`, `MRR 0.906`, and `Hit@3 1.000` on the bundled synthetic evaluation. Public-source snapshot: `Hit@1 0.952`, `MRR 0.976`, `paraphrase MRR 0.917`, and `no-answer 1.000` across 24 cases over 15 downloaded documents. | Document-assistance prototype; not compliance certification or professional advice. |
 | [Construction Embodied Agent Simulator](projects/vla-embodied-agent-simulator/README.md) | Embodied AI | Procedural construction grids, expert demonstrations, a fitted behavior-cloning model, disjoint holdout episodes, action filtering, failure analysis, and tests. | Filtered learned policy: `0.625` success with a `0.000` unsafe-action rate on 24 unseen scenarios; raw policy success is `0.500`. | Structured 2D simulation; no foundation VLA, perception stack, ROS integration, or hardware validation. |
 | [Local Text Classification Lab](projects/real-model-finetune-lab/README.md) | Supervised model development | TF-IDF and logistic-regression fitting, deterministic source-traceable splits, a dummy baseline, held-out metrics, a confusion matrix, and generated coefficients. | Compact UCI SMS subset: `0.950` accuracy and macro-F1 on a 40-row test split. | Small classical-ML exercise; not pretrained-model fine-tuning or a benchmark claim. |
 
@@ -81,7 +81,7 @@ python projects/aec-code-compliance-rag/scripts/download_public_sources.py
 python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py --corpus public
 ```
 
-The downloader targets official BCA, URA, NEA, SCDF, LTA, PUB, and NParks sources. Downloaded files remain local and are not redistributed. Public retrieval demonstrates provenance-aware ingestion; it does not validate document currency or confer authority approval.
+The downloader targets official BCA, URA, NEA, SCDF, LTA, PUB, and NParks sources. It rejects HTML/404 payloads masquerading as PDFs and records resolved URLs plus SHA-256 fingerprints. Downloaded files remain local and are not redistributed. The committed public evaluation is a dated retrieval snapshot, not proof of document currency, authority approval, or professional applicability.
 
 ![AEC RAG local Streamlit demo with source citations](docs/assets/screenshots/aec-rag-demo.png)
 

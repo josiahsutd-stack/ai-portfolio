@@ -2,7 +2,9 @@
 
 This folder defines an optional real-source corpus for the AEC RAG project.
 
-The repository does not commit downloaded BCA, URA, NEA, SCDF, LTA, PUB, or NParks PDFs/HTML snapshots. The downloader retrieves official public documents into `public_sources/downloaded/`, which is ignored by Git. This keeps the project useful for real-document testing while avoiding redistribution of government PDFs or modified copies.
+The repository does not commit downloaded BCA, URA, NEA, SCDF, LTA, PUB, or NParks PDFs/HTML snapshots. The downloader retrieves official public documents into `public_sources/downloaded/`, which is ignored by Git. This keeps the project useful for public-document retrieval testing while avoiding redistribution of government PDFs or modified copies.
+
+The inventory was checked against official landing pages on 18 July 2026. That date is a provenance marker, not a guarantee that every document remains current after the snapshot.
 
 ## Source Set
 
@@ -28,7 +30,9 @@ The repository does not commit downloaded BCA, URA, NEA, SCDF, LTA, PUB, or NPar
 - These files are for local retrieval and evaluation experiments only.
 - The assistant is not a compliance authority and must not certify design compliance.
 - Any use beyond this retrieval experiment requires verification against current BCA, URA, NEA, SCDF, LTA, PUB, NParks, CORENET, and Singapore Statutes Online sources.
-- The downloader records source URLs, publisher, document version, and download timestamp in `public_sources/downloaded/source_manifest.json`.
+- The downloader rejects HTTP errors and file-type mismatches before a file enters the manifest.
+- The generated manifest records source URLs, resolved URLs, publisher, document version, byte count, SHA-256, download timestamp, inventory fingerprint, corpus fingerprint, and completeness status.
+- A complete download is still not an authority review, amendment check, or project-specific applicability determination.
 
 ## Usage
 

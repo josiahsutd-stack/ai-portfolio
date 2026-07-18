@@ -2,6 +2,8 @@
 
 Singapore public-source demo output. Not legal, code, engineering, architectural, or professional compliance advice.
 
+**Corpus SHA-256:** `f0af72d9f642a1a1bf86cbd8d1d0268bf3a4a3fa4505546655d36f7cb36dceb1`
+
 **Question:** What does the BCA Code on Accessibility 2025 set out for accessible and inclusive buildings?
 
 ## Grounded Answer

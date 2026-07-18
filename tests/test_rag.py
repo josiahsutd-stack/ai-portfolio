@@ -220,6 +220,7 @@ def test_public_source_downloader_writes_local_manifest(
 
     class FakeResponse:
         headers = {"content-type": "text/html"}
+        status = 200
 
         def __enter__(self):
             return self
@@ -242,16 +243,89 @@ def test_public_source_downloader_writes_local_manifest(
     )
 
     report = download_public_sources(source_file)
+    repeated_report = download_public_sources(source_file)
     download_dir = tmp_path / "downloaded"
     downloaded = download_dir / "ura_gfa_test.md"
     manifest = load_source_manifest(download_dir / "source_manifest.json")
+    raw_manifest = json.loads((download_dir / "source_manifest.json").read_text(encoding="utf-8"))
+    (download_dir / "stale_unlisted.pdf").write_bytes(b"%PDF-stale")
 
     assert report["downloaded_count"] == 1
     assert report["failure_count"] == 0
+    assert report["is_complete"]
+    assert len(report["source_inventory_sha256"]) == 64
+    assert len(report["corpus_sha256"]) == 64
+    assert repeated_report["corpus_sha256"] == report["corpus_sha256"]
     assert downloaded_public_paths(download_dir) == [downloaded]
     assert "not exhaustive for building designs" in downloaded.read_text(encoding="utf-8")
+    assert raw_manifest["schema_version"] == "2.0"
+    assert raw_manifest["is_complete"]
+    assert raw_manifest["sources"][0]["resolved_url"] == "https://example.test/ura-gfa"
+    assert len(raw_manifest["sources"][0]["sha256"]) == 64
     assert manifest["ura_gfa_test.md"]["publisher"] == "Urban Redevelopment Authority, Singapore"
     assert manifest["ura_gfa_test.md"]["source_url"] == "https://example.test/ura-gfa"
+
+
+def test_public_source_downloader_rejects_html_masquerading_as_pdf(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    source_file = tmp_path / "sources.json"
+    source_file.write_text(
+        json.dumps(
+            {
+                "download_dir": "downloaded",
+                "sources": [
+                    {
+                        "source": "stale_code.pdf",
+                        "title": "Stale Code Link",
+                        "publisher": "Example Authority",
+                        "source_url": "https://example.test/stale-code.pdf",
+                        "source_type": "pdf",
+                        "jurisdiction": "singapore",
+                        "document_version": "test-version",
+                        "allowed_use": "official_public_download_for_local_reference_only",
+                        "rights": "Local reference test.",
+                    }
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    class FakeResponse:
+        headers = {"content-type": "text/html; charset=utf-8"}
+        status = 200
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, exc_type, exc, traceback) -> None:
+            return None
+
+        def read(self) -> bytes:
+            return b"<html><body><h1>Page not found</h1><p>This is a 404 response body.</p></body></html>"
+
+        def geturl(self) -> str:
+            return "https://example.test/404"
+
+    monkeypatch.setattr(
+        public_sources.urllib.request, "urlopen", lambda *_args, **_kwargs: FakeResponse()
+    )
+
+    report = download_public_sources(source_file)
+    manifest = json.loads(
+        (tmp_path / "downloaded" / "source_manifest.json").read_text(encoding="utf-8")
+    )
+
+    assert report["downloaded_count"] == 0
+    assert report["failure_count"] == 1
+    assert not report["is_complete"]
+    assert "Expected PDF" in report["failures"][0]["error"]
+    assert not (tmp_path / "downloaded" / "stale_code.pdf").exists()
+    assert manifest["sources"] == []
+    assert not manifest["is_complete"]
+    assert downloaded_public_paths(tmp_path / "downloaded") == []
 
 
 def test_query_logger_persists_recent_query_metadata(tmp_path: Path) -> None:
@@ -571,6 +645,25 @@ def test_rag_rejects_live_code_and_professional_signoff_questions() -> None:
     assert signoff["sources"] == []
 
 
+def test_rag_abstains_when_project_specific_evidence_is_missing() -> None:
+    assistant = RAGAssistant(
+        chunk_text(
+            "Gross floor area guidance explains general development-control principles.",
+            source="public_reference.md",
+        )
+    )
+
+    parcel = assistant.answer("What exact gross floor area was granted for parcel MK01-99999?")
+    structure = assistant.answer(
+        "What structural load capacity applies to an unnamed tower transfer slab?"
+    )
+
+    assert parcel["status"] == "no_evidence"
+    assert structure["status"] == "no_evidence"
+    assert parcel["retrieval"]["reason"] == "project_specific_evidence_missing"
+    assert structure["sources"] == []
+
+
 def test_retrieval_evaluation_reports_section_and_term_coverage() -> None:
     text = """
     ## Planning Review Checklist
@@ -581,6 +674,8 @@ def test_retrieval_evaluation_reports_section_and_term_coverage() -> None:
     assistant = RAGAssistant(chunk_text(text, source="mock.md"))
     cases = [
         RetrievalEvalCase(
+            case_id="test-planning-001",
+            case_type="paraphrase",
             question="Which planning assumptions should be logged?",
             expected_source="mock.md",
             expected_section="Planning Review Checklist",
@@ -595,6 +690,9 @@ def test_retrieval_evaluation_reports_section_and_term_coverage() -> None:
     assert payload["summary"]["section_hit_rate"] == 1.0
     assert payload["summary"]["status_accuracy"] == 1.0
     assert payload["summary"]["citation_check_pass_rate"] == 1.0
+    assert payload["summary"]["case_type_metrics"]["paraphrase"]["case_count"] == 1
+    assert payload["results"][0]["case_id"] == "test-planning-001"
+    assert payload["results"][0]["case_type"] == "paraphrase"
     assert payload["results"][0]["missing_terms"] == []
 
 

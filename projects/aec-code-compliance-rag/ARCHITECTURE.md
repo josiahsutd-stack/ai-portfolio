@@ -69,7 +69,7 @@ Every retrieved chunk carries this metadata:
 
 The sample corpus includes markdown files, a generated text-based PDF addendum, and `sample_data/source_manifest.json`. Markdown page values come from comments such as `<!-- page: 2 -->`; PDF page values come from page-by-page extraction with `pypdf`. The manifest is the local place where document title, type, allowed use, jurisdiction, version, and superseded state are made explicit.
 
-The optional public corpus uses `public_sources/sources.json` as the committed source inventory, downloads official public documents into ignored `public_sources/downloaded/`, and writes a generated `source_manifest.json` for chunk metadata. This allows real-document retrieval experiments without committing copied government PDFs.
+The optional public corpus uses `public_sources/sources.json` as the committed source inventory, downloads official public documents into ignored `public_sources/downloaded/`, and writes a generated `source_manifest.json` for chunk metadata. Downloads fail on HTTP errors or extension/content mismatches. Each accepted source records its resolved URL, byte count, and SHA-256; the manifest also records deterministic inventory and corpus fingerprints. This supports reproducible public-document retrieval experiments without committing copied government PDFs.
 
 ## Retrieval Design
 
@@ -114,6 +114,7 @@ The assistant returns an abstention status when:
 - The question is empty.
 - Retrieval finds no chunks above the score threshold.
 - The question asks for live/current law, permit approval, professional sign-off, or content outside the synthetic corpus.
+- The question asks for parcel-, site-, or project-specific facts while no project records are present.
 - Retrieved text is too weakly aligned with the question after lexical support checks.
 
 For compliance-oriented workflows, this behavior is more important than always generating a fluent answer.

@@ -2,6 +2,8 @@
 
 Synthetic demo demo output. Not legal, code, engineering, architectural, or professional compliance advice.
 
+**Corpus SHA-256:** `23648efd4c6080f9e4549757917d5223e28901f4a87eb490994690952a6a3636`
+
 **Question:** What clear width should be checked for high traffic accessible routes?
 
 ## Grounded Answer

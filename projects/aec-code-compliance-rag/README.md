@@ -51,7 +51,16 @@ python projects/aec-code-compliance-rag/scripts/download_public_sources.py
 python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py --corpus public
 ```
 
-The downloaded PDFs/HTML text and generated manifest stay in `public_sources/downloaded/`, which is ignored by Git. The repository commits the source inventory and eval cases, not redistributed government PDFs.
+The downloaded PDFs/HTML text and generated manifest stay in `public_sources/downloaded/`, which is ignored by Git. The downloader fails on HTTP errors and PDF/content mismatches, then records resolved URLs, byte counts, file hashes, an inventory hash, and a corpus hash. The repository commits the source inventory, eval cases, and fingerprinted result artifacts, not redistributed government PDFs.
+
+## Current Evidence Snapshot
+
+| Evaluation | Scope | Hybrid result | Important boundary |
+| --- | --- | --- | --- |
+| Synthetic regression | 51 bundled cases | Recall@4 `1.000`; MRR `0.906`; Hit@3 `1.000` | Small authored corpus; useful for deterministic regression only. |
+| Singapore public-source snapshot | 24 cases over 15 downloaded documents | Hit@1 `0.952`; MRR `0.976`; paraphrase MRR `0.917`; no-answer `1.000` | Documents were downloaded and validated on 18 July 2026; no authority or expert applicability review. |
+
+The public run includes 15 direct questions, six paraphrases, two project-specific no-evidence cases, and one professional-review refusal. Two paraphrase cases retrieve the correct source but miss one expected phrase within the top four chunks; those cases remain in [`failure_analysis.md`](demo_outputs/public_sources/failure_analysis.md).
 
 ## Demo
 
@@ -75,6 +84,7 @@ Try these questions:
 Generated evaluation artifacts are in [`demo_outputs/`](demo_outputs/):
 
 - [`retrieval_eval_summary.json`](demo_outputs/retrieval_eval_summary.json)
+- [`evaluation_manifest.json`](demo_outputs/evaluation_manifest.json)
 - [`retrieval_eval_report.md`](demo_outputs/retrieval_eval_report.md)
 - [`retrieval_ablation_summary.json`](demo_outputs/retrieval_ablation_summary.json)
 - [`retrieval_ablation_report.md`](demo_outputs/retrieval_ablation_report.md)
@@ -93,6 +103,7 @@ python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
 - Markdown and text-based PDF document ingestion from `sample_data/`.
 - Optional Singapore public-source downloader for BCA, URA, NEA, SCDF, LTA, PUB, and NParks reference documents.
 - Source manifest loading from `sample_data/source_manifest.json`.
+- Fail-closed public-source download validation with resolved-URL and SHA-256 provenance.
 - Section-aware chunking with overlap.
 - Metadata fields for title, source type, allowed use, heading, clause ID, PDF page or markdown page marker, chunk ID, and word offsets.
 - Per-query source filters for jurisdiction, authority/publisher, document family, source type, and superseded-source exclusion.
@@ -139,11 +150,12 @@ The tests cover:
 - Document-version, jurisdiction, and superseded-source metadata.
 - Source manifest overrides and filtered retrieval behavior.
 - Empty and no-result handling.
+- Project-specific questions that lack project records.
 - Retrieval evaluation metrics.
 
 ## Optional Public-Source Review
 
-The public corpus is designed to move the project beyond a toy RAG demo while keeping redistribution boundaries clean. It includes source metadata for:
+The public corpus tests the same retrieval pipeline against downloaded official documents while keeping redistribution boundaries clean. It includes source metadata for:
 
 - BCA Code on Accessibility in the Built Environment 2025.
 - BCA Approved Document and Green Mark 2021 documents.
@@ -180,7 +192,7 @@ The API exposes `/health`, `/sources`, `/query`, `/retrieve`, and `/logs/recent`
 - Improve Singapore source refresh checks, amendment detection, and source inventory validation.
 - Benchmark optional embedding and cross-encoder retrieval against the public-source eval set.
 - Strengthen citation-faithfulness checks beyond the current deterministic lexical coverage check.
-- Expand the evaluation set with negative questions, ambiguous jurisdiction cases, and adversarial wording.
+- Expand the public evaluation with expert-labeled clause and page targets, ambiguous jurisdiction cases, and adversarial wording.
 - Add stronger conflict detection for contradictory source content and superseded clauses.
 - Add an expert-review queue for uncertain answers.
 

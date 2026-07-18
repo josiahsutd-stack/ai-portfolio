@@ -7,6 +7,7 @@ from statistics import mean
 from time import perf_counter
 
 from .assistant import RAGAssistant
+from .chunking import DocumentChunk
 
 
 @dataclass(frozen=True)
@@ -18,12 +19,15 @@ class RetrievalEvalCase:
     expected_no_answer: bool = False
     expected_status: str = "answered"
     case_type: str = "answerable_direct"
+    case_id: str = ""
     expected_clause_ids: list[str] = field(default_factory=list)
     notes: str = ""
 
 
 @dataclass(frozen=True)
 class RetrievalEvalResult:
+    case_id: str
+    case_type: str
     question: str
     expected_source: str
     expected_section: str | None
@@ -51,6 +55,8 @@ class RetrievalEvalResult:
 
     def to_dict(self) -> dict[str, object]:
         return {
+            "case_id": self.case_id,
+            "case_type": self.case_type,
             "question": self.question,
             "expected_source": self.expected_source,
             "expected_section": self.expected_section,
@@ -99,6 +105,7 @@ def load_eval_cases(path: str | Path) -> list[RetrievalEvalCase]:
                 "expected_status", "no_evidence" if row.get("expected_no_answer") else "answered"
             ),
             case_type=row.get("case_type", "answerable_direct"),
+            case_id=row.get("id", ""),
             expected_clause_ids=list(row.get("expected_clause_ids", [])),
             notes=row.get("notes", ""),
         )
@@ -143,6 +150,8 @@ def evaluate_retrieval(
             no_answer_correct = actual_status == "no_evidence"
             results.append(
                 RetrievalEvalResult(
+                    case_id=case.case_id,
+                    case_type=case.case_type,
                     question=case.question,
                     expected_source=case.expected_source,
                     expected_section=case.expected_section,
@@ -178,6 +187,8 @@ def evaluate_retrieval(
             status_correct = actual_status == expected_status
             results.append(
                 RetrievalEvalResult(
+                    case_id=case.case_id,
+                    case_type=case.case_type,
                     question=case.question,
                     expected_source=case.expected_source,
                     expected_section=case.expected_section,
@@ -230,6 +241,8 @@ def evaluate_retrieval(
         simple_grounding_check = bool(retrieved) and not missing_terms and section_hit
         results.append(
             RetrievalEvalResult(
+                case_id=case.case_id,
+                case_type=case.case_type,
                 question=case.question,
                 expected_source=case.expected_source,
                 expected_section=case.expected_section,
@@ -263,9 +276,41 @@ def evaluate_retrieval(
         for result in results
         if result.expected_status == "answered" and result.expected_source != "__NO_ANSWER__"
     ]
+    case_type_metrics: dict[str, dict[str, object]] = {}
+    for case_type in sorted({result.case_type for result in results}):
+        typed_results = [result for result in results if result.case_type == case_type]
+        typed_answerable = [
+            result
+            for result in typed_results
+            if result.expected_status == "answered" and result.expected_source != "__NO_ANSWER__"
+        ]
+        case_type_metrics[case_type] = {
+            "case_count": len(typed_results),
+            "answerable_case_count": len(typed_answerable),
+            "recall_at_k": (
+                round(mean([result.recall_at_k for result in typed_answerable]), 3)
+                if typed_answerable
+                else None
+            ),
+            "mean_reciprocal_rank": (
+                round(mean([result.reciprocal_rank for result in typed_answerable]), 3)
+                if typed_answerable
+                else None
+            ),
+            "status_accuracy": round(
+                mean([1.0 if result.status_correct else 0.0 for result in typed_results]), 3
+            ),
+        }
     summary = {
         "case_count": len(results),
         "answerable_case_count": len(answerable_results),
+        "no_evidence_case_count": sum(
+            result.expected_status == "no_evidence" for result in results
+        ),
+        "professional_review_case_count": sum(
+            result.expected_status == "needs_professional_review" for result in results
+        ),
+        "case_type_metrics": case_type_metrics,
         "k": k,
         "recall_at_k": (
             round(mean([result.recall_at_k for result in answerable_results]), 3)
@@ -407,16 +452,19 @@ def evaluate_retrieval_modes(
     modes: tuple[str, ...] = ("tfidf", "bm25", "dense_lsa", "hybrid"),
     k: int = 4,
     manifest_path: str | Path | None = None,
+    chunks: list[DocumentChunk] | None = None,
 ) -> dict[str, object]:
     from .assistant import build_assistant_from_paths
 
-    mode_payloads: dict[str, dict[str, object]] = {}
-    for mode in modes:
-        assistant = build_assistant_from_paths(
+    if chunks is None:
+        chunks = build_assistant_from_paths(
             paths,
             manifest_path=manifest_path,
-            retrieval_mode=mode,
-        )
+            retrieval_mode=modes[0],
+        ).chunks
+    mode_payloads: dict[str, dict[str, object]] = {}
+    for mode in modes:
+        assistant = RAGAssistant(chunks, retrieval_mode=mode)
         payload = evaluate_retrieval(assistant, cases, k=k)
         mode_payloads[mode] = {
             "summary": payload["summary"],

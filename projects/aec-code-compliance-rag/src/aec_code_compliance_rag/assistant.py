@@ -33,6 +33,18 @@ UNSUPPORTED_SCOPE_TERMS = {
     "today",
 }
 
+PROJECT_SPECIFIC_EVIDENCE_MARKERS = {
+    "my project",
+    "our project",
+    "this project",
+    "unnamed",
+    "specific site",
+    "site-specific",
+    "parcel ",
+    "lot number",
+    "granted for",
+}
+
 SourceFilterValue = str | bool | list[str] | tuple[str, ...] | set[str]
 SourceFilters = dict[str, SourceFilterValue]
 
@@ -347,6 +359,24 @@ class RAGAssistant:
                 "retrieval": {"k": k, "result_count": 0, "source_filters": source_filters or {}},
                 "limitations": ["requires_current_jurisdiction_or_professional_review"],
             }
+        if self._requires_project_specific_evidence(question):
+            return {
+                "answer": (
+                    "I could not find project-specific evidence in the local reference corpus. "
+                    "Provide the relevant project records or route the question to the responsible "
+                    "qualified professional."
+                ),
+                "status": "no_evidence",
+                "confidence": "low",
+                "sources": [],
+                "retrieval": {
+                    "k": k,
+                    "result_count": 0,
+                    "reason": "project_specific_evidence_missing",
+                    "source_filters": source_filters or {},
+                },
+                "limitations": ["project_specific_evidence_not_in_reference_corpus"],
+            }
         requested_source_filters = source_filters or {}
         effective_source_filters = self._effective_source_filters(question, source_filters)
         inferred_source_filters = {
@@ -438,6 +468,10 @@ class RAGAssistant:
                 return "needs_professional_review"
             return "unsupported_scope"
         return None
+
+    def _requires_project_specific_evidence(self, question: str) -> bool:
+        lowered = question.lower()
+        return any(marker in lowered for marker in PROJECT_SPECIFIC_EVIDENCE_MARKERS)
 
     def _weak_lexical_coverage(self, question: str, results: list[SearchResult]) -> bool:
         if not results:

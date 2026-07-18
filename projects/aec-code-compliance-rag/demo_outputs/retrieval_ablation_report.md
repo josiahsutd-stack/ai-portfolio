@@ -2,6 +2,9 @@
 
 Synthetic demo comparison of local retrieval modes over the same AEC eval set.
 
+Corpus SHA-256: `23648efd4c6080f9e4549757917d5223e28901f4a87eb490994690952a6a3636`
+Eval-set SHA-256: `259f983f9822172808c113ddf9efacedf2c78f2773811ed37576d9a1fadd203f`
+
 | Mode | Recall@k | MRR | Hit@3 | Citation coverage | Status accuracy |
 | --- | --- | --- | --- | --- | --- |
 | dense_lsa | 1.0 | 0.927 | 1.0 | 1.0 | 1.0 |

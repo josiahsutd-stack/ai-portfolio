@@ -17,6 +17,7 @@ python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py --corpus p
 
 Expected generated files:
 
+- `evaluation_manifest.json`
 - `retrieval_eval_summary.json`
 - `retrieval_eval_report.md`
 - `retrieval_ablation_summary.json`
@@ -24,5 +25,6 @@ Expected generated files:
 - `accessible_route_answer.md`
 - `no_answer_failure_case.md`
 - `public_sources/retrieval_eval_report.md`
+- `public_sources/evaluation_manifest.json`
 - `public_sources/accessible_route_answer.md`
 - `public_sources/no_answer_failure_case.md`

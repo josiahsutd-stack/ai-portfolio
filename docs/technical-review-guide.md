@@ -4,13 +4,13 @@ This guide separates implementation evidence from portfolio framing. The `projec
 
 ## 1. AEC Code Compliance RAG - Flagship
 
-**Implemented:** Markdown and PDF ingestion, page/section metadata, Singapore public-source manifests, source filters, TF-IDF/BM25/dense-LSA/hybrid retrieval, citation objects, status handling, retrieval ablation, failure analysis, demo answers, and focused tests.
+**Implemented:** Markdown and text-based PDF ingestion, fail-closed public downloads, corpus fingerprints, page/section metadata, source filters, TF-IDF/BM25/dense-LSA/hybrid retrieval, citation objects, status handling, retrieval ablation, failure analysis, demo answers, and focused tests.
 
 **Inspect:** `src/aec_code_compliance_rag/`, `evaluate_retrieval.py`, `EVAL.md`, `ARCHITECTURE.md`, `demo_outputs/`, and `tests/test_rag.py`.
 
 **Engineering question:** How does the system preserve provenance and choose between an answer, no evidence, and professional-review scope?
 
-**Boundary:** The default 51-case set is synthetic. Optional public documents are downloaded locally and are not guaranteed current. There is no OCR, authority validation, professional advice, or compliance certification.
+**Boundary:** The default 51-case set is synthetic. The committed 24-case public result describes one fingerprinted 15-document download snapshot, not current-code validation. There is no OCR, independent expert labeling, authority validation, professional advice, or compliance certification.
 
 ## 2. Construction Embodied Agent Simulator - Embodied AI Evidence
 
