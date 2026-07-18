@@ -30,6 +30,16 @@ body {
     sans-serif;
 }
 
+.scroll-progress {
+  position: fixed;
+  z-index: 20;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background: var(--gold);
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -52,7 +62,22 @@ a {
 }
 
 .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-weight: 800;
+}
+
+.brand-mark {
+  display: inline-flex;
+  width: 34px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  background: var(--moss);
+  color: var(--white);
+  font-size: 0.8rem;
 }
 
 nav {
@@ -60,6 +85,24 @@ nav {
   flex-wrap: wrap;
   gap: clamp(14px, 3vw, 28px);
   font-size: 0.94rem;
+}
+
+.nav-toggle {
+  display: none;
+  width: 42px;
+  height: 42px;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 7px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.nav-toggle span {
+  display: block;
+  height: 2px;
+  margin: 4px 0;
+  background: var(--white);
 }
 
 .hero {
@@ -159,6 +202,32 @@ h3 {
   margin-top: 28px;
 }
 
+.hero-meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  max-width: 780px;
+  margin-top: 28px;
+}
+
+.hero-meta span,
+.hero-meta strong {
+  display: block;
+}
+
+.hero-meta span {
+  margin-bottom: 5px;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.hero-meta strong {
+  font-size: 0.94rem;
+  line-height: 1.4;
+}
+
 .button {
   display: inline-flex;
   align-items: center;
@@ -247,6 +316,18 @@ h3 {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--white);
+  box-shadow: 0 1px 3px rgba(22, 32, 29, 0.06);
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.evidence-card:hover,
+.project-card:hover {
+  transform: translateY(-3px);
+  border-color: #b9cec5;
+  box-shadow: 0 14px 32px rgba(22, 32, 29, 0.1);
 }
 
 .evidence-card--primary {
@@ -373,6 +454,12 @@ h3 {
   text-underline-offset: 4px;
 }
 
+.command-panel > p:not(.eyebrow) {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
 .flow-section {
   margin-top: 42px;
 }
@@ -454,6 +541,11 @@ h3 {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--white);
+  box-shadow: 0 1px 3px rgba(22, 32, 29, 0.06);
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
 }
 
 .project-card span {
@@ -475,6 +567,10 @@ h3 {
 .band--ink {
   background: var(--ink);
   color: var(--white);
+}
+
+.band--ink .section-copy {
+  color: rgba(255, 255, 255, 0.72);
 }
 
 .band--ink .project-card {
@@ -788,6 +884,13 @@ h3 {
   background: var(--white);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .evidence-card,
+  .project-card {
+    transition: none;
+  }
+}
+
 @media (max-width: 920px) {
   .project-grid,
   .evidence-grid,
@@ -833,29 +936,56 @@ h3 {
 
 @media (max-width: 620px) {
   .site-header {
-    align-items: flex-start;
-    gap: 12px;
-    flex-direction: column;
+    position: fixed;
+    align-items: center;
+    gap: 10px;
+    flex-direction: row;
     padding: 16px 20px;
   }
 
+  .nav-toggle {
+    position: absolute;
+    top: 12px;
+    right: 20px;
+    display: block;
+    margin-left: auto;
+    background: var(--moss);
+  }
+
   nav {
-    display: grid;
+    position: fixed;
+    top: 66px;
+    left: 0;
+    right: 0;
+    display: none;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    width: 100%;
-    gap: 8px 12px;
+    gap: 0;
+    padding: 8px 20px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(22, 32, 29, 0.98);
     font-size: 0.82rem;
+  }
+
+  .site-header.nav-open nav {
+    display: grid;
   }
 
   nav a {
     min-width: 0;
+    padding: 10px 0;
     overflow-wrap: anywhere;
   }
 
   .hero {
-    min-height: 78vh;
+    min-height: 88vh;
     max-width: 100vw;
-    padding: 190px 20px 46px;
+    padding: 108px 20px 46px;
+  }
+
+  .hero__content,
+  .hero__content p {
+    width: calc(100vw - 48px);
+    max-width: calc(100vw - 48px);
   }
 
   h1 {
@@ -863,8 +993,9 @@ h3 {
   }
 
   .hero-role {
-    font-size: 1.35rem;
-    overflow-wrap: anywhere;
+    font-size: 1.12rem;
+    overflow-wrap: break-word;
+    white-space: normal;
   }
 
   h2 {
@@ -880,6 +1011,21 @@ h3 {
 
   .hero__actions .button {
     width: 100%;
+  }
+
+  .hero-meta {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .workflow-proof--system {
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+
+  .workflow-proof--system img {
+    width: 900px;
+    max-width: none;
   }
 
   .matrix-table {

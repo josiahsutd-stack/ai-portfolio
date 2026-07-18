@@ -12,9 +12,13 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
     <header class="site-header">
-      <a class="brand" href="#top">Josiah Lau</a>
-      <nav aria-label="Main navigation">
+      <a class="brand" href="#top"><span class="brand-mark">JL</span><span>Josiah Lau</span></a>
+      <button class="nav-toggle" type="button" aria-label="Open navigation" aria-controls="main-nav" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav id="main-nav" aria-label="Main navigation">
         <a href="#evidence">Work</a>
         <a href="#workflow">AEC Workflow</a>
         <a href="#flagship">AEC RAG</a>
@@ -38,6 +42,11 @@
             I build evaluated systems for public AEC documents, project requirements,
             massing decisions, quantity takeoff, and construction robotics simulation.
           </p>
+          <div class="hero-meta" aria-label="Portfolio at a glance">
+            <div><span>Domain</span><strong>Design + construction</strong></div>
+            <div><span>Evidence</span><strong>Code + evals + failure cases</strong></div>
+            <div><span>Runtime</span><strong>Local + no paid APIs</strong></div>
+          </div>
           <div class="hero__actions">
             <a class="button button--primary" href="#evidence">View selected work</a>
             <a
@@ -63,7 +72,8 @@
               <span>01 / Flagship</span>
               <h3>AEC Code Compliance RAG</h3>
               <p>Public-source ingestion, four retrieval modes, citations, abstention, evals, and focused tests.</p>
-              <strong>Exact evidence Hit@1 0.810 / MRR 0.881 on 21 candidate-authored targets</strong>
+              <strong>Document retrieval is stronger than exact evidence retrieval</strong>
+              <small>Exact evidence Hit@1 0.810 / MRR 0.881 on 21 candidate-authored targets.</small>
               <small>Public Hit@1 0.952 / MRR 0.976 at document level. Public 24-case snapshot over 15 local documents.</small>
               <small>Source-page Hit@1 0.778 / MRR 0.861 on 18 page-labeled cases. Labels are not independent expert annotations.</small>
               <small>Synthetic 51-case regression set: Recall@4 1.000 / MRR 0.906. Not compliance certification.</small>
@@ -94,26 +104,10 @@
             </figcaption>
           </figure>
           <div class="command-panel" aria-label="Local verification commands">
-            <p class="eyebrow">Reproduce Locally</p>
-            <code>python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py</code>
-            <code>python projects/vla-embodied-agent-simulator/evaluate_vla.py</code>
-            <code>python projects/constraint-aware-massing-explorer/evaluate_massing.py</code>
-            <code>python scripts/verify.py</code>
+            <p class="eyebrow">One-Command Technical Check</p>
+            <code>python scripts/reviewer_check.py</code>
+            <p>Checks public claims, documentation commands, links, app titles, and focused tests for the three primary projects without rewriting tracked evidence.</p>
             <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/docs/EVIDENCE_LEDGER.md">View the artifact ledger</a>
-          </div>
-          <div class="flow-section" aria-label="Evidence generation flow">
-            <p class="eyebrow">Evidence Chain</p>
-            <div class="flow-track">
-              <div class="flow-node"><span>01</span><strong>Code and fixtures</strong><small>Implemented systems and labeled inputs</small></div>
-              <span class="flow-connector" aria-hidden="true"></span>
-              <div class="flow-node"><span>02</span><strong>Evaluation scripts</strong><small>Fixed protocols and local commands</small></div>
-              <span class="flow-connector" aria-hidden="true"></span>
-              <div class="flow-node"><span>03</span><strong>Versioned JSON</strong><small>Machine-readable results in Git</small></div>
-              <span class="flow-connector" aria-hidden="true"></span>
-              <div class="flow-node"><span>04</span><strong>Public metrics</strong><small>README and site values</small></div>
-              <span class="flow-connector" aria-hidden="true"></span>
-              <div class="flow-node"><span>05</span><strong>Drift gate</strong><small>CI fails when values disagree</small></div>
-            </div>
           </div>
         </div>
       </section>
@@ -128,8 +122,8 @@
               Every conversation, site value, generated option, and rate in this trace is synthetic.
             </p>
           </div>
-          <figure class="workflow-proof">
-            <img src="assets/aec-workflow-trace.svg" alt="Executed five-stage trace from approved synthetic requirements to a bounded schematic quantity takeoff" />
+          <figure class="workflow-proof workflow-proof--system" tabindex="0" aria-label="Scrollable executed AEC system journey">
+            <img src="assets/aec-workflow-trace.svg" alt="Executed AEC system journey with two input streams, source and approval gates, typed project handoffs, traceability, and professional review" />
             <figcaption>
               5 approved / 3 mapped / 2 retained; 16/16 sourced fields; 96 candidates / 92 feasible / 42 storey-matched; 7/7 priced takeoff lines / tender not_run.
             </figcaption>
@@ -209,20 +203,6 @@
             <figcaption>Actual local Streamlit run using labeled demo data.</figcaption>
           </figure>
         </div>
-        <div class="container flow-section flow-section--separated" aria-label="AEC retrieval pipeline">
-          <p class="eyebrow">AEC Retrieval Pipeline</p>
-          <div class="flow-track">
-            <div class="flow-node"><span>01</span><strong>Sources</strong><small>Synthetic guidance or local public documents</small></div>
-            <span class="flow-connector" aria-hidden="true"></span>
-            <div class="flow-node"><span>02</span><strong>Ingestion</strong><small>Page-aware text and source manifests</small></div>
-            <span class="flow-connector" aria-hidden="true"></span>
-            <div class="flow-node"><span>03</span><strong>Retrieval</strong><small>TF-IDF, BM25, dense LSA, or hybrid</small></div>
-            <span class="flow-connector" aria-hidden="true"></span>
-            <div class="flow-node"><span>04</span><strong>Response</strong><small>Citations, warnings, or abstention</small></div>
-            <span class="flow-connector" aria-hidden="true"></span>
-            <div class="flow-node"><span>05</span><strong>Evaluation</strong><small>51 synthetic and 24 public-source cases</small></div>
-          </div>
-        </div>
         <div class="container">
           <figure class="workflow-proof workflow-proof--light">
             <img src="assets/retrieval-granularity.svg" alt="Document-level, exact-chunk, and source-page retrieval metrics for the fixed AEC public-source snapshot" />
@@ -274,20 +254,6 @@
               <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/projects/vla-embodied-agent-simulator/EVAL.md">Evaluation</a>
               <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/tests/test_vla_embodied_agent.py">Tests</a>
             </div>
-          </div>
-        </div>
-        <div class="container flow-section flow-section--separated" aria-label="Embodied-agent evaluation loop">
-          <p class="eyebrow">Evaluation Loop</p>
-          <div class="flow-track">
-            <div class="flow-node"><span>01</span><strong>Task and grid</strong><small>Language instruction plus structured state</small></div>
-            <span class="flow-connector" aria-hidden="true"></span>
-            <div class="flow-node"><span>02</span><strong>Observation</strong><small>Engineered, semantic, or rendered RGB input</small></div>
-            <span class="flow-connector" aria-hidden="true"></span>
-            <div class="flow-node"><span>03</span><strong>Learned action</strong><small>Random forest or one of three MLPs</small></div>
-            <span class="flow-connector" aria-hidden="true"></span>
-            <div class="flow-node"><span>04</span><strong>Safety filter</strong><small>Optional rejection of invalid actions</small></div>
-            <span class="flow-connector" aria-hidden="true"></span>
-            <div class="flow-node"><span>05</span><strong>Trace and metrics</strong><small>Success, unsafe attempts, and failures</small></div>
           </div>
         </div>
       </section>
@@ -370,5 +336,31 @@
         </div>
       </section>
     </main>
+    <script>
+      (function () {
+        var progress = document.getElementById("scroll-progress");
+        var header = document.querySelector(".site-header");
+        var toggle = document.querySelector(".nav-toggle");
+        function updateProgress() {
+          var root = document.documentElement;
+          var distance = root.scrollHeight - root.clientHeight;
+          progress.style.width = (distance > 0 ? (root.scrollTop / distance) * 100 : 0) + "%";
+        }
+        window.addEventListener("scroll", updateProgress, { passive: true });
+        updateProgress();
+        toggle.addEventListener("click", function () {
+          var open = header.classList.toggle("nav-open");
+          toggle.setAttribute("aria-expanded", String(open));
+          toggle.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
+        });
+        document.querySelectorAll("#main-nav a").forEach(function (link) {
+          link.addEventListener("click", function () {
+            header.classList.remove("nav-open");
+            toggle.setAttribute("aria-expanded", "false");
+            toggle.setAttribute("aria-label", "Open navigation");
+          });
+        });
+      })();
+    </script>
   </body>
 </html>
