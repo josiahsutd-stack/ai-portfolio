@@ -28,6 +28,7 @@ JSON_LD_PATTERN = re.compile(
     r'<script\s+type="application/ld\+json">\s*(?P<payload>.*?)\s*</script>',
     re.DOTALL,
 )
+SOCIAL_CARD_BODY_PATTERN = re.compile(r"<body\b[\s\S]*?</body>", re.IGNORECASE)
 REQUIRED_CONTRAST_PAIRS = [
     ("clay", "white", 4.5),
     ("clay", "paper", 4.5),
@@ -598,6 +599,13 @@ def png_dimensions(path: Path) -> tuple[int, int] | None:
     return struct.unpack(">II", header[16:24])
 
 
+def social_card_body_digest(path: Path) -> str | None:
+    match = SOCIAL_CARD_BODY_PATTERN.search(path.read_text(encoding="utf-8"))
+    if not match:
+        return None
+    return hashlib.sha256(match.group(0).encode("utf-8")).hexdigest()
+
+
 def check_social_preview_contracts() -> list[str]:
     issues: list[str] = []
     required_open_graph = {
@@ -637,8 +645,11 @@ def check_social_preview_contracts() -> list[str]:
         issues.append(f"portfolio-site/social-card-manifest.json: invalid manifest: {error}")
         source_manifest = {}
 
-    if source_manifest.get("capture") != {"width": 1200, "height": 630}:
-        issues.append("social preview source manifest must declare a 1200x630 capture")
+    expected_capture = {"width": 1200, "height": 630, "cache_bust_hash_length": 12}
+    if source_manifest.get("capture") != expected_capture:
+        issues.append(
+            "social preview source manifest must declare a 1200x630 capture and hash version"
+        )
 
     manifest_pages = source_manifest.get("pages", {})
     if set(manifest_pages) != configured_paths:
@@ -654,10 +665,10 @@ def check_social_preview_contracts() -> list[str]:
         source_entry = manifest_pages.get(relative_page, {})
         if source_entry.get("card") != relative_card:
             issues.append(f"{label}: social preview source manifest card is stale")
-        page_digest = hashlib.sha256(page_path.read_bytes()).hexdigest()
-        if source_entry.get("page_sha256") != page_digest:
+        page_digest = social_card_body_digest(page_path)
+        if source_entry.get("body_sha256") != page_digest:
             issues.append(
-                f"{label}: page changed after its social preview was captured; refresh the card"
+                f"{label}: visible page body changed after its social preview was captured; refresh the card"
             )
 
         parser = SiteLinkParser()
@@ -667,7 +678,8 @@ def check_social_preview_contracts() -> list[str]:
         for meta_name in sorted(required_twitter - parser.twitter.keys()):
             issues.append(f"{label}: social metadata missing: {meta_name}")
 
-        expected_image = f"{PUBLIC_BASE_URL}{relative_card}"
+        card_version = str(source_entry.get("card_sha256", ""))[:12]
+        expected_image = f"{PUBLIC_BASE_URL}{relative_card}?v={card_version}"
         expected_open_graph = {
             "og:site_name": SOCIAL_SITE_NAME,
             "og:locale": SOCIAL_LOCALE,
