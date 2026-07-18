@@ -733,7 +733,14 @@ h3 {
   color: var(--muted);
 }
 
+.simple-page .lede {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
 .table-wrap {
+  width: 100%;
+  max-width: 100%;
   overflow-x: auto;
   margin: 28px 0;
 }
@@ -852,6 +859,68 @@ h3 {
 
   .hero__actions .button {
     width: 100%;
+  }
+
+  .matrix-table {
+    min-width: 0;
+    background: transparent;
+  }
+
+  .matrix-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .matrix-table tbody,
+  .matrix-table tr,
+  .matrix-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .matrix-table tr {
+    margin-bottom: 14px;
+    border: 1px solid var(--line);
+    background: var(--white);
+  }
+
+  .matrix-table td {
+    display: grid;
+    grid-template-columns: minmax(105px, 0.38fr) minmax(0, 0.62fr);
+    gap: 12px;
+    padding: 12px 14px;
+    border: 0;
+    border-top: 1px solid var(--line);
+    overflow-wrap: anywhere;
+  }
+
+  .matrix-table td:first-child {
+    border-top: 0;
+  }
+
+  .matrix-table td::before {
+    font-weight: 800;
+  }
+
+  .matrix-table td:nth-child(1)::before {
+    content: "Skill";
+  }
+
+  .matrix-table td:nth-child(2)::before {
+    content: "Primary";
+  }
+
+  .matrix-table td:nth-child(3)::before {
+    content: "Supporting";
+  }
+
+  .matrix-table td:nth-child(4)::before {
+    content: "Boundary";
   }
 
   h2,
