@@ -3,14 +3,14 @@
 Singapore public-source comparison of local retrieval modes over the same AEC eval set.
 
 Corpus SHA-256: `f0af72d9f642a1a1bf86cbd8d1d0268bf3a4a3fa4505546655d36f7cb36dceb1`
-Eval-set SHA-256: `aa2cc41f311071d6f9ccad09c154b34a3d872db470d023cfa874c71f68ea6498`
+Eval-set SHA-256: `a2a54737b71cff6a3cddf11faead236ca99a188f62d0b7712bee5950c12cec18`
 
-| Mode | Recall@k | MRR | Hit@3 | Citation coverage | Status accuracy |
-| --- | --- | --- | --- | --- | --- |
-| hybrid | 1.0 | 0.976 | 1.0 | 0.968 | 1.0 |
-| bm25 | 1.0 | 0.964 | 0.952 | 0.968 | 1.0 |
-| tfidf | 0.952 | 0.873 | 0.952 | 0.873 | 1.0 |
-| dense_lsa | 0.857 | 0.857 | 0.857 | 0.778 | 1.0 |
+| Mode | Document Hit@1 | Document MRR | Exact Hit@1 | Exact MRR | Page Hit@1 | Page MRR | Status accuracy |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| hybrid | 0.952 | 0.976 | 0.81 | 0.881 | 0.778 | 0.861 | 1.0 |
+| bm25 | 0.952 | 0.964 | 0.714 | 0.813 | 0.667 | 0.782 | 1.0 |
+| tfidf | 0.81 | 0.873 | 0.476 | 0.619 | 0.5 | 0.611 | 1.0 |
+| dense_lsa | 0.857 | 0.857 | 0.429 | 0.544 | 0.444 | 0.551 | 1.0 |
 
 ## Interpretation
 

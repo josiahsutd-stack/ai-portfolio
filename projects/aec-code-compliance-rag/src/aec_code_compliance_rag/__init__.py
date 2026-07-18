@@ -5,6 +5,7 @@ from .evaluation import (
     evaluate_retrieval,
     evaluate_retrieval_modes,
     load_eval_cases,
+    validate_retrieval_eval_targets,
 )
 from .faithfulness import check_citation_faithfulness
 from .observability import QueryLogger, ServiceTelemetryStore
@@ -62,6 +63,7 @@ __all__ = [
     "downloaded_public_paths",
     "load_document_chunks",
     "load_eval_cases",
+    "validate_retrieval_eval_targets",
     "load_pdf_chunks",
     "load_source_manifest",
     "bootstrap_mean_interval",

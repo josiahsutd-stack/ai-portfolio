@@ -160,6 +160,7 @@ def _chunks_from_sections(
     include_page_in_chunk_id: bool = False,
 ) -> list[DocumentChunk]:
     chunks: list[DocumentChunk] = []
+    chunk_id_counts: dict[str, int] = {}
     step = max(1, max_words - overlap)
     for section, heading, page, body in sections:
         words = body.split()
@@ -173,7 +174,10 @@ def _chunks_from_sections(
             if chunk_words:
                 clause_id = f"AEC-{_slug(heading).upper()}"
                 page_part = f"-p{page}" if include_page_in_chunk_id and page is not None else ""
-                chunk_id = f"{Path(source).stem}-{_slug(heading)}{page_part}-{index:03d}"
+                base_chunk_id = f"{Path(source).stem}-{_slug(heading)}{page_part}-{index:03d}"
+                occurrence = chunk_id_counts.get(base_chunk_id, 0) + 1
+                chunk_id_counts[base_chunk_id] = occurrence
+                chunk_id = base_chunk_id if occurrence == 1 else f"{base_chunk_id}-r{occurrence}"
                 chunks.append(
                     DocumentChunk(
                         text=f"{heading}. {' '.join(chunk_words)}",

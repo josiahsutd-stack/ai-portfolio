@@ -1,0 +1,340 @@
+{
+  "artifact_schema_version": "1.0",
+  "label_boundary": "Targets were authored by the portfolio candidate from the fixed local public-source snapshot. They are not independent expert labels, official clause annotations, or evidence of regulatory validation.",
+  "validation": {
+    "case_count": 24,
+    "answerable_case_count": 21,
+    "labeled_answerable_case_count": 21,
+    "page_labeled_answerable_case_count": 18,
+    "target_chunk_count": 31,
+    "label_sources": {
+      "candidate_authored_from_local_public_source_snapshot": 21
+    },
+    "answerable_target_coverage": 1.0
+  },
+  "cases": [
+    {
+      "case_id": "sg-001",
+      "case_type": "public_source_direct",
+      "expected_source": "bca_code_on_accessibility_2025.pdf",
+      "expected_pages": [
+        8
+      ],
+      "expected_chunk_ids": [
+        "bca_code_on_accessibility_2025-8-i-n-t-r-o-d-u-c-t-i-o-n-p8-000"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
+      "document_rank": 1,
+      "evidence_target_rank": 2,
+      "page_target_rank": 2
+    },
+    {
+      "case_id": "sg-002",
+      "case_type": "public_source_direct",
+      "expected_source": "bca_code_on_accessibility_2025.pdf",
+      "expected_pages": [
+        8
+      ],
+      "expected_chunk_ids": [
+        "bca_code_on_accessibility_2025-8-i-n-t-r-o-d-u-c-t-i-o-n-p8-000",
+        "bca_code_on_accessibility_2025-8-i-n-t-r-o-d-u-c-t-i-o-n-p8-001"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
+      "document_rank": 1,
+      "evidence_target_rank": 1,
+      "page_target_rank": 1
+    },
+    {
+      "case_id": "sg-003",
+      "case_type": "public_source_direct",
+      "expected_source": "bca_approved_document_v7_07.pdf",
+      "expected_pages": [
+        24
+      ],
+      "expected_chunk_ids": [
+        "bca_approved_document_v7_07-building-and-construction-authority-page-1-of-65-p24-000",
+        "bca_approved_document_v7_07-building-and-construction-authority-page-1-of-65-p24-001",
+        "bca_approved_document_v7_07-building-and-construction-authority-page-1-of-65-p24-002"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
+      "document_rank": 1,
+      "evidence_target_rank": 1,
+      "page_target_rank": 1
+    },
+    {
+      "case_id": "sg-004",
+      "case_type": "public_source_direct",
+      "expected_source": "bca_green_mark_2021_certification_standard_2nd_ed.pdf",
+      "expected_pages": [
+        1,
+        10
+      ],
+      "expected_chunk_ids": [
+        "bca_green_mark_2021_certification_standard_2nd_ed-certification-standard-p1-000",
+        "bca_green_mark_2021_certification_standard_2nd_ed-page-10-of-33-p10-003"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
+      "document_rank": 1,
+      "evidence_target_rank": 1,
+      "page_target_rank": 1
+    },
+    {
+      "case_id": "sg-005",
+      "case_type": "public_source_direct",
+      "expected_source": "scdf_fire_code_2023.pdf",
+      "expected_pages": [
+        4
+      ],
+      "expected_chunk_ids": [
+        "scdf_fire_code_2023-clause-1-1-scope-p4-000"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
+      "document_rank": 1,
+      "evidence_target_rank": null,
+      "page_target_rank": null
+    },
+    {
+      "case_id": "sg-007",
+      "case_type": "public_source_direct",
+      "expected_source": "ura_gfa_handbook_advisory_notes.md",
+      "expected_pages": [],
+      "expected_chunk_ids": [
+        "ura_gfa_handbook_advisory_notes-gross-floor-area-000"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
+      "document_rank": 1,
+      "evidence_target_rank": 1,
+      "page_target_rank": null
+    },
+    {
+      "case_id": "sg-008",
+      "case_type": "public_source_direct",
+      "expected_source": "ura_gfa_guidelines_at_a_glance.pdf",
+      "expected_pages": [
+        1
+      ],
+      "expected_chunk_ids": [
+        "ura_gfa_guidelines_at_a_glance-guidelines-at-a-glance-gross-floor-area-p1-000"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
+      "document_rank": 1,
+      "evidence_target_rank": 1,
+      "page_target_rank": 1
+    },
+    {
+      "case_id": "sg-009",
+      "case_type": "public_source_direct",
+      "expected_source": "nea_code_of_practice_environmental_health_2025.pdf",
+      "expected_pages": [
+        7
+      ],
+      "expected_chunk_ids": [
+        "nea_code_of_practice_environmental_health_2025-code-of-practice-on-environmental-health-2025-edition-p7-002"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
+      "document_rank": 1,
+      "evidence_target_rank": 1,
+      "page_target_rank": 1
+    },
+    {
+      "case_id": "sg-010",
+      "case_type": "public_source_direct",
+      "expected_source": "lta_code_of_practice_works_on_public_streets_2025.pdf",
+      "expected_pages": [
+        7,
+        12
+      ],
+      "expected_chunk_ids": [
+        "lta_code_of_practice_works_on_public_streets_2025-code-of-practice-for-works-on-public-streets-7-p7-001",
+        "lta_code_of_practice_works_on_public_streets_2025-code-of-practice-for-works-on-public-streets-12-p12-001"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
+      "document_rank": 1,
+      "evidence_target_rank": 1,
+      "page_target_rank": 1
+    },
+    {
+      "case_id": "sg-011",
+      "case_type": "public_source_direct",
+      "expected_source": "lta_code_of_practice_railway_protection_2024.pdf",
+      "expected_pages": [
+        22
+      ],
+      "expected_chunk_ids": [
+        "lta_code_of_practice_railway_protection_2024-21-p-a-g-e-p22-000"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
+      "document_rank": 1,
+      "evidence_target_rank": 1,
+      "page_target_rank": 1
+    },
+    {
+      "case_id": "sg-012",
+      "case_type": "public_source_direct",
+      "expected_source": "pub_codes_of_practice_and_standard_drawings.md",
+      "expected_pages": [],
+      "expected_chunk_ids": [
+        "pub_codes_of_practice_and_standard_drawings-codes-of-practice-and-standard-drawings-001",
+        "pub_codes_of_practice_and_standard_drawings-codes-of-practice-and-standard-drawings-003",
+        "pub_codes_of_practice_and_standard_drawings-codes-of-practice-and-standard-drawings-005"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
+      "document_rank": 1,
+      "evidence_target_rank": 1,
+      "page_target_rank": null
+    },
+    {
+      "case_id": "sg-013",
+      "case_type": "public_source_direct",
+      "expected_source": "pub_surface_water_drainage_cop_2025.pdf",
+      "expected_pages": [
+        20
+      ],
+      "expected_chunk_ids": [
+        "pub_surface_water_drainage_cop_2025-1-p20-002"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
+      "document_rank": 1,
+      "evidence_target_rank": 1,
+      "page_target_rank": 1
+    },
+    {
+      "case_id": "sg-014",
+      "case_type": "public_source_direct",
+      "expected_source": "pub_sewerage_sanitary_works_2025.pdf",
+      "expected_pages": [
+        9
+      ],
+      "expected_chunk_ids": [
+        "pub_sewerage_sanitary_works_2025-1-p-a-g-e-p9-000"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
+      "document_rank": 1,
+      "evidence_target_rank": 1,
+      "page_target_rank": 1
+    },
+    {
+      "case_id": "sg-015",
+      "case_type": "public_source_direct",
+      "expected_source": "nparks_greenery_tree_conservation_2025.pdf",
+      "expected_pages": [
+        9
+      ],
+      "expected_chunk_ids": [
+        "nparks_greenery_tree_conservation_2025-1-p9-000"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
+      "document_rank": 1,
+      "evidence_target_rank": 1,
+      "page_target_rank": 1
+    },
+    {
+      "case_id": "sg-016",
+      "case_type": "public_source_direct",
+      "expected_source": "nparks_development_plan_submission.md",
+      "expected_pages": [],
+      "expected_chunk_ids": [
+        "nparks_development_plan_submission-development-plan-submission-000"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
+      "document_rank": 1,
+      "evidence_target_rank": 1,
+      "page_target_rank": null
+    },
+    {
+      "case_id": "sg-017",
+      "case_type": "public_source_paraphrase",
+      "expected_source": "bca_code_on_accessibility_2025.pdf",
+      "expected_pages": [
+        8,
+        18
+      ],
+      "expected_chunk_ids": [
+        "bca_code_on_accessibility_2025-8-i-n-t-r-o-d-u-c-t-i-o-n-p8-004",
+        "bca_code_on_accessibility_2025-code-on-accessibility-in-the-built-environment-2025-p18-000"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
+      "document_rank": 1,
+      "evidence_target_rank": 1,
+      "page_target_rank": 1
+    },
+    {
+      "case_id": "sg-018",
+      "case_type": "public_source_paraphrase",
+      "expected_source": "ura_gfa_guidelines_at_a_glance.pdf",
+      "expected_pages": [
+        1
+      ],
+      "expected_chunk_ids": [
+        "ura_gfa_guidelines_at_a_glance-guidelines-at-a-glance-gross-floor-area-p1-000"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
+      "document_rank": 2,
+      "evidence_target_rank": 2,
+      "page_target_rank": 2
+    },
+    {
+      "case_id": "sg-019",
+      "case_type": "public_source_paraphrase",
+      "expected_source": "lta_code_of_practice_railway_protection_2024.pdf",
+      "expected_pages": [
+        22
+      ],
+      "expected_chunk_ids": [
+        "lta_code_of_practice_railway_protection_2024-21-p-a-g-e-p22-000"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
+      "document_rank": 1,
+      "evidence_target_rank": 1,
+      "page_target_rank": 1
+    },
+    {
+      "case_id": "sg-020",
+      "case_type": "public_source_paraphrase",
+      "expected_source": "pub_surface_water_drainage_cop_2025.pdf",
+      "expected_pages": [
+        26,
+        27
+      ],
+      "expected_chunk_ids": [
+        "pub_surface_water_drainage_cop_2025-7-p26-002",
+        "pub_surface_water_drainage_cop_2025-8-p27-001",
+        "pub_surface_water_drainage_cop_2025-8-p27-002"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
+      "document_rank": 1,
+      "evidence_target_rank": 1,
+      "page_target_rank": 1
+    },
+    {
+      "case_id": "sg-021",
+      "case_type": "public_source_paraphrase",
+      "expected_source": "nparks_greenery_tree_conservation_2025.pdf",
+      "expected_pages": [
+        156
+      ],
+      "expected_chunk_ids": [
+        "nparks_greenery_tree_conservation_2025-156-p156-000"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
+      "document_rank": 1,
+      "evidence_target_rank": 2,
+      "page_target_rank": 2
+    },
+    {
+      "case_id": "sg-022",
+      "case_type": "public_source_paraphrase",
+      "expected_source": "nea_code_of_practice_environmental_health_2025.pdf",
+      "expected_pages": [
+        7
+      ],
+      "expected_chunk_ids": [
+        "nea_code_of_practice_environmental_health_2025-code-of-practice-on-environmental-health-2025-edition-p7-002"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
+      "document_rank": 1,
+      "evidence_target_rank": 1,
+      "page_target_rank": 1
+    }
+  ]
+}

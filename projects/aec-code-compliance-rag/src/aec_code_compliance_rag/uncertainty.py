@@ -238,6 +238,19 @@ def _paired_mode_comparison(
         "retrieval_hit_at_1": "hit_at_1",
         "citation_coverage": "citation_coverage",
     }
+    optional_metric_fields = {
+        "evidence_target_mean_reciprocal_rank": "evidence_target_reciprocal_rank",
+        "evidence_target_hit_at_1": "evidence_target_hit_at_1",
+        "page_target_mean_reciprocal_rank": "page_target_reciprocal_rank",
+        "page_target_hit_at_1": "page_target_hit_at_1",
+    }
+    for metric_name, field_name in optional_metric_fields.items():
+        if all(
+            candidate_rows[case_id].get(field_name) is not None
+            and baseline_rows[case_id].get(field_name) is not None
+            for case_id in case_ids
+        ):
+            metric_fields[metric_name] = field_name
     metrics: dict[str, dict[str, object]] = {}
     for metric_name, field_name in metric_fields.items():
         metric_seed = _derived_seed(
@@ -312,6 +325,32 @@ def build_retrieval_uncertainty(
             wide_interval_threshold=wide_interval_threshold,
         ),
     }
+    evidence_target_rows = [
+        row for row in answerable if row.get("evidence_target_hit_at_1") is not None
+    ]
+    page_target_rows = [row for row in answerable if row.get("page_target_hit_at_1") is not None]
+    if evidence_target_rows:
+        metrics["evidence_target_hit_at_1"] = wilson_score_interval(
+            [bool(row["evidence_target_hit_at_1"]) for row in evidence_target_rows],
+            wide_interval_threshold=wide_interval_threshold,
+        )
+        metrics["evidence_target_mean_reciprocal_rank"] = bootstrap_mean_interval(
+            [float(row["evidence_target_reciprocal_rank"]) for row in evidence_target_rows],
+            resamples=resamples,
+            seed=_derived_seed(seed, "evidence_target_mean_reciprocal_rank"),
+            wide_interval_threshold=wide_interval_threshold,
+        )
+    if page_target_rows:
+        metrics["page_target_hit_at_1"] = wilson_score_interval(
+            [bool(row["page_target_hit_at_1"]) for row in page_target_rows],
+            wide_interval_threshold=wide_interval_threshold,
+        )
+        metrics["page_target_mean_reciprocal_rank"] = bootstrap_mean_interval(
+            [float(row["page_target_reciprocal_rank"]) for row in page_target_rows],
+            resamples=resamples,
+            seed=_derived_seed(seed, "page_target_mean_reciprocal_rank"),
+            wide_interval_threshold=wide_interval_threshold,
+        )
     if no_evidence:
         metrics["no_answer_accuracy"] = wilson_score_interval(
             [bool(row["no_answer_correct"]) for row in no_evidence],
@@ -342,6 +381,20 @@ def build_retrieval_uncertainty(
                 wide_interval_threshold=wide_interval_threshold,
             ),
         }
+        subgroup_targets = [
+            row for row in subgroup_rows if row.get("evidence_target_hit_at_1") is not None
+        ]
+        if subgroup_targets:
+            subgroups[case_type]["evidence_target_hit_at_1"] = wilson_score_interval(
+                [bool(row["evidence_target_hit_at_1"]) for row in subgroup_targets],
+                wide_interval_threshold=wide_interval_threshold,
+            )
+            subgroups[case_type]["evidence_target_mean_reciprocal_rank"] = bootstrap_mean_interval(
+                [float(row["evidence_target_reciprocal_rank"]) for row in subgroup_targets],
+                resamples=resamples,
+                seed=_derived_seed(seed, f"subgroup:{case_type}:evidence_target_mrr"),
+                wide_interval_threshold=wide_interval_threshold,
+            )
 
     mode_results = ablation_payload.get("results")
     if not isinstance(mode_results, dict) or candidate_mode not in mode_results:
@@ -379,6 +432,8 @@ def build_retrieval_uncertainty(
         "support": {
             "all_cases": len(rows),
             "answerable_cases": len(answerable),
+            "evidence_target_cases": len(evidence_target_rows),
+            "page_target_cases": len(page_target_rows),
             "no_evidence_cases": len(no_evidence),
             "review_or_unsupported_cases": len(review_or_unsupported),
         },

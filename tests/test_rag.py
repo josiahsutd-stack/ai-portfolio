@@ -6,6 +6,7 @@ import pytest
 from aec_code_compliance_rag import (
     BM25Retriever,
     DenseLsaRetriever,
+    DocumentChunk,
     HybridRetriever,
     QueryLogger,
     RAGAssistant,
@@ -19,10 +20,14 @@ from aec_code_compliance_rag import (
     evaluate_retrieval,
     evaluate_retrieval_modes,
     load_document_chunks,
+    load_eval_cases,
     load_source_manifest,
     paired_bootstrap_mean_interval,
+    validate_retrieval_eval_targets,
     wilson_score_interval,
 )
+
+from shared.ai import SearchResult
 
 
 def _write_pdf_fixture(path: Path) -> None:
@@ -63,6 +68,18 @@ def _write_pdf_fixture(path: Path) -> None:
         pdf.drawString(inch, 0.55 * inch, f"Page {page_number}")
         pdf.showPage()
     pdf.save()
+
+
+def test_repeated_markdown_headings_still_produce_unique_chunk_ids() -> None:
+    chunks = chunk_text(
+        "# Scope\nFirst scope statement.\n# Scope\nSecond scope statement.",
+        source="repeated.md",
+    )
+
+    assert [chunk.chunk_id for chunk in chunks] == [
+        "repeated-scope-000",
+        "repeated-scope-000-r2",
+    ]
 
 
 def test_chunking_preserves_review_metadata() -> None:
@@ -732,12 +749,189 @@ def test_retrieval_mode_ablation_reports_all_modes(tmp_path: Path) -> None:
             "expected_no_answer": False,
             "reciprocal_rank": 1.0,
             "hit_at_1": 1.0,
+            "evidence_target_hit_at_1": None,
+            "evidence_target_reciprocal_rank": None,
+            "page_target_hit_at_1": None,
+            "page_target_reciprocal_rank": None,
             "citation_coverage": 1.0,
             "simple_grounding_check": True,
             "status_correct": True,
             "no_answer_correct": False,
         }
     ]
+
+
+def _evaluation_target_chunk(
+    chunk_id: str,
+    *,
+    source: str = "guide.pdf",
+    page: int | None = 7,
+) -> DocumentChunk:
+    return DocumentChunk(
+        text=f"Evidence for {chunk_id}.",
+        source=source,
+        section="Scope",
+        heading="Scope",
+        clause_id="1.1",
+        page=page,
+        chunk_id=chunk_id,
+        start_word=0,
+        end_word=4,
+    )
+
+
+def test_load_eval_cases_parses_candidate_authored_targets(tmp_path: Path) -> None:
+    eval_path = tmp_path / "cases.jsonl"
+    eval_path.write_text(
+        json.dumps(
+            {
+                "id": "target-001",
+                "question": "What is in scope?",
+                "expected_source": "guide.pdf",
+                "expected_terms": ["scope"],
+                "expected_pages": [7],
+                "expected_chunk_ids": ["guide-p007-000"],
+                "label_source": "candidate_authored_from_fixed_snapshot",
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+    case = load_eval_cases(eval_path)[0]
+
+    assert case.expected_pages == [7]
+    assert case.expected_chunk_ids == ["guide-p007-000"]
+    assert case.label_source == "candidate_authored_from_fixed_snapshot"
+
+
+def test_target_validation_reports_coverage_for_valid_labels() -> None:
+    chunk = _evaluation_target_chunk("guide-p007-000")
+    cases = [
+        RetrievalEvalCase(
+            case_id="target-001",
+            question="What is in scope?",
+            expected_source="guide.pdf",
+            expected_terms=["scope"],
+            expected_pages=[7],
+            expected_chunk_ids=[chunk.chunk_id],
+            label_source="candidate_authored_from_fixed_snapshot",
+        )
+    ]
+
+    audit = validate_retrieval_eval_targets(cases, [chunk], require_answerable_targets=True)
+
+    assert audit["answerable_target_coverage"] == 1.0
+    assert audit["page_labeled_answerable_case_count"] == 1
+    assert audit["target_chunk_count"] == 1
+
+
+def test_target_validation_rejects_missing_or_mismatched_targets() -> None:
+    chunk = _evaluation_target_chunk("guide-p007-000")
+    missing = RetrievalEvalCase(
+        case_id="missing-target",
+        question="What is in scope?",
+        expected_source="guide.pdf",
+        expected_terms=[],
+        expected_pages=[7],
+        expected_chunk_ids=["missing-p007-000"],
+        label_source="candidate_authored_from_fixed_snapshot",
+    )
+    wrong_page = RetrievalEvalCase(
+        case_id="wrong-page",
+        question="What is in scope?",
+        expected_source="guide.pdf",
+        expected_terms=[],
+        expected_pages=[8],
+        expected_chunk_ids=[chunk.chunk_id],
+        label_source="candidate_authored_from_fixed_snapshot",
+    )
+    wrong_source = RetrievalEvalCase(
+        case_id="wrong-source",
+        question="What is in scope?",
+        expected_source="other.pdf",
+        expected_terms=[],
+        expected_pages=[7],
+        expected_chunk_ids=[chunk.chunk_id],
+        label_source="candidate_authored_from_fixed_snapshot",
+    )
+
+    with pytest.raises(ValueError, match="missing target chunk"):
+        validate_retrieval_eval_targets([missing], [chunk])
+    with pytest.raises(ValueError, match="do not match target chunk pages"):
+        validate_retrieval_eval_targets([wrong_page], [chunk])
+    with pytest.raises(ValueError, match="belongs to guide.pdf"):
+        validate_retrieval_eval_targets([wrong_source], [chunk])
+
+
+def test_target_validation_rejects_labels_on_no_answer_cases() -> None:
+    chunk = _evaluation_target_chunk("guide-p007-000")
+    case = RetrievalEvalCase(
+        case_id="no-answer-target",
+        question="What is the invented requirement?",
+        expected_source="__NO_ANSWER__",
+        expected_terms=[],
+        expected_no_answer=True,
+        expected_pages=[7],
+        expected_chunk_ids=[chunk.chunk_id],
+        label_source="candidate_authored_from_fixed_snapshot",
+    )
+
+    with pytest.raises(ValueError, match="must not define retrieval targets"):
+        validate_retrieval_eval_targets([case], [chunk])
+
+
+def test_evaluator_distinguishes_document_and_exact_evidence_ranking() -> None:
+    target_id = "guide-p007-000"
+    retrieved = [
+        SearchResult(
+            text="General introduction.",
+            source="guide.pdf",
+            score=1.0,
+            metadata={"chunk_id": "guide-p006-000", "page": "6", "section": "Intro"},
+        ),
+        SearchResult(
+            text="The labeled scope evidence.",
+            source="guide.pdf",
+            score=0.9,
+            metadata={"chunk_id": target_id, "page": "7", "section": "Scope"},
+        ),
+    ]
+
+    class FixedAssistant:
+        def answer(self, _question: str, *, k: int = 4) -> dict[str, object]:
+            return {
+                "status": "answered",
+                "citation_check": {
+                    "passed": True,
+                    "sentence_count": 1,
+                    "unsupported_sentences": [],
+                    "warnings": [],
+                },
+            }
+
+        def retrieve(self, _question: str, *, k: int = 4) -> list[SearchResult]:
+            return retrieved[:k]
+
+    case = RetrievalEvalCase(
+        case_id="granularity-001",
+        question="What is in scope?",
+        expected_source="guide.pdf",
+        expected_terms=["scope evidence"],
+        expected_pages=[7],
+        expected_chunk_ids=[target_id],
+        label_source="candidate_authored_from_fixed_snapshot",
+    )
+
+    payload = evaluate_retrieval(FixedAssistant(), [case], k=2)  # type: ignore[arg-type]
+    row = payload["results"][0]
+
+    assert payload["summary"]["retrieval_hit_at_1"] == 1.0
+    assert payload["summary"]["evidence_target_hit_at_1"] == 0.0
+    assert payload["summary"]["evidence_target_hit_at_3"] == 1.0
+    assert payload["summary"]["evidence_target_mean_reciprocal_rank"] == 0.5
+    assert row["page_target_hit_at_1"] is False
+    assert row["page_target_reciprocal_rank"] == 0.5
 
 
 def _uncertainty_fixture() -> tuple[dict[str, object], dict[str, object]]:

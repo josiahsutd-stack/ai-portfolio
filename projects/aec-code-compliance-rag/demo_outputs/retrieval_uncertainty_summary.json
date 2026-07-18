@@ -21,6 +21,8 @@
   "support": {
     "all_cases": 51,
     "answerable_cases": 41,
+    "evidence_target_cases": 0,
+    "page_target_cases": 0,
     "no_evidence_cases": 6,
     "review_or_unsupported_cases": 4
   },

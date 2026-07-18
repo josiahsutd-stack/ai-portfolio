@@ -26,6 +26,9 @@ flowchart LR
   API --> MET["Process counters and durable request telemetry"]
   API --> OBJ["Query latency and server-error objectives"]
   D --> I["Retrieval evaluator"]
+  T["Candidate-authored exact chunk and page targets"] --> V["Fail-closed target validator"]
+  C --> V
+  V --> I
   I --> U["Uncertainty and paired-mode analysis"]
   U --> J["demo_outputs"]
   API --> SI["In-process service evaluator"]
@@ -38,7 +41,7 @@ flowchart LR
 
 | Area | File | Responsibility |
 | --- | --- | --- |
-| Chunking | `src/aec_code_compliance_rag/chunking.py` | Splits markdown by headings, preserves page markers, converts PDF page text into chunks, and emits chunk metadata. |
+| Chunking | `src/aec_code_compliance_rag/chunking.py` | Splits markdown by headings, preserves page markers, converts PDF page text into chunks, and emits deterministically unique chunk IDs even when headings repeat. |
 | PDF ingestion | `src/aec_code_compliance_rag/pdf_ingestion.py` | Extracts text page by page from PDFs with `pypdf` and passes real page numbers into the chunk metadata contract. |
 | Source manifest | `src/aec_code_compliance_rag/source_manifest.py` | Loads `source_manifest.json` and applies source title, type, allowed-use, jurisdiction, version, and superseded metadata. |
 | Public sources | `src/aec_code_compliance_rag/public_sources.py` | Downloads official public Singapore source documents to an ignored local folder and generates source metadata for retrieval. |
@@ -47,7 +50,7 @@ flowchart LR
 | Faithfulness | `src/aec_code_compliance_rag/faithfulness.py` | Applies deterministic citation-marker and lexical-support checks for demo answers. |
 | Observability | `src/aec_code_compliance_rag/observability.py` | Persists redacted query audit records plus bounded request timestamp, instance id, request id, route template, status, and latency rows in local SQLite. Service telemetry does not store arbitrary headers, query strings, questions, or bodies. |
 | Service boundary | `src/aec_code_compliance_rag/service.py` | Builds the FastAPI app, validates request schemas, fails closed on absent/invalid API keys, attaches bounded request ids, distinguishes liveness/readiness, records process counters, and evaluates query objectives over a durable window. |
-| Evaluation | `src/aec_code_compliance_rag/evaluation.py` | Loads evaluation cases and computes retrieval metrics. |
+| Evaluation | `src/aec_code_compliance_rag/evaluation.py` | Loads cases, validates target IDs/pages against the indexed corpus, and reports document, exact-chunk, and source-page retrieval metrics separately. |
 | Uncertainty | `src/aec_code_compliance_rag/uncertainty.py` | Computes Wilson intervals, fixed-seed bootstrap intervals, and paired retrieval-mode deltas over matching case IDs. |
 | Evaluation CLI | `evaluate_retrieval.py` | Runs retrieval, ablation, uncertainty, and demo-output generation into `demo_outputs/`. |
 | Service evaluation CLI | `evaluate_service.py` | Runs deterministic in-process ASGI contract checks and writes versioned service evidence. |
@@ -94,9 +97,11 @@ Optional `semantic` and `hybrid_cross_encoder` modes use `sentence-transformers`
 
 ## Evaluation And Uncertainty Boundary
 
-The evaluator retains per-case retrieval outcomes and projects compact case metrics for each portable retrieval mode. `uncertainty.py` then reports 95% Wilson intervals for binary outcomes, deterministic percentile-bootstrap intervals for mean metrics, and paired-bootstrap deltas over identical answerable case IDs. Mismatched case sets fail instead of being compared.
+The evaluator retains per-case retrieval outcomes and projects compact case metrics for each portable retrieval mode. Public cases include candidate-authored exact chunk targets and, where the local source exposes pages, source-page targets. Validation fails on duplicate case IDs, missing target IDs, source mismatches, page mismatches, or targets attached to no-answer cases. The generator emits a per-case target audit so document discovery cannot be mistaken for supporting-passage retrieval.
 
-This layer measures how the aggregate changes when the same authored cases are resampled. It does not model independent-label quality, document currency, expert disagreement, or a broader query population. Sorted ablation point estimates therefore remain descriptive; paired intervals determine whether the fixed set supports a directional mode comparison.
+`uncertainty.py` reports 95% Wilson intervals for binary outcomes, deterministic percentile-bootstrap intervals for mean metrics, and paired-bootstrap deltas over identical answerable case IDs. Mismatched case sets fail instead of being compared.
+
+This layer measures how the aggregate changes when the same authored cases are resampled. Exact targets were authored by the portfolio candidate from the fixed snapshot; they are not official clause labels or independent expert judgments. The analysis does not model document currency, expert disagreement, or a broader query population. Sorted ablation point estimates therefore remain descriptive; paired intervals determine whether the fixed set supports a directional mode comparison.
 
 The assistant can rebuild a temporary retriever over a filtered source subset for a query. Supported local filters include jurisdiction, source type, and superseded status. For the Singapore public-source corpus, the assistant also applies conservative authority and document-family inference. A question that names BCA, PUB, NParks, URA, NEA, SCDF, or LTA is restricted to that publisher when matching sources exist. A question that names a specific document family, such as BCA Code on Accessibility, PUB Surface Water Drainage, or NParks Greenery Provision and Tree Conservation, is restricted to that document ID. Manual source filters still take precedence.
 

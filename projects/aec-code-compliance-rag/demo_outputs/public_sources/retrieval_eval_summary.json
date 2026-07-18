@@ -1,29 +1,45 @@
 {
-  "artifact_schema_version": "2.0",
+  "artifact_schema_version": "3.0",
   "provenance": {
     "corpus": "public",
     "corpus_label": "Singapore public-source",
     "document_count": 15,
     "corpus_sha256": "f0af72d9f642a1a1bf86cbd8d1d0268bf3a4a3fa4505546655d36f7cb36dceb1",
     "eval_set": "public_eval_cases.jsonl",
-    "eval_set_sha256": "aa2cc41f311071d6f9ccad09c154b34a3d872db470d023cfa874c71f68ea6498",
+    "eval_set_sha256": "a2a54737b71cff6a3cddf11faead236ca99a188f62d0b7712bee5950c12cec18",
     "retrieval_k": 4,
     "versioned_latency_policy": "omitted_machine_dependent_timings",
     "source_inventory_sha256": "f7c2fe67e87265129dd4c3a072591fe595d99bca9e5557119b8bb20d194face5",
     "download_manifest_schema_version": "2.0",
     "download_manifest_complete": true
   },
+  "target_validation": {
+    "case_count": 24,
+    "answerable_case_count": 21,
+    "labeled_answerable_case_count": 21,
+    "page_labeled_answerable_case_count": 18,
+    "target_chunk_count": 31,
+    "label_sources": {
+      "candidate_authored_from_local_public_source_snapshot": 21
+    },
+    "answerable_target_coverage": 1.0
+  },
   "summary": {
     "case_count": 24,
     "answerable_case_count": 21,
     "no_evidence_case_count": 2,
     "professional_review_case_count": 1,
+    "evidence_target_case_count": 21,
+    "page_target_case_count": 18,
     "case_type_metrics": {
       "public_source_direct": {
         "case_count": 15,
         "answerable_case_count": 15,
         "recall_at_k": 1.0,
         "mean_reciprocal_rank": 1.0,
+        "evidence_target_case_count": 15,
+        "evidence_target_hit_at_1": 0.867,
+        "evidence_target_mean_reciprocal_rank": 0.9,
         "status_accuracy": 1.0
       },
       "public_source_negative": {
@@ -31,6 +47,9 @@
         "answerable_case_count": 0,
         "recall_at_k": null,
         "mean_reciprocal_rank": null,
+        "evidence_target_case_count": 0,
+        "evidence_target_hit_at_1": null,
+        "evidence_target_mean_reciprocal_rank": null,
         "status_accuracy": 1.0
       },
       "public_source_no_evidence": {
@@ -38,6 +57,9 @@
         "answerable_case_count": 0,
         "recall_at_k": null,
         "mean_reciprocal_rank": null,
+        "evidence_target_case_count": 0,
+        "evidence_target_hit_at_1": null,
+        "evidence_target_mean_reciprocal_rank": null,
         "status_accuracy": 1.0
       },
       "public_source_paraphrase": {
@@ -45,6 +67,9 @@
         "answerable_case_count": 6,
         "recall_at_k": 1.0,
         "mean_reciprocal_rank": 0.917,
+        "evidence_target_case_count": 6,
+        "evidence_target_hit_at_1": 0.667,
+        "evidence_target_mean_reciprocal_rank": 0.833,
         "status_accuracy": 1.0
       }
     },
@@ -53,6 +78,14 @@
     "precision_at_k": 0.917,
     "hit_rate": 1.0,
     "mean_reciprocal_rank": 0.976,
+    "evidence_target_hit_at_1": 0.81,
+    "evidence_target_hit_at_3": 0.952,
+    "evidence_target_hit_at_k": 0.952,
+    "evidence_target_mean_reciprocal_rank": 0.881,
+    "page_target_hit_at_1": 0.778,
+    "page_target_hit_at_3": 0.944,
+    "page_target_hit_at_k": 0.944,
+    "page_target_mean_reciprocal_rank": 0.861,
     "section_hit_rate": 1.0,
     "citation_coverage": 0.968,
     "grounding_check_rate": 0.905,
@@ -73,6 +106,13 @@
       "question": "What does the BCA Code on Accessibility 2025 set out for accessible and inclusive buildings?",
       "expected_source": "bca_code_on_accessibility_2025.pdf",
       "expected_section": null,
+      "expected_pages": [
+        8
+      ],
+      "expected_chunk_ids": [
+        "bca_code_on_accessibility_2025-8-i-n-t-r-o-d-u-c-t-i-o-n-p8-000"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
       "retrieved_chunk_ids": [
         "bca_code_on_accessibility_2025-code-on-accessibility-in-the-built-environment-2025-p9-000",
         "bca_code_on_accessibility_2025-8-i-n-t-r-o-d-u-c-t-i-o-n-p8-000",
@@ -91,6 +131,12 @@
         "8  I N T R O D U C T I O N",
         "Code on Accessibility in the Built Environment 2025"
       ],
+      "retrieved_pages": [
+        9,
+        8,
+        8,
+        61
+      ],
       "recall_at_k": 1.0,
       "precision_at_k": 1.0,
       "hit_rate": 1.0,
@@ -107,6 +153,14 @@
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
       "simple_grounding_check": true,
+      "evidence_target_hit_at_1": false,
+      "evidence_target_hit_at_3": true,
+      "evidence_target_hit_at_k": true,
+      "evidence_target_reciprocal_rank": 0.5,
+      "page_target_hit_at_1": false,
+      "page_target_hit_at_3": true,
+      "page_target_hit_at_k": true,
+      "page_target_reciprocal_rank": 0.5,
       "missing_terms": []
     },
     {
@@ -115,6 +169,14 @@
       "question": "Who does BCA say should integrate accessibility and usability considerations from the onset of a building project?",
       "expected_source": "bca_code_on_accessibility_2025.pdf",
       "expected_section": null,
+      "expected_pages": [
+        8
+      ],
+      "expected_chunk_ids": [
+        "bca_code_on_accessibility_2025-8-i-n-t-r-o-d-u-c-t-i-o-n-p8-000",
+        "bca_code_on_accessibility_2025-8-i-n-t-r-o-d-u-c-t-i-o-n-p8-001"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
       "retrieved_chunk_ids": [
         "bca_code_on_accessibility_2025-8-i-n-t-r-o-d-u-c-t-i-o-n-p8-001",
         "bca_code_on_accessibility_2025-8-i-n-t-r-o-d-u-c-t-i-o-n-p8-000",
@@ -133,6 +195,12 @@
         "Page 12 of 33",
         "Page 11 of 33"
       ],
+      "retrieved_pages": [
+        8,
+        8,
+        12,
+        11
+      ],
       "recall_at_k": 1.0,
       "precision_at_k": 0.5,
       "hit_rate": 1.0,
@@ -149,6 +217,14 @@
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
       "simple_grounding_check": true,
+      "evidence_target_hit_at_1": true,
+      "evidence_target_hit_at_3": true,
+      "evidence_target_hit_at_k": true,
+      "evidence_target_reciprocal_rank": 1.0,
+      "page_target_hit_at_1": true,
+      "page_target_hit_at_3": true,
+      "page_target_hit_at_k": true,
+      "page_target_reciprocal_rank": 1.0,
       "missing_terms": []
     },
     {
@@ -157,6 +233,15 @@
       "question": "What does the BCA Approved Document provide for prescribed objectives and performance requirements?",
       "expected_source": "bca_approved_document_v7_07.pdf",
       "expected_section": null,
+      "expected_pages": [
+        24
+      ],
+      "expected_chunk_ids": [
+        "bca_approved_document_v7_07-building-and-construction-authority-page-1-of-65-p24-000",
+        "bca_approved_document_v7_07-building-and-construction-authority-page-1-of-65-p24-001",
+        "bca_approved_document_v7_07-building-and-construction-authority-page-1-of-65-p24-002"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
       "retrieved_chunk_ids": [
         "bca_approved_document_v7_07-building-and-construction-authority-page-1-of-65-p24-001",
         "bca_approved_document_v7_07-building-and-construction-authority-page-1-of-65-p24-000",
@@ -175,6 +260,12 @@
         "Building and Construction Authority  Page 1 of 65",
         "Building and Construction Authority  Page 52 of 62"
       ],
+      "retrieved_pages": [
+        24,
+        24,
+        24,
+        75
+      ],
       "recall_at_k": 1.0,
       "precision_at_k": 1.0,
       "hit_rate": 1.0,
@@ -191,6 +282,14 @@
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
       "simple_grounding_check": true,
+      "evidence_target_hit_at_1": true,
+      "evidence_target_hit_at_3": true,
+      "evidence_target_hit_at_k": true,
+      "evidence_target_reciprocal_rank": 1.0,
+      "page_target_hit_at_1": true,
+      "page_target_hit_at_3": true,
+      "page_target_hit_at_k": true,
+      "page_target_reciprocal_rank": 1.0,
       "missing_terms": []
     },
     {
@@ -199,6 +298,15 @@
       "question": "Which BCA document contains the Green Mark 2021 certification standard?",
       "expected_source": "bca_green_mark_2021_certification_standard_2nd_ed.pdf",
       "expected_section": null,
+      "expected_pages": [
+        1,
+        10
+      ],
+      "expected_chunk_ids": [
+        "bca_green_mark_2021_certification_standard_2nd_ed-certification-standard-p1-000",
+        "bca_green_mark_2021_certification_standard_2nd_ed-page-10-of-33-p10-003"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
       "retrieved_chunk_ids": [
         "bca_green_mark_2021_certification_standard_2nd_ed-page-10-of-33-p10-003",
         "bca_green_mark_2021_certification_standard_2nd_ed-page-10-of-33-p10-002",
@@ -217,6 +325,12 @@
         "Page 2 of 33",
         "CERTIFICATION STANDARD"
       ],
+      "retrieved_pages": [
+        10,
+        10,
+        2,
+        1
+      ],
       "recall_at_k": 1.0,
       "precision_at_k": 1.0,
       "hit_rate": 1.0,
@@ -233,6 +347,14 @@
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
       "simple_grounding_check": true,
+      "evidence_target_hit_at_1": true,
+      "evidence_target_hit_at_3": true,
+      "evidence_target_hit_at_k": true,
+      "evidence_target_reciprocal_rank": 1.0,
+      "page_target_hit_at_1": true,
+      "page_target_hit_at_3": true,
+      "page_target_hit_at_k": true,
+      "page_target_reciprocal_rank": 1.0,
       "missing_terms": []
     },
     {
@@ -241,6 +363,13 @@
       "question": "What is the SCDF Fire Code 2023 used for in Singapore building fire safety design?",
       "expected_source": "scdf_fire_code_2023.pdf",
       "expected_section": null,
+      "expected_pages": [
+        4
+      ],
+      "expected_chunk_ids": [
+        "scdf_fire_code_2023-clause-1-1-scope-p4-000"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
       "retrieved_chunk_ids": [
         "scdf_fire_code_2023-code-of-practice-for-fire-p1-000",
         "scdf_fire_code_2023-amendment-history-chapter-3-structural-fire-precautions-p109-005",
@@ -259,6 +388,12 @@
         "Amendment History - Chapter 1 - General",
         "CLAUSE 11.3 ASSESSMENT AND VALIDATION"
       ],
+      "retrieved_pages": [
+        1,
+        109,
+        31,
+        253
+      ],
       "recall_at_k": 1.0,
       "precision_at_k": 1.0,
       "hit_rate": 1.0,
@@ -275,6 +410,14 @@
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
       "simple_grounding_check": true,
+      "evidence_target_hit_at_1": false,
+      "evidence_target_hit_at_3": false,
+      "evidence_target_hit_at_k": false,
+      "evidence_target_reciprocal_rank": 0.0,
+      "page_target_hit_at_1": false,
+      "page_target_hit_at_3": false,
+      "page_target_hit_at_k": false,
+      "page_target_reciprocal_rank": 0.0,
       "missing_terms": []
     },
     {
@@ -283,9 +426,13 @@
       "question": "Can this assistant certify a Singapore building plan for BCA approval?",
       "expected_source": "__NO_ANSWER__",
       "expected_section": null,
+      "expected_pages": [],
+      "expected_chunk_ids": [],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
       "retrieved_chunk_ids": [],
       "retrieved_sources": [],
       "retrieved_sections": [],
+      "retrieved_pages": [],
       "recall_at_k": 0.0,
       "precision_at_k": 0.0,
       "hit_rate": 0.0,
@@ -302,6 +449,14 @@
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
       "simple_grounding_check": true,
+      "evidence_target_hit_at_1": null,
+      "evidence_target_hit_at_3": null,
+      "evidence_target_hit_at_k": null,
+      "evidence_target_reciprocal_rank": null,
+      "page_target_hit_at_1": null,
+      "page_target_hit_at_3": null,
+      "page_target_hit_at_k": null,
+      "page_target_reciprocal_rank": null,
       "missing_terms": []
     },
     {
@@ -310,11 +465,16 @@
       "question": "What does URA say the Gross Floor Area handbook advisory notes are not exhaustive about?",
       "expected_source": "ura_gfa_handbook_advisory_notes.md",
       "expected_section": null,
+      "expected_pages": [],
+      "expected_chunk_ids": [
+        "ura_gfa_handbook_advisory_notes-gross-floor-area-000"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
       "retrieved_chunk_ids": [
         "ura_gfa_handbook_advisory_notes-gross-floor-area-000",
         "ura_gfa_handbook_advisory_notes-ura-gfa-handbook-advisory-notes-000",
         "ura_gfa_handbook_advisory_notes-ura-gross-floor-area-handbook-advisory-notes-000",
-        "ura_gfa_handbook_advisory_notes-urban-redevelopment-authority-ura-000"
+        "ura_gfa_handbook_advisory_notes-gross-floor-area-002"
       ],
       "retrieved_sources": [
         "ura_gfa_handbook_advisory_notes.md",
@@ -326,7 +486,13 @@
         "Gross Floor Area",
         "ura_gfa_handbook_advisory_notes",
         "URA Gross Floor Area Handbook - Advisory Notes",
-        "Urban Redevelopment Authority (URA)"
+        "Gross Floor Area"
+      ],
+      "retrieved_pages": [
+        null,
+        null,
+        null,
+        null
       ],
       "recall_at_k": 1.0,
       "precision_at_k": 1.0,
@@ -344,6 +510,14 @@
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
       "simple_grounding_check": true,
+      "evidence_target_hit_at_1": true,
+      "evidence_target_hit_at_3": true,
+      "evidence_target_hit_at_k": true,
+      "evidence_target_reciprocal_rank": 1.0,
+      "page_target_hit_at_1": null,
+      "page_target_hit_at_3": null,
+      "page_target_hit_at_k": null,
+      "page_target_reciprocal_rank": null,
       "missing_terms": []
     },
     {
@@ -352,6 +526,13 @@
       "question": "Which URA GFA glance source lists items excluded, partially excluded, included, and over Master Plan control?",
       "expected_source": "ura_gfa_guidelines_at_a_glance.pdf",
       "expected_section": null,
+      "expected_pages": [
+        1
+      ],
+      "expected_chunk_ids": [
+        "ura_gfa_guidelines_at_a_glance-guidelines-at-a-glance-gross-floor-area-p1-000"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
       "retrieved_chunk_ids": [
         "ura_gfa_guidelines_at_a_glance-guidelines-at-a-glance-gross-floor-area-p1-000",
         "ura_gfa_guidelines_at_a_glance-items-excluded-from-p2-000",
@@ -370,6 +551,12 @@
         "Items  Excluded from",
         "Items  Excluded from"
       ],
+      "retrieved_pages": [
+        1,
+        2,
+        3,
+        2
+      ],
       "recall_at_k": 1.0,
       "precision_at_k": 1.0,
       "hit_rate": 1.0,
@@ -386,6 +573,14 @@
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
       "simple_grounding_check": true,
+      "evidence_target_hit_at_1": true,
+      "evidence_target_hit_at_3": true,
+      "evidence_target_hit_at_k": true,
+      "evidence_target_reciprocal_rank": 1.0,
+      "page_target_hit_at_1": true,
+      "page_target_hit_at_3": true,
+      "page_target_hit_at_k": true,
+      "page_target_reciprocal_rank": 1.0,
       "missing_terms": []
     },
     {
@@ -394,6 +589,13 @@
       "question": "What does NEA COPEH say residential buildings taller than four storeys need for refuse?",
       "expected_source": "nea_code_of_practice_environmental_health_2025.pdf",
       "expected_section": null,
+      "expected_pages": [
+        7
+      ],
+      "expected_chunk_ids": [
+        "nea_code_of_practice_environmental_health_2025-code-of-practice-on-environmental-health-2025-edition-p7-002"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
       "retrieved_chunk_ids": [
         "nea_code_of_practice_environmental_health_2025-code-of-practice-on-environmental-health-2025-edition-p7-002",
         "nea_code_of_practice_environmental_health_2025-code-of-practice-on-environmental-health-2025-edition-p33-003",
@@ -412,6 +614,12 @@
         "Code of Practice on Environmental Health (2025 Edition)",
         "Code of Practice on Environmental Health (2025 Edition)"
       ],
+      "retrieved_pages": [
+        7,
+        33,
+        11,
+        8
+      ],
       "recall_at_k": 1.0,
       "precision_at_k": 1.0,
       "hit_rate": 1.0,
@@ -428,6 +636,14 @@
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
       "simple_grounding_check": true,
+      "evidence_target_hit_at_1": true,
+      "evidence_target_hit_at_3": true,
+      "evidence_target_hit_at_k": true,
+      "evidence_target_reciprocal_rank": 1.0,
+      "page_target_hit_at_1": true,
+      "page_target_hit_at_3": true,
+      "page_target_hit_at_k": true,
+      "page_target_reciprocal_rank": 1.0,
       "missing_terms": []
     },
     {
@@ -436,6 +652,15 @@
       "question": "What does the LTA works on public streets code set out for permits and technical requirements?",
       "expected_source": "lta_code_of_practice_works_on_public_streets_2025.pdf",
       "expected_section": null,
+      "expected_pages": [
+        7,
+        12
+      ],
+      "expected_chunk_ids": [
+        "lta_code_of_practice_works_on_public_streets_2025-code-of-practice-for-works-on-public-streets-7-p7-001",
+        "lta_code_of_practice_works_on_public_streets_2025-code-of-practice-for-works-on-public-streets-12-p12-001"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
       "retrieved_chunk_ids": [
         "lta_code_of_practice_works_on_public_streets_2025-code-of-practice-for-works-on-public-streets-12-p12-001",
         "lta_code_of_practice_works_on_public_streets_2025-code-of-practice-for-works-on-public-streets-54-p54-000",
@@ -454,6 +679,12 @@
         "Code of Practice for Works on Public Streets  7",
         "Code of Practice for Works on Public Streets  40"
       ],
+      "retrieved_pages": [
+        12,
+        54,
+        7,
+        40
+      ],
       "recall_at_k": 1.0,
       "precision_at_k": 1.0,
       "hit_rate": 1.0,
@@ -470,6 +701,14 @@
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
       "simple_grounding_check": true,
+      "evidence_target_hit_at_1": true,
+      "evidence_target_hit_at_3": true,
+      "evidence_target_hit_at_k": true,
+      "evidence_target_reciprocal_rank": 1.0,
+      "page_target_hit_at_1": true,
+      "page_target_hit_at_3": true,
+      "page_target_hit_at_k": true,
+      "page_target_reciprocal_rank": 1.0,
       "missing_terms": []
     },
     {
@@ -478,6 +717,13 @@
       "question": "What does the LTA railway protection code cover for development and building proposals?",
       "expected_source": "lta_code_of_practice_railway_protection_2024.pdf",
       "expected_section": null,
+      "expected_pages": [
+        22
+      ],
+      "expected_chunk_ids": [
+        "lta_code_of_practice_railway_protection_2024-21-p-a-g-e-p22-000"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
       "retrieved_chunk_ids": [
         "lta_code_of_practice_railway_protection_2024-21-p-a-g-e-p22-000",
         "lta_code_of_practice_railway_protection_2024-64-p-a-g-e-p65-000",
@@ -496,6 +742,12 @@
         "4 | P a g e",
         "2024 EDITION"
       ],
+      "retrieved_pages": [
+        22,
+        65,
+        5,
+        1
+      ],
       "recall_at_k": 1.0,
       "precision_at_k": 1.0,
       "hit_rate": 1.0,
@@ -512,6 +764,14 @@
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
       "simple_grounding_check": true,
+      "evidence_target_hit_at_1": true,
+      "evidence_target_hit_at_3": true,
+      "evidence_target_hit_at_k": true,
+      "evidence_target_reciprocal_rank": 1.0,
+      "page_target_hit_at_1": true,
+      "page_target_hit_at_3": true,
+      "page_target_hit_at_k": true,
+      "page_target_reciprocal_rank": 1.0,
       "missing_terms": []
     },
     {
@@ -520,11 +780,18 @@
       "question": "Which PUB resource page lists the Code of Practice on Coastal Protection and says new requirements take effect in 2028?",
       "expected_source": "pub_codes_of_practice_and_standard_drawings.md",
       "expected_section": null,
+      "expected_pages": [],
+      "expected_chunk_ids": [
+        "pub_codes_of_practice_and_standard_drawings-codes-of-practice-and-standard-drawings-001",
+        "pub_codes_of_practice_and_standard_drawings-codes-of-practice-and-standard-drawings-003",
+        "pub_codes_of_practice_and_standard_drawings-codes-of-practice-and-standard-drawings-005"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
       "retrieved_chunk_ids": [
         "pub_codes_of_practice_and_standard_drawings-codes-of-practice-and-standard-drawings-003",
         "pub_codes_of_practice_and_standard_drawings-codes-of-practice-and-standard-drawings-001",
         "pub_codes_of_practice_and_standard_drawings-codes-of-practice-and-standard-drawings-005",
-        "pub_codes_of_practice_and_standard_drawings-pub-codes-of-practice-and-standard-drawings-000"
+        "pub_codes_of_practice_and_standard_drawings-codes-of-practice-and-standard-drawings-002"
       ],
       "retrieved_sources": [
         "pub_codes_of_practice_and_standard_drawings.md",
@@ -536,7 +803,13 @@
         "Codes of Practice and Standard Drawings",
         "Codes of Practice and Standard Drawings",
         "Codes of Practice and Standard Drawings",
-        "pub_codes_of_practice_and_standard_drawings"
+        "Codes of Practice and Standard Drawings"
+      ],
+      "retrieved_pages": [
+        null,
+        null,
+        null,
+        null
       ],
       "recall_at_k": 1.0,
       "precision_at_k": 1.0,
@@ -554,6 +827,14 @@
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
       "simple_grounding_check": true,
+      "evidence_target_hit_at_1": true,
+      "evidence_target_hit_at_3": true,
+      "evidence_target_hit_at_k": true,
+      "evidence_target_reciprocal_rank": 1.0,
+      "page_target_hit_at_1": null,
+      "page_target_hit_at_3": null,
+      "page_target_hit_at_k": null,
+      "page_target_reciprocal_rank": null,
       "missing_terms": []
     },
     {
@@ -562,6 +843,13 @@
       "question": "What does PUB's Surface Water Drainage code specify for new developments?",
       "expected_source": "pub_surface_water_drainage_cop_2025.pdf",
       "expected_section": null,
+      "expected_pages": [
+        20
+      ],
+      "expected_chunk_ids": [
+        "pub_surface_water_drainage_cop_2025-1-p20-002"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
       "retrieved_chunk_ids": [
         "pub_surface_water_drainage_cop_2025-1-p20-002",
         "pub_surface_water_drainage_cop_2025-26-p45-000",
@@ -580,6 +868,12 @@
         "CODE OF PRACTICE",
         "II"
       ],
+      "retrieved_pages": [
+        20,
+        45,
+        1,
+        2
+      ],
       "recall_at_k": 1.0,
       "precision_at_k": 1.0,
       "hit_rate": 1.0,
@@ -596,6 +890,14 @@
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
       "simple_grounding_check": true,
+      "evidence_target_hit_at_1": true,
+      "evidence_target_hit_at_3": true,
+      "evidence_target_hit_at_k": true,
+      "evidence_target_reciprocal_rank": 1.0,
+      "page_target_hit_at_1": true,
+      "page_target_hit_at_3": true,
+      "page_target_hit_at_k": true,
+      "page_target_reciprocal_rank": 1.0,
       "missing_terms": []
     },
     {
@@ -604,6 +906,13 @@
       "question": "Before design starts, what PUB sewerage information must be obtained for sewers and pumping mains?",
       "expected_source": "pub_sewerage_sanitary_works_2025.pdf",
       "expected_section": null,
+      "expected_pages": [
+        9
+      ],
+      "expected_chunk_ids": [
+        "pub_sewerage_sanitary_works_2025-1-p-a-g-e-p9-000"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
       "retrieved_chunk_ids": [
         "pub_sewerage_sanitary_works_2025-1-p-a-g-e-p9-000",
         "pub_sewerage_sanitary_works_2025-42-p-a-g-e-p50-000",
@@ -622,6 +931,12 @@
         "42 | P a g e",
         "14 | P a g e"
       ],
+      "retrieved_pages": [
+        9,
+        50,
+        50,
+        22
+      ],
       "recall_at_k": 1.0,
       "precision_at_k": 1.0,
       "hit_rate": 1.0,
@@ -638,6 +953,14 @@
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
       "simple_grounding_check": true,
+      "evidence_target_hit_at_1": true,
+      "evidence_target_hit_at_3": true,
+      "evidence_target_hit_at_k": true,
+      "evidence_target_reciprocal_rank": 1.0,
+      "page_target_hit_at_1": true,
+      "page_target_hit_at_3": true,
+      "page_target_hit_at_k": true,
+      "page_target_reciprocal_rank": 1.0,
       "missing_terms": []
     },
     {
@@ -646,6 +969,13 @@
       "question": "What do NParks greenery provision and tree conservation guidelines describe for development projects in Singapore?",
       "expected_source": "nparks_greenery_tree_conservation_2025.pdf",
       "expected_section": null,
+      "expected_pages": [
+        9
+      ],
+      "expected_chunk_ids": [
+        "nparks_greenery_tree_conservation_2025-1-p9-000"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
       "retrieved_chunk_ids": [
         "nparks_greenery_tree_conservation_2025-1-p9-000",
         "nparks_greenery_tree_conservation_2025-80-p80-000",
@@ -664,6 +994,12 @@
         "152",
         "iGuidelines on Greenery Provision and Tree Conservation for Developments"
       ],
+      "retrieved_pages": [
+        9,
+        80,
+        152,
+        4
+      ],
       "recall_at_k": 1.0,
       "precision_at_k": 1.0,
       "hit_rate": 1.0,
@@ -680,6 +1016,14 @@
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
       "simple_grounding_check": true,
+      "evidence_target_hit_at_1": true,
+      "evidence_target_hit_at_3": true,
+      "evidence_target_hit_at_k": true,
+      "evidence_target_reciprocal_rank": 1.0,
+      "page_target_hit_at_1": true,
+      "page_target_hit_at_3": true,
+      "page_target_hit_at_k": true,
+      "page_target_reciprocal_rank": 1.0,
       "missing_terms": []
     },
     {
@@ -688,6 +1032,11 @@
       "question": "Which project stages does the NParks Greenery and Development Planning Branch work with developers and QPs on?",
       "expected_source": "nparks_development_plan_submission.md",
       "expected_section": null,
+      "expected_pages": [],
+      "expected_chunk_ids": [
+        "nparks_development_plan_submission-development-plan-submission-000"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
       "retrieved_chunk_ids": [
         "nparks_development_plan_submission-development-plan-submission-000",
         "nparks_greenery_tree_conservation_2025-1-p9-000",
@@ -706,6 +1055,12 @@
         "nparks_development_plan_submission",
         "154"
       ],
+      "retrieved_pages": [
+        null,
+        9,
+        null,
+        154
+      ],
       "recall_at_k": 1.0,
       "precision_at_k": 0.5,
       "hit_rate": 1.0,
@@ -722,6 +1077,14 @@
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
       "simple_grounding_check": true,
+      "evidence_target_hit_at_1": true,
+      "evidence_target_hit_at_3": true,
+      "evidence_target_hit_at_k": true,
+      "evidence_target_reciprocal_rank": 1.0,
+      "page_target_hit_at_1": null,
+      "page_target_hit_at_3": null,
+      "page_target_hit_at_k": null,
+      "page_target_reciprocal_rank": null,
       "missing_terms": []
     },
     {
@@ -730,6 +1093,15 @@
       "question": "A proposal includes new and altered buildings. Which reference sets baseline access expectations for disabled users, older adults, and families with young children?",
       "expected_source": "bca_code_on_accessibility_2025.pdf",
       "expected_section": null,
+      "expected_pages": [
+        8,
+        18
+      ],
+      "expected_chunk_ids": [
+        "bca_code_on_accessibility_2025-8-i-n-t-r-o-d-u-c-t-i-o-n-p8-004",
+        "bca_code_on_accessibility_2025-code-on-accessibility-in-the-built-environment-2025-p18-000"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
       "retrieved_chunk_ids": [
         "bca_code_on_accessibility_2025-8-i-n-t-r-o-d-u-c-t-i-o-n-p8-004",
         "bca_code_on_accessibility_2025-code-on-accessibility-in-the-built-environment-2025-p18-000",
@@ -748,6 +1120,12 @@
         "Code on Accessibility in the Built Environment 2025",
         "8  I N T R O D U C T I O N"
       ],
+      "retrieved_pages": [
+        8,
+        18,
+        86,
+        8
+      ],
       "recall_at_k": 1.0,
       "precision_at_k": 1.0,
       "hit_rate": 1.0,
@@ -764,6 +1142,14 @@
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
       "simple_grounding_check": false,
+      "evidence_target_hit_at_1": true,
+      "evidence_target_hit_at_3": true,
+      "evidence_target_hit_at_k": true,
+      "evidence_target_reciprocal_rank": 1.0,
+      "page_target_hit_at_1": true,
+      "page_target_hit_at_3": true,
+      "page_target_hit_at_k": true,
+      "page_target_reciprocal_rank": 1.0,
       "missing_terms": [
         "baseline requirements"
       ]
@@ -774,6 +1160,13 @@
       "question": "Where should a designer check whether balconies, covered walkways, service ducts, and similar spaces count toward development intensity?",
       "expected_source": "ura_gfa_guidelines_at_a_glance.pdf",
       "expected_section": null,
+      "expected_pages": [
+        1
+      ],
+      "expected_chunk_ids": [
+        "ura_gfa_guidelines_at_a_glance-guidelines-at-a-glance-gross-floor-area-p1-000"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
       "retrieved_chunk_ids": [
         "scdf_fire_code_2023-clause-3-5-external-wall-p60-011",
         "ura_gfa_guidelines_at_a_glance-guidelines-at-a-glance-gross-floor-area-p1-000",
@@ -792,6 +1185,12 @@
         "59 | P a g e",
         "Gross Floor Area"
       ],
+      "retrieved_pages": [
+        60,
+        1,
+        60,
+        null
+      ],
       "recall_at_k": 1.0,
       "precision_at_k": 0.25,
       "hit_rate": 1.0,
@@ -808,6 +1207,14 @@
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
       "simple_grounding_check": true,
+      "evidence_target_hit_at_1": false,
+      "evidence_target_hit_at_3": true,
+      "evidence_target_hit_at_k": true,
+      "evidence_target_reciprocal_rank": 0.5,
+      "page_target_hit_at_1": false,
+      "page_target_hit_at_3": true,
+      "page_target_hit_at_k": true,
+      "page_target_reciprocal_rank": 0.5,
       "missing_terms": []
     },
     {
@@ -816,6 +1223,13 @@
       "question": "Which local reference covers submissions when excavation or construction may affect a protected rail corridor?",
       "expected_source": "lta_code_of_practice_railway_protection_2024.pdf",
       "expected_section": null,
+      "expected_pages": [
+        22
+      ],
+      "expected_chunk_ids": [
+        "lta_code_of_practice_railway_protection_2024-21-p-a-g-e-p22-000"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
       "retrieved_chunk_ids": [
         "lta_code_of_practice_railway_protection_2024-21-p-a-g-e-p22-000",
         "lta_code_of_practice_railway_protection_2024-86-p-a-g-e-p87-000",
@@ -834,6 +1248,12 @@
         "86 | P a g e",
         "31 | P a g e"
       ],
+      "retrieved_pages": [
+        22,
+        87,
+        87,
+        32
+      ],
       "recall_at_k": 1.0,
       "precision_at_k": 1.0,
       "hit_rate": 1.0,
@@ -850,6 +1270,14 @@
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
       "simple_grounding_check": true,
+      "evidence_target_hit_at_1": true,
+      "evidence_target_hit_at_3": true,
+      "evidence_target_hit_at_k": true,
+      "evidence_target_reciprocal_rank": 1.0,
+      "page_target_hit_at_1": true,
+      "page_target_hit_at_3": true,
+      "page_target_hit_at_k": true,
+      "page_target_reciprocal_rank": 1.0,
       "missing_terms": []
     },
     {
@@ -858,6 +1286,16 @@
       "question": "Which guide should a qualified person consult before designing platform levels and flood-protection measures for a new development?",
       "expected_source": "pub_surface_water_drainage_cop_2025.pdf",
       "expected_section": null,
+      "expected_pages": [
+        26,
+        27
+      ],
+      "expected_chunk_ids": [
+        "pub_surface_water_drainage_cop_2025-7-p26-002",
+        "pub_surface_water_drainage_cop_2025-8-p27-001",
+        "pub_surface_water_drainage_cop_2025-8-p27-002"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
       "retrieved_chunk_ids": [
         "pub_surface_water_drainage_cop_2025-7-p26-002",
         "pub_surface_water_drainage_cop_2025-8-p27-001",
@@ -876,6 +1314,12 @@
         "8",
         "46"
       ],
+      "retrieved_pages": [
+        26,
+        27,
+        27,
+        65
+      ],
       "recall_at_k": 1.0,
       "precision_at_k": 1.0,
       "hit_rate": 1.0,
@@ -892,6 +1336,14 @@
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
       "simple_grounding_check": false,
+      "evidence_target_hit_at_1": true,
+      "evidence_target_hit_at_3": true,
+      "evidence_target_hit_at_k": true,
+      "evidence_target_reciprocal_rank": 1.0,
+      "page_target_hit_at_1": true,
+      "page_target_hit_at_3": true,
+      "page_target_hit_at_k": true,
+      "page_target_reciprocal_rank": 1.0,
       "missing_terms": [
         "new developments"
       ]
@@ -902,6 +1354,13 @@
       "question": "Which guidance combines green buffers, tree conservation, and development-plan clearance procedures?",
       "expected_source": "nparks_greenery_tree_conservation_2025.pdf",
       "expected_section": null,
+      "expected_pages": [
+        156
+      ],
+      "expected_chunk_ids": [
+        "nparks_greenery_tree_conservation_2025-156-p156-000"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
       "retrieved_chunk_ids": [
         "nparks_greenery_tree_conservation_2025-59-p59-000",
         "nparks_greenery_tree_conservation_2025-156-p156-000",
@@ -920,6 +1379,12 @@
         "49",
         "160Guidelines On Greenery Provision And Tree Conservation for Developments"
       ],
+      "retrieved_pages": [
+        59,
+        156,
+        49,
+        160
+      ],
       "recall_at_k": 1.0,
       "precision_at_k": 1.0,
       "hit_rate": 1.0,
@@ -936,6 +1401,14 @@
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
       "simple_grounding_check": true,
+      "evidence_target_hit_at_1": false,
+      "evidence_target_hit_at_3": true,
+      "evidence_target_hit_at_k": true,
+      "evidence_target_reciprocal_rank": 0.5,
+      "page_target_hit_at_1": false,
+      "page_target_hit_at_3": true,
+      "page_target_hit_at_k": true,
+      "page_target_reciprocal_rank": 0.5,
       "missing_terms": []
     },
     {
@@ -944,6 +1417,13 @@
       "question": "A residential block is more than four storeys high. Which environmental-health source addresses its refuse-chute provision?",
       "expected_source": "nea_code_of_practice_environmental_health_2025.pdf",
       "expected_section": null,
+      "expected_pages": [
+        7
+      ],
+      "expected_chunk_ids": [
+        "nea_code_of_practice_environmental_health_2025-code-of-practice-on-environmental-health-2025-edition-p7-002"
+      ],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
       "retrieved_chunk_ids": [
         "nea_code_of_practice_environmental_health_2025-code-of-practice-on-environmental-health-2025-edition-p7-002",
         "nea_code_of_practice_environmental_health_2025-code-of-practice-on-environmental-health-2025-edition-p33-003",
@@ -962,6 +1442,12 @@
         "Code of Practice on Environmental Health (2025 Edition)",
         "Code of Practice on Environmental Health (2025 Edition)"
       ],
+      "retrieved_pages": [
+        7,
+        33,
+        8,
+        8
+      ],
       "recall_at_k": 1.0,
       "precision_at_k": 1.0,
       "hit_rate": 1.0,
@@ -978,6 +1464,14 @@
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
       "simple_grounding_check": true,
+      "evidence_target_hit_at_1": true,
+      "evidence_target_hit_at_3": true,
+      "evidence_target_hit_at_k": true,
+      "evidence_target_reciprocal_rank": 1.0,
+      "page_target_hit_at_1": true,
+      "page_target_hit_at_3": true,
+      "page_target_hit_at_k": true,
+      "page_target_reciprocal_rank": 1.0,
       "missing_terms": []
     },
     {
@@ -986,6 +1480,9 @@
       "question": "What exact gross floor area was granted for parcel MK01-99999?",
       "expected_source": "__NO_ANSWER__",
       "expected_section": null,
+      "expected_pages": [],
+      "expected_chunk_ids": [],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
       "retrieved_chunk_ids": [
         "ura_gfa_handbook_advisory_notes-gross-floor-area-000",
         "ura_gfa_handbook_advisory_notes-gross-floor-area-001",
@@ -1004,6 +1501,12 @@
         "ura_gfa_handbook_advisory_notes",
         "Gross Floor Area"
       ],
+      "retrieved_pages": [
+        null,
+        null,
+        null,
+        null
+      ],
       "recall_at_k": 1.0,
       "precision_at_k": 1.0,
       "hit_rate": 1.0,
@@ -1020,6 +1523,14 @@
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
       "simple_grounding_check": true,
+      "evidence_target_hit_at_1": null,
+      "evidence_target_hit_at_3": null,
+      "evidence_target_hit_at_k": null,
+      "evidence_target_reciprocal_rank": null,
+      "page_target_hit_at_1": null,
+      "page_target_hit_at_3": null,
+      "page_target_hit_at_k": null,
+      "page_target_reciprocal_rank": null,
       "missing_terms": []
     },
     {
@@ -1028,6 +1539,9 @@
       "question": "What structural load capacity applies to an unnamed tower transfer slab?",
       "expected_source": "__NO_ANSWER__",
       "expected_section": null,
+      "expected_pages": [],
+      "expected_chunk_ids": [],
+      "label_source": "candidate_authored_from_local_public_source_snapshot",
       "retrieved_chunk_ids": [
         "nea_code_of_practice_environmental_health_2025-code-of-practice-on-environmental-health-2025-edition-p45-000",
         "nea_code_of_practice_environmental_health_2025-contents-p3-001",
@@ -1046,6 +1560,12 @@
         "Code of Practice on Environmental Health (2025 Edition)",
         "CONTENTS"
       ],
+      "retrieved_pages": [
+        45,
+        3,
+        46,
+        3
+      ],
       "recall_at_k": 1.0,
       "precision_at_k": 1.0,
       "hit_rate": 1.0,
@@ -1062,6 +1582,14 @@
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
       "simple_grounding_check": true,
+      "evidence_target_hit_at_1": null,
+      "evidence_target_hit_at_3": null,
+      "evidence_target_hit_at_k": null,
+      "evidence_target_reciprocal_rank": null,
+      "page_target_hit_at_1": null,
+      "page_target_hit_at_3": null,
+      "page_target_hit_at_k": null,
+      "page_target_reciprocal_rank": null,
       "missing_terms": []
     }
   ]

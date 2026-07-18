@@ -16,6 +16,8 @@ These three projects carry the clearest technical and domain evidence.
 
 Uncertainty check: public Hit@1 `0.952` has a 95% Wilson interval of `[0.773, 0.992]` over `21` answerable cases; MRR `0.976` has a 95% bootstrap interval of `[0.929, 1.000]`; no-answer `1.000` is `2/2` with a Wilson interval of `[0.342, 1.000]`. Hybrid versus BM25 MRR delta is `0.012` with a 95% paired interval of `[0.000, 0.036]`; the interval includes zero, so mode superiority is inconclusive on this authored set.
 
+Candidate-authored exact-target check: Hit@1 `0.810`, Hit@3 `0.952`, and MRR `0.881` across `21` labeled answerable cases; source-page Hit@1 `0.778` and MRR `0.861` across `18` page-labeled cases. Exact-target uncertainty: Hit@1 `0.810` has a 95% interval of `[0.600, 0.923]`, and exact-target MRR `0.881` has a 95% interval of `[0.762, 0.976]` across `21` candidate-authored targets.
+
 For a 15-minute technical screen, these three links contain the highest-signal code, evaluation design, failure boundaries, and generated evidence. The [evidence ledger](docs/EVIDENCE_LEDGER.md) records the artifact and command behind each headline metric.
 
 ![Constraint-aware massing option with plan, isometric view, and measured proxies](docs/assets/screenshots/massing-explorer-demo.png)
@@ -95,6 +97,7 @@ The public retrieval artifact also reports deterministic Wilson and fixed-seed b
 - [Evaluation design and results](projects/aec-code-compliance-rag/EVAL.md)
 - [Generated evaluation outputs](projects/aec-code-compliance-rag/demo_outputs/)
 - [Public uncertainty report](projects/aec-code-compliance-rag/demo_outputs/public_sources/retrieval_uncertainty_report.md)
+- [Evidence-target label audit](projects/aec-code-compliance-rag/demo_outputs/public_sources/target_label_report.md)
 - [Local service contract report](projects/aec-code-compliance-rag/demo_outputs/service_contract_report.md)
 - [Local reliability report](projects/aec-code-compliance-rag/demo_outputs/service_reliability_report.md)
 - [Public-source inventory and provenance](projects/aec-code-compliance-rag/public_sources/SOURCE_NOTES.md)
@@ -111,6 +114,10 @@ python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py --corpus p
 The downloader targets official BCA, URA, NEA, SCDF, LTA, PUB, and NParks sources. It rejects HTML or error payloads masquerading as PDFs and records resolved URLs plus SHA-256 fingerprints. Downloaded files remain local and are not redistributed.
 
 ![AEC RAG local Streamlit demo with source citations](docs/assets/screenshots/aec-rag-demo.png)
+
+![Document-level, exact-chunk, and source-page retrieval results](portfolio-site/assets/retrieval-granularity.svg)
+
+*A correct source document does not count as an exact evidence hit unless a candidate-authored target chunk is retrieved. The labels come from the fixed local snapshot and have not been independently reviewed.*
 
 ![Public-source retrieval point estimates and 95% fixed-case uncertainty intervals](portfolio-site/assets/retrieval-uncertainty.svg)
 

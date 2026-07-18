@@ -3,7 +3,7 @@
 ## Five-Minute Screen
 
 1. Read the root `README.md` selected-work table and claim boundaries.
-2. Open `projects/aec-code-compliance-rag/EVAL.md`, `demo_outputs/public_sources/retrieval_eval_summary.json`, `demo_outputs/service_contract_report.md`, and `demo_outputs/service_reliability_report.md`.
+2. Open `projects/aec-code-compliance-rag/EVAL.md`, `demo_outputs/public_sources/target_label_report.md`, `demo_outputs/public_sources/retrieval_eval_summary.json`, `demo_outputs/service_contract_report.md`, and `demo_outputs/service_reliability_report.md`.
 3. Open `projects/vla-embodied-agent-simulator/EVAL.md` for learned-policy holdout results.
 4. Open `projects/constraint-aware-massing-explorer/EVAL.md` and its option diagrams.
 5. Use `docs/EVIDENCE_LEDGER.md` to trace displayed values to versioned artifacts.
@@ -39,7 +39,7 @@ python projects/aec-code-compliance-rag/scripts/download_public_sources.py
 python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py --corpus public
 ```
 
-This path downloads official Singapore sources locally. It demonstrates provenance-aware ingestion and retrieval, not document-currency validation or authority approval.
+This path downloads official Singapore sources locally. It demonstrates provenance-aware ingestion and separates document, exact-chunk, and source-page retrieval. The chunk/page labels are candidate-authored; this is not document-currency validation, independent expert annotation, or authority approval.
 
 ## Evidence Hierarchy
 

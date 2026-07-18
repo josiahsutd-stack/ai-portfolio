@@ -19,11 +19,16 @@ from aec_code_compliance_rag import (  # noqa: E402
     evaluate_retrieval,
     evaluate_retrieval_modes,
     load_eval_cases,
+    validate_retrieval_eval_targets,
 )
 
 UNCERTAINTY_METRIC_LABELS = {
     "retrieval_hit_at_1": "Hit@1",
     "mean_reciprocal_rank": "Mean reciprocal rank",
+    "evidence_target_hit_at_1": "Exact evidence target Hit@1",
+    "evidence_target_mean_reciprocal_rank": "Exact evidence target MRR",
+    "page_target_hit_at_1": "Source-page target Hit@1",
+    "page_target_mean_reciprocal_rank": "Source-page target MRR",
     "citation_coverage": "Citation coverage",
     "grounding_check_rate": "Grounding check rate",
     "status_accuracy": "Status accuracy",
@@ -140,18 +145,28 @@ def _write_markdown_report(
         f"- Unsupported answer sentence rate: {summary['unsupported_sentence_rate']}",
         f"- Hit@1: {summary['retrieval_hit_at_1']}",
         f"- Hit@3: {summary['retrieval_hit_at_3']}",
+        f"- Candidate-authored exact evidence targets: {summary['evidence_target_case_count']}",
+        f"- Exact evidence target Hit@1: {summary['evidence_target_hit_at_1']}",
+        f"- Exact evidence target Hit@3: {summary['evidence_target_hit_at_3']}",
+        f"- Exact evidence target MRR: {summary['evidence_target_mean_reciprocal_rank']}",
+        f"- Page-labeled targets: {summary['page_target_case_count']}",
+        f"- Source-page target Hit@1: {summary['page_target_hit_at_1']}",
+        f"- Source-page target Hit@3: {summary['page_target_hit_at_3']}",
+        f"- Source-page target MRR: {summary['page_target_mean_reciprocal_rank']}",
         f"- No-answer accuracy: {summary['no_answer_accuracy']}",
         f"- Unsupported-scope accuracy: {summary['unsupported_scope_accuracy']}",
         "",
         "## Results By Case Type",
         "",
-        "| Case type | Cases | Answerable | Recall@k | MRR | Status accuracy |",
-        "| --- | ---: | ---: | ---: | ---: | ---: |",
+        "| Case type | Cases | Answerable | Document MRR | Exact-target n | Exact Hit@1 | Exact MRR | Status accuracy |",
+        "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
     for case_type, metrics in summary["case_type_metrics"].items():
         lines.append(
             f"| {case_type} | {metrics['case_count']} | {metrics['answerable_case_count']} | "
-            f"{metrics['recall_at_k']} | {metrics['mean_reciprocal_rank']} | "
+            f"{metrics['mean_reciprocal_rank']} | {metrics['evidence_target_case_count']} | "
+            f"{metrics['evidence_target_hit_at_1']} | "
+            f"{metrics['evidence_target_mean_reciprocal_rank']} | "
             f"{metrics['status_accuracy']} |"
         )
     lines.extend(
@@ -159,7 +174,7 @@ def _write_markdown_report(
             "",
             "## Per-Question Results",
             "",
-            "| ID | Type | Question | Expected status | Actual status | Expected section | Retrieved chunks | Recall@k | MRR | Grounding/no-answer check | Missing terms |",
+            "| ID | Type | Question | Expected status | Actual status | Retrieved chunks | Document MRR | Exact-target MRR | Page-target MRR | Grounding/no-answer check | Missing terms |",
             "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
         ]
     )
@@ -167,16 +182,16 @@ def _write_markdown_report(
         chunks = ", ".join(row["retrieved_chunk_ids"])
         missing = ", ".join(row["missing_terms"]) or "None"
         lines.append(
-            "| {case_id} | {case_type} | {question} | {expected_status} | {actual_status} | {section} | {chunks} | {recall} | {mrr} | {grounded} | {missing} |".format(
+            "| {case_id} | {case_type} | {question} | {expected_status} | {actual_status} | {chunks} | {mrr} | {target_mrr} | {page_mrr} | {grounded} | {missing} |".format(
                 case_id=row["case_id"],
                 case_type=row["case_type"],
                 question=str(row["question"]).replace("|", "\\|"),
                 expected_status=row["expected_status"],
                 actual_status=row["actual_status"],
-                section=str(row["expected_section"]).replace("|", "\\|"),
                 chunks=chunks.replace("|", "\\|"),
-                recall=row["recall_at_k"],
                 mrr=row["reciprocal_rank"],
+                target_mrr=row["evidence_target_reciprocal_rank"],
+                page_mrr=row["page_target_reciprocal_rank"],
                 grounded=row["simple_grounding_check"],
                 missing=missing.replace("|", "\\|"),
             )
@@ -194,6 +209,11 @@ def _write_failure_analysis(
         for row in payload["results"]
         if not row["status_correct"]
         or (row["expected_status"] == "answered" and row["recall_at_k"] < 1.0)
+        or (
+            row["expected_status"] == "answered"
+            and row["evidence_target_hit_at_1"] is not None
+            and not row["evidence_target_hit_at_1"]
+        )
         or not row["citation_check_passed"]
         or row["missing_terms"]
     ]
@@ -221,6 +241,9 @@ def _write_failure_analysis(
                 f"- Actual status: {row['actual_status']}",
                 f"- Expected source: {row['expected_source']}",
                 f"- Retrieved sources: {', '.join(row['retrieved_sources']) or 'None'}",
+                f"- Expected evidence chunks: {', '.join(row['expected_chunk_ids']) or 'Not labeled'}",
+                f"- Exact evidence target MRR: {row['evidence_target_reciprocal_rank']}",
+                f"- Source-page target MRR: {row['page_target_reciprocal_rank']}",
                 f"- Missing terms: {', '.join(row['missing_terms']) or 'None'}",
                 f"- Citation check passed: {row['citation_check_passed']}",
                 "",
@@ -234,6 +257,9 @@ def _write_failure_analysis(
 def _write_ablation_report(
     payload: dict[str, object], output_path: Path, *, corpus_label: str
 ) -> None:
+    target_labeled = any(
+        row["evidence_target_hit_at_1"] is not None for row in payload["ranked_modes"]
+    )
     lines = [
         "# Retrieval Mode Ablation",
         "",
@@ -242,20 +268,46 @@ def _write_ablation_report(
         f"Corpus SHA-256: `{payload['provenance']['corpus_sha256']}`",
         f"Eval-set SHA-256: `{payload['provenance']['eval_set_sha256']}`",
         "",
-        "| Mode | Recall@k | MRR | Hit@3 | Citation coverage | Status accuracy |",
-        "| --- | --- | --- | --- | --- | --- |",
     ]
-    for row in payload["ranked_modes"]:
-        lines.append(
-            "| {mode} | {recall} | {mrr} | {hit3} | {coverage} | {status} |".format(
-                mode=row["mode"],
-                recall=row["recall_at_k"],
-                mrr=row["mean_reciprocal_rank"],
-                hit3=row["retrieval_hit_at_3"],
-                coverage=row["citation_coverage"],
-                status=row["status_accuracy"],
-            )
+    if target_labeled:
+        lines.extend(
+            [
+                "| Mode | Document Hit@1 | Document MRR | Exact Hit@1 | Exact MRR | Page Hit@1 | Page MRR | Status accuracy |",
+                "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+            ]
         )
+    else:
+        lines.extend(
+            [
+                "| Mode | Recall@k | MRR | Hit@3 | Citation coverage | Status accuracy |",
+                "| --- | --- | --- | --- | --- | --- |",
+            ]
+        )
+    for row in payload["ranked_modes"]:
+        if target_labeled:
+            lines.append(
+                "| {mode} | {document_hit1} | {document_mrr} | {exact_hit1} | {exact_mrr} | {page_hit1} | {page_mrr} | {status} |".format(
+                    mode=row["mode"],
+                    document_hit1=row["retrieval_hit_at_1"],
+                    document_mrr=row["mean_reciprocal_rank"],
+                    exact_hit1=row["evidence_target_hit_at_1"],
+                    exact_mrr=row["evidence_target_mean_reciprocal_rank"],
+                    page_hit1=row["page_target_hit_at_1"],
+                    page_mrr=row["page_target_mean_reciprocal_rank"],
+                    status=row["status_accuracy"],
+                )
+            )
+        else:
+            lines.append(
+                "| {mode} | {recall} | {mrr} | {hit3} | {coverage} | {status} |".format(
+                    mode=row["mode"],
+                    recall=row["recall_at_k"],
+                    mrr=row["mean_reciprocal_rank"],
+                    hit3=row["retrieval_hit_at_3"],
+                    coverage=row["citation_coverage"],
+                    status=row["status_accuracy"],
+                )
+            )
     lines.extend(
         [
             "",
@@ -391,13 +443,22 @@ def _write_uncertainty_svg(
     plot_left = 330
     plot_right = 900
     plot_width = plot_right - plot_left
-    metric_names = [
-        "retrieval_hit_at_1",
-        "mean_reciprocal_rank",
-        "citation_coverage",
-        "grounding_check_rate",
-        "status_accuracy",
-    ]
+    if "evidence_target_hit_at_1" in payload["metrics"]:
+        metric_names = [
+            "retrieval_hit_at_1",
+            "evidence_target_hit_at_1",
+            "page_target_hit_at_1",
+            "mean_reciprocal_rank",
+            "evidence_target_mean_reciprocal_rank",
+        ]
+    else:
+        metric_names = [
+            "retrieval_hit_at_1",
+            "mean_reciprocal_rank",
+            "citation_coverage",
+            "grounding_check_rate",
+            "status_accuracy",
+        ]
     support = payload["support"]
     elements = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img" aria-labelledby="title desc">',
@@ -406,7 +467,7 @@ def _write_uncertainty_svg(
         '<rect width="1200" height="760" fill="#fbfcfe"/>',
         '<rect x="28" y="28" width="1144" height="704" rx="8" fill="#ffffff" stroke="#d8dee8"/>',
         '<text x="72" y="88" fill="#12233f" font-family="Arial, sans-serif" font-size="30" font-weight="700">AEC retrieval uncertainty</text>',
-        f'<text x="72" y="120" fill="#536174" font-family="Arial, sans-serif" font-size="16">{escape(corpus_label)} fixed snapshot • {support["all_cases"]} authored cases • {support["answerable_cases"]} answerable • 95% intervals</text>',
+        f'<text x="72" y="120" fill="#536174" font-family="Arial, sans-serif" font-size="16">{escape(corpus_label)} fixed snapshot | {support["all_cases"]} authored cases | {support["answerable_cases"]} answerable | 95% intervals</text>',
         '<text x="72" y="157" fill="#0d6f69" font-family="Arial, sans-serif" font-size="14" font-weight="700">CASE-RESAMPLING UNCERTAINTY, NOT EXTERNAL VALIDITY</text>',
     ]
     for tick in range(0, 11, 2):
@@ -459,6 +520,201 @@ def _write_uncertainty_svg(
     elements.extend(
         [
             '<text x="72" y="708" fill="#68768a" font-family="Arial, sans-serif" font-size="13">Intervals reflect resampling of this authored case set only; they do not measure expert agreement, source currency, or real-world accuracy.</text>',
+            "</svg>",
+        ]
+    )
+    output_path.write_text("\n".join(elements) + "\n", encoding="utf-8")
+
+
+def _first_target_rank(row: dict[str, object], target_field: str) -> int | None:
+    targets = set(row[target_field])
+    if target_field == "expected_chunk_ids":
+        values = row["retrieved_chunk_ids"]
+    else:
+        expected_source = row["expected_source"]
+        values = [
+            page if source == expected_source else None
+            for source, page in zip(row["retrieved_sources"], row["retrieved_pages"], strict=True)
+        ]
+    return next(
+        (index for index, value in enumerate(values, start=1) if value in targets),
+        None,
+    )
+
+
+def _target_label_audit_payload(
+    payload: dict[str, object], validation: dict[str, object]
+) -> dict[str, object]:
+    cases = []
+    for row in payload["results"]:
+        if not row["expected_chunk_ids"]:
+            continue
+        source_rank = next(
+            (
+                index
+                for index, source in enumerate(row["retrieved_sources"], start=1)
+                if source == row["expected_source"]
+            ),
+            None,
+        )
+        cases.append(
+            {
+                "case_id": row["case_id"],
+                "case_type": row["case_type"],
+                "expected_source": row["expected_source"],
+                "expected_pages": row["expected_pages"],
+                "expected_chunk_ids": row["expected_chunk_ids"],
+                "label_source": row["label_source"],
+                "document_rank": source_rank,
+                "evidence_target_rank": _first_target_rank(row, "expected_chunk_ids"),
+                "page_target_rank": (
+                    _first_target_rank(row, "expected_pages") if row["expected_pages"] else None
+                ),
+            }
+        )
+    return {
+        "artifact_schema_version": "1.0",
+        "label_boundary": (
+            "Targets were authored by the portfolio candidate from the fixed local public-source "
+            "snapshot. They are not independent expert labels, official clause annotations, or "
+            "evidence of regulatory validation."
+        ),
+        "validation": validation,
+        "cases": cases,
+    }
+
+
+def _write_target_label_report(payload: dict[str, object], output_path: Path) -> None:
+    validation = payload["validation"]
+    lines = [
+        "# Evidence Target Label Audit",
+        "",
+        str(payload["label_boundary"]),
+        "",
+        "## Validation Summary",
+        "",
+        f"- Evaluation cases: {validation['case_count']}",
+        f"- Answerable cases: {validation['answerable_case_count']}",
+        f"- Answerable cases with exact targets: {validation['labeled_answerable_case_count']}",
+        f"- Answerable target coverage: {validation['answerable_target_coverage']}",
+        f"- Page-labeled answerable cases: {validation['page_labeled_answerable_case_count']}",
+        f"- Target chunks: {validation['target_chunk_count']}",
+        "",
+        "## Per-Case Audit",
+        "",
+        "| ID | Type | Expected source | Pages | Exact target chunks | Document rank | Exact rank | Page rank |",
+        "| --- | --- | --- | --- | --- | ---: | ---: | ---: |",
+    ]
+    for row in payload["cases"]:
+        pages = ", ".join(str(page) for page in row["expected_pages"]) or "Not page-labeled"
+        chunks = ", ".join(row["expected_chunk_ids"])
+        exact_rank = row["evidence_target_rank"] or "Not in top 4"
+        page_rank = (
+            row["page_target_rank"] or "Not in top 4"
+            if row["expected_pages"]
+            else "Not page-labeled"
+        )
+        lines.append(
+            f"| {row['case_id']} | {row['case_type']} | {row['expected_source']} | "
+            f"{pages} | {chunks} | {row['document_rank']} | {exact_rank} | {page_rank} |"
+        )
+    lines.extend(
+        [
+            "",
+            "## Interpretation",
+            "",
+            "Document rank measures source discovery. Exact rank requires one of the labeled supporting chunks. Page rank requires the expected source and labeled page. A correct document with the wrong passage is therefore not counted as an exact-target success.",
+        ]
+    )
+    output_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def _write_granularity_svg(
+    payload: dict[str, object], output_path: Path, *, corpus_label: str
+) -> None:
+    summary = payload["summary"]
+    rows = [
+        (
+            "Document source",
+            summary["answerable_case_count"],
+            summary["retrieval_hit_at_1"],
+            summary["retrieval_hit_at_3"],
+            summary["mean_reciprocal_rank"],
+            "Finds any chunk from the expected document",
+        ),
+        (
+            "Exact evidence chunk",
+            summary["evidence_target_case_count"],
+            summary["evidence_target_hit_at_1"],
+            summary["evidence_target_hit_at_3"],
+            summary["evidence_target_mean_reciprocal_rank"],
+            "Requires a candidate-authored supporting chunk",
+        ),
+        (
+            "Source + target page",
+            summary["page_target_case_count"],
+            summary["page_target_hit_at_1"],
+            summary["page_target_hit_at_3"],
+            summary["page_target_mean_reciprocal_rank"],
+            "Requires the expected source and labeled page",
+        ),
+    ]
+    width = 1200
+    height = 720
+    plot_left = 345
+    plot_width = 660
+    colors = {"Hit@1": "#0d7f78", "Hit@3": "#d65f4a", "MRR": "#214a79"}
+    elements = [
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img" aria-labelledby="title desc">',
+        '<title id="title">AEC retrieval granularity comparison</title>',
+        '<desc id="desc">Document, exact chunk, and source-page retrieval metrics on a fixed candidate-authored public-source evaluation.</desc>',
+        '<rect width="1200" height="720" fill="#fbfcfe"/>',
+        '<rect x="28" y="28" width="1144" height="664" rx="8" fill="#ffffff" stroke="#d8dee8"/>',
+        '<text x="72" y="86" fill="#12233f" font-family="Arial, sans-serif" font-size="30" font-weight="700">Document match is not evidence match</text>',
+        f'<text x="72" y="118" fill="#536174" font-family="Arial, sans-serif" font-size="16">{escape(corpus_label)} fixed snapshot; candidate-authored evidence targets</text>',
+        '<text x="72" y="151" fill="#0d6f69" font-family="Arial, sans-serif" font-size="14" font-weight="700">THREE RETRIEVAL GRANULARITIES, REPORTED SEPARATELY</text>',
+    ]
+    legend_x = 720
+    for index, (label, color) in enumerate(colors.items()):
+        x = legend_x + index * 125
+        elements.extend(
+            [
+                f'<circle cx="{x}" cy="150" r="6" fill="{color}"/>',
+                f'<text x="{x + 12}" y="155" fill="#536174" font-family="Arial, sans-serif" font-size="13">{label}</text>',
+            ]
+        )
+    for tick in range(0, 11, 2):
+        value = tick / 10
+        x = plot_left + plot_width * value
+        elements.extend(
+            [
+                f'<line x1="{x:.1f}" y1="190" x2="{x:.1f}" y2="570" stroke="#e7ebf1"/>',
+                f'<text x="{x:.1f}" y="592" text-anchor="middle" fill="#68768a" font-family="Arial, sans-serif" font-size="13">{value:.1f}</text>',
+            ]
+        )
+    for row_index, (label, count, hit1, hit3, mrr, note) in enumerate(rows):
+        base_y = 250 + row_index * 125
+        elements.extend(
+            [
+                f'<text x="72" y="{base_y - 15}" fill="#24344d" font-family="Arial, sans-serif" font-size="18" font-weight="700">{escape(label)}</text>',
+                f'<text x="72" y="{base_y + 8}" fill="#68768a" font-family="Arial, sans-serif" font-size="13">n={count} - {escape(note)}</text>',
+            ]
+        )
+        for metric_index, (metric, value) in enumerate(
+            [("Hit@1", hit1), ("Hit@3", hit3), ("MRR", mrr)]
+        ):
+            y = base_y - 22 + metric_index * 27
+            bar_width = plot_width * float(value)
+            elements.extend(
+                [
+                    f'<rect x="{plot_left}" y="{y}" width="{bar_width:.1f}" height="12" rx="3" fill="{colors[metric]}"/>',
+                    f'<text x="{plot_left + bar_width + 10:.1f}" y="{y + 11}" fill="#24344d" font-family="Arial, sans-serif" font-size="13" font-weight="700">{float(value):.3f}</text>',
+                ]
+            )
+    elements.extend(
+        [
+            '<rect x="72" y="620" width="1056" height="44" rx="5" fill="#f3f6f9" stroke="#d8dee8"/>',
+            '<text x="94" y="647" fill="#536174" font-family="Arial, sans-serif" font-size="14">Targets are candidate-authored from the fixed snapshot, not independent expert labels or regulatory validation.</text>',
             "</svg>",
         ]
     )
@@ -615,6 +871,11 @@ def main() -> None:
 
     assistant = build_assistant_from_paths(docs, manifest_path=manifest_path)
     cases = load_eval_cases(eval_path)
+    target_validation = validate_retrieval_eval_targets(
+        cases,
+        assistant.chunks,
+        require_answerable_targets=args.corpus == "public",
+    )
     provenance = _evaluation_provenance(
         corpus=args.corpus,
         corpus_label=corpus_label,
@@ -632,8 +893,9 @@ def main() -> None:
     )
     uncertainty_payload = build_retrieval_uncertainty(payload, ablation_payload)
     stable_payload = {
-        "artifact_schema_version": "2.0",
+        "artifact_schema_version": "3.0",
         "provenance": provenance,
+        "target_validation": target_validation,
         **_stable_review_payload(payload),
     }
     artifact_ablation_payload = copy.deepcopy(ablation_payload)
@@ -667,6 +929,7 @@ def main() -> None:
             {
                 "artifact_schema_version": "2.0",
                 "provenance": provenance,
+                "target_validation": target_validation,
                 "summary": stable_payload["summary"],
                 "ranked_modes": stable_ablation_payload["ranked_modes"],
                 "uncertainty_metrics": stable_uncertainty_payload["metrics"],
@@ -707,6 +970,31 @@ def main() -> None:
         corpus_label=corpus_label,
     )
     if args.corpus == "public":
+        target_audit_payload = _target_label_audit_payload(
+            stable_payload,
+            target_validation,
+        )
+        (output_dir / "target_label_audit.json").write_text(
+            json.dumps(target_audit_payload, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        _write_target_label_report(
+            target_audit_payload,
+            output_dir / "target_label_report.md",
+        )
+        granularity_svg_path = output_dir / "retrieval_granularity_comparison.svg"
+        _write_granularity_svg(
+            stable_payload,
+            granularity_svg_path,
+            corpus_label=corpus_label,
+        )
+        site_granularity_path = (
+            REPO_ROOT / "portfolio-site" / "assets" / "retrieval-granularity.svg"
+        )
+        site_granularity_path.write_text(
+            granularity_svg_path.read_text(encoding="utf-8"),
+            encoding="utf-8",
+        )
         answer_question = (
             "What does the BCA Code on Accessibility 2025 set out for accessible "
             "and inclusive buildings?"

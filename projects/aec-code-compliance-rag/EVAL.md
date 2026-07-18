@@ -116,8 +116,25 @@ The committed snapshot was generated on 18 July 2026 after 15 official-source pa
 | Citation coverage | `0.968` |
 | Grounding check rate | `0.905` |
 | No-answer accuracy | `1.000` |
+| Exact evidence target Hit@1 | `0.810` |
+| Exact evidence target Hit@3 | `0.952` |
+| Exact evidence target MRR | `0.881` |
+| Source-page target Hit@1 | `0.778` |
+| Source-page target MRR | `0.861` |
 
 The correct source appears within the top four for every answerable case, but this does not mean every retrieved chunk contains every expected phrase. Two paraphrase cases miss one expected phrase at top four and are retained in the versioned failure analysis.
+
+### Retrieval Granularity
+
+The document metric counts any chunk from the expected source. The exact-target metric requires one of the candidate-authored supporting chunks. The page metric requires the expected source and one of the labeled pages. All 21 answerable cases have exact targets; 18 also have page targets.
+
+| Granularity | n | Hit@1 | Hit@3 | MRR |
+| --- | ---: | ---: | ---: | ---: |
+| Expected document | 21 | `0.952` | `1.000` | `0.976` |
+| Candidate-authored exact chunk | 21 | `0.810` | `0.952` | `0.881` |
+| Expected source and page | 18 | `0.778` | `0.944` | `0.861` |
+
+The gap is retained as negative evidence: finding the correct publication is easier than locating the labeled supporting passage. [`target_label_report.md`](demo_outputs/public_sources/target_label_report.md) records target IDs, pages, and current ranks. [`target_label_audit.json`](demo_outputs/public_sources/target_label_audit.json) is the machine-readable equivalent. The labels are not independent expert annotations or regulatory validation.
 
 ## Fixed-Case Uncertainty
 
@@ -127,12 +144,18 @@ The evaluator reports 95% Wilson intervals for binary case outcomes, fixed-seed 
 | --- | ---: | ---: | ---: | --- |
 | Hybrid Hit@1 | `0.952` | `[0.773, 0.992]` | `21` answerable cases | Wilson score |
 | Hybrid MRR | `0.976` | `[0.929, 1.000]` | `21` answerable cases | Percentile bootstrap |
+| Exact evidence target Hit@1 | `0.810` | `[0.600, 0.923]` | `21` candidate-authored targets | Wilson score |
+| Exact evidence target MRR | `0.881` | `[0.762, 0.976]` | `21` candidate-authored targets | Percentile bootstrap |
+| Source-page target Hit@1 | `0.778` | `[0.548, 0.910]` | `18` page-labeled cases | Wilson score |
+| Source-page target MRR | `0.861` | `[0.722, 0.972]` | `18` page-labeled cases | Percentile bootstrap |
 | Citation coverage | `0.968` | `[0.921, 1.000]` | `21` answerable cases | Percentile bootstrap |
 | Grounding check | `0.905` | `[0.711, 0.973]` | `21` answerable cases | Wilson score |
 | No-answer accuracy | `1.000` | `[0.342, 1.000]` | `2` no-evidence cases | Wilson score |
 | Review/unsupported routing | `1.000` | `[0.207, 1.000]` | `1` case | Wilson score |
 
 Hybrid versus BM25 MRR delta is `0.012` with a 95% paired interval of `[0.000, 0.036]`; `inconclusive_interval_includes_zero`. Their Hit@1 and citation coverage are identical on all 21 answerable cases. Hybrid has a positive fixed-set MRR delta over TF-IDF, but that comparison still describes only this authored snapshot.
+
+Exact-target uncertainty: Hit@1 `0.810` has a 95% interval of `[0.600, 0.923]`, and exact-target MRR `0.881` has a 95% interval of `[0.762, 0.976]` across `21` candidate-authored targets.
 
 The intervals quantify sensitivity to resampling these fixed authored cases. They do not measure independent-label quality, expert agreement, corpus currency, project applicability, or performance on future questions. The perfect 2/2 no-answer point estimate is therefore reported with its wide interval, not presented as certainty.
 
@@ -187,6 +210,7 @@ Optional modes `semantic` and `hybrid_cross_encoder` are exposed in the app and 
 - Whether no-answer, unsupported-scope, prompt-injection, and professional-review questions avoid invented compliance requirements.
 - Whether Singapore public-source retrieval can find authority-specific documents across BCA, URA, NEA, SCDF, LTA, PUB, and NParks without committing the downloaded PDFs to Git.
 - Whether paraphrased public-source questions still rank the expected document early.
+- Whether a correct document result also contains a candidate-authored target chunk/page, reported as a separate metric.
 - Whether project-specific questions abstain when only generic public references are available.
 - Whether committed results match a fingerprinted source inventory, corpus, and eval set.
 
@@ -195,6 +219,7 @@ Optional modes `semantic` and `hybrid_cross_encoder` are exposed in the app and 
 - Questions that require a real jurisdiction, code year, or amendment cannot be answered from the synthetic corpus.
 - The public-source corpus uses official public downloads, but it does not verify amendments, authority interpretations, project-specific applicability, or professional sign-off.
 - The public eval has only 24 authored cases and no independent domain-expert labels.
+- Exact-target Hit@1 is `0.810`, below document Hit@1 `0.952`; the 21 chunk targets and 18 page targets are candidate-authored.
 - Hit@1, grounding, no-answer, and review-routing intervals are wide at the current support sizes.
 - Two current paraphrase cases retrieve the expected source but miss one expected phrase in the top-four chunks.
 - TF-IDF can miss semantically related wording if key terms are absent from the query.
@@ -204,7 +229,7 @@ Optional modes `semantic` and `hybrid_cross_encoder` are exposed in the app and 
 
 ## Better Evaluation Next
 
-- Add independently reviewed clause/page targets and multi-document cases where precision matters.
+- Have the current target labels reviewed independently, record annotator disagreement, and add multi-document cases where precision matters.
 - Add citation-faithfulness checks from answer sentence to supporting chunk.
 - Add Singapore amendment-refresh and superseded-document tests.
 - Compare optional embedding and cross-encoder modes on the same fingerprinted public snapshot.

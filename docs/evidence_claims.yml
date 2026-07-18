@@ -13,6 +13,8 @@ claims:
     metrics:
       case_count:
         json_path: summary.case_count
+      answerable_case_count:
+        json_path: summary.answerable_case_count
       retrieval_k:
         json_path: summary.k
       recall_at_4:
@@ -66,14 +68,35 @@ claims:
       no_answer:
         json_path: summary.no_answer_accuracy
         decimals: 3
-    result_template: "Hit@1 {hit_at_1}; MRR {mrr}; paraphrase MRR {paraphrase_mrr}; no-answer {no_answer}; {case_count} cases"
+      evidence_target_case_count:
+        json_path: summary.evidence_target_case_count
+      exact_hit_at_1:
+        json_path: summary.evidence_target_hit_at_1
+        decimals: 3
+      exact_hit_at_3:
+        json_path: summary.evidence_target_hit_at_3
+        decimals: 3
+      exact_mrr:
+        json_path: summary.evidence_target_mean_reciprocal_rank
+        decimals: 3
+      page_target_case_count:
+        json_path: summary.page_target_case_count
+      page_hit_at_1:
+        json_path: summary.page_target_hit_at_1
+        decimals: 3
+      page_mrr:
+        json_path: summary.page_target_mean_reciprocal_rank
+        decimals: 3
+    result_template: "Document Hit@1 {hit_at_1}, MRR {mrr}; exact-target Hit@1 {exact_hit_at_1}, MRR {exact_mrr}; page-target Hit@1 {page_hit_at_1}, MRR {page_mrr}; {case_count} cases"
     public_surfaces:
       - path: README.md
         contains:
           - "Public {case_count}-case snapshot over {document_count} validated documents: `Hit@1 {hit_at_1}`, `MRR {mrr}`, paraphrase `MRR {paraphrase_mrr}`, and no-answer accuracy `{no_answer}`."
+          - "Candidate-authored exact-target check: Hit@1 `{exact_hit_at_1}`, Hit@3 `{exact_hit_at_3}`, and MRR `{exact_mrr}` across `{evidence_target_case_count}` labeled answerable cases; source-page Hit@1 `{page_hit_at_1}` and MRR `{page_mrr}` across `{page_target_case_count}` page-labeled cases."
       - path: projects/aec-code-compliance-rag/README.md
         contains:
           - "| Singapore public-source snapshot | {case_count} cases over {document_count} downloaded documents | Hit@1 `{hit_at_1}`; MRR `{mrr}`; paraphrase MRR `{paraphrase_mrr}`; no-answer `{no_answer}` |"
+          - "Candidate-authored exact-target check: Hit@1 `{exact_hit_at_1}`, Hit@3 `{exact_hit_at_3}`, and MRR `{exact_mrr}` across `{evidence_target_case_count}` labeled answerable cases; source-page Hit@1 `{page_hit_at_1}` and MRR `{page_mrr}` across `{page_target_case_count}` page-labeled cases."
       - path: projects/aec-code-compliance-rag/EVAL.md
         contains:
           - "| Documents | `{document_count}` |"
@@ -82,10 +105,17 @@ claims:
           - "| Hybrid MRR | `{mrr}` |"
           - "| Paraphrase MRR | `{paraphrase_mrr}` |"
           - "| No-answer accuracy | `{no_answer}` |"
+          - "| Exact evidence target Hit@1 | `{exact_hit_at_1}` |"
+          - "| Exact evidence target Hit@3 | `{exact_hit_at_3}` |"
+          - "| Exact evidence target MRR | `{exact_mrr}` |"
+          - "| Source-page target Hit@1 | `{page_hit_at_1}` |"
+          - "| Source-page target MRR | `{page_mrr}` |"
       - path: portfolio-site/index.html
         contains:
           - "Public Hit@1 {hit_at_1} / MRR {mrr}"
           - "Public {case_count}-case snapshot over {document_count} local documents"
+          - "Exact evidence Hit@1 {exact_hit_at_1} / MRR {exact_mrr} on {evidence_target_case_count} candidate-authored targets"
+          - "Source-page Hit@1 {page_hit_at_1} / MRR {page_mrr} on {page_target_case_count} page-labeled cases"
 
   - id: aec-public-source-uncertainty
     project_slug: aec-code-compliance-rag
@@ -117,6 +147,35 @@ claims:
       mrr_upper:
         json_path: metrics.mean_reciprocal_rank.upper
         decimals: 3
+      exact_hit_at_1:
+        json_path: metrics.evidence_target_hit_at_1.point_estimate
+        decimals: 3
+      exact_hit_lower:
+        json_path: metrics.evidence_target_hit_at_1.lower
+        decimals: 3
+      exact_hit_upper:
+        json_path: metrics.evidence_target_hit_at_1.upper
+        decimals: 3
+      exact_mrr:
+        json_path: metrics.evidence_target_mean_reciprocal_rank.point_estimate
+        decimals: 3
+      exact_mrr_lower:
+        json_path: metrics.evidence_target_mean_reciprocal_rank.lower
+        decimals: 3
+      exact_mrr_upper:
+        json_path: metrics.evidence_target_mean_reciprocal_rank.upper
+        decimals: 3
+      page_target_case_count:
+        json_path: support.page_target_cases
+      page_hit_at_1:
+        json_path: metrics.page_target_hit_at_1.point_estimate
+        decimals: 3
+      page_hit_lower:
+        json_path: metrics.page_target_hit_at_1.lower
+        decimals: 3
+      page_hit_upper:
+        json_path: metrics.page_target_hit_at_1.upper
+        decimals: 3
       no_answer:
         json_path: metrics.no_answer_accuracy.point_estimate
         decimals: 3
@@ -137,26 +196,31 @@ claims:
         decimals: 3
       bm25_conclusion:
         json_path: paired_mode_comparisons_by_baseline.bm25.metrics.mean_reciprocal_rank.conclusion
-    result_template: "Hit@1 {hit_at_1} [{hit_lower}, {hit_upper}], n={answerable_case_count}; MRR {mrr} [{mrr_lower}, {mrr_upper}]; no-answer {no_answer} [{no_answer_lower}, {no_answer_upper}], n={no_answer_case_count}; hybrid-vs-BM25 MRR delta {bm25_mrr_delta} [{bm25_mrr_lower}, {bm25_mrr_upper}], {bm25_conclusion}"
+    result_template: "Document Hit@1 {hit_at_1} [{hit_lower}, {hit_upper}]; exact-target Hit@1 {exact_hit_at_1} [{exact_hit_lower}, {exact_hit_upper}], MRR {exact_mrr} [{exact_mrr_lower}, {exact_mrr_upper}]; no-answer {no_answer} [{no_answer_lower}, {no_answer_upper}]; hybrid-vs-BM25 MRR delta {bm25_mrr_delta} [{bm25_mrr_lower}, {bm25_mrr_upper}], {bm25_conclusion}"
     public_surfaces:
       - path: README.md
         contains:
           - "Uncertainty check: public Hit@1 `{hit_at_1}` has a 95% Wilson interval of `[{hit_lower}, {hit_upper}]` over `{answerable_case_count}` answerable cases; MRR `{mrr}` has a 95% bootstrap interval of `[{mrr_lower}, {mrr_upper}]`; no-answer `{no_answer}` is `{no_answer_case_count}/{no_answer_case_count}` with a Wilson interval of `[{no_answer_lower}, {no_answer_upper}]`."
           - "Hybrid versus BM25 MRR delta is `{bm25_mrr_delta}` with a 95% paired interval of `[{bm25_mrr_lower}, {bm25_mrr_upper}]`; the interval includes zero, so mode superiority is inconclusive on this authored set."
+          - "Exact-target uncertainty: Hit@1 `{exact_hit_at_1}` has a 95% interval of `[{exact_hit_lower}, {exact_hit_upper}]`, and exact-target MRR `{exact_mrr}` has a 95% interval of `[{exact_mrr_lower}, {exact_mrr_upper}]` across `{answerable_case_count}` candidate-authored targets."
       - path: projects/aec-code-compliance-rag/README.md
         contains:
           - "Uncertainty check: public Hit@1 `{hit_at_1}` has a 95% Wilson interval of `[{hit_lower}, {hit_upper}]` over `{answerable_case_count}` answerable cases; MRR `{mrr}` has a 95% bootstrap interval of `[{mrr_lower}, {mrr_upper}]`; no-answer `{no_answer}` is `{no_answer_case_count}/{no_answer_case_count}` with a Wilson interval of `[{no_answer_lower}, {no_answer_upper}]`."
           - "Hybrid versus BM25 MRR delta is `{bm25_mrr_delta}` with a 95% paired interval of `[{bm25_mrr_lower}, {bm25_mrr_upper}]`; `{bm25_conclusion}`."
+          - "Exact-target uncertainty: Hit@1 `{exact_hit_at_1}` has a 95% interval of `[{exact_hit_lower}, {exact_hit_upper}]`, and exact-target MRR `{exact_mrr}` has a 95% interval of `[{exact_mrr_lower}, {exact_mrr_upper}]` across `{answerable_case_count}` candidate-authored targets."
       - path: projects/aec-code-compliance-rag/EVAL.md
         contains:
           - "| Hybrid Hit@1 | `{hit_at_1}` | `[{hit_lower}, {hit_upper}]` | `{answerable_case_count}` answerable cases | Wilson score |"
           - "| Hybrid MRR | `{mrr}` | `[{mrr_lower}, {mrr_upper}]` | `{answerable_case_count}` answerable cases | Percentile bootstrap |"
           - "| No-answer accuracy | `{no_answer}` | `[{no_answer_lower}, {no_answer_upper}]` | `{no_answer_case_count}` no-evidence cases | Wilson score |"
+          - "| Exact evidence target Hit@1 | `{exact_hit_at_1}` | `[{exact_hit_lower}, {exact_hit_upper}]` | `{answerable_case_count}` candidate-authored targets | Wilson score |"
+          - "| Exact evidence target MRR | `{exact_mrr}` | `[{exact_mrr_lower}, {exact_mrr_upper}]` | `{answerable_case_count}` candidate-authored targets | Percentile bootstrap |"
           - "Hybrid versus BM25 MRR delta is `{bm25_mrr_delta}` with a 95% paired interval of `[{bm25_mrr_lower}, {bm25_mrr_upper}]`; `{bm25_conclusion}`."
       - path: portfolio-site/index.html
         contains:
           - "95% intervals: Hit@1 [{hit_lower}, {hit_upper}], n={answerable_case_count}; MRR [{mrr_lower}, {mrr_upper}]."
           - "Public Hit@1 {hit_at_1} has a 95% Wilson interval of [{hit_lower}, {hit_upper}] over {answerable_case_count} answerable cases; MRR {mrr} has a 95% bootstrap interval of [{mrr_lower}, {mrr_upper}]. No-answer {no_answer} is {no_answer_case_count}/{no_answer_case_count} with a Wilson interval of [{no_answer_lower}, {no_answer_upper}]."
+          - "Exact-target uncertainty: Hit@1 {exact_hit_at_1} [{exact_hit_lower}, {exact_hit_upper}] and MRR {exact_mrr} [{exact_mrr_lower}, {exact_mrr_upper}] across {answerable_case_count} candidate-authored targets."
 
   - id: aec-local-service-contract
     project_slug: aec-code-compliance-rag

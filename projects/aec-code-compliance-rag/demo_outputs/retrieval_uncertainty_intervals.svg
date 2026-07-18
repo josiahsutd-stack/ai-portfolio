@@ -4,7 +4,7 @@
 <rect width="1200" height="760" fill="#fbfcfe"/>
 <rect x="28" y="28" width="1144" height="704" rx="8" fill="#ffffff" stroke="#d8dee8"/>
 <text x="72" y="88" fill="#12233f" font-family="Arial, sans-serif" font-size="30" font-weight="700">AEC retrieval uncertainty</text>
-<text x="72" y="120" fill="#536174" font-family="Arial, sans-serif" font-size="16">Synthetic demo fixed snapshot • 51 authored cases • 41 answerable • 95% intervals</text>
+<text x="72" y="120" fill="#536174" font-family="Arial, sans-serif" font-size="16">Synthetic demo fixed snapshot | 51 authored cases | 41 answerable | 95% intervals</text>
 <text x="72" y="157" fill="#0d6f69" font-family="Arial, sans-serif" font-size="14" font-weight="700">CASE-RESAMPLING UNCERTAINTY, NOT EXTERNAL VALIDITY</text>
 <line x1="330.0" y1="188" x2="330.0" y2="510" stroke="#e7ebf1"/>
 <text x="330.0" y="532" text-anchor="middle" fill="#68768a" font-family="Arial, sans-serif" font-size="13">0.0</text>
