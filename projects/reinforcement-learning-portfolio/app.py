@@ -18,7 +18,7 @@ from reinforcement_learning_portfolio import (
 )
 
 st.set_page_config(page_title="RL Portfolio", page_icon="AI", layout="wide")
-st.title("Reinforcement Learning Portfolio")
+st.title("Sequential Decision Simulation Baselines")
 choice = st.selectbox("Environment", ["Warehouse Inventory Control", "Dynamic Pricing"])
 env = WarehouseInventoryEnv() if choice.startswith("Warehouse") else DynamicPricingEnv()
 policy = heuristic_inventory_policy if choice.startswith("Warehouse") else random_policy

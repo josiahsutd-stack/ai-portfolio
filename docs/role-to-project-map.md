@@ -4,14 +4,14 @@ The AEC RAG project is the sole flagship. Other projects are selected below by r
 
 | Target role | Primary evidence | Supporting evidence | Important boundary |
 | --- | --- | --- | --- |
-| Applied AI Engineer | AEC Code Compliance RAG | Real Model Fine-Tune Lab, Agentic Research Ops | Local prototypes without customer or production evidence. |
-| LLM / Agent Engineer | AEC Code Compliance RAG | Agentic Research Ops, LLM Evals and Guardrails | Deterministic local providers and retrieval; no autonomous web agent. |
-| Embodied AI / Robotics Engineer | Construction Embodied Agent Simulator | Construction Robot Task Planner, Site Robot Safety Monitor | Real behavior cloning in grid simulation; no foundation VLA, perception, ROS, or hardware. |
-| ML Engineer | Real Model Fine-Tune Lab | MLOps Serving and Monitoring, Energy ML | Small classical models and synthetic/domain-demo datasets. |
-| MLOps Engineer | MLOps Serving and Monitoring | Real Model Fine-Tune Lab, Time-Series Forecasting | Local SQLite/artifact scaffolds, not a deployed ML platform. |
+| Applied AI Engineer | AEC Code Compliance RAG | Local Text Classification Lab, Deterministic Research Workflow | Local prototypes without customer or production evidence. |
+| LLM / Tool-Workflow Engineer | AEC Code Compliance RAG | Deterministic Research Workflow, Prompt and Output Validation Checks | Rule-based default planning and local retrieval; no autonomous web agent. |
+| Embodied AI / Robotics Engineer | Construction Embodied Agent Simulator | Construction Grid Route Planner, Robot Telemetry Safety Rule Monitor | Behavior cloning in grid simulation; no foundation VLA, perception, ROS, or hardware. |
+| ML Engineer | Local Text Classification Lab | Local Model Serving and Monitoring, Energy ML | Small classical models and synthetic/domain-demo datasets. |
+| MLOps Engineer | Local Model Serving and Monitoring | Local Text Classification Lab, Time-Series Baselines | Local SQLite/artifact scaffolds, not a deployed ML platform. |
 | AEC Technology Engineer | AEC Code Compliance RAG | BIM Issue Detection, Building Energy ML | Document assistance and synthetic workflows, not professional sign-off. |
-| Multimodal / CV Engineer | Multimodal VLM Visual QA | Vision Threshold Baseline, Construction Progress CV | Interface contracts and classical baselines; no trained deep vision model. |
-| Data Scientist | Real Model Fine-Tune Lab | Time-Series Forecasting, Recommender Ranking | Compact datasets and baseline-focused evaluations. |
+| Multimodal / CV Engineer | Vision Threshold Baseline | Visual QA Provider Contract, Construction Progress Metadata Classifier | Provider contracts and classical baselines; no trained deep vision model. |
+| Data Scientist | Local Text Classification Lab | Time-Series Baselines, Content-Based Ranking Baseline | Compact datasets and baseline-focused evaluations. |
 
 ## Strongest Role Match
 

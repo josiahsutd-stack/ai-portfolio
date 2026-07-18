@@ -1,6 +1,6 @@
-# Recommender System Ranking Engine
+# Content-Based Ranking Baseline
 
-Recommendation engine for AI courses/jobs/projects with popularity baseline, content-based ranking, evaluation metrics, API, and demo.
+Small ranking baseline for synthetic AI courses, jobs, and projects with popularity comparison, TF-IDF content similarity, evaluation metrics, API, and demo.
 
 ## Problem
 
@@ -46,7 +46,7 @@ flowchart LR
 
 ## Reviewer Signal
 
-Recommender systems, embeddings, ranking metrics, applied ML evaluation, and product thinking.
+Popularity comparison, TF-IDF content similarity, precision@k, and NDCG over a small synthetic catalog. No learned embedding or collaborative-ranking model is implied.
 
 ## Engineering Notes
 

@@ -1,23 +1,23 @@
 {
-  "note": "Mock VLM output. This does not represent real visual reasoning.",
+  "note": "Mock provider contract output. No visual inference was performed.",
   "question": "Extract defects as JSON",
-  "provider": "mock-vlm",
-  "answer": "Structured visual extraction completed in mock mode.",
+  "answer": "Mock mode accepted png bytes and returned the response schema. It did not inspect or infer image content.",
   "structured_json": {
-    "detected_objects": [
-      "image_region",
-      "visual_layout",
-      "png"
-    ],
+    "detected_objects": [],
     "visible_text": [],
-    "defects": [
-      "possible surface scratch"
-    ],
+    "defects": [],
     "key_values": {
-      "mode": "mock",
-      "image_fingerprint": "demo"
+      "image_fingerprint": "b9f7432e",
+      "image_type": "png",
+      "mode": "mock_no_visual_inference"
     }
   },
-  "confidence": 0.62,
-  "uncertainty": "Mock mode does not inspect semantic image content; use a real VLM provider for production analysis."
+  "confidence": 0.0,
+  "uncertainty": "No visual inference was performed. Semantic fields are intentionally empty; configure a tested vision-capable provider for image analysis.",
+  "observations": [
+    "Validated the png file signature.",
+    "Recorded question length: 23 characters.",
+    "Returned an empty semantic extraction by design."
+  ],
+  "provider": "mock-vlm"
 }

@@ -18,8 +18,8 @@ from real_model_finetune_lab import (
     train_text_classifier,
 )
 
-st.set_page_config(page_title="Real Model Fine-Tune Lab", page_icon="AI", layout="wide")
-st.title("Real Model Fine-Tune Lab")
+st.set_page_config(page_title="Local Text Classification Lab", page_icon="AI", layout="wide")
+st.title("Local Text Classification Lab")
 st.caption("Small scikit-learn text classifier that actually fits model weights locally.")
 
 examples_path = PROJECT_ROOT / "sample_data" / "training_examples.json"

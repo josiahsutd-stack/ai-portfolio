@@ -10,7 +10,7 @@ This guide gives recruiters and technical interviewers a short path through the 
 | 2 | `projects/vla-embodied-agent-simulator` | procedural splits, fitted behavior-cloning model, raw/filtered holdout metrics, failure analysis, replay traces, and focused tests | Structured embodied-agent simulation; not a foundation VLA or hardware. |
 | 3 | `projects/real-model-finetune-lab` | held-out metrics, confusion matrix, training code, focused tests | Real classical-model fitting on small datasets; no transformer training. |
 
-Agentic Research Ops and MLOps Serving and Monitoring are the strongest supporting workflow projects. The other fourteen projects are narrower experiments or baselines.
+Deterministic Research Workflow Assistant and Local Model Serving and Monitoring are the strongest supporting workflow projects. The other fourteen projects are narrower experiments or baselines.
 
 ## Fast Verification
 
@@ -29,10 +29,10 @@ python scripts/verify.py
 
 ## Role-Specific Paths
 
-- Applied AI / LLM: AEC RAG, Agentic Research Ops, then Real Model Fine-Tune Lab.
-- Embodied AI / robotics: Construction Embodied Agent Simulator, AEC RAG for construction-domain grounding, then Robot Task Planner.
-- ML / MLOps: Real Model Fine-Tune Lab, MLOps Serving and Monitoring, then Time-Series Forecasting.
-- Multimodal / CV: VLM Visual QA and Vision Threshold Baseline are supporting experiments only; neither proves deep-learning training.
+- Applied AI / LLM: AEC RAG, Deterministic Research Workflow Assistant, then Local Text Classification Lab.
+- Embodied AI / robotics: Construction Embodied Agent Simulator, AEC RAG for construction-domain grounding, then Construction Grid Route Planner.
+- ML / MLOps: Local Text Classification Lab, Local Model Serving and Monitoring, then Time-Series Forecast and Anomaly Baselines.
+- Multimodal / CV: Visual QA Provider Contract and Vision Threshold Baseline are experiments only; the former proves an interface contract and the latter a deterministic image baseline, not deep-learning training.
 
 ## Technical Questions Supported By Evidence
 

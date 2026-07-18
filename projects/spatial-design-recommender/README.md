@@ -1,6 +1,6 @@
-# Spatial Design Recommendation Engine
+# Spatial Design Scoring Baseline
 
-Explainable recommendation engine that scores design scenarios and suggests layout improvements based on daylight, circulation, room sizing, adjacency, and zoning constraints.
+Explainable weighted-rule baseline that scores synthetic design scenarios and suggests layout changes based on daylight, circulation, room sizing, adjacency, and zoning constraints.
 
 ## Problem
 
@@ -82,10 +82,9 @@ pytest tests/test_recommender.py
 
 ## Reviewer Signal
 
-- Recommendation-system thinking
-- Explainable AI for design decisions
-- Built-environment product framing
-- Clear separation between prototype scoring and production optimization
+- Explicit multi-criteria scoring over synthetic layout attributes.
+- Traceable rule contributions and suggestions for design review.
+- Clear separation between a handcrafted scorer and learned ranking or optimization.
 
 ## Engineering Notes
 

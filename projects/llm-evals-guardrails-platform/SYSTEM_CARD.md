@@ -1,4 +1,4 @@
 # System Card
 
-This platform demonstrates baseline LLM evaluation and guardrail checks. Rules are intentionally transparent and should be expanded with human review, red-team data, and regression tracking before production use.
+This experiment demonstrates deterministic prompt and output checks. Its transparent patterns are narrow regression aids, not a comprehensive model-safety or security control; meaningful use would require human review, red-team data, and broader evaluation.
 

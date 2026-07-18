@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 from .recommender import content_recommend, generate_interactions, popularity_recommend
 
-app = FastAPI(title="Recommender System Ranking Engine")
+app = FastAPI(title="Content-Based Ranking Baseline")
 
 
 class RecommendationRequest(BaseModel):

@@ -1,0 +1,9 @@
+{
+  "mode": "simulated_run_no_model_loaded",
+  "task": "support_ticket_classification",
+  "base_model": "configuration-placeholder-only",
+  "rank": 8,
+  "alpha": 16,
+  "metric_status": "not_computed_no_training",
+  "notes": "This sample validates configuration flow only; it does not load a model or update parameters."
+}

@@ -13,7 +13,7 @@ flowchart LR
   E --> F["Citations, status, and eval artifacts"]
 ```
 
-## Construction Progress CV Workflow Tracker
+## Construction Progress Metadata Classifier
 
 ```mermaid
 flowchart LR
@@ -25,7 +25,7 @@ flowchart LR
   E --> F
 ```
 
-## BIM Issue Detection Agent
+## BIM Schedule Rule Checker
 
 ```mermaid
 flowchart LR
@@ -36,7 +36,7 @@ flowchart LR
   D --> F["Issue report"]
 ```
 
-## AI + AEC Job Fit Analyzer
+## AI/AEC Job Description Match Baseline
 
 ```mermaid
 flowchart LR
@@ -48,7 +48,7 @@ flowchart LR
   E --> F["Application strategy"]
 ```
 
-## Building Energy ML Pipeline
+## Building Energy Regression Pipeline
 
 ```mermaid
 flowchart LR
@@ -59,7 +59,7 @@ flowchart LR
   C --> F["Dashboard"]
 ```
 
-## Spatial Design Recommender
+## Spatial Design Scoring Baseline
 
 ```mermaid
 flowchart LR
@@ -69,7 +69,7 @@ flowchart LR
   D --> E["Explainable actions"]
 ```
 
-## Construction Robot Task Planner
+## Construction Grid Route Planner
 
 ```mermaid
 flowchart LR
@@ -81,7 +81,7 @@ flowchart LR
   E --> F["Dashboard/API"]
 ```
 
-## Site Robot Safety Monitor
+## Robot Telemetry Safety Rule Monitor
 
 ```mermaid
 flowchart LR

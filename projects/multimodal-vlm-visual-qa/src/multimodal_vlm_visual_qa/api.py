@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 from .providers import get_vlm_provider
 
-app = FastAPI(title="Multimodal VLM Visual QA")
+app = FastAPI(title="Visual QA Provider Contract")
 
 
 class VQARequest(BaseModel):

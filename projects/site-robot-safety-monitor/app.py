@@ -13,8 +13,8 @@ from site_robot_safety_monitor import analyze_telemetry, load_telemetry
 
 DATA_PATH = PROJECT_ROOT / "sample_data" / "synthetic_robot_telemetry.csv"
 
-st.set_page_config(page_title="Site Robot Safety Monitor", page_icon="AI", layout="wide")
-st.title("Site Robot Safety Monitor")
+st.set_page_config(page_title="Robot Telemetry Safety Rule Monitor", page_icon="AI", layout="wide")
+st.title("Robot Telemetry Safety Rule Monitor")
 st.caption(
     "Synthetic embodied AI safety monitor for construction robots and human-robot work zones."
 )

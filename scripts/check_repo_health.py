@@ -4,6 +4,8 @@ import re
 import sys
 from pathlib import Path
 
+import yaml
+
 ROOT = Path(__file__).resolve().parents[1]
 PROJECTS_DIR = ROOT / "projects"
 REQUIRED_DOCS = [
@@ -50,6 +52,32 @@ GENERIC_PHRASES = [
     "production-ready",
     "production-grade",
 ]
+ALLOWED_PROJECT_STATUSES = {"flagship", "primary", "supporting", "experiment"}
+REQUIRED_MANIFEST_FIELDS = {
+    "name",
+    "slug",
+    "category",
+    "skill_area",
+    "flagship",
+    "demo_command",
+    "test_command",
+    "tech_stack",
+    "summary",
+    "skills",
+    "status",
+    "data_mode",
+    "implementation_mode",
+    "boundary",
+    "readme_path",
+}
+INFLATED_PROJECT_NAME_PHRASES = {
+    "fine-tune",
+    "fine-tuning",
+    "reinforcement learning",
+    "state-of-the-art",
+    "platform",
+    "vlm",
+}
 
 
 def project_dirs() -> list[Path]:
@@ -68,6 +96,77 @@ def check_root_readme() -> list[str]:
         for label, pattern in REQUIRED_ROOT_README_PATTERNS.items()
         if not re.search(pattern, text, flags=re.IGNORECASE)
     ]
+    return issues
+
+
+def check_project_manifest() -> list[str]:
+    manifest_path = ROOT / "projects" / "projects.yml"
+    if not manifest_path.exists():
+        return ["missing required doc: projects/projects.yml"]
+    try:
+        payload = yaml.safe_load(manifest_path.read_text(encoding="utf-8"))
+    except yaml.YAMLError as exc:
+        return [f"projects/projects.yml: invalid YAML: {exc}"]
+    rows = payload.get("projects") if isinstance(payload, dict) else None
+    if not isinstance(rows, list):
+        return ["projects/projects.yml: top-level `projects` must be a list"]
+
+    issues: list[str] = []
+    slugs: list[str] = []
+    flagship_count = 0
+    non_experiment_count = 0
+    for index, row in enumerate(rows, start=1):
+        if not isinstance(row, dict):
+            issues.append(f"projects/projects.yml: row {index} must be a mapping")
+            continue
+        missing = sorted(REQUIRED_MANIFEST_FIELDS - row.keys())
+        slug = str(row.get("slug", f"row-{index}"))
+        if missing:
+            issues.append(f"{slug}: manifest missing fields: {', '.join(missing)}")
+        slugs.append(slug)
+        status = row.get("status")
+        if status not in ALLOWED_PROJECT_STATUSES:
+            issues.append(f"{slug}: unsupported status `{status}`")
+        if status != "experiment":
+            non_experiment_count += 1
+        is_flagship = row.get("flagship") is True
+        flagship_count += int(is_flagship)
+        if is_flagship != (status == "flagship"):
+            issues.append(f"{slug}: `flagship` boolean and status disagree")
+
+        name = str(row.get("name", ""))
+        lowered_name = name.lower()
+        for phrase in INFLATED_PROJECT_NAME_PHRASES:
+            if phrase in lowered_name:
+                issues.append(f"{slug}: public name contains inflated capability phrase `{phrase}`")
+
+        readme_path = ROOT / str(row.get("readme_path", ""))
+        expected_readme = ROOT / "projects" / slug / "README.md"
+        if readme_path != expected_readme:
+            issues.append(f"{slug}: readme_path must be `projects/{slug}/README.md`")
+        elif readme_path.exists():
+            lines = readme_path.read_text(encoding="utf-8").splitlines()
+            first_line = lines[0] if lines else ""
+            if first_line != f"# {name}":
+                shown_title = first_line or "<empty>"
+                issues.append(f"{slug}: README title `{shown_title}` does not match `{name}`")
+
+    directory_slugs = {path.name for path in project_dirs()}
+    if len(slugs) != len(set(slugs)):
+        issues.append("projects/projects.yml: duplicate project slug")
+    if set(slugs) != directory_slugs:
+        missing_rows = sorted(directory_slugs - set(slugs))
+        unknown_rows = sorted(set(slugs) - directory_slugs)
+        if missing_rows:
+            issues.append(f"manifest missing project directories: {', '.join(missing_rows)}")
+        if unknown_rows:
+            issues.append(f"manifest has unknown project directories: {', '.join(unknown_rows)}")
+    if flagship_count != 1:
+        issues.append(f"manifest must contain exactly one flagship; found {flagship_count}")
+    if non_experiment_count > 5:
+        issues.append(
+            f"manifest has {non_experiment_count} projects above experiment tier; maximum is 5"
+        )
     return issues
 
 
@@ -109,6 +208,7 @@ def main() -> None:
     issues = (
         check_required_docs()
         + check_root_readme()
+        + check_project_manifest()
         + check_project_readmes()
         + check_generic_language()
     )

@@ -91,13 +91,13 @@ def build_evaluation_template(
         ],
         "risks": [
             "small synthetic dataset is not evidence of real adaptation",
-            "mock training does not update model weights",
+            "the simulated run does not load or update model parameters",
             "real LoRA training needs GPU/VRAM planning and safety review",
         ],
     }
 
 
-def mock_lora_train(
+def simulate_lora_run(
     rows: list[dict[str, str]], config: LoRAConfig | None = None
 ) -> dict[str, object]:
     validation = validate_dataset(rows)
@@ -106,13 +106,13 @@ def mock_lora_train(
     config = config or LoRAConfig()
     train, val = split_dataset(rows)
     return {
-        "mode": "mock_training_no_gpu_required",
+        "mode": "simulated_run_no_model_loaded",
         "base_model": config.base_model,
         "rank": config.rank,
         "alpha": config.alpha,
         "task": config.task,
         "train_rows": len(train),
         "validation_rows": len(val),
-        "metric_status": "not_computed_mock_training",
+        "metric_status": "not_computed_no_training",
         "evaluation_template": build_evaluation_template(rows),
     }

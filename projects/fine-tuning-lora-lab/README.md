@@ -1,8 +1,8 @@
-# Fine-Tuning and LoRA Lab
+# LoRA Dataset and Configuration Validator
 
-Compute-aware fine-tuning workflow for support-ticket classification with dataset generation, validation, split logic, LoRA config, mock training, and evaluation report.
+Dataset and configuration validator for a hypothetical support-ticket LoRA experiment. It generates and checks instruction rows, validates split logic, records a LoRA configuration, and produces a simulated run report without loading or updating a model.
 
-Supporting review project for fine-tuning workflow review. It is intentionally honest: local training is mocked and no model weights are updated.
+Experiment for reviewing pre-training data and configuration checks. Local training is not implemented and no model parameters are updated.
 
 ## Problem
 
@@ -26,13 +26,13 @@ Reviewer docs:
 - Dataset validation for missing fields, empty values, labels, and duplicates
 - Train/validation split verification
 - LoRA config structure
-- Mock trainer requiring no GPU
+- Simulated run report requiring no GPU
 - Evaluation template for held-out prompts and overfitting risks
 - Clear path for real GPU training
 
 ## Tech Stack
 
-Python, dataclasses, Streamlit, pytest, Hugging Face-compatible workflow structure.
+Python, dataclasses, Streamlit, and pytest.
 
 ## Architecture
 
@@ -41,13 +41,13 @@ flowchart LR
   A["Instruction dataset"] --> B["Validation"]
   B --> C["Split"]
   C --> D["LoRA config"]
-  D --> E["Mock training report"]
+  D --> E["Simulated run report"]
 ```
 
 ## Limitations
 
-- No real heavy fine-tuning is run locally.
-- Mock trainer demonstrates workflow shape, not model adaptation performance.
+- No pretrained model, tokenizer, PEFT adapter, or optimizer is loaded.
+- The simulated report validates configuration flow, not model adaptation performance.
 - No accuracy, benchmark, or model-quality claim is made.
 
 ## Deployment-Relevant Extensions
@@ -56,20 +56,20 @@ flowchart LR
 
 ## Reviewer Signal
 
-Fine-tuning workflow knowledge, dataset preparation, model adaptation planning, evaluation discipline, and responsible compute-aware engineering.
+Dataset validation, split checks, adaptation-configuration literacy, and explicit separation between planning artifacts and actual model training.
 
 ## Engineering Notes
 
-- The lab models the fine-tuning lifecycle: dataset validation, split planning, LoRA configuration, mock training report, and model-card style documentation.
-- Mock training keeps the project runnable on a normal laptop while showing where PEFT/LoRA training would be introduced.
-- The workflow emphasizes dataset quality and evaluation planning because fine-tuning often fails from weak data rather than code alone.
+- The validator covers dataset checks, split planning, LoRA configuration, simulated run reporting, and model-card-style documentation.
+- The simulated path stays CPU-only and makes the absence of PEFT/LoRA training explicit.
+- Dataset quality and leakage checks are treated as prerequisites rather than evidence that adaptation occurred.
 - Production use would require tokenizer/model loading, GPU training, experiment tracking, held-out evals, artifact storage, and safety review.
 
 ## Technical Review Discussion Points
 
-- Reviewers can assess when prompting, RAG, fine-tuning, or LoRA would be the right adaptation strategy.
+- Reviewers can inspect the data and configuration prerequisites for a hypothetical LoRA experiment.
 - Dataset formatting, deduplication, train/validation splits, and leakage risks are treated as first-class concerns.
 - The LoRA configuration fields expose key adaptation tradeoffs.
-- The documented evaluation plan is required before any fine-tuned model should ship.
-- Local mock training demonstrates workflow design, not model performance.
+- The evaluation document lists measurements a future trained adapter would need; none are reported here.
+- The local simulated report demonstrates configuration handling, not model performance.
 

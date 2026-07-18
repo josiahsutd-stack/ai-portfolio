@@ -1,10 +1,10 @@
-# LLM Evals and Guardrails Platform
+# Prompt and Output Validation Checks
 
-Lightweight LLMOps platform for prompt-injection detection, structured-output validation, citation coverage checks, and regression-style evaluation.
+Small deterministic check library for prompt-injection patterns, structured-output validation, citation coverage, and regression-style cases. It is not a comprehensive guardrail or safety platform.
 
 ## Problem
 
-Production AI systems need tests for reliability, safety, and structured behavior, not only prompts.
+Model-integrated applications need tests for structured behavior and known failure patterns, not only prompts.
 
 ## Demo
 
@@ -46,11 +46,11 @@ flowchart LR
 
 ## Reviewer Signal
 
-LLMOps, guardrails, prompt-injection awareness, structured-output validation, and responsible AI engineering.
+Deterministic regression checks for known prompt patterns, required JSON fields, and citation presence. These checks expose inspectable failures but do not establish model safety or security.
 
 ## Engineering Notes
 
-- The platform treats evals as a repeatable engineering workflow: cases, checks, findings, metrics, and dashboard/API outputs.
+- The check library treats evals as a repeatable engineering workflow: cases, checks, findings, metrics, and dashboard/API outputs.
 - Transparent guardrails are used first so failures can be inspected before adding model-graded evals.
 - The scope covers practical LLM risks: prompt injection, unsafe content, missing citations, and invalid structured outputs.
 - Production use would require prompt/version registries, persisted eval history, CI regression gates, red-team datasets, and human review workflows.

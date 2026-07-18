@@ -1,11 +1,11 @@
 # Limitations
 
 - Mock mode does not inspect semantic image content.
-- Confidence values in mock mode are workflow placeholders, not calibrated model probabilities.
+- Mock confidence is fixed at zero because no inference occurs.
 - No OCR, bounding boxes, segmentation masks, or region grounding are implemented locally.
 - Hosted provider mode requires credentials and a vision-capable model.
 - Real VLM outputs depend on provider behavior and are not benchmarked here.
-- The project demonstrates product workflow and schema boundaries, not production visual QA reliability.
+- The project demonstrates provider contracts and schema boundaries, not visual QA capability or reliability.
 
 ## What Reviewers Should Not Infer
 

@@ -1,6 +1,6 @@
-# Reinforcement Learning Portfolio
+# Sequential Decision Simulation Baselines
 
-RL project with warehouse inventory control and dynamic pricing simulators, baseline policies, reward design, and policy evaluation.
+Warehouse inventory and dynamic-pricing simulators with random and hand-written policies, explicit rewards, and repeatable policy evaluation. No policy is learned in the current implementation.
 
 ## Problem
 
@@ -19,7 +19,7 @@ streamlit run projects/reinforcement-learning-portfolio/app.py
 - Random and heuristic baselines
 - Reward curves via local evaluation metrics
 - Reproducible seeds
-- Short local training/evaluation path
+- Short local simulation/evaluation path
 
 ## Tech Stack
 
@@ -38,6 +38,7 @@ flowchart LR
 ## Limitations
 
 - Lightweight custom environments rather than heavy RL libraries.
+- The current policies are random or hand-written; no policy parameters are learned.
 - No production pricing or inventory claims.
 
 ## Deployment-Relevant Extensions
@@ -46,7 +47,7 @@ flowchart LR
 
 ## Reviewer Signal
 
-RL fundamentals, reward shaping, sequential decision-making, simulation, and applied optimization thinking.
+Environment design, reward shaping, sequential decision-making, simulation, and baseline evaluation without a learned-policy claim.
 
 ## Engineering Notes
 

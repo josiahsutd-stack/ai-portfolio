@@ -1,6 +1,6 @@
-# Construction Progress CV Workflow Tracker
+# Construction Progress Metadata Classifier
 
-Computer vision workflow tracker that classifies synthetic construction site image metadata into delivery stages and generates a concise site report. It does not train on raw image pixels.
+Random-forest classifier that maps synthetic construction-site image metadata to delivery stages and generates a concise site report. It does not load or learn from image pixels.
 
 ## Problem
 
@@ -80,10 +80,9 @@ pytest
 
 ## Reviewer Signal
 
-- Applied computer vision workflow design
-- ML pipeline and evaluation basics
-- Reporting automation for construction stakeholders
-- Ability to separate prototype data from production claims
+- Tabular random-forest classification over labeled image metadata.
+- Train/test metrics and report generation around a construction workflow.
+- Explicit separation between metadata classification and pixel-based computer vision.
 
 ## Engineering Notes
 

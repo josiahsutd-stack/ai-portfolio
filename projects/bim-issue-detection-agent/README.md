@@ -1,6 +1,6 @@
-# BIM / Drawing Issue Detection Agent
+# BIM Schedule Rule Checker
 
-AI-assisted QA tool that parses mock BIM room schedules, flags likely coordination issues, scores severity, and generates an exportable issue report.
+Deterministic QA tool that parses synthetic BIM room schedules, applies explicit coordination rules, scores severity, and generates an exportable issue report. An optional mock/hosted explanation layer is separate from issue detection.
 
 ## Problem
 
@@ -84,10 +84,9 @@ pytest tests/test_bim_issues.py
 
 ## Reviewer Signal
 
-- Structured data validation
-- AI agent design around deterministic tools
-- AEC domain-specific automation
-- Practical explainability for design QA workflows
+- Deterministic validation of structured BIM schedule exports.
+- Traceable severity rules and exportable issue records.
+- Optional explanation formatting kept separate from issue detection.
 
 ## Engineering Notes
 
@@ -102,4 +101,4 @@ pytest tests/test_bim_issues.py
 - The project points toward IFC/Revit entity mapping into checkable schemas.
 - False positives and issue severity are framed as calibration problems with project teams.
 - Report generation makes the agent useful for coordination meetings and issue triage.
-- The system is positioned as an agentic workflow built around tools, evidence, and review.
+- The system is a deterministic rule workflow with an optional explanation layer and explicit human review.

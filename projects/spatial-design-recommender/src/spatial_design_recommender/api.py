@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 from .scoring import DesignScenario, recommend_design_actions, score_design
 
-app = FastAPI(title="Spatial Design Recommendation Engine")
+app = FastAPI(title="Spatial Design Scoring Baseline")
 
 
 class ScenarioRequest(BaseModel):

@@ -22,7 +22,7 @@ This guide separates implementation evidence from portfolio framing. The reposit
 
 **Boundary:** The learned classifier consumes 24 engineered structured-state features. It is not a foundation VLA and does not establish perception, physics, ROS integration, hardware behavior, or physical safety.
 
-## 3. Real Model Fine-Tune Lab - Model Training Evidence
+## 3. Local Text Classification Lab - Model Training Evidence
 
 **Implemented:** Fixed train/validation/test splits, TF-IDF features, logistic regression, dummy baseline, held-out metrics, confusion matrix, generated joblib artifacts, reports, and focused tests.
 
@@ -34,17 +34,17 @@ This guide separates implementation evidence from portfolio framing. The reposit
 
 ## Supporting Systems
 
-### Agentic Research Operations Assistant
+### Deterministic Research Workflow Assistant
 
 Permissioned deterministic planning, local retrieval, citations, retries, approval gates, SQLite traces, and trace evaluation. It demonstrates inspectable agent control flow, not autonomous research or live web access.
 
-### MLOps Model Serving And Monitoring
+### Local Model Serving And Monitoring Scaffold
 
 Synthetic churn training, generated artifact metadata, FastAPI validation, SQLite prediction logs, mean-shift and PSI-style drift checks, and monitoring reports. It demonstrates local lifecycle structure, not deployed platform ownership.
 
 ## Experiments And Baselines
 
-The VLM workflow, LoRA workflow, vision threshold model, RL environments, recommender, time-series, BIM, energy, construction progress, spatial recommendation, job-fit, and smaller robotics projects provide supporting breadth. Their README limitations are part of the evidence; none should be interpreted as equal depth to the flagship.
+The visual-provider contract, LoRA data/configuration validator, vision threshold model, sequential-decision environments, ranking and time-series baselines, BIM and energy checks, construction metadata classifier, spatial scorer, job matcher, and smaller robotics simulations provide supporting breadth. Their README limitations are part of the evidence; none should be interpreted as equal depth to the flagship.
 
 ## Verification
 

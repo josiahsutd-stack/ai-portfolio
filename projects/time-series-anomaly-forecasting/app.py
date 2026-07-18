@@ -17,7 +17,7 @@ from time_series_anomaly_forecasting import (
 )
 
 st.set_page_config(page_title="Time-Series Anomaly Forecasting", page_icon="AI", layout="wide")
-st.title("Time-Series Anomaly Detection and Forecasting")
+st.title("Time-Series Forecast and Anomaly Baselines")
 data = generate_series()
 forecast = forecast_moving_average(data)
 detected = detect_anomalies(data)

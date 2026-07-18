@@ -12,7 +12,7 @@ from .planner import GridMap, RobotTask, plan_robot_task
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DATA_PATH = PROJECT_ROOT / "sample_data" / "site_tasks.json"
 
-app = FastAPI(title="Construction Robot Task Planner")
+app = FastAPI(title="Construction Grid Route Planner")
 
 
 class PlanRequest(BaseModel):

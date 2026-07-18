@@ -12,7 +12,7 @@ Start with these three projects. They carry the clearest evidence and represent 
 | --- | --- | --- | --- | --- |
 | 1 - Flagship | [AEC Code Compliance RAG](projects/aec-code-compliance-rag/README.md) | Public-source ingestion, page-aware chunks, four retrieval modes, citations, abstention, 51-case synthetic regression set, and focused tests. | Hybrid retrieval: `Recall@4 1.000`, `MRR 0.906`, `Hit@3 1.000` on the bundled synthetic eval. | Document-assistance prototype; not compliance certification or professional advice. |
 | 2 - Embodied AI | [Construction Embodied Agent Simulator](projects/vla-embodied-agent-simulator/README.md) | Procedural construction grids, expert demonstrations, a fitted behavior-cloning model, disjoint holdout episodes, action filtering, failure analysis, and tests. | Filtered learned policy: `0.625` success with `0.000` unsafe-action rate on 24 unseen scenarios; raw policy succeeds on `0.500`. | Structured 2D simulation; not a foundation VLA, perception stack, ROS integration, or hardware validation. |
-| 3 - Model Training | [Real Model Fine-Tune Lab](projects/real-model-finetune-lab/README.md) | Real TF-IDF/logistic-regression fitting, fixed splits, dummy baseline, held-out metrics, confusion matrix, and generated weights. | Compact UCI SMS subset: `0.975` accuracy and macro-F1 on a 40-row test split. | Small classical-ML exercise; not transformer fine-tuning or a benchmark claim. |
+| 3 - Model Training | [Local Text Classification Lab](projects/real-model-finetune-lab/README.md) | TF-IDF/logistic-regression fitting, fixed splits, dummy baseline, held-out metrics, confusion matrix, and generated coefficients. | Compact UCI SMS subset: `0.975` accuracy and macro-F1 on a 40-row test split. | Small classical-ML exercise; not pretrained-model fine-tuning or a benchmark claim. |
 
 The metric values above are regression evidence for the included datasets and scenarios. They are not claims of real-world compliance, robot safety, or production model quality.
 
@@ -66,8 +66,8 @@ The downloader targets official BCA, URA, NEA, SCDF, LTA, PUB, and NParks source
 
 | Project | What is implemented | Honest interpretation |
 | --- | --- | --- |
-| [Agentic Research Ops Assistant](projects/agentic-research-ops-assistant/README.md) | Deterministic planner, permissioned tool registry, local retrieval, citations, retries, approval gates, SQLite traces, and trace evaluation. | Evidence of inspectable agent workflow engineering, not autonomous research or live web access. |
-| [MLOps Model Serving Monitoring](projects/mlops-model-serving-monitoring/README.md) | Synthetic churn training, FastAPI schema, generated artifact metadata, SQLite prediction logs, drift calculations, and monitoring reports. | Local operations scaffold, not a deployed platform or real customer system. |
+| [Deterministic Research Workflow Assistant](projects/agentic-research-ops-assistant/README.md) | Rule-based planner, permissioned tool registry, local retrieval, citations, retries, approval gates, SQLite traces, and trace evaluation. | Evidence of inspectable tool-workflow engineering, not autonomous research or an adaptive LLM agent. |
+| [Local Model Serving and Monitoring Scaffold](projects/mlops-model-serving-monitoring/README.md) | Synthetic churn training, FastAPI schema, generated artifact metadata, SQLite prediction logs, drift calculations, and monitoring reports. | Local operations scaffold, not a deployed platform or real customer system. |
 
 These systems are substantial supporting projects, but the repository does not present them as production deployments.
 
@@ -75,23 +75,25 @@ These systems are substantial supporting projects, but the repository does not p
 
 The remaining projects are deliberately tiered below the flagship and supporting systems. They demonstrate narrower workflows, baselines, or interface contracts rather than comparable depth.
 
+[Open the complete project evidence inventory](projects/README.md) for each implementation mode and hard boundary.
+
 <details>
 <summary>View experiments and baselines</summary>
 
-- [Construction Progress CV Workflow Tracker](projects/construction-progress-cv/README.md)
-- [BIM Issue Detection Agent](projects/bim-issue-detection-agent/README.md)
-- [AI + AEC Job Fit Analyzer](projects/ai-aec-job-fit-analyzer/README.md)
-- [Building Energy ML Pipeline](projects/building-energy-ml-pipeline/README.md)
-- [Spatial Design Recommendation Engine](projects/spatial-design-recommender/README.md)
-- [Construction Robot Task Planner](projects/construction-robot-task-planner/README.md)
-- [Site Robot Safety Monitor](projects/site-robot-safety-monitor/README.md)
-- [Multimodal VLM Visual QA](projects/multimodal-vlm-visual-qa/README.md)
-- [Reinforcement Learning Portfolio](projects/reinforcement-learning-portfolio/README.md)
+- [Construction Progress Metadata Classifier](projects/construction-progress-cv/README.md)
+- [BIM Schedule Rule Checker](projects/bim-issue-detection-agent/README.md)
+- [AI/AEC Job Description Match Baseline](projects/ai-aec-job-fit-analyzer/README.md)
+- [Building Energy Regression Pipeline](projects/building-energy-ml-pipeline/README.md)
+- [Spatial Design Scoring Baseline](projects/spatial-design-recommender/README.md)
+- [Construction Grid Route Planner](projects/construction-robot-task-planner/README.md)
+- [Robot Telemetry Safety Rule Monitor](projects/site-robot-safety-monitor/README.md)
+- [Visual QA Provider Contract](projects/multimodal-vlm-visual-qa/README.md)
+- [Sequential Decision Simulation Baselines](projects/reinforcement-learning-portfolio/README.md)
 - [Vision Baseline / Threshold Model Lab](projects/deep-learning-vision-lab/README.md)
-- [LLM Evals and Guardrails Platform](projects/llm-evals-guardrails-platform/README.md)
-- [Recommender System Ranking Engine](projects/recommender-system-ranking-engine/README.md)
-- [Time-Series Anomaly Detection and Forecasting](projects/time-series-anomaly-forecasting/README.md)
-- [Fine-Tuning LoRA Lab](projects/fine-tuning-lora-lab/README.md)
+- [Prompt and Output Validation Checks](projects/llm-evals-guardrails-platform/README.md)
+- [Content-Based Ranking Baseline](projects/recommender-system-ranking-engine/README.md)
+- [Time-Series Forecast and Anomaly Baselines](projects/time-series-anomaly-forecasting/README.md)
+- [LoRA Dataset and Configuration Validator](projects/fine-tuning-lora-lab/README.md)
 
 </details>
 

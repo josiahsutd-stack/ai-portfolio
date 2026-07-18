@@ -1,6 +1,6 @@
-# MLOps Model Serving and Monitoring Platform
+# Local Model Serving and Monitoring Scaffold
 
-Synthetic churn-risk MLOps demo with model training, prediction schema, FastAPI serving, model artifact saving, SQLite inference logging, drift-history persistence, and Streamlit monitoring.
+Local synthetic churn-risk scaffold with model training, prediction schemas, FastAPI serving, model artifact saving, SQLite inference logging, drift-history persistence, and Streamlit monitoring. It does not represent a deployed MLOps platform.
 
 Supporting review project for local MLOps review.
 

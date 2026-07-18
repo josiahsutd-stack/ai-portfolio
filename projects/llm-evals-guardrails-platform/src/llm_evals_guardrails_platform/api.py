@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 from .guardrails import evaluate_case
 
-app = FastAPI(title="LLM Evals and Guardrails Platform")
+app = FastAPI(title="Prompt and Output Validation Checks")
 
 
 class EvalRequest(BaseModel):

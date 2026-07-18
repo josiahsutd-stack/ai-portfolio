@@ -19,7 +19,7 @@ from building_energy_ml_pipeline.model import (
 DATA_PATH = PROJECT_ROOT / "sample_data" / "synthetic_building_energy.csv"
 
 st.set_page_config(page_title="Building Energy ML", page_icon="AI", layout="wide")
-st.title("Building Energy Prediction ML Pipeline")
+st.title("Building Energy Regression Pipeline")
 st.caption("Synthetic tabular ML demo for energy-use risk estimation.")
 
 data = load_energy_data(DATA_PATH)

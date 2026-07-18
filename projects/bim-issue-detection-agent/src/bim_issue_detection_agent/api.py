@@ -9,7 +9,7 @@ from .detector import detect_issues, load_room_schedule
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DATA_PATH = PROJECT_ROOT / "sample_data" / "mock_bim_room_schedule.csv"
 
-app = FastAPI(title="BIM Issue Detection Agent")
+app = FastAPI(title="BIM Schedule Rule Checker")
 
 
 @app.get("/issues")

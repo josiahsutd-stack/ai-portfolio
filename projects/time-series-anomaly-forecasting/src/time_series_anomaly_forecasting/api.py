@@ -9,7 +9,7 @@ from .timeseries import (
     regression_forecast_metrics,
 )
 
-app = FastAPI(title="Time-Series Anomaly Detection and Forecasting")
+app = FastAPI(title="Time-Series Forecast and Anomaly Baselines")
 
 
 @app.get("/forecast")

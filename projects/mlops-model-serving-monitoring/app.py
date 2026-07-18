@@ -23,7 +23,7 @@ from mlops_model_serving_monitoring import (
 )
 
 st.set_page_config(page_title="MLOps Model Serving", page_icon="AI", layout="wide")
-st.title("MLOps Model Serving and Monitoring Platform")
+st.title("Local Model Serving and Monitoring Scaffold")
 data = generate_churn_data()
 model, metrics = train_churn_model(data)
 artifacts = save_model_artifact(model, metrics)

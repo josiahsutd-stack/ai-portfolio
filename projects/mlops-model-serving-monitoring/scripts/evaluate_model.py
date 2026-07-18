@@ -40,7 +40,7 @@ def _write_report(summary: dict[str, object], output_path: Path) -> None:
     lines = [
         "# MLOps Model Evaluation Report",
         "",
-        "Synthetic local evaluation for the MLOps Model Serving and Monitoring project.",
+        "Synthetic local evaluation for the Local Model Serving and Monitoring Scaffold.",
         "",
         "## Model Metrics",
         "",

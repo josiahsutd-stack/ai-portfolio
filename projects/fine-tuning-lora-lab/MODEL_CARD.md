@@ -1,4 +1,4 @@
-# Model Card
+# Planned Model Record
 
-This lab demonstrates dataset preparation and LoRA workflow structure with mock training. It does not fine-tune a production model locally and requires separate GPU setup for real model adaptation.
+No model artifact exists for this experiment. The repository validates a synthetic instruction dataset, a LoRA configuration, split logic, and a simulated run report. It does not load a base model, train an adapter, update parameters, or measure model quality.
 

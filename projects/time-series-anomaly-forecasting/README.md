@@ -1,6 +1,6 @@
-# Time-Series Anomaly Detection and Forecasting
+# Time-Series Forecast and Anomaly Baselines
 
-Time-series ML project that forecasts synthetic API traffic and detects anomalous spikes.
+Moving-average forecast and threshold-based anomaly baselines over synthetic API traffic. No learned forecasting model is trained.
 
 ## Problem
 
@@ -48,7 +48,7 @@ flowchart LR
 
 ## Reviewer Signal
 
-Time-series ML, anomaly detection, monitoring, forecasting, and applied data science.
+Moving-average forecasting, deterministic anomaly thresholds, synthetic-series generation, and baseline metric packaging. No learned forecaster is implied.
 
 ## Engineering Notes
 

@@ -110,45 +110,37 @@ class MockVLMProvider:
 
     def answer(self, image_bytes: bytes, question: str) -> VQAResponse:
         image_type = validate_image_bytes(image_bytes)
-        question_l = question.lower().strip()
         digest = hashlib.sha256(image_bytes[:2048]).hexdigest()[:8]
         extraction = StructuredExtraction(
-            detected_objects=["image_region", "visual_layout", image_type],
-            visible_text=["synthetic/mock OCR placeholder"] if "text" in question_l else [],
-            defects=(
-                ["possible surface scratch"]
-                if "defect" in question_l or "scratch" in question_l
-                else []
-            ),
-            key_values={"image_fingerprint": digest, "mode": "mock"},
+            detected_objects=[],
+            visible_text=[],
+            defects=[],
+            key_values={
+                "image_fingerprint": digest,
+                "image_type": image_type,
+                "mode": "mock_no_visual_inference",
+            },
         )
-        if "json" in question_l or "extract" in question_l:
-            answer = "Structured visual extraction completed in mock mode."
-        elif "chart" in question_l or "trend" in question_l:
-            answer = "The image appears to contain a visual pattern; mock mode reports a likely upward or highlighted trend if chart elements are present."
-        else:
-            answer = "Mock VLM analyzed the uploaded image and produced a cautious answer without claiming real visual recognition."
-        uncertainty = "Mock mode does not inspect semantic image content; use a real VLM provider for production analysis."
+        answer = (
+            f"Mock mode accepted {image_type} bytes and returned the response schema. "
+            "It did not inspect or infer image content."
+        )
+        uncertainty = (
+            "No visual inference was performed. Semantic fields are intentionally empty; "
+            "configure a tested vision-capable provider for image analysis."
+        )
         return VQAResponse(
             answer=answer,
             structured_json=extraction,
-            confidence=0.62,
+            confidence=0.0,
             uncertainty=uncertainty,
             observations=[
-                f"Accepted {image_type} image bytes.",
-                "Returned schema-constrained output.",
-                "Confidence is intentionally conservative in mock mode.",
+                f"Validated the {image_type} file signature.",
+                f"Recorded question length: {len(question.strip())} characters.",
+                "Returned an empty semantic extraction by design.",
             ],
             provider=self.name,
         )
-
-
-@dataclass
-class LocalVLMProvider:
-    name: str = "local-vlm-interface"
-
-    def answer(self, image_bytes: bytes, question: str) -> VQAResponse:
-        return MockVLMProvider(name=self.name).answer(image_bytes, question)
 
 
 @dataclass
@@ -220,13 +212,15 @@ class OpenAICompatibleVLMProvider:
         )
 
 
-def get_vlm_provider() -> MockVLMProvider | LocalVLMProvider | OpenAICompatibleVLMProvider:
+def get_vlm_provider() -> MockVLMProvider | OpenAICompatibleVLMProvider:
     provider = os.getenv("VLM_PROVIDER", "mock").strip().lower()
     if provider in {"openai", "openai-compatible", "hosted"}:
         return OpenAICompatibleVLMProvider(
             base_url=os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1"),
             model=os.getenv("OPENAI_MODEL", "gpt-4o-mini"),
         )
-    if provider in {"local", "local-vlm"}:
-        return LocalVLMProvider()
-    return MockVLMProvider()
+    if provider == "mock":
+        return MockVLMProvider()
+    raise ValueError(
+        "Unsupported VLM_PROVIDER. Use `mock`, `openai`, `openai-compatible`, or `hosted`."
+    )

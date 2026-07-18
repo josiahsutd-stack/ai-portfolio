@@ -8,12 +8,12 @@ I build source-grounded AI systems, embodied-agent simulations, and measurable l
 | --- | --- | --- |
 | [AEC Code Compliance RAG](https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/aec-code-compliance-rag) | Singapore public-source ingestion, metadata-rich chunks, four local retrieval modes, citations, abstention, evals, and tests. | Document-assistance prototype, not compliance certification. |
 | [Construction Embodied Agent Simulator](https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/vla-embodied-agent-simulator) | Procedural train/holdout grids, expert trajectories, real behavior cloning, closed-loop metrics, action filtering, and visible failures. | Structured 2D simulation, not a foundation VLA or robot deployment. |
-| [Real Model Fine-Tune Lab](https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/real-model-finetune-lab) | Real scikit-learn model fitting, fixed splits, baseline comparison, held-out metrics, and generated weights. | Small classical NLP model, not transformer fine-tuning. |
+| [Local Text Classification Lab](https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/real-model-finetune-lab) | Scikit-learn model fitting, fixed splits, baseline comparison, held-out metrics, and generated coefficients. | Small classical NLP model, not pretrained-model fine-tuning. |
 
 ## Supporting Work
 
-- [Agentic Research Ops Assistant](https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/agentic-research-ops-assistant): permissioned tools, local retrieval, citations, approval gates, retries, and persisted traces.
-- [MLOps Model Serving Monitoring](https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/mlops-model-serving-monitoring): model metadata, FastAPI validation, prediction logging, drift simulation, and monitoring reports over synthetic data.
+- [Deterministic Research Workflow Assistant](https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/agentic-research-ops-assistant): permissioned tools, local retrieval, citations, approval gates, retries, and persisted traces.
+- [Local Model Serving and Monitoring Scaffold](https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/mlops-model-serving-monitoring): model metadata, FastAPI validation, prediction logging, drift simulation, and monitoring reports over synthetic data.
 
 ## Technical Focus
 

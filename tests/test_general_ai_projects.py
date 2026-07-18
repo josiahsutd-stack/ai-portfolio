@@ -10,7 +10,7 @@ from deep_learning_vision_lab import (
 )
 from fine_tuning_lora_lab import (
     generate_instruction_dataset,
-    mock_lora_train,
+    simulate_lora_run,
     split_dataset,
     validate_dataset,
 )
@@ -50,6 +50,7 @@ from reinforcement_learning_portfolio import (
     evaluate_policy,
     heuristic_inventory_policy,
 )
+from streamlit.testing.v1 import AppTest
 from time_series_anomaly_forecasting import (
     detect_anomalies,
     forecast_moving_average,
@@ -63,9 +64,11 @@ def test_vlm_structured_output_schema_and_validation() -> None:
     response = MockVLMProvider().answer(image_bytes, "Extract defects as JSON")
 
     assert validate_image_bytes(image_bytes) == "png"
-    assert response.structured_json.key_values["mode"] == "mock"
-    assert 0 <= response.confidence <= 1
-    assert response.model_dump()["structured_json"]["defects"]
+    assert response.structured_json.key_values["mode"] == "mock_no_visual_inference"
+    assert response.confidence == 0.0
+    assert response.model_dump()["structured_json"]["defects"] == []
+    assert response.structured_json.detected_objects == []
+    assert "did not inspect or infer" in response.answer
 
 
 def test_agent_planning_tool_execution_and_citations(tmp_path) -> None:
@@ -304,13 +307,14 @@ def test_time_series_anomaly_detection() -> None:
     assert int(detected["predicted_anomaly"].sum()) > 0
 
 
-def test_fine_tuning_dataset_validation_and_mock_training() -> None:
+def test_lora_dataset_validation_and_simulated_run() -> None:
     rows = generate_instruction_dataset()
     validation = validate_dataset(rows)
-    report = mock_lora_train(rows)
+    report = simulate_lora_run(rows)
 
     assert validation["valid"]
-    assert report["mode"] == "mock_training_no_gpu_required"
+    assert report["mode"] == "simulated_run_no_model_loaded"
+    assert report["metric_status"] == "not_computed_no_training"
 
 
 def test_fine_tuning_dataset_validation_rejects_invalid_rows() -> None:
@@ -344,6 +348,37 @@ def test_vlm_prompt_contract_includes_uncertainty_and_metadata() -> None:
     assert "Return JSON" in prompt
     assert "uncertain" in prompt.lower()
     assert "source: synthetic.png" in prompt
+
+
+def test_vlm_rejects_deceptive_local_provider_alias(monkeypatch) -> None:
+    monkeypatch.setenv("VLM_PROVIDER", "local")
+
+    from multimodal_vlm_visual_qa import get_vlm_provider
+
+    with pytest.raises(ValueError, match="Unsupported VLM_PROVIDER"):
+        get_vlm_provider()
+
+
+def test_hosted_vlm_without_key_falls_back_to_zero_confidence_mock(monkeypatch) -> None:
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+    response = OpenAICompatibleVLMProvider(api_key=None).answer(
+        b"\x89PNG\r\n\x1a\nsynthetic",
+        "Find defects",
+    )
+
+    assert response.provider == "openai-compatible-vlm-mock-fallback"
+    assert response.confidence == 0.0
+    assert response.structured_json.defects == []
+    assert response.structured_json.key_values["mode"] == "mock_no_visual_inference"
+
+
+def test_visual_provider_app_exposes_mock_boundary_without_errors() -> None:
+    app = AppTest.from_file("projects/multimodal-vlm-visual-qa/app.py").run(timeout=15)
+
+    assert not app.exception
+    assert app.title[0].value == "Visual QA Provider Contract"
+    assert "performs no visual inference" in app.caption[0].value
+    assert app.button[0].label == "Run provider"
 
 
 def test_openai_compatible_vlm_provider_parses_schema(monkeypatch) -> None:

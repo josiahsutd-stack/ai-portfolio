@@ -1,6 +1,6 @@
-# AI Job Market Fit Analyzer for AI + Architecture Roles
+# AI/AEC Job Description Match Baseline
 
-Personal career tool that parses job descriptions, classifies role fit, extracts skill signals, identifies gaps, and generates a tailored application strategy.
+Deterministic keyword-scoring tool that parses job descriptions, compares role signals with a supplied skill profile, identifies unmatched terms, and produces a review summary. It is a matching baseline, not a learned hiring model.
 
 ## Problem
 
@@ -82,10 +82,9 @@ pytest tests/test_job_fit.py
 
 ## Reviewer Signal
 
-- NLP product thinking
-- Structured classification
-- Honest career-positioning automation
-- Ability to connect AI systems to a real user workflow
+- Transparent token matching and weighted scoring over job text.
+- Inspectable matched and missing terms rather than an opaque fit prediction.
+- A small career-workflow interface with an explicit non-hiring-model boundary.
 
 ## Engineering Notes
 

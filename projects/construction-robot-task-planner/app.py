@@ -15,8 +15,8 @@ from shared.data import read_json
 
 DATA_PATH = PROJECT_ROOT / "sample_data" / "site_tasks.json"
 
-st.set_page_config(page_title="Construction Robot Task Planner", page_icon="AI", layout="wide")
-st.title("Construction Robot Task Planner")
+st.set_page_config(page_title="Construction Grid Route Planner", page_icon="AI", layout="wide")
+st.title("Construction Grid Route Planner")
 st.caption("Synthetic embodied AI demo for construction robot task planning and site navigation.")
 
 payload = read_json(DATA_PATH)

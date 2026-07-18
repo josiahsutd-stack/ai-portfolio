@@ -1,8 +1,8 @@
-# Agentic Research Operations Assistant
+# Deterministic Research Workflow Assistant
 
-Planner-executor research agent that breaks a task into tool calls, searches local documents, creates a cited report, stores persistent SQLite traces, evaluates the trace, and requires human approval before finalization.
+Deterministic planner-executor workflow that maps a task to permissioned tool calls, searches local documents, creates a cited report, stores SQLite traces, evaluates the trace, and requires human approval before finalization. The default planner is rule-based rather than an adaptive LLM agent.
 
-Supporting review project for agentic AI workflow review.
+Supporting review project for inspectable tool-workflow engineering.
 
 ## Problem
 
@@ -67,7 +67,7 @@ flowchart LR
 
 ## Reviewer Signal
 
-Agentic AI engineering, tool calling, RAG, workflow orchestration, trace persistence, observability, and human-in-the-loop design.
+Tool orchestration, local retrieval, trace persistence, retries, observability, and human-in-the-loop design with a rule-based default planner.
 
 ## Engineering Notes
 

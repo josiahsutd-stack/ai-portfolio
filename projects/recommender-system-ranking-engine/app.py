@@ -16,7 +16,7 @@ from recommender_system_ranking_engine import (
 )
 
 st.set_page_config(page_title="Recommender Ranking Engine", page_icon="AI", layout="wide")
-st.title("Recommender System Ranking Engine")
+st.title("Content-Based Ranking Baseline")
 items, interactions = generate_interactions()
 profile = st.text_input("User interest profile", "LLM agents multimodal robotics")
 st.subheader("Content recommendations")

@@ -16,8 +16,8 @@ SCENARIOS = json.loads(
     (PROJECT_ROOT / "sample_data" / "example_scenarios.json").read_text(encoding="utf-8")
 )
 
-st.set_page_config(page_title="Spatial Design Recommender", page_icon="AI", layout="wide")
-st.title("Spatial Design Recommendation Engine")
+st.set_page_config(page_title="Spatial Design Scoring Baseline", page_icon="AI", layout="wide")
+st.title("Spatial Design Scoring Baseline")
 st.caption("Explainable recommendation demo for built-environment layout decisions.")
 
 selected = st.selectbox("Example scenario", [scenario["name"] for scenario in SCENARIOS])

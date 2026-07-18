@@ -1,5 +1,4 @@
 from .providers import (
-    LocalVLMProvider,
     MockVLMProvider,
     OpenAICompatibleVLMProvider,
     build_vlm_prompt,
@@ -8,7 +7,6 @@ from .providers import (
 from .schemas import StructuredExtraction, VQAResponse, validate_image_bytes
 
 __all__ = [
-    "LocalVLMProvider",
     "MockVLMProvider",
     "OpenAICompatibleVLMProvider",
     "get_vlm_provider",

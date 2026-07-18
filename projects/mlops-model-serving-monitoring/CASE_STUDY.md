@@ -1,4 +1,4 @@
-# Case Study: MLOps Model Serving And Monitoring
+# Case Study: Local Model Serving And Monitoring Scaffold
 
 ## Problem
 

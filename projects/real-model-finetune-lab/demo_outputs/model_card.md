@@ -1,4 +1,4 @@
-# Real Model Fine-Tune Lab Model Card
+# Local Text Classification Lab Model Card
 
 Small scikit-learn text classifier trained on synthetic portfolio task text.
 

@@ -18,7 +18,7 @@ This portfolio is a local-first applied AI engineering portfolio. It demonstrate
 - All included datasets are synthetic unless a file explicitly says otherwise.
 - Mock LLM/VLM paths validate workflow behavior, not model intelligence.
 - AEC outputs are not legal, code, engineering, architectural, or professional compliance advice.
-- The original Fine-Tuning LoRA Lab does not update real model weights locally; the separate Real Model Fine-Tune Lab trains a small classical ML model.
+- The LoRA Dataset and Configuration Validator does not load or update a model; the separate Local Text Classification Lab trains a small classical ML model.
 - Robotics projects are simulations, not robot hardware deployments.
 - CI may be blocked by GitHub account state even when local tests pass.
 
@@ -26,8 +26,8 @@ This portfolio is a local-first applied AI engineering portfolio. It demonstrate
 
 - Do not infer production reliability from local demos.
 - Do not infer real-world code-compliance capability from synthetic examples or downloaded public-source retrieval demos.
-- Do not infer real visual reasoning from mock VLM outputs.
-- Do not infer real LoRA model improvement from the Fine-Tuning LoRA Lab.
+- Do not infer real visual reasoning from the Visual QA Provider Contract's mock output.
+- Do not infer LoRA model improvement from the LoRA Dataset and Configuration Validator.
 - Do not infer senior-level MLOps ownership from the local MLOps skeleton.
 - Do not infer real robot safety validation from construction-robot, embodied-agent, or reinforcement-learning simulations.
 

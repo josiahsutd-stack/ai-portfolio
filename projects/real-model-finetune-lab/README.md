@@ -1,8 +1,8 @@
-# Real Model Fine-Tune Lab
+# Local Text Classification Lab
 
-Small text-classification project that actually fits model weights locally. It now has two training paths: a fast synthetic portfolio-task classifier and a larger locally bundled UCI SMS Spam subset classifier with train/validation/test splits, baseline comparison, saved fitted models, and generated metrics.
+Small text-classification project that fits scikit-learn model parameters locally. It has two training paths: a fast synthetic portfolio-task classifier and a locally bundled UCI SMS Spam subset classifier with train/validation/test splits, baseline comparison, saved fitted models, and generated metrics.
 
-This project exists alongside the original Fine-Tuning LoRA Lab. The LoRA lab documents adaptation workflow discipline; this lab provides one concrete example where model parameters are really learned and evaluated.
+This is conventional TF-IDF plus logistic-regression training, not fine-tuning of a pretrained language model. The separate LoRA validator documents data and configuration checks but performs no training.
 
 ## Problem
 

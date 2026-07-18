@@ -6,7 +6,7 @@
 2. Open `projects/aec-code-compliance-rag/EVAL.md`.
 3. Inspect `projects/aec-code-compliance-rag/demo_outputs/retrieval_ablation_report.md`.
 4. Skim `tests/test_rag.py` for retrieval, citation, and abstention coverage.
-5. Choose either the Construction Embodied Agent Simulator or Real Model Fine-Tune Lab based on the target role.
+5. Choose either the Construction Embodied Agent Simulator or Local Text Classification Lab based on the target role.
 
 ## Fifteen-Minute Path
 
@@ -32,8 +32,8 @@ This path downloads official Singapore sources locally. It demonstrates provenan
 
 1. AEC Code Compliance RAG: sole flagship and deepest code/evaluation surface.
 2. Construction Embodied Agent Simulator: strongest embodied-AI evidence, with real behavior cloning and disjoint holdout episodes inside a structured 2D environment.
-3. Real Model Fine-Tune Lab: clearest proof that model parameters are actually fitted and evaluated.
-4. Agentic Research Ops and MLOps Serving and Monitoring: substantial supporting workflow systems.
+3. Local Text Classification Lab: clearest proof that classical model parameters are actually fitted and evaluated.
+4. Deterministic Research Workflow Assistant and Local Model Serving and Monitoring: substantial supporting workflow systems.
 5. Remaining projects: narrower experiments and baselines.
 
 ## Full Verification

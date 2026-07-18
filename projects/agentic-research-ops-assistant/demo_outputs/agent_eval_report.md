@@ -1,6 +1,6 @@
 # Agent Evaluation Report
 
-Synthetic local evaluation for the Agentic Research Operations Assistant.
+Synthetic local evaluation for the Deterministic Research Workflow Assistant.
 
 ## Summary
 

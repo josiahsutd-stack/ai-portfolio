@@ -11,11 +11,11 @@ import streamlit as st
 
 from multimodal_vlm_visual_qa import get_vlm_provider
 
-st.set_page_config(page_title="Multimodal VLM Visual QA", page_icon="AI", layout="wide")
-st.title("Multimodal VLM Visual QA Assistant")
+st.set_page_config(page_title="Visual QA Provider Contract", page_icon="AI", layout="wide")
+st.title("Visual QA Provider Contract")
 st.caption(
-    "Mock mode runs without API keys. Set VLM_PROVIDER=openai and OPENAI_API_KEY "
-    "to use an OpenAI-compatible vision model."
+    "Default mock mode validates bytes and schemas but performs no visual inference. "
+    "Set VLM_PROVIDER=openai and OPENAI_API_KEY to test an OpenAI-compatible vision provider."
 )
 
 if "history" not in st.session_state:
@@ -24,7 +24,7 @@ if "history" not in st.session_state:
 uploaded = st.file_uploader("Upload an image", type=["png", "jpg", "jpeg", "gif", "webp"])
 question = st.text_input("Question", "Extract visible issues as structured JSON.")
 
-if st.button("Analyze", type="primary") and uploaded:
+if st.button("Run provider", type="primary") and uploaded:
     response = get_vlm_provider().answer(uploaded.getvalue(), question)
     st.session_state.history.append(response.model_dump())
     st.subheader("Answer")

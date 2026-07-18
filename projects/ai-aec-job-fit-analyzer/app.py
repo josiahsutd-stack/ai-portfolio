@@ -16,9 +16,9 @@ SAMPLE_JOBS = json.loads(
     (PROJECT_ROOT / "sample_data" / "sample_jobs.json").read_text(encoding="utf-8")
 )
 
-st.set_page_config(page_title="AI + AEC Job Fit Analyzer", page_icon="AI", layout="wide")
-st.title("AI Job Market Fit Analyzer")
-st.caption("A personal AI career tool for AI plus architecture/AEC roles.")
+st.set_page_config(page_title="AI/AEC Job Description Match", page_icon="AI", layout="wide")
+st.title("AI/AEC Job Description Match Baseline")
+st.caption("Deterministic keyword matching for AI plus architecture/AEC roles; not a hiring model.")
 
 sample_titles = [job["title"] for job in SAMPLE_JOBS]
 selected = st.selectbox("Sample job description", sample_titles)

@@ -12,7 +12,7 @@ from .report import build_progress_summary
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DATA_PATH = PROJECT_ROOT / "sample_data" / "synthetic_progress_metadata.csv"
 
-app = FastAPI(title="Construction Progress CV Workflow Tracker")
+app = FastAPI(title="Construction Progress Metadata Classifier")
 
 
 class ProgressObservation(BaseModel):

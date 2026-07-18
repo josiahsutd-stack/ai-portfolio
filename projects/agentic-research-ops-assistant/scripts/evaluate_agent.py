@@ -24,7 +24,7 @@ def _write_report(summary: dict[str, object], output_path: Path) -> None:
     lines = [
         "# Agent Evaluation Report",
         "",
-        "Synthetic local evaluation for the Agentic Research Operations Assistant.",
+        "Synthetic local evaluation for the Deterministic Research Workflow Assistant.",
         "",
         "## Summary",
         "",

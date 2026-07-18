@@ -1,4 +1,4 @@
-# Building Energy Prediction ML Pipeline
+# Building Energy Regression Pipeline
 
 Machine-learning pipeline that predicts synthetic building energy-use intensity from architectural and operational features.
 

@@ -18,8 +18,8 @@ from bim_issue_detection_agent import (
 
 DATA_PATH = PROJECT_ROOT / "sample_data" / "mock_bim_room_schedule.csv"
 
-st.set_page_config(page_title="BIM Issue Detection Agent", page_icon="AI", layout="wide")
-st.title("BIM / Drawing Issue Detection Agent")
+st.set_page_config(page_title="BIM Schedule Rule Checker", page_icon="AI", layout="wide")
+st.title("BIM Schedule Rule Checker")
 st.caption("Synthetic BIM export QA. Findings are demo signals, not professional certification.")
 
 data = load_room_schedule(DATA_PATH)

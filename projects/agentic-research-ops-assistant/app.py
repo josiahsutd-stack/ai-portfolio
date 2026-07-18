@@ -11,8 +11,8 @@ import streamlit as st
 
 from agentic_research_ops_assistant import ResearchAgent
 
-st.set_page_config(page_title="Agentic Research Ops", page_icon="AI", layout="wide")
-st.title("Agentic Research Operations Assistant")
+st.set_page_config(page_title="Deterministic Research Workflow", page_icon="AI", layout="wide")
+st.title("Deterministic Research Workflow Assistant")
 st.caption(
     "Planner-executor agent with local RAG, tool calls, citations, trace, and approval checkpoint."
 )

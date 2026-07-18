@@ -1,6 +1,6 @@
 # Limitations
 
-- Training is mocked locally.
+- The run report is simulated; training is not implemented.
 - No tokenizer is loaded.
 - No model weights are updated.
 - No GPU is required or used.
@@ -13,4 +13,4 @@
 - Do not infer that a model was fine-tuned.
 - Do not infer the placeholder base model exists locally.
 - Do not infer the workflow proves accuracy or business value.
-- Do not infer safety or robustness from the mock report.
+- Do not infer safety or robustness from the simulated report.

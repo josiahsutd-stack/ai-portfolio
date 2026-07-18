@@ -19,8 +19,10 @@ from construction_progress_cv import (
 
 DATA_PATH = PROJECT_ROOT / "sample_data" / "synthetic_progress_metadata.csv"
 
-st.set_page_config(page_title="Construction Progress CV", page_icon="AI", layout="wide")
-st.title("Construction Progress CV Workflow Tracker")
+st.set_page_config(
+    page_title="Construction Progress Metadata Classifier", page_icon="AI", layout="wide"
+)
+st.title("Construction Progress Metadata Classifier")
 st.caption("Synthetic site-image metadata workflow; no raw image model is trained.")
 st.caption("Synthetic image metadata demo. Replace metadata with real CV detections in production.")
 

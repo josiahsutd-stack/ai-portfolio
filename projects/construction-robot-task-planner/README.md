@@ -1,6 +1,6 @@
-# Construction Robot Task Planner
+# Construction Grid Route Planner
 
-Embodied AI planning demo that routes construction robots across a synthetic site map while accounting for obstacles, restricted zones, slow zones, payload, and battery margin.
+Deterministic A* planning demo that routes a simulated construction robot across a synthetic grid while accounting for obstacles, restricted zones, slow zones, payload, and battery margin.
 
 ## Problem
 
@@ -86,10 +86,9 @@ pytest tests/test_robot_task_planner.py
 
 ## Reviewer Signal
 
-- Embodied AI planning fundamentals
-- Robotics workflow thinking for construction sites
-- Ability to model safety, navigation, and operations constraints
-- Practical software packaging around robotics concepts
+- A* route planning over explicit construction-grid constraints.
+- Inspectable handling of restricted, slow, payload, and battery conditions.
+- API and UI packaging for a deterministic simulator, without a robotics-stack claim.
 
 ## Engineering Notes
 

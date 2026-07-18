@@ -1,4 +1,4 @@
-# Case Study: Agentic Research Ops Assistant
+# Case Study: Deterministic Research Workflow Assistant
 
 ## Problem
 

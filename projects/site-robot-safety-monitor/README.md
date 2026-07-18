@@ -1,6 +1,6 @@
-# Site Robot Safety Monitor
+# Robot Telemetry Safety Rule Monitor
 
-Embodied AI safety-monitoring demo that analyzes synthetic construction robot telemetry and flags human proximity, obstacle clearance, restricted-zone speed, payload stability, and emergency-stop events.
+Deterministic monitoring demo that analyzes synthetic construction-robot telemetry and applies explicit rules for human proximity, obstacle clearance, restricted-zone speed, payload stability, and emergency-stop events.
 
 ## Problem
 
@@ -86,10 +86,9 @@ pytest tests/test_site_robot_safety.py
 
 ## Reviewer Signal
 
-- Embodied AI safety thinking
-- Human-robot interaction awareness
-- Ability to translate telemetry into operational decisions
-- Construction robotics specialization beyond generic AI demos
+- Deterministic validation of synthetic robot telemetry.
+- Explicit proximity, speed, payload, and emergency-stop rules with event records.
+- Construction-domain safety framing without a certified-system or hardware claim.
 
 ## Engineering Notes
 
