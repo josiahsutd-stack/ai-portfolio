@@ -3,6 +3,7 @@ from scripts.check_portfolio_site import (
     SITE_ROOT,
     check_case_studies,
     check_case_study_asset_mirrors,
+    check_command_copy_contracts,
     check_home_evidence_labels,
     check_html_links,
     check_page_accessibility_contracts,
@@ -40,6 +41,10 @@ def test_public_site_keeps_search_share_and_recovery_contracts() -> None:
 
 def test_shared_site_keeps_keyboard_motion_and_contrast_contracts() -> None:
     assert check_shared_interaction_contracts() == []
+
+
+def test_every_runnable_site_command_keeps_copy_controls_and_feedback() -> None:
+    assert check_command_copy_contracts() == []
 
 
 def test_shared_palette_keeps_readable_text_contrast() -> None:

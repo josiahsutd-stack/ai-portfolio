@@ -158,6 +158,33 @@ REQUIRED_SCRIPT_INTERACTION_CONTRACTS = [
     "toggle.focus()",
     'window.addEventListener("resize"',
 ]
+COMMAND_COPY_REQUIREMENTS = {
+    "index.html": 2,
+    "pages/aec-rag.html": 4,
+    "pages/embodied-ai.html": 3,
+    "pages/massing-explorer.html": 3,
+    "pages/qs-takeoff.html": 3,
+    "pages/specification-assistant.html": 3,
+}
+REQUIRED_COMMAND_COPY_SCRIPT_CONTRACTS = [
+    'document.querySelectorAll("code[data-copy-command]")',
+    'button.setAttribute("data-copy-button", "")',
+    "navigator.clipboard.writeText(text)",
+    "navigator.clipboard.writeText(text).catch(function ()",
+    'document.execCommand("copy")',
+    'status.setAttribute("aria-live", "polite")',
+    'status.setAttribute("aria-atomic", "true")',
+    "Command copied to clipboard.",
+    "Copy failed. Select the command text manually.",
+]
+REQUIRED_COMMAND_COPY_CSS_CONTRACTS = [
+    ".command-copy",
+    ".command-copy code",
+    ".copy-command",
+    '.copy-command[data-state="success"]',
+    '.copy-command[data-state="error"]',
+    ".copy-status",
+]
 CASE_STUDY_ASSET_MIRRORS = {
     "assets/aec-rag-system-map.svg": (
         "projects/aec-code-compliance-rag/demo_outputs/system_map.svg"
@@ -535,6 +562,36 @@ def check_shared_interaction_contracts() -> list[str]:
     return issues
 
 
+def check_command_copy_contracts() -> list[str]:
+    issues: list[str] = []
+    for relative_path, expected_count in COMMAND_COPY_REQUIREMENTS.items():
+        path = SITE_ROOT / relative_path
+        text = path.read_text(encoding="utf-8")
+        marked_count = len(re.findall(r"<code\s+data-copy-command(?:\s|>)", text))
+        code_count = len(re.findall(r"<code(?:\s|>)", text))
+        label = path.relative_to(ROOT)
+        if marked_count != expected_count:
+            issues.append(
+                f"{label}: expected {expected_count} copyable commands, found {marked_count}"
+            )
+        if code_count != marked_count:
+            issues.append(f"{label}: every visible command block must opt into one-click copying")
+
+    script = (SITE_ROOT / "site.js").read_text(encoding="utf-8")
+    css = (SITE_ROOT / "styles.css").read_text(encoding="utf-8")
+    issues.extend(
+        f"portfolio-site/site.js: command-copy contract missing: {requirement}"
+        for requirement in REQUIRED_COMMAND_COPY_SCRIPT_CONTRACTS
+        if requirement not in script
+    )
+    issues.extend(
+        f"portfolio-site/styles.css: command-copy contract missing: {requirement}"
+        for requirement in REQUIRED_COMMAND_COPY_CSS_CONTRACTS
+        if requirement not in css
+    )
+    return issues
+
+
 def relative_luminance(hex_color: str) -> float:
     channels = [int(hex_color[index : index + 2], 16) / 255 for index in (1, 3, 5)]
     linear = [
@@ -639,6 +696,7 @@ def main() -> None:
         + check_page_accessibility_contracts()
         + check_public_discovery_contracts()
         + check_shared_interaction_contracts()
+        + check_command_copy_contracts()
         + check_palette_contrast()
         + check_home_evidence_labels()
         + check_case_studies()
