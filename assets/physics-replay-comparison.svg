@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="438" viewBox="0 0 980 438" role="img" aria-labelledby="title desc">
+<title id="title">MuJoCo planar command replay comparison</title>
+<desc id="desc">Reached movement targets and contact command rates for each evaluated policy.</desc>
+<rect width="100%" height="100%" fill="#f7f8fa"/>
+<text x="48" y="52" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#17212b">MuJoCo planar command replay</text>
+<text x="48" y="82" font-family="Arial, sans-serif" font-size="16" fill="#4c5967">12 fixed holdout scenarios | rigid contacts | headless continuous replay</text>
+<text x="410" y="118" font-family="Arial, sans-serif" font-size="13" fill="#4c5967">0%</text>
+<text x="820" y="118" font-family="Arial, sans-serif" font-size="13" text-anchor="end" fill="#4c5967">100%</text>
+<text x="48" y="168" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#17212b">egocentric_mlp_raw</text>
+<text x="48" y="194" font-family="Arial, sans-serif" font-size="13" fill="#4c5967">150 commands | 51 contact commands</text>
+<rect x="410" y="150" width="420" height="20" rx="3" fill="#d9dee5"/>
+<rect x="410" y="150" width="277.2" height="20" rx="3" fill="#087f8c"/>
+<text x="842" y="165" font-family="Arial, sans-serif" font-size="13" fill="#17212b">target 0.660</text>
+<rect x="410" y="180" width="420" height="14" rx="3" fill="#e8ebef"/>
+<rect x="410" y="180" width="142.8" height="14" rx="3" fill="#d1495b"/>
+<text x="842" y="192" font-family="Arial, sans-serif" font-size="13" fill="#17212b">contact 0.340</text>
+<text x="48" y="254" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#17212b">egocentric_mlp_shielded</text>
+<text x="48" y="280" font-family="Arial, sans-serif" font-size="13" fill="#4c5967">148 commands | 0 contact commands</text>
+<rect x="410" y="236" width="420" height="20" rx="3" fill="#d9dee5"/>
+<rect x="410" y="236" width="420.0" height="20" rx="3" fill="#087f8c"/>
+<text x="842" y="251" font-family="Arial, sans-serif" font-size="13" fill="#17212b">target 1.000</text>
+<rect x="410" y="266" width="420" height="14" rx="3" fill="#e8ebef"/>
+<rect x="410" y="266" width="0.0" height="14" rx="3" fill="#d1495b"/>
+<text x="842" y="278" font-family="Arial, sans-serif" font-size="13" fill="#17212b">contact 0.000</text>
+<text x="48" y="340" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#17212b">safety_shielded</text>
+<text x="48" y="366" font-family="Arial, sans-serif" font-size="13" fill="#4c5967">98 commands | 0 contact commands</text>
+<rect x="410" y="322" width="420" height="20" rx="3" fill="#d9dee5"/>
+<rect x="410" y="322" width="420.0" height="20" rx="3" fill="#087f8c"/>
+<text x="842" y="337" font-family="Arial, sans-serif" font-size="13" fill="#17212b">target 1.000</text>
+<rect x="410" y="352" width="420" height="14" rx="3" fill="#e8ebef"/>
+<rect x="410" y="352" width="0.0" height="14" rx="3" fill="#d1495b"/>
+<text x="842" y="364" font-family="Arial, sans-serif" font-size="13" fill="#17212b">contact 0.000</text>
+<line x1="48" y1="390" x2="932" y2="390" stroke="#c8ced6"/>
+<text x="48" y="416" font-family="Arial, sans-serif" font-size="12" fill="#596673">Synthetic rigid-body replay; not hardware, ROS, or physical-safety evidence.</text>
+</svg>

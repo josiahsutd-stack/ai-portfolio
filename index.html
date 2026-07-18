@@ -70,9 +70,9 @@
             <article class="evidence-card">
               <span>02 / Embodied AI</span>
               <h3>Construction Embodied Agent Simulator</h3>
-              <p>Shared expert demonstrations, three observation designs, raw and filtered rollouts, and visible filter dependence.</p>
-              <strong>Egocentric MLP 0.760 / RF 0.698 / world raster 0.292</strong>
-              <small>96 unseen grids. Egocentric result uses 943 interventions; simulator state, not camera vision.</small>
+              <p>Shared expert demonstrations, rendered-pixel shift tests, raw and filtered rollouts, and planar MuJoCo command replay.</p>
+              <strong>0.760 filtered success / 51 raw contacts / 0 filtered contacts</strong>
+              <small>96 unseen grids for policy evaluation; 12-scenario physics subset. State-rendered pixels and static collision proxies, not camera or hardware evidence.</small>
               <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/vla-embodied-agent-simulator">View project</a>
             </article>
             <article class="evidence-card">
@@ -84,6 +84,12 @@
               <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/constraint-aware-massing-explorer">View project</a>
             </article>
           </div>
+          <figure class="workflow-proof">
+            <img src="assets/physics-replay-comparison.svg" alt="Measured target-reach and rigid-contact rates for raw, filtered, and reference embodied-agent command traces" />
+            <figcaption>
+              Headless planar MuJoCo replay: raw egocentric commands contact named rigid geometry on 51/150 movements; filtered egocentric and A* traces record 0 contacts across 148 and 98 movements. Not a mobile-robot or safety validation.
+            </figcaption>
+          </figure>
           <div class="command-panel" aria-label="Local verification commands">
             <p class="eyebrow">Reproduce Locally</p>
             <code>python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py</code>
@@ -238,7 +244,8 @@
               <div><dt>Finding</dt><dd>Egocentric action accuracy 0.834 versus world-raster 0.478; filtered success 0.760 with 943 interventions</dd></div>
               <div><dt>Pixel ablation</dt><dd>Rendered-RGB action accuracy falls from 0.813 to 0.474 when pixels are replaced by training means</dd></div>
               <div><dt>RGB shift</dt><dd>Action accuracy 0.813 to 0.417; raw success 0.635 to 0.000; shifted filter interventions 3315</dd></div>
-              <div><dt>Limit</dt><dd>Pixels are rendered from privileged state and the filter has full rules; no physical camera, ROS, physics, hardware, or safety validation</dd></div>
+              <div><dt>Physics replay</dt><dd>12 unseen scenarios; raw contact rate 0.340 versus filtered 0.000 in a planar MuJoCo command adapter</dd></div>
+              <div><dt>Limit</dt><dd>Pixels are rendered from privileged state and the filter has full rules; physics uses a planar body and static proxies, not a physical camera, mobile robot, ROS, hardware, or safety validation</dd></div>
             </dl>
             <div class="inline-links">
               <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/vla-embodied-agent-simulator">Project</a>
