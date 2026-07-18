@@ -4,6 +4,7 @@ from scripts.check_portfolio_site import (
     check_case_studies,
     check_case_study_asset_mirrors,
     check_command_copy_contracts,
+    check_hero_preload_contracts,
     check_home_evidence_labels,
     check_html_links,
     check_page_accessibility_contracts,
@@ -37,6 +38,10 @@ def test_every_public_page_keeps_accessibility_metadata_and_controls() -> None:
 
 def test_public_site_keeps_search_share_and_recovery_contracts() -> None:
     assert check_public_discovery_contracts() == []
+
+
+def test_visual_entry_pages_preload_only_their_first_screen_hero() -> None:
+    assert check_hero_preload_contracts() == []
 
 
 def test_shared_site_keeps_keyboard_motion_and_contrast_contracts() -> None:

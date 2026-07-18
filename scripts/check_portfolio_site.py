@@ -40,6 +40,17 @@ REQUIRED_HOME_ASSETS = [
     "assets/monsoon-works-concept.webp",
     "assets/Josiah_Lau_Applied_AI_Portfolio_Brief.pdf",
 ]
+HERO_PRELOAD_REQUIREMENTS = {
+    "index.html": ("assets/applied-ai-construction-hero.webp", "image/webp"),
+    "pages/aec-rag.html": ("../assets/aec-rag-demo.png", "image/png"),
+    "pages/embodied-ai.html": ("../assets/embodied-ai-concept.webp", "image/webp"),
+    "pages/massing-explorer.html": ("../assets/massing-explorer-demo.png", "image/png"),
+    "pages/specification-assistant.html": (
+        "../assets/specification-copilot-demo.png",
+        "image/png",
+    ),
+    "pages/qs-takeoff.html": ("../assets/qs-takeoff-tender-demo.png", "image/png"),
+}
 REQUIRED_HOME_BOUNDARIES = [
     "generated portfolio concept image / not hardware evidence",
     "not a simulator screenshot or hardware evidence",
@@ -465,16 +476,6 @@ def check_public_discovery_contracts() -> list[str]:
     home_text = home.read_text(encoding="utf-8")
     home_parser = SiteLinkParser()
     home_parser.feed(home_text)
-    expected_preload = {
-        "href": "assets/applied-ai-construction-hero.webp",
-        "type": "image/webp",
-        "fetchpriority": "high",
-    }
-    if len(home_parser.image_preloads) != 1 or any(
-        home_parser.image_preloads[0].get(key) != value for key, value in expected_preload.items()
-    ):
-        issues.append("portfolio-site/index.html: expected one high-priority WebP hero preload")
-
     json_ld_matches = list(JSON_LD_PATTERN.finditer(home_text))
     if len(json_ld_matches) != 1:
         issues.append("portfolio-site/index.html: expected exactly one JSON-LD profile block")
@@ -540,6 +541,26 @@ def check_public_discovery_contracts() -> list[str]:
     if f"Sitemap: {PUBLIC_BASE_URL}sitemap.xml" not in robots:
         issues.append("portfolio-site/robots.txt: sitemap route is missing")
 
+    return issues
+
+
+def check_hero_preload_contracts() -> list[str]:
+    issues: list[str] = []
+    for relative_path, (href, content_type) in HERO_PRELOAD_REQUIREMENTS.items():
+        path = SITE_ROOT / relative_path
+        parser = SiteLinkParser()
+        parser.feed(path.read_text(encoding="utf-8"))
+        expected = {
+            "href": href,
+            "type": content_type,
+            "fetchpriority": "high",
+        }
+        if len(parser.image_preloads) != 1 or any(
+            parser.image_preloads[0].get(key) != value for key, value in expected.items()
+        ):
+            issues.append(
+                f"portfolio-site/{relative_path}: expected one matching high-priority hero preload"
+            )
     return issues
 
 
@@ -694,6 +715,7 @@ def main() -> None:
         + check_css_assets()
         + check_page_accessibility_contracts()
         + check_public_discovery_contracts()
+        + check_hero_preload_contracts()
         + check_shared_interaction_contracts()
         + check_command_copy_contracts()
         + check_palette_contrast()
