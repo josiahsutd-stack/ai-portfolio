@@ -16,6 +16,7 @@ PUBLIC_BASE_URL = "https://josiahsutd-stack.github.io/ai-portfolio/"
 SOCIAL_SITE_NAME = "Josiah Lau | Applied AI Engineering"
 SOCIAL_LOCALE = "en_SG"
 SOCIAL_CARD_MANIFEST_PATH = SITE_ROOT / "social-card-manifest.json"
+STYLES_PATH = SITE_ROOT / "styles.css"
 PLACEHOLDER_PATTERNS = [
     "your-username",
     "your-name",
@@ -36,6 +37,13 @@ REQUIRED_CONTRAST_PAIRS = [
     ("muted", "white", 4.5),
     ("muted", "paper", 4.5),
 ]
+RESPONSIVE_MEDIA_SELECTORS = (
+    ".evidence-shot img",
+    ".visual-figure img",
+    ".architecture-map img",
+    ".architecture-tile img",
+    ".case-visual-grid img",
+)
 REQUIRED_HOME_ASSETS = [
     "assets/favicon.svg",
     "assets/applied-ai-construction-hero.webp",
@@ -437,6 +445,36 @@ def check_css_assets() -> list[str]:
             issue = check_local_target(path, target, {})
             if issue:
                 issues.append(issue)
+    return issues
+
+
+def check_responsive_media_contracts() -> list[str]:
+    css = STYLES_PATH.read_text(encoding="utf-8")
+    issues: list[str] = []
+    for selector in RESPONSIVE_MEDIA_SELECTORS:
+        match = re.search(
+            rf"(?m)^{re.escape(selector)}\s*\{{(?P<declarations>[^}}]*)\}}",
+            css,
+        )
+        if not match:
+            issues.append(f"portfolio-site/styles.css: responsive media rule missing: {selector}")
+            continue
+        declarations = {
+            name.strip(): value.strip()
+            for declaration in match.group("declarations").split(";")
+            if ":" in declaration
+            for name, value in [declaration.split(":", 1)]
+        }
+        if declarations.get("width") != "100%":
+            issues.append(f"portfolio-site/styles.css: {selector} must use width: 100%")
+        if declarations.get("height") != "auto":
+            issues.append(
+                f"portfolio-site/styles.css: {selector} must use height: auto so intrinsic HTML height does not stretch the layout"
+            )
+        if "aspect-ratio" not in declarations:
+            issues.append(
+                f"portfolio-site/styles.css: {selector} must declare a stable aspect ratio"
+            )
     return issues
 
 
@@ -887,6 +925,7 @@ def main() -> None:
     issues = (
         check_html_links()
         + check_css_assets()
+        + check_responsive_media_contracts()
         + check_page_accessibility_contracts()
         + check_public_discovery_contracts()
         + check_social_preview_contracts()

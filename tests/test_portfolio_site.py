@@ -13,6 +13,7 @@ from scripts.check_portfolio_site import (
     check_page_accessibility_contracts,
     check_palette_contrast,
     check_public_discovery_contracts,
+    check_responsive_media_contracts,
     check_shared_interaction_contracts,
     check_social_preview_contracts,
     html_files,
@@ -34,6 +35,31 @@ def test_case_studies_keep_evidence_and_boundary_contracts() -> None:
 def test_site_navigation_and_local_assets_resolve() -> None:
     assert check_html_links() == []
     assert check_home_evidence_labels() == []
+
+
+def test_responsive_visuals_ignore_intrinsic_html_height_hints() -> None:
+    assert check_responsive_media_contracts() == []
+
+
+def test_responsive_media_contract_detects_a_stretched_diagram(tmp_path, monkeypatch) -> None:
+    css = portfolio_site.STYLES_PATH.read_text(encoding="utf-8")
+    responsive_rule = """.architecture-map img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;"""
+    stretched_rule = """.architecture-map img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;"""
+    assert responsive_rule in css
+    broken_styles = tmp_path / "styles.css"
+    broken_styles.write_text(css.replace(responsive_rule, stretched_rule, 1), encoding="utf-8")
+    monkeypatch.setattr(portfolio_site, "STYLES_PATH", broken_styles)
+
+    issues = check_responsive_media_contracts()
+
+    assert any(".architecture-map img must use height: auto" in issue for issue in issues)
 
 
 def test_every_public_page_keeps_accessibility_metadata_and_controls() -> None:
