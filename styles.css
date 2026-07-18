@@ -899,6 +899,7 @@ h3 {
 .evidence-shot img {
   display: block;
   width: 100%;
+  height: auto;
   aspect-ratio: 4 / 3;
   object-fit: cover;
   object-position: top left;
@@ -939,6 +940,7 @@ h3 {
 .visual-figure img {
   display: block;
   width: 100%;
+  height: auto;
   aspect-ratio: 3 / 2;
   object-fit: cover;
   border-radius: 8px;
@@ -970,6 +972,7 @@ h3 {
 .architecture-map img {
   display: block;
   width: 100%;
+  height: auto;
   aspect-ratio: 16 / 9;
   object-fit: cover;
   border: 1px solid rgba(255, 255, 255, 0.16);
@@ -998,6 +1001,7 @@ h3 {
 .architecture-tile img {
   display: block;
   width: 100%;
+  height: auto;
   aspect-ratio: 16 / 10;
   object-fit: cover;
   border-radius: 8px;
@@ -1561,6 +1565,7 @@ h3 {
 .case-visual-grid img {
   display: block;
   width: 100%;
+  height: auto;
   aspect-ratio: 16 / 10;
   object-fit: contain;
   border: 1px solid var(--line);
