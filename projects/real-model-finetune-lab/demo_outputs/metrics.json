@@ -16,5 +16,5 @@
     3,
     250
   ],
-  "model_path": "projects/real-model-finetune-lab/demo_outputs/text_classifier.joblib"
+  "model_path": ".artifacts/real-model-finetune-lab/text_classifier.joblib"
 }

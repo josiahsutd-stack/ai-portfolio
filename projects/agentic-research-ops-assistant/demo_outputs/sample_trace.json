@@ -1,6 +1,6 @@
 {
-  "trace_id": "62bba5f8-f77e-4754-9e01-8363f21337da",
-  "started_at": "2026-06-19T00:48:25+00:00",
+  "trace_id": "demo-trace-001",
+  "started_at": "generated-at-runtime",
   "task": "Summarize AI deployment strategies",
   "planner_reason": "Default deterministic local planner selected `summarize` workflow over local documents.",
   "task_intent": "summarize",

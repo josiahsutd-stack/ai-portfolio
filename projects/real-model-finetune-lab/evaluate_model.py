@@ -19,12 +19,19 @@ from real_model_finetune_lab import (  # noqa: E402
 def main() -> None:
     examples_path = PROJECT_ROOT / "sample_data" / "training_examples.json"
     public_dataset_path = PROJECT_ROOT / "sample_data" / "uci_sms_subset.tsv"
+    model_output_dir = REPO_ROOT / ".artifacts" / "real-model-finetune-lab"
+    model_output_dir.mkdir(parents=True, exist_ok=True)
     if not examples_path.exists():
         write_default_examples(examples_path)
-    result = write_training_artifacts(examples_path, PROJECT_ROOT / "demo_outputs")
+    result = write_training_artifacts(
+        examples_path,
+        PROJECT_ROOT / "demo_outputs",
+        model_output_dir=model_output_dir,
+    )
     public_result = write_public_dataset_artifacts(
         public_dataset_path,
         PROJECT_ROOT / "demo_outputs",
+        model_output_dir=model_output_dir,
     )
     print(json.dumps(asdict(result), indent=2))
     print(json.dumps(asdict(public_result), indent=2))

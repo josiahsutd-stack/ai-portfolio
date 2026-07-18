@@ -27,6 +27,13 @@ def _repo_relative_artifacts(artifacts: dict[str, str]) -> dict[str, str]:
     }
 
 
+def _stable_prediction_logs(logs: list[dict[str, object]]) -> list[dict[str, object]]:
+    stable = [dict(log) for log in logs]
+    for log in stable:
+        log["created_at"] = "generated-at-runtime"
+    return stable
+
+
 def _write_report(summary: dict[str, object], output_path: Path) -> None:
     metrics = summary["metrics"]
     drift = summary["drift"]
@@ -109,7 +116,7 @@ def main() -> None:
         encoding="utf-8",
     )
     (output_dir / "sample_prediction_log.json").write_text(
-        json.dumps(logs, indent=2) + "\n",
+        json.dumps(_stable_prediction_logs(logs), indent=2) + "\n",
         encoding="utf-8",
     )
     (output_dir / "drift_report.md").write_text(

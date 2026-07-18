@@ -14,11 +14,9 @@ REQUIRED_DOCS = [
     "docs/technical-review-guide.md",
     "docs/skills-matrix.md",
     "docs/role-to-project-map.md",
-    "docs/project-roadmap.md",
     "docs/REVIEWER_GUIDE.md",
     "docs/AUTHENTICITY_AND_OWNERSHIP.md",
     "docs/CLAIMS_POLICY.md",
-    "docs/DEMO_RECORDING_GUIDE.md",
     "docs/adr/0001-local-first-synthetic-data.md",
     "docs/adr/0002-aec-rag-as-flagship.md",
     "docs/adr/0003-mock-provider-boundaries.md",
@@ -34,21 +32,14 @@ REQUIRED_README_PATTERNS = {
     "technical review discussion points": r"## Technical Review Discussion Points",
 }
 REQUIRED_ROOT_README_PATTERNS = {
-    "portfolio highlights": r"## Portfolio Highlights",
-    "highlight table": r"What it demonstrates",
+    "recruiter fast path": r"## Recruiter Fast Path",
+    "measured result column": r"Current local result",
     "quick evidence command": r"python projects/aec-code-compliance-rag/scripts/evaluate_retrieval\.py",
-    "quick verification": r"## Quick Verification",
-    "technical evidence": r"## Technical Evidence",
-    "scope": r"## Scope",
+    "local run path": r"## Run Evidence Locally",
+    "flagship evidence": r"## Flagship Evidence",
+    "evidence labels": r"## Evidence Labels",
+    "limitations link": r"docs/SCOPE_AND_LIMITATIONS\.md",
 }
-ROOT_README_DIRECT_ADDRESS_PHRASES = [
-    "Top 3 projects to inspect",
-    "Run evidence quickly",
-    "What to inspect:",
-    "Then inspect:",
-    "Read this README",
-    "Open the primary AEC project",
-]
 GENERIC_PHRASES = [
     "leveraging cutting-edge",
     "revolutionizing",
@@ -77,10 +68,6 @@ def check_root_readme() -> list[str]:
         for label, pattern in REQUIRED_ROOT_README_PATTERNS.items()
         if not re.search(pattern, text, flags=re.IGNORECASE)
     ]
-    lowered = text.lower()
-    for phrase in ROOT_README_DIRECT_ADDRESS_PHRASES:
-        if phrase.lower() in lowered:
-            issues.append(f"README.md: recruiter-facing wording should replace `{phrase}`")
     return issues
 
 

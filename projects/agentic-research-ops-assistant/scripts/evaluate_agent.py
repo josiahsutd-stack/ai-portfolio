@@ -11,6 +11,15 @@ sys.path.extend([str(PROJECT_ROOT / "src"), str(REPO_ROOT)])
 from agentic_research_ops_assistant import ResearchAgent  # noqa: E402
 
 
+def _stable_trace(trace) -> dict[str, object]:
+    payload = trace.model_dump()
+    payload["trace_id"] = "demo-trace-001"
+    payload["started_at"] = "generated-at-runtime"
+    for call in payload["tool_calls"]:
+        call["latency_ms"] = 0
+    return payload
+
+
 def _write_report(summary: dict[str, object], output_path: Path) -> None:
     lines = [
         "# Agent Evaluation Report",
@@ -42,6 +51,9 @@ def main() -> None:
     output_dir = PROJECT_ROOT / "demo_outputs"
     output_dir.mkdir(exist_ok=True)
     trace_db = output_dir / "agent_eval_traces.sqlite"
+    runtime_dir = REPO_ROOT / ".artifacts" / "agentic-research-ops-assistant"
+    runtime_dir.mkdir(parents=True, exist_ok=True)
+    memory_path = runtime_dir / "agent_memory.json"
     if trace_db.exists():
         trace_db.unlink()
 
@@ -52,9 +64,13 @@ def main() -> None:
         "Prepare a final report requiring approval",
         "Explain quantum banana planning assumptions",
     ]
-    traces = [ResearchAgent(docs_dir, trace_db_path=trace_db).run(task) for task in tasks]
+    traces = [
+        ResearchAgent(docs_dir, memory_path=memory_path, trace_db_path=trace_db).run(task)
+        for task in tasks
+    ]
     denied_trace = ResearchAgent(
         docs_dir,
+        memory_path=memory_path,
         trace_db_path=trace_db,
         allowed_tools={"search_local_docs", "create_report", "ask_human_approval", "save_memory"},
     ).run("Extract entities from deployment strategies")
@@ -67,7 +83,11 @@ def main() -> None:
     summary = {
         "task_count": len(traces),
         "traces_written": len(
-            ResearchAgent(docs_dir, trace_db_path=trace_db).recent_traces(limit=20)
+            ResearchAgent(
+                docs_dir,
+                memory_path=memory_path,
+                trace_db_path=trace_db,
+            ).recent_traces(limit=20)
         ),
         "citation_rate": round(citation_rate, 3),
         "approval_gate_rate": round(approval_gate_rate, 3),
@@ -92,7 +112,7 @@ def main() -> None:
     )
     _write_report(summary, output_dir / "agent_eval_report.md")
     (output_dir / "sample_trace.json").write_text(
-        traces[0].model_dump_json(indent=2) + "\n",
+        json.dumps(_stable_trace(traces[0]), indent=2) + "\n",
         encoding="utf-8",
     )
     print(json.dumps(summary, indent=2))

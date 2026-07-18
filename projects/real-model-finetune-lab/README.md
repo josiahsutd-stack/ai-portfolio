@@ -26,7 +26,7 @@ python projects/real-model-finetune-lab/evaluate_model.py
 - Larger public-dataset path using a compact UCI SMS Spam Collection subset with train/validation/test splits.
 - Real scikit-learn training using `TfidfVectorizer` and `LogisticRegression`.
 - Dummy-classifier baseline for before/after comparison.
-- Saved fitted model artifacts: `demo_outputs/text_classifier.joblib` and `demo_outputs/public_sms_classifier.joblib`.
+- Fitted model artifacts generated under `.artifacts/real-model-finetune-lab/` during local evaluation. Runtime binaries are ignored by Git; metrics and reports remain versioned in `demo_outputs/`.
 - Metrics JSON, public confusion matrix, sample prediction JSON, and model card/report docs.
 - Tests that confirm both trained models improve over baseline and expose learned coefficients.
 
@@ -34,8 +34,8 @@ python projects/real-model-finetune-lab/evaluate_model.py
 
 | Path | Dataset | Split | Outputs |
 | --- | --- | --- | --- |
-| Synthetic quick path | 27 synthetic portfolio-task examples | fixed train/eval | `metrics.json`, `sample_prediction.json`, `model_card.md`, `text_classifier.joblib` |
-| Public SMS path | 240-row balanced subset of the UCI SMS Spam Collection | 160 train, 40 validation, 40 test | `public_sms_metrics.json`, `public_sms_confusion_matrix.json`, `public_sms_report.md`, `public_sms_classifier.joblib` |
+| Synthetic quick path | 27 synthetic portfolio-task examples | fixed train/eval | Versioned metrics, prediction, and model card; locally generated `text_classifier.joblib` |
+| Public SMS path | 240-row balanced subset of the UCI SMS Spam Collection | 160 train, 40 validation, 40 test | Versioned metrics, confusion matrix, and report; locally generated `public_sms_classifier.joblib` |
 
 Dataset source notes for the public path are in [sample_data/uci_sms_subset_README.md](sample_data/uci_sms_subset_README.md).
 
@@ -65,7 +65,7 @@ Real model fitting, before/after evaluation, public-dataset held-out testing, sa
 - Both models are intentionally CPU-friendly and fast enough for CI.
 - The synthetic path is tiny and deterministic; the public SMS path is larger and more credible while still locally bundled.
 - The baseline is deliberately weak so the evaluation shows whether training adds measurable signal.
-- The project keeps model artifacts local and small enough to inspect.
+- The evaluator saves fitted binaries locally and keeps deterministic metrics and reports under version control.
 
 ## Technical Review Discussion Points
 

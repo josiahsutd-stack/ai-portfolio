@@ -4,12 +4,13 @@
 
 ```mermaid
 flowchart LR
-  A["Mock AEC documents"] --> B["Chunking pipeline"]
-  B --> C["Local vector store"]
-  Q["User question"] --> C
-  C --> D["Retrieved chunks"]
-  D --> E["LLM/mock answer generator"]
-  E --> F["Answer with citations"]
+  A["Synthetic guidance or local public documents"] --> B["Page and section-aware chunking"]
+  M["Source manifest and authority metadata"] --> B
+  B --> C["TF-IDF, BM25, dense LSA, or hybrid retrieval"]
+  Q["Question and optional source filters"] --> C
+  C --> D["Ranked evidence chunks"]
+  D --> E["Grounded response or abstention"]
+  E --> F["Citations, status, and eval artifacts"]
 ```
 
 ## Construction Progress CV Workflow Tracker

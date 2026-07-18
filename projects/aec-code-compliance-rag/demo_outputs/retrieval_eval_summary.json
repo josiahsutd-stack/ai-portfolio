@@ -15,7 +15,6 @@
     "answer_sentence_support_rate": 1.0,
     "unsupported_sentence_rate": 0.0,
     "citation_warning_count": 0,
-    "average_latency_ms": 0.43,
     "retrieval_hit_at_1": 0.829,
     "retrieval_hit_at_3": 1.0,
     "no_answer_accuracy": 1.0,
@@ -59,7 +58,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 2,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -100,7 +98,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -141,7 +138,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -182,7 +178,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -223,7 +218,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 1,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -264,7 +258,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -305,7 +298,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -346,7 +338,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -387,7 +378,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -428,7 +418,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -469,7 +458,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -510,7 +498,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -551,7 +538,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -592,7 +578,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -627,7 +612,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -668,7 +652,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 1,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -709,7 +692,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 1,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -750,7 +732,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 1,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -791,7 +772,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 1,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -832,7 +812,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 2,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -873,7 +852,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 1,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -914,7 +892,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 1,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -955,7 +932,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 1,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -996,7 +972,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1037,7 +1012,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1078,7 +1052,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 2,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1119,7 +1092,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1160,7 +1132,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1201,7 +1172,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1242,7 +1212,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1280,7 +1249,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1321,7 +1289,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1359,7 +1326,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1400,7 +1366,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1426,7 +1391,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1452,7 +1416,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1478,7 +1441,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1504,7 +1466,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1545,7 +1506,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1586,7 +1546,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1627,7 +1586,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1668,7 +1626,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1709,7 +1666,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 1,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1750,7 +1706,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 1,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1791,7 +1746,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1832,7 +1786,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 1,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1873,7 +1826,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 1,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1914,7 +1866,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 0,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1955,7 +1906,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 2,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -1996,7 +1946,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 1,
       "simple_grounding_check": true,
       "missing_terms": []
     },
@@ -2037,7 +1986,6 @@
       "answer_sentence_support_rate": 1.0,
       "unsupported_sentence_count": 0,
       "citation_warning_count": 0,
-      "latency_ms": 1,
       "simple_grounding_check": true,
       "missing_terms": []
     }

@@ -1,58 +1,45 @@
 # How To Review This Portfolio
 
-## 5-Minute Review Path
+## Five-Minute Path
 
-1. Read the top of `README.md`.
-2. Open `projects/aec-code-compliance-rag/README.md`.
-3. Review `projects/aec-code-compliance-rag/EVAL.md`.
-4. Skim one supporting review project: Agentic Research Ops or MLOps Model Serving Monitoring.
-5. Skim `docs/technical-review-guide.md`.
+1. Read the root `README.md` evidence table and boundaries.
+2. Open `projects/aec-code-compliance-rag/EVAL.md`.
+3. Inspect `projects/aec-code-compliance-rag/demo_outputs/retrieval_ablation_report.md`.
+4. Skim `tests/test_rag.py` for retrieval, citation, and abstention coverage.
+5. Choose either the VLA simulator or real-model lab based on the target role.
 
-## 15-Minute Review Path
-
-1. Run `python scripts/verify.py`.
-2. Run the primary demo: `streamlit run projects/aec-code-compliance-rag/app.py`.
-3. Run the primary eval: `python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py`.
-4. Optional deeper AEC check: `python projects/aec-code-compliance-rag/scripts/download_public_sources.py` then `python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py --corpus public`.
-5. Review `projects/projects.yml`.
-6. Inspect `tests/test_rag.py`.
-
-## Top 3 For A General AI Recruiter
-
-1. `projects/aec-code-compliance-rag` - best evidence of domain RAG, citations, Singapore public-source ingestion, evals, limitations, and runnable local artifacts.
-2. `projects/agentic-research-ops-assistant` - best evidence of agent workflow design, tool traces, citations, approval checkpoints, and trace persistence.
-3. `projects/mlops-model-serving-monitoring` - best evidence of model-serving hygiene, metadata, schema validation, prediction logging, and drift reports.
-
-The fine-tuning and VLM projects are useful supporting evidence, but they should not be inspected before the top 3 unless the role is specifically adaptation or multimodal.
-
-## Best Projects By Role
-
-| Role | Best projects to inspect |
-| --- | --- |
-| AI Engineer | AEC Code Compliance RAG, Agentic Research Ops, MLOps Platform |
-| ML Engineer | MLOps Platform, Building Energy ML, Time-Series Forecasting |
-| LLM / Agent Engineer | AEC Code Compliance RAG, Agentic Research Ops, LLM Evals Guardrails |
-| Computer Vision / VLM | Multimodal VLM Visual QA, Vision Baseline Lab, Construction Progress CV |
-| MLOps | MLOps Platform, LLM Evals Guardrails, Vision Baseline Lab |
-| Robotics / VLA | VLA Simulator as experimental simulation, Construction Robot Task Planner, Site Robot Safety Monitor |
-| Fine-tuning workflow | Fine-Tuning LoRA Lab, LLM Evals Guardrails, AEC RAG |
-
-## How To Run Demos
+## Fifteen-Minute Path
 
 ```bash
-python scripts/generate_sample_data.py
 python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
-python projects/aec-code-compliance-rag/scripts/download_public_sources.py
-python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py --corpus public
 python projects/vla-embodied-agent-simulator/evaluate_vla.py
-streamlit run projects/aec-code-compliance-rag/app.py
+python projects/real-model-finetune-lab/evaluate_model.py
+python -m pytest tests/test_rag.py tests/test_vla_embodied_agent.py tests/test_real_model_finetune_lab.py
 ```
 
-All demos run without API keys in mock/local mode. The VLM project can optionally use an OpenAI-compatible hosted vision provider when `VLM_PROVIDER=openai` and `OPENAI_API_KEY` are set.
+The commands use bundled synthetic data or a labeled public subset and require no paid APIs. Generated model binaries and runtime databases are ignored by Git; deterministic metrics, reports, and traces are versioned for comparison.
 
-## What Is Synthetic Or Mock
+## Optional Public AEC Check
 
-- Sample data is synthetic by default; the AEC project can optionally download public Singapore BCA/URA/NEA/SCDF/LTA/PUB/NParks sources for local retrieval tests.
-- LLM/VLM providers fall back to mock mode.
-- Robotics and VLA projects are simulations.
-- LoRA training is mocked locally to avoid GPU requirements.
+```bash
+python projects/aec-code-compliance-rag/scripts/download_public_sources.py
+python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py --corpus public
+```
+
+This path downloads official Singapore sources locally. It demonstrates provenance-aware ingestion and retrieval, not document-currency validation or authority approval.
+
+## Evidence Hierarchy
+
+1. AEC Code Compliance RAG: sole flagship and deepest code/evaluation surface.
+2. VLA Embodied Agent Simulator: strongest embodied-AI evidence, bounded to a deterministic 2D environment.
+3. Real Model Fine-Tune Lab: clearest proof that model parameters are actually fitted and evaluated.
+4. Agentic Research Ops and MLOps Serving and Monitoring: substantial supporting workflow systems.
+5. Remaining projects: narrower experiments and baselines.
+
+## Full Verification
+
+```bash
+python scripts/verify.py
+```
+
+The full check covers fixture generation, repository health, claim and link scans, project imports, deterministic review-artifact generation, formatting, linting, and pytest.

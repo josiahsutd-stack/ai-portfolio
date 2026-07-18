@@ -40,7 +40,7 @@ def html_files() -> list[Path]:
 
 def is_external(target: str) -> bool:
     scheme = urlparse(target).scheme
-    return scheme in {"http", "https", "mailto", "tel"}
+    return scheme in {"data", "http", "https", "mailto", "tel"}
 
 
 def resolve_local_path(source: Path, target: str) -> tuple[Path, str]:

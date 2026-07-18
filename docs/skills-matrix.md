@@ -1,40 +1,21 @@
-# Skills Matrix
+# Skills Evidence Matrix
 
-Legend: Strong, Medium, Light, Not covered.
+Evidence levels refer to code, tests, and generated artifacts in this repository. Future extensions are not counted as implementation.
 
-| Skill | Strong | Medium | Light |
+| Skill | Strong evidence | Supporting evidence | Not demonstrated / boundary |
 | --- | --- | --- | --- |
-| Python | All projects |  |  |
-| TypeScript | Not covered |  | Portfolio can be extended with Next.js |
-| FastAPI | MLOps, Deep Vision, Recommender, Time-Series | VLM, Guardrails | Built-environment APIs |
-| Streamlit | All demos |  |  |
-| PyTorch | Future extension | Fine-Tuning LoRA Lab | Deep Vision project shape |
-| scikit-learn | Real Model Fine-Tune Lab, MLOps, Recommender, Time-Series, Energy ML | Construction Progress CV |  |
-| pandas/numpy | MLOps, Time-Series, Energy ML, Deep Vision | Most ML demos |  |
-| RAG | AEC RAG, Agentic Research Ops |  |  |
-| vector search | Agentic Research Ops, AEC RAG |  |  |
-| embeddings | Mock/local retrieval abstractions |  |  |
-| LLM agents | Agentic Research Ops | BIM Issue Agent |  |
-| tool calling | Agentic Research Ops |  | LLM Evals |
-| structured outputs | VLM Visual QA, Guardrails | Agentic Research Ops |  |
-| evals | LLM Evals Guardrails | RAG tests, recommender metrics |  |
-| guardrails | LLM Evals Guardrails | VLM uncertainty |  |
-| VLM | Multimodal VLM Visual QA |  |  |
-| multimodal AI | VLM Visual QA, VLA Simulator | Construction CV |  |
-| computer vision | Vision Baseline Lab, Construction Progress CV | VLM Visual QA |  |
-| real model training | Real Model Fine-Tune Lab | MLOps Platform | fitted scikit-learn weights |
-| VLA | VLA Embodied Agent Simulator | Construction Robot Task Planner |  |
-| embodied AI | VLA Simulator, Robot Task Planner, Robot Safety Monitor |  |  |
-| RL | Reinforcement Learning Portfolio | VLA Simulator |  |
-| recommendation systems | Recommender Ranking Engine | Spatial Recommender |  |
-| time-series forecasting | Time-Series Anomaly Forecasting |  |  |
-| anomaly detection | Time-Series Anomaly Forecasting | Site Robot Safety Monitor |  |
-| MLOps | MLOps Serving Monitoring | Real Model Fine-Tune Lab, Vision Baseline Lab |  |
-| model serving | MLOps, Vision Baseline, Recommender, Time-Series | Real Model Fine-Tune Lab |  |
-| drift detection | MLOps Serving Monitoring |  |  |
-| Docker | MLOps, Deep Vision, Guardrails | Existing demos |  |
-| CI/CD | GitHub Actions workflow | health/smoke scripts |  |
-| testing | pytest suite | smoke scripts |  |
-| responsible AI | Guardrails, mock notices, model cards | robotics safety docs |  |
-| product thinking | VLM QA, Agentic Ops, Job Fit Analyzer | all demos |  |
-
+| Python engineering | AEC RAG, VLA Simulator, Real Model Lab, Agent, MLOps | All experiment modules | No large multi-service production system. |
+| RAG and retrieval evaluation | AEC RAG | Agentic Research Ops | Hosted embedding/reranking quality is not evaluated. |
+| Citations and abstention | AEC RAG | Agentic Research Ops | Citation checks are deterministic, not full factual verification. |
+| Embodied-agent simulation | VLA Simulator | Robot Task Planner, Safety Monitor | No learned VLA, perception stack, physics, ROS, or hardware. |
+| Classical model training | Real Model Lab, MLOps | Energy ML, Recommender, Time-Series | No large-scale or transformer training. |
+| Agent workflows | Agentic Research Ops | BIM Issue Agent | No live web research or autonomous production tools. |
+| FastAPI and schemas | MLOps | Vision, Recommender, Time-Series, VLM | Local endpoints only. |
+| Persistence and observability | Agent SQLite traces, MLOps prediction logs | AEC query logs | Local development storage, not production telemetry. |
+| Testing and evaluation | Full pytest suite, AEC eval, VLA policy eval, Real Model metrics | Project smoke tests | Local runs are the primary evidence. |
+| MLOps concepts | MLOps Serving and Monitoring | Real Model Lab | No hosted registry, alerting, delayed-label loop, or retraining service. |
+| VLM workflow design |  | Multimodal VLM Visual QA | Mock mode does not perform visual reasoning. |
+| Computer vision |  | Classical threshold baseline and metadata workflow | No trained CNN, ViT, detector, or segmentation model. |
+| LoRA / transformer fine-tuning |  | Dataset and configuration workflow only | No updated neural weights or real LoRA metrics. |
+| Frontend engineering | Static HTML/CSS portfolio and Streamlit demos |  | No TypeScript/React application. |
+| CI/CD | GitHub Actions workflow definition and local verifier |  | A workflow file is not proof of a successful hosted run. |

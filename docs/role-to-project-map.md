@@ -1,107 +1,18 @@
 # Role To Project Map
 
-## AI Engineer
+The AEC RAG project is the sole flagship. Other projects are selected below by relevance, not presented as equivalent depth.
 
-- AEC Code Compliance RAG Assistant: shows source-grounded RAG, retrieval evaluation, citations, metadata, and no-result handling.
-- Agentic Research Operations Assistant: shows agent orchestration, local RAG, citations, and traces.
-- MLOps Model Serving and Monitoring Platform: shows model serving, artifact metadata, inference logging, and monitoring.
+| Target role | Primary evidence | Supporting evidence | Important boundary |
+| --- | --- | --- | --- |
+| Applied AI Engineer | AEC Code Compliance RAG | Real Model Fine-Tune Lab, Agentic Research Ops | Local prototypes without customer or production evidence. |
+| LLM / Agent Engineer | AEC Code Compliance RAG | Agentic Research Ops, LLM Evals and Guardrails | Deterministic local providers and retrieval; no autonomous web agent. |
+| Embodied AI / Robotics Engineer | VLA Embodied Agent Simulator | Construction Robot Task Planner, Site Robot Safety Monitor | Grid simulation and synthetic telemetry; no learned control or hardware. |
+| ML Engineer | Real Model Fine-Tune Lab | MLOps Serving and Monitoring, Energy ML | Small classical models and synthetic/domain-demo datasets. |
+| MLOps Engineer | MLOps Serving and Monitoring | Real Model Fine-Tune Lab, Time-Series Forecasting | Local SQLite/artifact scaffolds, not a deployed ML platform. |
+| AEC Technology Engineer | AEC Code Compliance RAG | BIM Issue Detection, Building Energy ML | Document assistance and synthetic workflows, not professional sign-off. |
+| Multimodal / CV Engineer | Multimodal VLM Visual QA | Vision Threshold Baseline, Construction Progress CV | Interface contracts and classical baselines; no trained deep vision model. |
+| Data Scientist | Real Model Fine-Tune Lab | Time-Series Forecasting, Recommender Ranking | Compact datasets and baseline-focused evaluations. |
 
-Reviewer focus: local testability, mock-safe design, and evidence that the demos are honest engineering prototypes.
+## Strongest Role Match
 
-## Applied AI Engineer
-
-- AEC Code Compliance RAG Assistant
-- BIM Issue Detection Agent
-- Agentic Research Operations Assistant
-
-Reviewer focus: how domain workflows become tools, retrieval, validation, and review loops.
-
-## LLM Engineer
-
-- Agentic Research Operations Assistant
-- LLM Evals and Guardrails Platform
-- AEC Code Compliance RAG Assistant
-
-Reviewer focus: retrieval, prompt safety, structured outputs, and eval gates.
-
-## Agentic AI Engineer
-
-- Agentic Research Operations Assistant
-- BIM Issue Detection Agent
-- LLM Evals and Guardrails Platform
-
-Reviewer focus: tool calling, traceability, deterministic checks, and human approval.
-
-## Multimodal AI Engineer
-
-- Multimodal VLM Visual QA Assistant
-- VLA Embodied Agent Simulator
-- Construction Progress CV Workflow Tracker
-
-Reviewer focus: input validation, provider abstraction, optional hosted VLM path, uncertainty, and multimodal evaluation.
-
-## Computer Vision Engineer
-
-- Vision Baseline / Threshold Model Lab
-- Construction Progress CV Workflow Tracker
-- Multimodal VLM Visual QA Assistant
-
-Reviewer focus: synthetic data, metrics, model cards, and the path from baseline models to real vision models.
-
-## ML Engineer
-
-- Real Model Fine-Tune Lab
-- MLOps Model Serving and Monitoring Platform
-- Building Energy ML Pipeline
-- Time-Series Anomaly Detection and Forecasting
-
-Reviewer focus: feature engineering, evaluation, serving, drift, and reproducibility.
-
-## Computer Vision / Baseline ML Engineer
-
-- Vision Baseline / Threshold Model Lab
-- Real Model Fine-Tune Lab
-- Fine-Tuning and LoRA Lab
-- Multimodal VLM Visual QA Assistant
-
-Reviewer focus: dataset preparation, model adaptation workflow, and local compute trade-offs.
-
-## MLOps Engineer
-
-- MLOps Model Serving and Monitoring Platform
-- LLM Evals and Guardrails Platform
-- Vision Baseline / Threshold Model Lab
-
-Reviewer focus: APIs, schema checks, CI, model artifacts, SQLite inference logs, monitoring, and drift detection.
-
-## RL Engineer
-
-- Reinforcement Learning Portfolio
-- VLA Embodied Agent Simulator
-- Construction Robot Task Planner
-
-Reviewer focus: environment design, rewards, baselines, and safety constraints.
-
-## Robotics / VLA Engineer
-
-- VLA Embodied Agent Simulator
-- Construction Robot Task Planner
-- Site Robot Safety Monitor
-
-Reviewer focus: simulated state/action loops, action masking, safety constraints, policy baselines, replay traces, and honest hardware limitations.
-
-## Data Scientist
-
-- Time-Series Anomaly Detection and Forecasting
-- Recommender System Ranking Engine
-- Building Energy ML Pipeline
-
-Reviewer focus: metrics, baselines, synthetic data, and error analysis.
-
-## AI Product Engineer
-
-- Multimodal VLM Visual QA Assistant
-- Agentic Research Operations Assistant
-- AI + AEC Job Fit Analyzer
-
-Reviewer focus: usable workflows, clear outputs, and graceful mock mode.
+The most differentiated fit is applied AI for the built environment or embodied AI for construction workflows. The repository also supports junior ML and agent-engineering interviews, but it does not claim senior production ownership.

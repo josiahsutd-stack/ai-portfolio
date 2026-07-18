@@ -45,11 +45,9 @@ flowchart LR
 
 - Add PyTorch CNN/U-Net training, confusion matrices, real defect data, and latency benchmarks.
 
-## TODO: Real CNN Baseline
+## Known Implementation Gap
 
-- Add a small PyTorch CNN trained on the synthetic defect dataset.
-- Compare threshold baseline versus CNN metrics on a fixed train/test split.
-- Save learned weights, confusion matrix, and model-card notes for the CNN path.
+No CNN is implemented. A credible extension would train a small PyTorch model on a fixed split, compare it with the threshold baseline, and publish learned weights, a confusion matrix, and model-card notes.
 
 ## Reviewer Signal
 

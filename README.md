@@ -1,72 +1,82 @@
-# Applied AI Engineering Portfolio
+# Josiah Lau | Applied AI Engineering Portfolio
 
-Applied AI engineer focused on source-grounded LLM systems, agent workflows, MLOps workflows, multimodal product interfaces, and built-environment AI.
+Applied AI engineer focused on source-grounded AI, embodied-agent simulation, and measurable local ML systems, with domain experience in architecture and the built environment.
 
-This repository is intentionally local-first: projects run with synthetic data or mock providers so reviewers can inspect engineering structure without private datasets, paid APIs, or hidden services.
+This repository is designed for technical review: the main projects run without paid APIs, checked-in outputs are labeled by data source, and claims are bounded by tests, evaluations, and explicit limitations.
 
-Live demo: fill in the Streamlit or Hugging Face URL after running the [AEC RAG deploy steps](projects/aec-code-compliance-rag/DEPLOYMENT.md).
+## Recruiter Fast Path
 
-## Portfolio Highlights
+Start with these three projects. They carry the clearest evidence and represent different parts of the candidate's applied AI profile.
 
-This portfolio focuses on applied AI engineering work that is runnable locally and documented with tests, evaluation scripts, architecture notes, and sample outputs.
+| Priority | Project | Evidence | Current local result | Boundary |
+| --- | --- | --- | --- | --- |
+| 1 - Flagship | [AEC Code Compliance RAG](projects/aec-code-compliance-rag/README.md) | Public-source ingestion, page-aware chunks, four retrieval modes, citations, abstention, 51-case synthetic regression set, and focused tests. | Hybrid retrieval: `Recall@4 1.000`, `MRR 0.906`, `Hit@3 1.000` on the bundled synthetic eval. | Document-assistance prototype; not compliance certification or professional advice. |
+| 2 - Embodied AI | [VLA Embodied Agent Simulator](projects/vla-embodied-agent-simulator/README.md) | Language-to-task parsing, action masks, construction-site constraints, three policy baselines, metrics, and replay traces. | Safety-shielded policy: `3/3` simulated scenarios completed with `0.000` unsafe-action rate. | Deterministic 2D grid simulation; no learned VLA model, perception stack, ROS, or hardware validation. |
+| 3 - Model Training | [Real Model Fine-Tune Lab](projects/real-model-finetune-lab/README.md) | Real TF-IDF/logistic-regression fitting, fixed splits, dummy baseline, held-out metrics, confusion matrix, and generated weights. | Compact UCI SMS subset: `0.975` accuracy and macro-F1 on a 40-row test split. | Small classical-ML exercise; not transformer fine-tuning or a benchmark claim. |
 
-![Portfolio site screenshot](docs/assets/screenshots/portfolio-home.png)
+The metric values above are regression evidence for the included datasets and scenarios. They are not claims of real-world compliance, robot safety, or production model quality.
 
-| Project | What it demonstrates | Evidence |
-| --- | --- | --- |
-| [AEC Code Compliance RAG](projects/aec-code-compliance-rag/README.md) | Source-grounded retrieval, Singapore public-source ingestion, citation formatting, no-answer handling, and AEC domain translation. | [EVAL.md](projects/aec-code-compliance-rag/EVAL.md), [public source notes](projects/aec-code-compliance-rag/public_sources/SOURCE_NOTES.md), [demo outputs](projects/aec-code-compliance-rag/demo_outputs/), [tests](tests/test_rag.py) |
-| [Agentic Research Ops Assistant](projects/agentic-research-ops-assistant/README.md) | Planner-executor workflow, tool traces, approval checkpoints, citations, and local persistence. | [ARCHITECTURE.md](projects/agentic-research-ops-assistant/ARCHITECTURE.md), [demo outputs](projects/agentic-research-ops-assistant/demo_outputs/), trace evaluation |
-| [MLOps Model Serving Monitoring](projects/mlops-model-serving-monitoring/README.md) | Model metadata, schema validation, prediction logging, drift reporting, and monitoring docs. | [MODEL_CARD.md](projects/mlops-model-serving-monitoring/MODEL_CARD.md), [MONITORING.md](projects/mlops-model-serving-monitoring/MONITORING.md), [demo outputs](projects/mlops-model-serving-monitoring/demo_outputs/) |
-| [Real Model Fine-Tune Lab](projects/real-model-finetune-lab/README.md) | Actual model fitting on a small text-classification dataset with before/after metrics and saved weights. | demo outputs, saved model artifact, tests |
+![Portfolio site showing the evidence-first project hierarchy](docs/assets/screenshots/portfolio-home.png)
 
-The projects use synthetic data and mock providers where needed, so the repository can be reviewed without private datasets, paid APIs, or hidden services.
+## Run Evidence Locally
 
-## Quick Verification
+Python 3.11 or newer is recommended.
 
 ```bash
+python -m pip install -r requirements.txt -r requirements-dev.txt
 python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
-python projects/aec-code-compliance-rag/scripts/download_public_sources.py
-python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py --corpus public
-python -m pytest tests/test_rag.py tests/test_general_ai_projects.py
-python projects/real-model-finetune-lab/evaluate_model.py
 python projects/vla-embodied-agent-simulator/evaluate_vla.py
-python scripts/generate_review_artifacts.py
-python scripts/check_portfolio_site.py
+python projects/real-model-finetune-lab/evaluate_model.py
+python -m pytest tests/test_rag.py tests/test_vla_embodied_agent.py tests/test_real_model_finetune_lab.py
 ```
 
-## Technical Evidence
+Full repository verification:
 
-- AEC eval and generated demo outputs: [EVAL.md](projects/aec-code-compliance-rag/EVAL.md), [demo_outputs/](projects/aec-code-compliance-rag/demo_outputs/), [Singapore public-source notes](projects/aec-code-compliance-rag/public_sources/SOURCE_NOTES.md)
-- Architecture docs close to the code: [AEC ARCHITECTURE.md](projects/aec-code-compliance-rag/ARCHITECTURE.md), [technical review guide](docs/technical-review-guide.md)
-- Demo screenshots: [portfolio home](docs/assets/screenshots/portfolio-home.png), [AEC RAG app](docs/assets/screenshots/aec-rag-demo.png)
-- VLA simulation outputs: [VLA README](projects/vla-embodied-agent-simulator/README.md), [policy evaluation artifacts](projects/vla-embodied-agent-simulator/demo_outputs/vla_eval_report.md), and [sample replay traces](projects/vla-embodied-agent-simulator/demo_outputs/sample_episode_replay.md).
-- Test coverage for retrieval, citations, no-answer handling, agent traces, MLOps metadata, LoRA validation, VLM prompt contracts, and VLA action safety.
-- Project scope and review docs: [CLAIMS_POLICY.md](docs/CLAIMS_POLICY.md), [AUTHENTICITY_AND_OWNERSHIP.md](docs/AUTHENTICITY_AND_OWNERSHIP.md), [REVIEWER_GUIDE.md](docs/REVIEWER_GUIDE.md)
+```bash
+python scripts/verify.py
+```
 
-## Scope
+`scripts/verify.py` regenerates synthetic fixtures and review artifacts, checks repository health, public claims, Markdown links, and the static site, imports every project, enforces artifact idempotence, runs formatting and lint checks, and executes the full pytest suite. Versioned review outputs exclude machine-dependent timestamps and timings so a successful run leaves the tracked tree unchanged.
 
-This is a local-first engineering portfolio. It demonstrates implementation structure, evaluation discipline, and domain translation. See [Scope and limitations](docs/SCOPE_AND_LIMITATIONS.md) for full caveats.
+## Flagship Evidence
 
-## Project Tiers
+### AEC Code Compliance RAG
 
-### Tier 1 - Flagship (Deep)
+The flagship converts bundled synthetic guidance or locally downloaded Singapore public documents into metadata-rich chunks, retrieves evidence with TF-IDF, BM25, dense LSA, or hybrid search, and returns citation-bearing answers or an explicit abstention.
 
-| Project | Why it is tiered here |
-| --- | --- |
-| [AEC Code Compliance RAG](projects/aec-code-compliance-rag/README.md) | Source-grounded AEC RAG with Markdown/PDF ingestion, page-aware chunks, Singapore public-source downloader for BCA/URA/NEA/SCDF/LTA/PUB/NParks, retrieval ablations, citations, no-answer handling, demo outputs, architecture docs, tests, and a [design writeup](docs/AEC_RAG_DESIGN_WRITEUP.md). |
+- [Architecture](projects/aec-code-compliance-rag/ARCHITECTURE.md)
+- [Evaluation design and results](projects/aec-code-compliance-rag/EVAL.md)
+- [Generated review outputs](projects/aec-code-compliance-rag/demo_outputs/)
+- [Public-source inventory and provenance notes](projects/aec-code-compliance-rag/public_sources/SOURCE_NOTES.md)
+- [Focused tests](tests/test_rag.py)
+- [Design write-up](docs/AEC_RAG_DESIGN_WRITEUP.md)
 
-### Tier 2 - Supporting Systems
+Optional Singapore public-source workflow:
 
-| Project | Why it is tiered here |
-| --- | --- |
-| [Agentic Research Ops Assistant](projects/agentic-research-ops-assistant/README.md) | Planner/executor workflow with local tools, citations, approval checkpoints, SQLite persistence, trace outputs, and trace evaluation. |
-| [MLOps Model Serving Monitoring](projects/mlops-model-serving-monitoring/README.md) | Model metadata, schema validation, prediction logging, drift checks, monitoring docs, and generated model artifacts. |
-| [Real Model Fine-Tune Lab](projects/real-model-finetune-lab/README.md) | Actual fitted text classifier with before/after metrics, saved model weights, demo outputs, and regression tests. |
-| [VLA Embodied Agent Simulator](projects/vla-embodied-agent-simulator/README.md) | Construction-site language-to-action simulator with action masks, safety-shielded planning, baseline comparisons, metrics, and replay traces. |
+```bash
+python projects/aec-code-compliance-rag/scripts/download_public_sources.py
+python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py --corpus public
+```
 
-### Tier 3 - Experiments / Baselines
+The downloader targets official BCA, URA, NEA, SCDF, LTA, PUB, and NParks sources. Downloaded files remain local and are not redistributed. Public retrieval demonstrates provenance-aware ingestion; it does not validate document currency or confer authority approval.
 
-These broaden the portfolio and remain useful, but they are smaller scaffolds or baselines rather than deep systems:
+![AEC RAG local Streamlit demo with source citations](docs/assets/screenshots/aec-rag-demo.png)
+
+## Supporting Systems
+
+| Project | What is implemented | Honest interpretation |
+| --- | --- | --- |
+| [Agentic Research Ops Assistant](projects/agentic-research-ops-assistant/README.md) | Deterministic planner, permissioned tool registry, local retrieval, citations, retries, approval gates, SQLite traces, and trace evaluation. | Evidence of inspectable agent workflow engineering, not autonomous research or live web access. |
+| [MLOps Model Serving Monitoring](projects/mlops-model-serving-monitoring/README.md) | Synthetic churn training, FastAPI schema, generated artifact metadata, SQLite prediction logs, drift calculations, and monitoring reports. | Local operations scaffold, not a deployed platform or real customer system. |
+
+These systems are substantial supporting projects, but the repository does not present them as production deployments.
+
+## Experiments And Baselines
+
+The remaining projects are deliberately tiered below the flagship and supporting systems. They demonstrate narrower workflows, baselines, or interface contracts rather than comparable depth.
+
+<details>
+<summary>View experiments and baselines</summary>
 
 - [Construction Progress CV Workflow Tracker](projects/construction-progress-cv/README.md)
 - [BIM Issue Detection Agent](projects/bim-issue-detection-agent/README.md)
@@ -83,126 +93,49 @@ These broaden the portfolio and remain useful, but they are smaller scaffolds or
 - [Time-Series Anomaly Detection and Forecasting](projects/time-series-anomaly-forecasting/README.md)
 - [Fine-Tuning LoRA Lab](projects/fine-tuning-lora-lab/README.md)
 
-## What's Real Vs. Mocked
+</details>
 
-| Category | Meaning in this repo |
+## Evidence Labels
+
+| Label | Meaning in this repository |
 | --- | --- |
-| Real local implementation | Runnable code paths, tests, eval scripts, saved artifacts, trace logs, retrieval metrics, model metadata, or fitted classical ML weights. |
-| Mock provider | Deterministic substitute for an LLM/VLM so workflow logic can be tested without paid APIs. |
-| Synthetic data | Generated demo data with no customer, employer, private project, or confidential content. |
-| Simulation | Robotics/VLA/RL behavior is evaluated in local simulated environments, not hardware. |
-| Full limitations | The longer caveat list lives in [docs/SCOPE_AND_LIMITATIONS.md](docs/SCOPE_AND_LIMITATIONS.md). |
+| Real local implementation | Runnable and tested code for retrieval, validation, model fitting, persistence, metrics, or simulation. |
+| Public-source subset | Public data or documents with source notes; still limited in size and review scope. |
+| Synthetic data | Generated demo data containing no customer, employer, private-project, or confidential content. |
+| Mock provider | Deterministic LLM/VLM substitute used to test workflow contracts without paid services. |
+| Simulation | Locally evaluated environment behavior; no physical robot or real-world safety claim. |
+| Generated artifact | Reproducible output from an evaluation command. Runtime model binaries and databases are ignored by Git. |
 
-## Review Path
+## Repository Map
 
-The strongest code paths are concentrated in the primary AEC project, its evaluation docs, and one supporting system depending on role: agent workflows, MLOps, fine-tuning workflow, or VLM product boundary.
-
-Key evidence files:
-
-- Primary project: [projects/aec-code-compliance-rag](projects/aec-code-compliance-rag/README.md)
-- AEC evaluation: [AEC EVAL.md](projects/aec-code-compliance-rag/EVAL.md)
-- AEC architecture: [AEC ARCHITECTURE.md](projects/aec-code-compliance-rag/ARCHITECTURE.md)
-- Focused tests: [tests/test_rag.py](tests/test_rag.py)
-- Full local verification: `python scripts/verify.py`
-
-## Focused Verification
-
-```bash
-python scripts/generate_sample_data.py
-python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
-python projects/aec-code-compliance-rag/scripts/download_public_sources.py
-python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py --corpus public
-python -m pytest tests/test_rag.py
-streamlit run projects/aec-code-compliance-rag/app.py
+```text
+projects/                 project code, project-level evidence, and limitations
+tests/                    cross-project and focused regression tests
+scripts/                  setup, verification, claim, site, and artifact checks
+docs/                     reviewer guides, design notes, and portfolio-wide boundaries
+portfolio-site/           static evidence-first portfolio view
+shared/                   small reusable local AI utilities
 ```
 
-Evidence produced by those commands:
+## Reviewer Guides
 
-- AEC citations and no-answer behavior.
-- `demo_outputs/` artifacts for generated evidence.
-- Local test and evaluation output for the primary RAG workflow.
-
-## 60-Minute Technical Verification
-
-```bash
-python scripts/verify.py
-python -m pytest
-python -m ruff check .
-python -m black --check .
-python scripts/check_repo_health.py
-python scripts/check_portfolio_site.py
-python scripts/run_smoke_tests.py
-python scripts/check_project_docs.py
-```
-
-Code areas with the clearest signal:
-
-- RAG: `projects/aec-code-compliance-rag/src/aec_code_compliance_rag/`
-- Agent traces: `projects/agentic-research-ops-assistant/src/agentic_research_ops_assistant/`
-- MLOps observability: `projects/mlops-model-serving-monitoring/src/mlops_model_serving_monitoring/`
-- Fine-tuning workflow: `projects/fine-tuning-lora-lab/src/fine_tuning_lora_lab/workflow.py`
-- Real fitted model: `projects/real-model-finetune-lab/src/real_model_finetune_lab/`
-- VLM provider boundary: `projects/multimodal-vlm-visual-qa/src/multimodal_vlm_visual_qa/`
-- VLA simulation: `projects/vla-embodied-agent-simulator/src/vla_embodied_agent_simulator/`
-
-## Skills Demonstrated
-
-- RAG: Markdown/PDF ingestion, Singapore public-source downloads, source manifests, metadata-filtered retrieval, page-aware chunking, retrieval scoring, citations, evaluation, no-answer handling.
-- LLM applications: provider abstraction, structured outputs, prompt contracts, uncertainty fields.
-- Agents: planning, tool calls, approval gates, traces, persistence, trace evaluation.
-- MLOps: training pipeline, model artifact metadata, inference logging, drift detection, monitoring report.
-- Multimodal AI: image validation, VLM provider boundary, schema parsing, mock/hosted distinction.
-- Fine-tuning workflow: dataset validation, LoRA config planning, eval templates, hardware honesty, plus one real fitted classifier project.
-- Built-environment AI: AEC document-assistance workflow, BIM QA, construction robotics/safety simulations.
-- Embodied AI: language-to-action parsing, action masks, simulated safety constraints, baseline policy comparison, and replayable traces.
-
-## Reproducibility
-
-```bash
-python scripts/setup.py
-python scripts/verify.py
-```
-
-`scripts/setup.py` creates `.venv` using the correct Windows/macOS/Linux path. Current-environment installation is also available through `python scripts/setup.py --no-venv`.
-
-## Testing
-
-```bash
-python -m black --check .
-python -m ruff check .
-python scripts/check_repo_health.py
-python scripts/check_portfolio_site.py
-python scripts/run_smoke_tests.py
-python -m pytest
-python scripts/check_project_docs.py
-```
-
-The GitHub Actions workflow is present in `.github/workflows/ci.yml`. If GitHub does not run it because of an account billing lock, that is an account state issue, not a code/test result. Local verification is the source of truth here.
-
-## Supporting Docs
-
-- [How to review this portfolio](docs/how-to-review-this-portfolio.md)
+- [Five- and fifteen-minute review paths](docs/how-to-review-this-portfolio.md)
 - [Technical review guide](docs/technical-review-guide.md)
-- [Reviewer guide](docs/REVIEWER_GUIDE.md)
-- [Claims policy](docs/CLAIMS_POLICY.md)
+- [Role-specific reviewer guide](docs/REVIEWER_GUIDE.md)
 - [Scope and limitations](docs/SCOPE_AND_LIMITATIONS.md)
+- [Claims policy](docs/CLAIMS_POLICY.md)
 - [Authenticity and ownership](docs/AUTHENTICITY_AND_OWNERSHIP.md)
-- [Demo recording guide](docs/DEMO_RECORDING_GUIDE.md)
 
-## Portfolio Site
-
-Portfolio site: [portfolio-site/index.html](portfolio-site/index.html)
-
-Local static preview command:
+## Static Portfolio
 
 ```bash
 python -m http.server 8080 --directory portfolio-site
 ```
 
+Then open `http://localhost:8080`.
+
 ## Contact
 
-- GitHub: `https://github.com/josiahsutd-stack`
-- LinkedIn: listed in application materials
-- LinkedIn placeholder: `https://www.linkedin.com/in/<your-linkedin-handle>`
-- Email: listed in application materials
-- Contact email placeholder: `<your.email@example.com>`
+- [GitHub](https://github.com/josiahsutd-stack)
+- [LinkedIn](https://www.linkedin.com/in/josiah-lau-8041822b6/)
+- Email is available in application materials.

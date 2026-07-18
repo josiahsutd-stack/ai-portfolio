@@ -1,62 +1,34 @@
-# AI Engineer | Applied AI, Agents, Multimodal AI, and MLOps
+# Josiah Lau | Applied AI Engineer
 
-I build applied AI systems across LLM agents, multimodal/VLM workflows, machine learning, computer vision, MLOps, recommender systems, time-series ML, and embodied AI simulation.
+I build source-grounded AI systems, embodied-agent simulations, and measurable local ML workflows. My background in architecture and the built environment gives me a domain lens for construction documents, spatial workflows, and robotics; my portfolio keeps the implementation evidence visible through tests, evaluations, and reproducible outputs.
 
-My differentiator is a master's background in AI, architecture, and embodied AI, plus building-industry experience. That gives me a practical lens for real-world AI workflows, while my general AI projects show that I can work beyond AEC and construction.
+## Start Here
 
-## Current Focus
+| Project | Engineering evidence | Boundary |
+| --- | --- | --- |
+| [AEC Code Compliance RAG](https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/aec-code-compliance-rag) | Singapore public-source ingestion, metadata-rich chunks, four local retrieval modes, citations, abstention, evals, and tests. | Document-assistance prototype, not compliance certification. |
+| [VLA Embodied Agent Simulator](https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/vla-embodied-agent-simulator) | Construction-site task parsing, action masks, three policy baselines, safety metrics, and replay traces. | 2D simulation, not a learned VLA model or robot deployment. |
+| [Real Model Fine-Tune Lab](https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/real-model-finetune-lab) | Real scikit-learn model fitting, fixed splits, baseline comparison, held-out metrics, and generated weights. | Small classical NLP model, not transformer fine-tuning. |
 
-- LLM agents, tool calling, local RAG, citations, and human-in-the-loop workflows
-- Multimodal AI and VLM product patterns
-- MLOps, model serving, drift detection, and evaluation
-- VLA-inspired embodied AI simulation and robotics reasoning
-- Deep learning, computer vision, RL, recommenders, time-series ML, and fine-tuning workflows
+## Supporting Work
 
-## Technical Skills
+- [Agentic Research Ops Assistant](https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/agentic-research-ops-assistant): permissioned tools, local retrieval, citations, approval gates, retries, and persisted traces.
+- [MLOps Model Serving Monitoring](https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/mlops-model-serving-monitoring): model metadata, FastAPI validation, prediction logging, drift simulation, and monitoring reports over synthetic data.
 
-- AI systems: RAG, agents, tool use, prompt/eval workflows, structured outputs
-- ML/DL: scikit-learn, NumPy, pandas, PyTorch-ready project structure, evaluation metrics
-- Multimodal: VLM provider abstractions, visual QA schemas, uncertainty handling
-- MLOps/LLMOps: FastAPI, Streamlit, drift detection, guardrails, CI tests, Docker
-- Robotics/VLA: grid-world simulation, action planning, safety constraints, telemetry monitoring
-- Product engineering: local demos, clean READMEs, model/system cards, synthetic data discipline
+## Technical Focus
 
-## Featured Projects
+- RAG and LLM systems: document ingestion, retrieval baselines, citations, abstention, structured outputs, and eval harnesses.
+- Embodied AI: language-to-task parsing, state transitions, action masks, route planning, policy comparison, and replayable simulation traces.
+- ML engineering: scikit-learn training, fixed splits, baseline comparisons, model artifacts, FastAPI, SQLite observability, and drift checks.
+- Engineering practice: Python, Pydantic, pandas, NumPy, Streamlit, pytest, Ruff, Black, Docker, and GitHub Actions definitions.
 
-| Project | Role signal |
-| --- | --- |
-| Agentic Research Operations Assistant | Agentic AI Engineer, LLM Engineer |
-| LLM Evals and Guardrails Platform | LLMOps Engineer, Responsible AI Engineer |
-| MLOps Model Serving and Monitoring Platform | MLOps Engineer, ML Engineer |
-| Real Model Fine-Tune Lab | ML Engineer, NLP Baseline Engineer |
-| Multimodal VLM Visual QA Assistant | Multimodal AI Engineer, VLM Engineer |
-| Vision Baseline / Threshold Model Lab | Computer Vision Engineer, ML Baseline Engineer |
-| VLA Embodied Agent Simulator | Robotics/VLA Engineer |
-| AEC Code Compliance RAG Assistant | Applied AI Engineer with domain depth |
+## Evidence Policy
 
-## Role-Based Project Map
-
-- AI Engineer: Agentic Research Ops, MLOps Platform, VLM Visual QA
-- ML Engineer: Real Model Fine-Tune Lab, Building Energy ML, Time-Series Forecasting
-- LLM Engineer: AEC RAG, Agentic Research Ops, LLM Evals Guardrails
-- Agentic AI Engineer: Agentic Research Ops, BIM Issue Agent, LLM Evals Guardrails
-- Computer Vision Engineer: Vision Baseline Lab, Construction Progress CV, VLM Visual QA
-- Multimodal AI Engineer: VLM Visual QA, VLA Simulator, Construction Progress CV
-- MLOps Engineer: MLOps Platform, Vision Baseline Lab, LLM Evals Guardrails
-- RL Engineer: Reinforcement Learning Portfolio, VLA Simulator
-- Robotics/VLA Engineer: VLA Simulator, Construction Robot Task Planner, Site Robot Safety Monitor
-- Data Scientist: Time-Series Forecasting, Recommender Ranking Engine, Energy ML
-
-## AI + Architecture Differentiator
-
-I can speak both AI engineering and built-environment workflows: documents, drawings, BIM exports, site progress, robotics, energy modeling, and spatial design. That makes me useful for applied AI teams that need engineers who understand messy domain workflows, not just model APIs.
+Projects are local prototypes unless explicitly stated otherwise. Synthetic data, public-source subsets, mock LLM/VLM providers, and simulation-only robotics are labeled at the project level. The repository does not claim customer adoption, production ownership, professional compliance validation, or robot-hardware deployment.
 
 ## Links
 
-- Portfolio: `https://github.com/josiahsutd-stack/ai-portfolio`
-- GitHub: `https://github.com/josiahsutd-stack`
-- LinkedIn: listed in application materials
-- LinkedIn placeholder: `https://www.linkedin.com/in/<your-linkedin-handle>`
-- Email: listed in application materials
-- Contact email placeholder: `<your.email@example.com>`
-
+- [AI engineering portfolio](https://github.com/josiahsutd-stack/ai-portfolio)
+- [GitHub](https://github.com/josiahsutd-stack)
+- [LinkedIn](https://www.linkedin.com/in/josiah-lau-8041822b6/)
+- Email is available in application materials.

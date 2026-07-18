@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import json
 import sys
 from pathlib import Path
@@ -16,6 +17,24 @@ from aec_code_compliance_rag import (  # noqa: E402
     evaluate_retrieval_modes,
     load_eval_cases,
 )
+
+
+def _stable_review_payload(payload: dict[str, object]) -> dict[str, object]:
+    """Remove machine-dependent timings from versioned review artifacts."""
+    stable = copy.deepcopy(payload)
+
+    def strip_timings(value: object) -> None:
+        if isinstance(value, dict):
+            value.pop("latency_ms", None)
+            value.pop("average_latency_ms", None)
+            for child in value.values():
+                strip_timings(child)
+        elif isinstance(value, list):
+            for child in value:
+                strip_timings(child)
+
+    strip_timings(stable)
+    return stable
 
 
 def _write_markdown_report(
@@ -46,7 +65,7 @@ def _write_markdown_report(
         f"- Unsupported answer sentence rate: {summary['unsupported_sentence_rate']}",
         f"- Hit@1: {summary['retrieval_hit_at_1']}",
         f"- Hit@3: {summary['retrieval_hit_at_3']}",
-        f"- Average latency ms: {summary['average_latency_ms']}",
+        "- Latency: measured and printed at runtime; omitted from versioned artifacts because it is machine-dependent.",
         f"- No-answer accuracy: {summary['no_answer_accuracy']}",
         f"- Unsupported-scope accuracy: {summary['unsupported_scope_accuracy']}",
         "",
@@ -295,23 +314,27 @@ def main() -> None:
         k=4,
         manifest_path=manifest_path,
     )
+    stable_payload = _stable_review_payload(payload)
+    stable_ablation_payload = _stable_review_payload(ablation_payload)
 
     (output_dir / "retrieval_eval_summary.json").write_text(
-        json.dumps(payload, indent=2) + "\n",
+        json.dumps(stable_payload, indent=2) + "\n",
         encoding="utf-8",
     )
     (output_dir / "retrieval_ablation_summary.json").write_text(
-        json.dumps(ablation_payload, indent=2) + "\n",
+        json.dumps(stable_ablation_payload, indent=2) + "\n",
         encoding="utf-8",
     )
     _write_markdown_report(
-        payload, output_dir / "retrieval_eval_report.md", corpus_label=corpus_label
+        stable_payload, output_dir / "retrieval_eval_report.md", corpus_label=corpus_label
     )
     _write_ablation_report(
-        ablation_payload, output_dir / "retrieval_ablation_report.md", corpus_label=corpus_label
+        stable_ablation_payload,
+        output_dir / "retrieval_ablation_report.md",
+        corpus_label=corpus_label,
     )
     _write_failure_analysis(
-        payload,
+        stable_payload,
         output_dir / "failure_analysis.md",
         corpus_label=corpus_label,
     )

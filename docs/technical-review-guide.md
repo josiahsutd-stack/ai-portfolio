@@ -1,71 +1,55 @@
 # Technical Review Guide
 
-This document is written for recruiters and technical reviewers. It summarizes what the primary project and supporting review projects demonstrate, what is intentionally mocked or synthetic, and which implementation details are worth inspecting. The intended interpretation is: these are local, testable demos of engineering shape with clear next steps, not inflated production claims.
+This guide separates implementation evidence from portfolio framing. The repository contains one flagship, two role-defining projects, two substantial supporting systems, and fourteen smaller experiments or baselines.
 
-## Primary Review Project
+## 1. AEC Code Compliance RAG - Flagship
 
-### AEC Code Compliance RAG Assistant
+**Implemented:** Markdown and PDF ingestion, page/section metadata, Singapore public-source manifests, source filters, TF-IDF/BM25/dense-LSA/hybrid retrieval, citation objects, status handling, retrieval ablation, failure analysis, demo answers, and focused tests.
 
-- Review signal: source-grounded AEC RAG with Markdown/PDF ingestion, Singapore public-source downloading, source manifests, metadata-filtered retrieval, page-aware chunking, retrieval-mode ablation, citation formatting, retrieval evaluation, demo outputs, tests, and explicit limitations.
-- Architecture evidence: synthetic Markdown/PDF guidance or downloaded Singapore BCA/URA/NEA/SCDF/LTA/PUB/NParks public sources -> source manifest -> section/page-aware chunks -> filtered TF-IDF/BM25/dense LSA/hybrid retrieval -> citation-bearing answer -> retrieval eval and ablation -> demo outputs.
-- Engineering rationale: compliance-oriented AI should expose evidence, metadata, uncertainty, and no-result behavior before answer polish.
-- Limitations to note: synthetic corpus by default, public PDFs downloaded locally and not redistributed, text-based PDF extraction only, portable local retrieval baselines, no authority approval or live amendment validation, and no professional compliance advice.
-- Technical question supported: "How do you evaluate and cite an AEC RAG system?" Evidence includes `EVAL.md`, `ARCHITECTURE.md`, `evaluate_retrieval.py`, `demo_outputs/`, and `tests/test_rag.py`.
-- Next extension: layout-aware PDF/OCR/table parsing, Singapore amendment/source refresh validation, embedding retrieval, reranking, stronger answer-faithfulness checks, and expert approval workflow.
+**Inspect:** `src/aec_code_compliance_rag/`, `evaluate_retrieval.py`, `EVAL.md`, `ARCHITECTURE.md`, `demo_outputs/`, and `tests/test_rag.py`.
 
-## Supporting Review Projects
+**Engineering question:** How does the system preserve provenance and choose between an answer, no evidence, and professional-review scope?
+
+**Boundary:** The default 51-case set is synthetic. Optional public documents are downloaded locally and are not guaranteed current. There is no OCR, authority validation, professional advice, or compliance certification.
+
+## 2. VLA Embodied Agent Simulator - Embodied AI Evidence
+
+**Implemented:** Rule-based language-to-task parsing, grid observations, action masks, rewards, obstacles, restricted and worker-proximity zones, battery constraints, random/naive/safety-shielded policies, A* planning, metrics, and replay traces.
+
+**Inspect:** `environment.py`, `policies.py`, `evaluation.py`, `demo_outputs/vla_eval_report.md`, `demo_outputs/sample_episode_replay.md`, and `tests/test_vla_embodied_agent.py`.
+
+**Engineering question:** Which safety failures are prevented by action masks and route planning, and which risks are absent from the simulator?
+
+**Boundary:** Three deterministic 2D scenarios are regression tests, not evidence of perception, learned control, physics, ROS integration, hardware behavior, or physical safety.
+
+## 3. Real Model Fine-Tune Lab - Model Training Evidence
+
+**Implemented:** Fixed train/validation/test splits, TF-IDF features, logistic regression, dummy baseline, held-out metrics, confusion matrix, generated joblib artifacts, reports, and focused tests.
+
+**Inspect:** `training.py`, `evaluate_model.py`, `demo_outputs/public_sms_metrics.json`, `demo_outputs/public_sms_confusion_matrix.json`, dataset source notes, and `tests/test_real_model_finetune_lab.py`.
+
+**Engineering question:** How do the baseline, validation, and held-out test results differ, and where do the learned coefficients live?
+
+**Boundary:** The public SMS subset contains 240 rows and the test split contains 40. This is classical ML, not transformer or LoRA training, and the result is not a benchmark claim.
+
+## Supporting Systems
 
 ### Agentic Research Operations Assistant
 
-- Review signal: planner-executor agent with local document retrieval, tool registry, per-tool traces, citations, memory, approval checkpoints, SQLite trace persistence, and trace evaluation.
-- Architecture evidence: task -> plan -> tool registry/permissions -> retrieved evidence -> report -> human approval -> persisted trace -> trace eval.
-- Engineering rationale: the agent keeps every step inspectable, permissioned, retryable, and auditable.
-- Limitations to note: local documents only; no live web search or production workflow engine.
-- Technical question supported: "How are hallucinations controlled?" Evidence in the project includes citations, retrieved context, approval checkpoints, tool traces, persisted runs, and eval findings.
-- Next extension: PDF ingestion, web/search connectors, richer memory, role-based tool permissions, and richer eval suites.
+Permissioned deterministic planning, local retrieval, citations, retries, approval gates, SQLite traces, and trace evaluation. It demonstrates inspectable agent control flow, not autonomous research or live web access.
 
-### MLOps Model Serving and Monitoring Platform
+### MLOps Model Serving And Monitoring
 
-- Review signal: synthetic churn model with training, model artifact, FastAPI prediction schema, SQLite inference logging, drift checks, and monitoring dashboard.
-- Architecture evidence: synthetic data -> training -> model artifact/metadata -> API -> prediction log -> drift report/history.
-- Engineering rationale: the project shows deployment and monitoring shape without external services.
-- Limitations to note: synthetic data, local model artifact, and lightweight drift checks.
-- Technical question supported: "How is model quality monitored?" Evidence to look for includes inference schema checks, SQLite prediction logs, drift metrics, model metadata, and the planned path to delayed labels.
-- Next extension: MLflow-compatible registry, alert thresholds, retraining workflows, and real delayed labels.
+Synthetic churn training, generated artifact metadata, FastAPI validation, SQLite prediction logs, mean-shift and PSI-style drift checks, and monitoring reports. It demonstrates local lifecycle structure, not deployed platform ownership.
 
-### Fine-Tuning and LoRA Lab
+## Experiments And Baselines
 
-- Review signal: dataset validation, split verification, LoRA config planning, mock-training honesty, and held-out eval template.
-- Architecture evidence: synthetic instruction data -> validation -> train/validation split -> LoRA config -> mock training report -> evaluation template.
-- Engineering rationale: adaptation work should start with dataset quality and evaluation design, not a fake training metric.
-- Limitations to note: no tokenizer/model loading, no GPU training, no updated weights, no real accuracy claim.
-- Next extension: PEFT trainer, real model config, held-out eval harness, adapter artifact storage, and safety review.
+The VLM workflow, LoRA workflow, vision threshold model, RL environments, recommender, time-series, BIM, energy, construction progress, spatial recommendation, job-fit, and smaller robotics projects provide supporting breadth. Their README limitations are part of the evidence; none should be interpreted as equal depth to the flagship.
 
-### Multimodal VLM Visual QA Assistant
+## Verification
 
-- Review signal: image validation, prompt contract, structured output schema, mock provider, and optional hosted provider boundary.
-- Architecture evidence: image bytes -> validator -> prompt builder -> provider -> Pydantic response -> UI/API.
-- Engineering rationale: multimodal apps need schemas and uncertainty before real provider integration.
-- Limitations to note: mock mode validates workflow but does not perform real visual reasoning; hosted mode requires a real API key and model access.
-- Technical question supported: "How would this be evaluated?" Evidence to look for includes extraction accuracy, uncertainty calibration, visual hallucination cases, and schema validity.
-- Next extension: OCR, region grounding, real eval images, visual hallucination tests, and latency monitoring.
+```bash
+python scripts/verify.py
+```
 
-### LLM Evals and Guardrails Platform
-
-- Review signal: eval cases for prompt injection, structured output validity, and citation coverage.
-- Architecture evidence: eval case -> guardrail checks -> scores -> findings -> dashboard/API.
-- Engineering rationale: deterministic baseline evals are easy to run in CI and easy to inspect.
-- Limitations to note: transparent rules are not a full red-team program.
-- Technical question supported: "How are LLM systems made more reliable?" Evidence in the project includes eval sets, regression checks, structured-output validation, prompt-injection checks, and monitoring surfaces.
-- Next extension: prompt versioning, model-graded evals, persisted results, and CI gating.
-
-## Secondary Project Review Signals
-
-- LLM Evals Guardrails: prompt-injection checks, structured-output validation, citation checks, and eval-result schema.
-- Reinforcement Learning Portfolio: environment design, reward shaping, policy baselines, and the distinction between simulation and optimization claims.
-- Vision Baseline / Threshold Model Lab: synthetic dataset generation, classical threshold metrics, model-card discipline, and the path from baseline to PyTorch CNN/U-Net.
-- Recommender Ranking Engine: popularity versus content-based recommendations, ranking metrics, and product-facing explanations.
-- Time-Series Anomaly Forecasting: moving-average baseline, Isolation Forest, alert thresholds, and time-aware evaluation.
-- VLA Embodied Agent Simulator: construction-site language-to-action simulation, action masks, safety-shielded planning, baseline comparison, unsafe-action metrics, and honest hardware limitations.
-- BIM Issue Detection Agent: deterministic rule checks before LLM explanation, issue reports, and AEC coordination workflow fit.
-- Building Energy ML Pipeline: feature engineering, regression evaluation, model card, and energy-domain limitations.
+The verifier scans public claims and links, imports all project modules, regenerates deterministic review artifacts, checks formatting and linting, and runs the full test suite.

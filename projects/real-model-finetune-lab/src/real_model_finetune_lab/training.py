@@ -208,8 +208,10 @@ def predict_label(model: Pipeline, text: str) -> dict[str, Any]:
 def write_training_artifacts(
     examples_path: str | Path,
     output_dir: str | Path,
+    *,
+    model_output_dir: str | Path | None = None,
 ) -> TrainingResult:
-    model, result = train_text_classifier(examples_path, output_dir)
+    model, result = train_text_classifier(examples_path, model_output_dir or output_dir)
     target = Path(output_dir)
     metrics_path = target / "metrics.json"
     metrics_path.write_text(json.dumps(asdict(result), indent=2) + "\n", encoding="utf-8")
@@ -228,8 +230,10 @@ def write_training_artifacts(
 def write_public_dataset_artifacts(
     dataset_path: str | Path,
     output_dir: str | Path,
+    *,
+    model_output_dir: str | Path | None = None,
 ) -> PublicDatasetTrainingResult:
-    _model, result = train_on_public_dataset(dataset_path, output_dir)
+    _model, result = train_on_public_dataset(dataset_path, model_output_dir or output_dir)
     target = Path(output_dir)
     (target / "public_sms_metrics.json").write_text(
         json.dumps(asdict(result), indent=2) + "\n",

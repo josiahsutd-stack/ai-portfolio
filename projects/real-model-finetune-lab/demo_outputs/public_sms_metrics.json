@@ -29,5 +29,5 @@
       20
     ]
   ],
-  "model_path": "projects/real-model-finetune-lab/demo_outputs/public_sms_classifier.joblib"
+  "model_path": ".artifacts/real-model-finetune-lab/public_sms_classifier.joblib"
 }

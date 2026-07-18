@@ -15,8 +15,7 @@ Expected time: under 15 minutes after signing in.
 5. Keep secrets empty for the default mock/synthetic mode.
 6. Deploy.
 7. Confirm the app loads and the sidebar shows the local corpus controls.
-8. Copy the Streamlit app URL.
-9. Replace the root README line that says `Live demo: fill in...` with the deployed URL.
+8. Verify the public URL in a signed-out browser session before presenting it as deployment evidence.
 
 The app uses the repository root `requirements.txt` and `.streamlit/config.toml`.
 
@@ -33,7 +32,7 @@ Expected time: under 15 minutes after signing in.
 7. Ensure `requirements.txt` is present in the Space root.
 8. Start the Space.
 9. Confirm the app loads without secrets.
-10. Copy the Space URL and paste it into the root README live-demo line.
+10. Verify the public URL in a signed-out browser session before presenting it as deployment evidence.
 
 ## Option C: Render
 

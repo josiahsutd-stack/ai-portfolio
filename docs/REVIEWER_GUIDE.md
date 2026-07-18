@@ -1,43 +1,49 @@
 # Reviewer Guide
 
-This guide is written for recruiters and technical interviewers reviewing the repository under time pressure.
+This guide gives recruiters and technical interviewers a short path through the repository without treating project count as project depth.
 
-## Fast Screen
+## Fifteen-Minute Screen
 
-The clearest evidence is concentrated in:
+| Order | Project | Evidence to inspect | Interpretation limit |
+| --- | --- | --- | --- |
+| 1 | `projects/aec-code-compliance-rag` | `EVAL.md`, `ARCHITECTURE.md`, `demo_outputs/`, `tests/test_rag.py` | Flagship retrieval system; not compliance certification. |
+| 2 | `projects/vla-embodied-agent-simulator` | policy comparison, replay trace, environment and policy code, focused tests | Embodied-agent simulation; no learned VLA or hardware. |
+| 3 | `projects/real-model-finetune-lab` | held-out metrics, confusion matrix, training code, focused tests | Real classical-model fitting on small datasets; no transformer training. |
 
-1. `projects/aec-code-compliance-rag`
-2. `projects/agentic-research-ops-assistant`
-3. `projects/mlops-model-serving-monitoring`
+Agentic Research Ops and MLOps Serving and Monitoring are the strongest supporting workflow projects. The other fourteen projects are narrower experiments or baselines.
 
-The remaining projects broaden the domain range but should be treated as supporting prototypes or experiments.
-
-## Verification Commands
+## Fast Verification
 
 ```bash
-python scripts/generate_review_artifacts.py
-python projects/aec-code-compliance-rag/scripts/download_public_sources.py
-python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py --corpus public
-python -m pytest
+python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
+python projects/vla-embodied-agent-simulator/evaluate_vla.py
+python projects/real-model-finetune-lab/evaluate_model.py
+python -m pytest tests/test_rag.py tests/test_vla_embodied_agent.py tests/test_real_model_finetune_lab.py
+```
+
+Full repository check:
+
+```bash
 python scripts/verify.py
 ```
 
-## Code Worth Inspecting
+## Role-Specific Paths
 
-- AEC RAG: public-source downloader, page-aware chunking, source filters, retrieval ablation, answer status, citation checks, evaluation script.
-- Agent: deterministic planner, tool retry handling, denied-tool traces, SQLite persistence.
-- MLOps: schema validation, metrics, artifact metadata, prediction logs, drift simulation.
+- Applied AI / LLM: AEC RAG, Agentic Research Ops, then Real Model Fine-Tune Lab.
+- Embodied AI / robotics: VLA Simulator, AEC RAG for construction-domain grounding, then Robot Task Planner.
+- ML / MLOps: Real Model Fine-Tune Lab, MLOps Serving and Monitoring, then Time-Series Forecasting.
+- Multimodal / CV: VLM Visual QA and Vision Threshold Baseline are supporting experiments only; neither proves deep-learning training.
 
-## Interview Questions
+## Technical Questions Supported By Evidence
 
-- Explain the AEC RAG path from Singapore public source inventory to downloaded PDF/HTML snapshot to cited answer.
-- Explain why TF-IDF, BM25, and dense LSA are used as local baselines before hosted embeddings or reranking.
-- Show an unsupported-scope or no-evidence AEC question.
-- Explain why the project can retrieve from BCA/URA/NEA/SCDF/LTA/PUB/NParks documents but still cannot certify compliance.
-- Explain agent retry behavior and how failed tools appear in the trace.
-- Explain the MLOps prediction schema and how impossible values are rejected.
-- Explain what the drift report can and cannot prove.
+- How does authority and page metadata move from downloaded AEC documents into retrieved citations?
+- Why compare TF-IDF, BM25, dense LSA, and hybrid retrieval before adding hosted embeddings?
+- How does the AEC assistant distinguish an answer from no evidence or professional-review scope?
+- How do action masks and route planning change VLA simulator behavior relative to random and naive baselines?
+- Where are fitted model parameters created, and how are baseline, validation, and held-out test metrics separated?
+- How do denied tools, retries, approval gates, and failed calls appear in an agent trace?
+- What can a local drift simulation reveal, and what would require delayed labels or production telemetry?
 
-## Ownership Evidence
+## Ownership Check
 
-Strong ownership would mean the candidate can modify retrieval behavior, debug an eval failure, explain a trace, add a test, refresh the Singapore source corpus, and discuss tradeoffs without relying on README language.
+The strongest ownership evidence would be a live change to retrieval behavior, a new VLA scenario and regression test, or a modification to the training split followed by an explanation of the resulting metrics. README fluency alone is not treated as ownership evidence.

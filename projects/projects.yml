@@ -137,9 +137,9 @@ projects:
     demo_command: streamlit run projects/vla-embodied-agent-simulator/app.py
     test_command: pytest tests/test_general_ai_projects.py
     tech_stack: [Python, Streamlit]
-    summary: Maps language instructions and grid-world state to safe action plans.
-    skills: [VLA, embodied AI, safety constraints]
-    status: experimental
+    summary: Compares random, naive, and safety-shielded policies in a construction-site grid simulation with action masks, metrics, and replay traces.
+    skills: [embodied AI simulation, task parsing, action masks, safety constraints, policy evaluation]
+    status: supporting
     mock_mode_supported: true
     readme_path: projects/vla-embodied-agent-simulator/README.md
   - name: Reinforcement Learning Portfolio
@@ -241,8 +241,8 @@ projects:
     demo_command: streamlit run projects/real-model-finetune-lab/app.py
     test_command: pytest tests/test_real_model_finetune_lab.py
     tech_stack: [Python, scikit-learn, joblib, Streamlit]
-    summary: Trains a real TF-IDF plus logistic-regression text classifier with before/after metrics and a saved fitted model artifact.
-    skills: [model training, text classification, evaluation, saved artifacts]
+    summary: Trains real TF-IDF plus logistic-regression classifiers with baseline comparisons, held-out metrics, and locally generated fitted artifacts.
+    skills: [model training, text classification, evaluation, generated artifacts]
     status: supporting
     mock_mode_supported: false
     readme_path: projects/real-model-finetune-lab/README.md

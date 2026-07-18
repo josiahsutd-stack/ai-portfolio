@@ -19,10 +19,10 @@ This repository is intentionally local-first. That choice keeps the core workflo
 - The MLOps project is a local skeleton, not a deployed platform.
 - VLM mock mode validates schemas and product boundaries, not visual intelligence.
 
-## Next Improvements
+## Evidence Not Claimed
 
-- Record a short demo video from real local runs.
-- Add screenshots or GIFs from the Streamlit apps.
-- Add public-domain or permissioned documents for a larger AEC eval.
-- Add hosted-provider demo evidence where appropriate.
-- Add a real local vision baseline or keep VLM clearly demoted.
+- No public demo video is used as evidence in the repository.
+- The included screenshots come from local runs and do not establish deployment.
+- The public AEC corpus is downloaded locally and remains too small for a real compliance benchmark.
+- Hosted-provider quality is not claimed where only deterministic mock mode is tested.
+- The vision threshold baseline and VLM workflow are tiered as experiments, not trained deep-learning evidence.

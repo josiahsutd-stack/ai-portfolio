@@ -4,6 +4,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+PUBLIC_TEXT_ROOTS = [ROOT / "docs", ROOT / "projects", ROOT / "portfolio-site"]
 RISKY_PHRASES = [
     "production-ready",
     "production-grade",
@@ -16,6 +17,18 @@ RISKY_PHRASES = [
     "real-time robot deployment",
     "expert-level compliance advice",
     "guaranteed",
+]
+PLACEHOLDER_PHRASES = [
+    "fill in",
+    "your-linkedin",
+    "your.email",
+    "your-name",
+    "your-username",
+]
+OWNER_FACING_PHRASES = [
+    "## todo",
+    "replace the root readme",
+    "finalize public contact links",
 ]
 ALLOWED_CONTEXT = [
     "do not claim",
@@ -35,19 +48,8 @@ ALLOWED_CONTEXT = [
 
 def markdown_files() -> list[Path]:
     files = list(ROOT.glob("*.md"))
-    files.extend((ROOT / "docs").rglob("*.md"))
-    files.extend(
-        project / "README.md" for project in (ROOT / "projects").iterdir() if project.is_dir()
-    )
-    files.extend(
-        project / "LIMITATIONS.md" for project in (ROOT / "projects").iterdir() if project.is_dir()
-    )
-    files.extend(
-        project / "SYSTEM_CARD.md" for project in (ROOT / "projects").iterdir() if project.is_dir()
-    )
-    files.extend(
-        project / "MODEL_CARD.md" for project in (ROOT / "projects").iterdir() if project.is_dir()
-    )
+    for directory in PUBLIC_TEXT_ROOTS[:2]:
+        files.extend(directory.rglob("*.md"))
     return sorted(
         {
             path
@@ -71,6 +73,11 @@ def main() -> None:
     for path in markdown_files():
         for lineno, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
             lowered = line.lower()
+            for phrase in [*PLACEHOLDER_PHRASES, *OWNER_FACING_PHRASES]:
+                if phrase in lowered:
+                    issues.append(
+                        f"{path.relative_to(ROOT)}:{lineno}: public owner-facing or placeholder text `{phrase}`"
+                    )
             for phrase in RISKY_PHRASES:
                 if phrase in lowered and not line_allowed(line, phrase):
                     issues.append(

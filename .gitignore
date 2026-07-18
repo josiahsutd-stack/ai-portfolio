@@ -18,8 +18,6 @@ projects/aec-code-compliance-rag/public_sources/download_report.json
 *.db
 *.pkl
 *.joblib
-!projects/real-model-finetune-lab/demo_outputs/text_classifier.joblib
-!projects/real-model-finetune-lab/demo_outputs/public_sms_classifier.joblib
 projects/mlops-model-serving-monitoring/demo_outputs/model_registry/
 dist/
 build/
