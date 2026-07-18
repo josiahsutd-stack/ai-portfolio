@@ -87,6 +87,77 @@ claims:
           - "Public Hit@1 {hit_at_1} / MRR {mrr}"
           - "Public {case_count}-case snapshot over {document_count} local documents"
 
+  - id: aec-public-source-uncertainty
+    project_slug: aec-code-compliance-rag
+    artifact: projects/aec-code-compliance-rag/demo_outputs/public_sources/retrieval_uncertainty_summary.json
+    command: python projects/aec-code-compliance-rag/scripts/download_public_sources.py; python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py --corpus public
+    evaluation_scope: Fixed-case uncertainty over {all_case_count} authored public-source cases; intervals do not establish external validity
+    metrics:
+      all_case_count:
+        json_path: support.all_cases
+      answerable_case_count:
+        json_path: support.answerable_cases
+      no_answer_case_count:
+        json_path: support.no_evidence_cases
+      hit_at_1:
+        json_path: metrics.retrieval_hit_at_1.point_estimate
+        decimals: 3
+      hit_lower:
+        json_path: metrics.retrieval_hit_at_1.lower
+        decimals: 3
+      hit_upper:
+        json_path: metrics.retrieval_hit_at_1.upper
+        decimals: 3
+      mrr:
+        json_path: metrics.mean_reciprocal_rank.point_estimate
+        decimals: 3
+      mrr_lower:
+        json_path: metrics.mean_reciprocal_rank.lower
+        decimals: 3
+      mrr_upper:
+        json_path: metrics.mean_reciprocal_rank.upper
+        decimals: 3
+      no_answer:
+        json_path: metrics.no_answer_accuracy.point_estimate
+        decimals: 3
+      no_answer_lower:
+        json_path: metrics.no_answer_accuracy.lower
+        decimals: 3
+      no_answer_upper:
+        json_path: metrics.no_answer_accuracy.upper
+        decimals: 3
+      bm25_mrr_delta:
+        json_path: paired_mode_comparisons_by_baseline.bm25.metrics.mean_reciprocal_rank.point_estimate
+        decimals: 3
+      bm25_mrr_lower:
+        json_path: paired_mode_comparisons_by_baseline.bm25.metrics.mean_reciprocal_rank.lower
+        decimals: 3
+      bm25_mrr_upper:
+        json_path: paired_mode_comparisons_by_baseline.bm25.metrics.mean_reciprocal_rank.upper
+        decimals: 3
+      bm25_conclusion:
+        json_path: paired_mode_comparisons_by_baseline.bm25.metrics.mean_reciprocal_rank.conclusion
+    result_template: "Hit@1 {hit_at_1} [{hit_lower}, {hit_upper}], n={answerable_case_count}; MRR {mrr} [{mrr_lower}, {mrr_upper}]; no-answer {no_answer} [{no_answer_lower}, {no_answer_upper}], n={no_answer_case_count}; hybrid-vs-BM25 MRR delta {bm25_mrr_delta} [{bm25_mrr_lower}, {bm25_mrr_upper}], {bm25_conclusion}"
+    public_surfaces:
+      - path: README.md
+        contains:
+          - "Uncertainty check: public Hit@1 `{hit_at_1}` has a 95% Wilson interval of `[{hit_lower}, {hit_upper}]` over `{answerable_case_count}` answerable cases; MRR `{mrr}` has a 95% bootstrap interval of `[{mrr_lower}, {mrr_upper}]`; no-answer `{no_answer}` is `{no_answer_case_count}/{no_answer_case_count}` with a Wilson interval of `[{no_answer_lower}, {no_answer_upper}]`."
+          - "Hybrid versus BM25 MRR delta is `{bm25_mrr_delta}` with a 95% paired interval of `[{bm25_mrr_lower}, {bm25_mrr_upper}]`; the interval includes zero, so mode superiority is inconclusive on this authored set."
+      - path: projects/aec-code-compliance-rag/README.md
+        contains:
+          - "Uncertainty check: public Hit@1 `{hit_at_1}` has a 95% Wilson interval of `[{hit_lower}, {hit_upper}]` over `{answerable_case_count}` answerable cases; MRR `{mrr}` has a 95% bootstrap interval of `[{mrr_lower}, {mrr_upper}]`; no-answer `{no_answer}` is `{no_answer_case_count}/{no_answer_case_count}` with a Wilson interval of `[{no_answer_lower}, {no_answer_upper}]`."
+          - "Hybrid versus BM25 MRR delta is `{bm25_mrr_delta}` with a 95% paired interval of `[{bm25_mrr_lower}, {bm25_mrr_upper}]`; `{bm25_conclusion}`."
+      - path: projects/aec-code-compliance-rag/EVAL.md
+        contains:
+          - "| Hybrid Hit@1 | `{hit_at_1}` | `[{hit_lower}, {hit_upper}]` | `{answerable_case_count}` answerable cases | Wilson score |"
+          - "| Hybrid MRR | `{mrr}` | `[{mrr_lower}, {mrr_upper}]` | `{answerable_case_count}` answerable cases | Percentile bootstrap |"
+          - "| No-answer accuracy | `{no_answer}` | `[{no_answer_lower}, {no_answer_upper}]` | `{no_answer_case_count}` no-evidence cases | Wilson score |"
+          - "Hybrid versus BM25 MRR delta is `{bm25_mrr_delta}` with a 95% paired interval of `[{bm25_mrr_lower}, {bm25_mrr_upper}]`; `{bm25_conclusion}`."
+      - path: portfolio-site/index.html
+        contains:
+          - "95% intervals: Hit@1 [{hit_lower}, {hit_upper}], n={answerable_case_count}; MRR [{mrr_lower}, {mrr_upper}]."
+          - "Public Hit@1 {hit_at_1} has a 95% Wilson interval of [{hit_lower}, {hit_upper}] over {answerable_case_count} answerable cases; MRR {mrr} has a 95% bootstrap interval of [{mrr_lower}, {mrr_upper}]. No-answer {no_answer} is {no_answer_case_count}/{no_answer_case_count} with a Wilson interval of [{no_answer_lower}, {no_answer_upper}]."
+
   - id: aec-local-service-contract
     project_slug: aec-code-compliance-rag
     artifact: projects/aec-code-compliance-rag/demo_outputs/service_contract_summary.json

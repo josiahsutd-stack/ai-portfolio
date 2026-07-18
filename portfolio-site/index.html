@@ -65,6 +65,7 @@
               <p>Public-source ingestion, four retrieval modes, citations, abstention, evals, and focused tests.</p>
               <strong>Public Hit@1 0.952 / MRR 0.976</strong>
               <small>Public 24-case snapshot over 15 local documents. Synthetic 51-case regression set: Recall@4 1.000 / MRR 0.906. Not compliance certification.</small>
+              <small>95% intervals: Hit@1 [0.773, 0.992], n=21; MRR [0.929, 1.000]. No-answer is 2/2, not a broad accuracy claim.</small>
               <a href="#flagship">View project</a>
             </article>
             <article class="evidence-card">
@@ -179,10 +180,11 @@
               hybrid retrieval, citation checks, unsupported-scope handling, and a tested local service with bounded durable telemetry.
             </p>
             <dl class="fact-list">
-              <div><dt>Evaluation</dt><dd>51 synthetic cases plus 24 public-source cases over a fingerprinted 15-document snapshot</dd></div>
+              <div><dt>Evaluation</dt><dd>51 synthetic cases plus 24 authored public-source cases over a fingerprinted 15-document snapshot</dd></div>
+              <div><dt>Uncertainty</dt><dd>Public Hit@1 0.952 [0.773, 0.992], n=21; MRR 0.976 [0.929, 1.000]. Hybrid-vs-BM25 MRR delta 0.012 [0.000, 0.036], inconclusive</dd></div>
               <div><dt>Service</dt><dd>12/12 local contract checks passed; 9 requests observed before metrics response. The fixed workload returned 48/48 HTTP 200 responses, 0 server errors, and P95 at or below 500 ms</dd></div>
               <div><dt>Persistence</dt><dd>48 payload-free query telemetry rows remained after app reconstruction</dd></div>
-              <div><dt>Proof</dt><dd>Architecture, eval design, ablation, failure analysis, demo answers, service reports, and tests</dd></div>
+              <div><dt>Proof</dt><dd>Architecture, eval design, paired uncertainty, ablation, failure analysis, demo answers, service reports, and tests</dd></div>
               <div><dt>Limit</dt><dd>No authority validation, professional sign-off, OCR, network load, uptime, external deployment, traffic, or live amendment guarantee</dd></div>
             </dl>
             <div class="inline-links">
@@ -192,6 +194,7 @@
               <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/tests/test_rag_service.py">Service tests</a>
               <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/projects/aec-code-compliance-rag/demo_outputs/service_contract_report.md">Service contract</a>
               <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/projects/aec-code-compliance-rag/demo_outputs/service_reliability_report.md">Reliability evidence</a>
+              <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/projects/aec-code-compliance-rag/demo_outputs/public_sources/retrieval_uncertainty_report.md">Uncertainty evidence</a>
             </div>
           </div>
           <figure class="evidence-shot">
@@ -215,6 +218,14 @@
             <span class="flow-connector" aria-hidden="true"></span>
             <div class="flow-node"><span>05</span><strong>Evaluation</strong><small>51 synthetic and 24 public-source cases</small></div>
           </div>
+        </div>
+        <div class="container">
+          <figure class="workflow-proof workflow-proof--light">
+            <img src="assets/retrieval-uncertainty.svg" alt="Point estimates and 95 percent intervals for the authored AEC public-source retrieval snapshot" />
+            <figcaption>
+              Public Hit@1 0.952 has a 95% Wilson interval of [0.773, 0.992] over 21 answerable cases; MRR 0.976 has a 95% bootstrap interval of [0.929, 1.000]. No-answer 1.000 is 2/2 with a Wilson interval of [0.342, 1.000]. The intervals resample this fixed authored set; they are not external-validity claims.
+            </figcaption>
+          </figure>
         </div>
       </section>
 

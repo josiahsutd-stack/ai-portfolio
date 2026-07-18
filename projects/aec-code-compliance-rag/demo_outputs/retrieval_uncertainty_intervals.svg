@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+<title id="title">AEC retrieval uncertainty intervals</title>
+<desc id="desc">Point estimates and 95 percent intervals for a fixed authored public-source retrieval evaluation.</desc>
+<rect width="1200" height="760" fill="#fbfcfe"/>
+<rect x="28" y="28" width="1144" height="704" rx="8" fill="#ffffff" stroke="#d8dee8"/>
+<text x="72" y="88" fill="#12233f" font-family="Arial, sans-serif" font-size="30" font-weight="700">AEC retrieval uncertainty</text>
+<text x="72" y="120" fill="#536174" font-family="Arial, sans-serif" font-size="16">Synthetic demo fixed snapshot • 51 authored cases • 41 answerable • 95% intervals</text>
+<text x="72" y="157" fill="#0d6f69" font-family="Arial, sans-serif" font-size="14" font-weight="700">CASE-RESAMPLING UNCERTAINTY, NOT EXTERNAL VALIDITY</text>
+<line x1="330.0" y1="188" x2="330.0" y2="510" stroke="#e7ebf1"/>
+<text x="330.0" y="532" text-anchor="middle" fill="#68768a" font-family="Arial, sans-serif" font-size="13">0.0</text>
+<line x1="444.0" y1="188" x2="444.0" y2="510" stroke="#e7ebf1"/>
+<text x="444.0" y="532" text-anchor="middle" fill="#68768a" font-family="Arial, sans-serif" font-size="13">0.2</text>
+<line x1="558.0" y1="188" x2="558.0" y2="510" stroke="#e7ebf1"/>
+<text x="558.0" y="532" text-anchor="middle" fill="#68768a" font-family="Arial, sans-serif" font-size="13">0.4</text>
+<line x1="672.0" y1="188" x2="672.0" y2="510" stroke="#e7ebf1"/>
+<text x="672.0" y="532" text-anchor="middle" fill="#68768a" font-family="Arial, sans-serif" font-size="13">0.6</text>
+<line x1="786.0" y1="188" x2="786.0" y2="510" stroke="#e7ebf1"/>
+<text x="786.0" y="532" text-anchor="middle" fill="#68768a" font-family="Arial, sans-serif" font-size="13">0.8</text>
+<line x1="900.0" y1="188" x2="900.0" y2="510" stroke="#e7ebf1"/>
+<text x="900.0" y="532" text-anchor="middle" fill="#68768a" font-family="Arial, sans-serif" font-size="13">1.0</text>
+<text x="72" y="225" fill="#24344d" font-family="Arial, sans-serif" font-size="17" font-weight="600">Hit@1</text>
+<line x1="721.6" y1="220" x2="851.6" y2="220" stroke="#d65f4a" stroke-width="8" stroke-linecap="round"/>
+<line x1="721.6" y1="210" x2="721.6" y2="230" stroke="#d65f4a" stroke-width="2"/>
+<line x1="851.6" y1="210" x2="851.6" y2="230" stroke="#d65f4a" stroke-width="2"/>
+<circle cx="802.5" cy="220" r="8" fill="#12233f" stroke="#ffffff" stroke-width="3"/>
+<text x="930" y="225" fill="#24344d" font-family="Arial, sans-serif" font-size="15">0.829 [0.687, 0.915]</text>
+<text x="1120" y="225" text-anchor="end" fill="#68768a" font-family="Arial, sans-serif" font-size="13">n=41</text>
+<text x="72" y="287" fill="#24344d" font-family="Arial, sans-serif" font-size="17" font-weight="600">Mean reciprocal rank</text>
+<line x1="807.1" y1="282" x2="878.9" y2="282" stroke="#0d7f78" stroke-width="8" stroke-linecap="round"/>
+<line x1="807.1" y1="272" x2="807.1" y2="292" stroke="#0d7f78" stroke-width="2"/>
+<line x1="878.9" y1="272" x2="878.9" y2="292" stroke="#0d7f78" stroke-width="2"/>
+<circle cx="846.4" cy="282" r="8" fill="#12233f" stroke="#ffffff" stroke-width="3"/>
+<text x="930" y="287" fill="#24344d" font-family="Arial, sans-serif" font-size="15">0.906 [0.837, 0.963]</text>
+<text x="1120" y="287" text-anchor="end" fill="#68768a" font-family="Arial, sans-serif" font-size="13">n=41</text>
+<text x="72" y="349" fill="#24344d" font-family="Arial, sans-serif" font-size="17" font-weight="600">Citation coverage</text>
+<line x1="900.0" y1="344" x2="900.0" y2="344" stroke="#0d7f78" stroke-width="8" stroke-linecap="round"/>
+<line x1="900.0" y1="334" x2="900.0" y2="354" stroke="#0d7f78" stroke-width="2"/>
+<line x1="900.0" y1="334" x2="900.0" y2="354" stroke="#0d7f78" stroke-width="2"/>
+<circle cx="900.0" cy="344" r="8" fill="#12233f" stroke="#ffffff" stroke-width="3"/>
+<text x="930" y="349" fill="#24344d" font-family="Arial, sans-serif" font-size="15">1.000 [1.000, 1.000]</text>
+<text x="1120" y="349" text-anchor="end" fill="#68768a" font-family="Arial, sans-serif" font-size="13">n=41</text>
+<text x="72" y="411" fill="#24344d" font-family="Arial, sans-serif" font-size="17" font-weight="600">Grounding check rate</text>
+<line x1="851.0" y1="406" x2="900.0" y2="406" stroke="#0d7f78" stroke-width="8" stroke-linecap="round"/>
+<line x1="851.0" y1="396" x2="851.0" y2="416" stroke="#0d7f78" stroke-width="2"/>
+<line x1="900.0" y1="396" x2="900.0" y2="416" stroke="#0d7f78" stroke-width="2"/>
+<circle cx="900.0" cy="406" r="8" fill="#12233f" stroke="#ffffff" stroke-width="3"/>
+<text x="930" y="411" fill="#24344d" font-family="Arial, sans-serif" font-size="15">1.000 [0.914, 1.000]</text>
+<text x="1120" y="411" text-anchor="end" fill="#68768a" font-family="Arial, sans-serif" font-size="13">n=41</text>
+<text x="72" y="473" fill="#24344d" font-family="Arial, sans-serif" font-size="17" font-weight="600">Status accuracy</text>
+<line x1="860.1" y1="468" x2="900.0" y2="468" stroke="#0d7f78" stroke-width="8" stroke-linecap="round"/>
+<line x1="860.1" y1="458" x2="860.1" y2="478" stroke="#0d7f78" stroke-width="2"/>
+<line x1="900.0" y1="458" x2="900.0" y2="478" stroke="#0d7f78" stroke-width="2"/>
+<circle cx="900.0" cy="468" r="8" fill="#12233f" stroke="#ffffff" stroke-width="3"/>
+<text x="930" y="473" fill="#24344d" font-family="Arial, sans-serif" font-size="15">1.000 [0.930, 1.000]</text>
+<text x="1120" y="473" text-anchor="end" fill="#68768a" font-family="Arial, sans-serif" font-size="13">n=51</text>
+<rect x="72" y="566" width="1056" height="112" rx="6" fill="#f3f6f9" stroke="#d8dee8"/>
+<text x="96" y="600" fill="#12233f" font-family="Arial, sans-serif" font-size="16" font-weight="700">Paired mode result</text>
+<text x="96" y="628" fill="#24344d" font-family="Arial, sans-serif" font-size="16">Hybrid vs BM25 MRR delta +0.000 [+0.000, +0.000]</text>
+<text x="752" y="628" fill="#d65f4a" font-family="Arial, sans-serif" font-size="14" font-weight="700">INCONCLUSIVE INTERVAL INCLUDES ZERO</text>
+<text x="96" y="657" fill="#536174" font-family="Arial, sans-serif" font-size="14">No-answer: 1.000 [0.610, 1.000], n=6; the perfect point score has a wide interval.</text>
+<text x="72" y="708" fill="#68768a" font-family="Arial, sans-serif" font-size="13">Intervals reflect resampling of this authored case set only; they do not measure expert agreement, source currency, or real-world accuracy.</text>
+</svg>

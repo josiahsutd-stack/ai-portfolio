@@ -469,6 +469,21 @@ def evaluate_retrieval_modes(
         mode_payloads[mode] = {
             "summary": payload["summary"],
             "result_count": len(payload["results"]),
+            "case_metrics": [
+                {
+                    "case_id": str(row["case_id"] or f"case-{index:03d}"),
+                    "case_type": row["case_type"],
+                    "expected_status": row["expected_status"],
+                    "expected_no_answer": row["expected_source"] == "__NO_ANSWER__",
+                    "reciprocal_rank": row["reciprocal_rank"],
+                    "hit_at_1": float(row["expected_source"] in row["retrieved_sources"][:1]),
+                    "citation_coverage": row["citation_coverage"],
+                    "simple_grounding_check": row["simple_grounding_check"],
+                    "status_correct": row["status_correct"],
+                    "no_answer_correct": row["no_answer_correct"],
+                }
+                for index, row in enumerate(payload["results"], start=1)
+            ],
         }
     ranked_modes = sorted(
         (

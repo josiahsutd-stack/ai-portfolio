@@ -99,5 +99,70 @@
       "citation_coverage": 0.778,
       "status_accuracy": 1.0
     }
-  ]
+  ],
+  "uncertainty_metrics": {
+    "retrieval_hit_at_1": {
+      "point_estimate": 0.952,
+      "lower": 0.773,
+      "upper": 0.992,
+      "width": 0.218,
+      "sample_count": 21,
+      "method": "wilson_score_95",
+      "wide": true
+    },
+    "mean_reciprocal_rank": {
+      "point_estimate": 0.976,
+      "lower": 0.929,
+      "upper": 1.0,
+      "width": 0.071,
+      "sample_count": 21,
+      "method": "percentile_bootstrap_10000_95",
+      "wide": false
+    },
+    "citation_coverage": {
+      "point_estimate": 0.968,
+      "lower": 0.921,
+      "upper": 1.0,
+      "width": 0.079,
+      "sample_count": 21,
+      "method": "percentile_bootstrap_10000_95",
+      "wide": false
+    },
+    "grounding_check_rate": {
+      "point_estimate": 0.905,
+      "lower": 0.711,
+      "upper": 0.973,
+      "width": 0.263,
+      "sample_count": 21,
+      "method": "wilson_score_95",
+      "wide": true
+    },
+    "status_accuracy": {
+      "point_estimate": 1.0,
+      "lower": 0.862,
+      "upper": 1.0,
+      "width": 0.138,
+      "sample_count": 24,
+      "method": "wilson_score_95",
+      "wide": false
+    },
+    "no_answer_accuracy": {
+      "point_estimate": 1.0,
+      "lower": 0.342,
+      "upper": 1.0,
+      "width": 0.658,
+      "sample_count": 2,
+      "method": "wilson_score_95",
+      "wide": true
+    },
+    "review_or_unsupported_accuracy": {
+      "point_estimate": 1.0,
+      "lower": 0.207,
+      "upper": 1.0,
+      "width": 0.793,
+      "sample_count": 1,
+      "method": "wilson_score_95",
+      "wide": true
+    }
+  }
 }

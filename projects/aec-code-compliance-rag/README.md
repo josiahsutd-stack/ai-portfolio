@@ -28,6 +28,7 @@ Evidence in this repository:
 - Optional retrieval filters for jurisdiction, document type, and superseded-source handling.
 - Source-status warnings for superseded, mixed-version, mixed-jurisdiction, or mixed-year evidence.
 - Retrieval evaluation and mode ablation with sample questions and repeatable metrics.
+- Wilson and deterministic bootstrap intervals, explicit support sizes, and paired retrieval-mode deltas over matching case IDs.
 - A fail-closed FastAPI service with API-key authentication, bounded request IDs, liveness/readiness checks, redacted SQLite query logs, process counters, and bounded payload-free request telemetry.
 - Query-specific P95 latency and server-error objectives that remain `insufficient_data` until the configured sample size is reached.
 - Tests for chunking, retrieval, citations, no-result handling, authentication, request tracing, log migration, redaction, telemetry retention/app-reconstruction behavior, objective states, and service errors.
@@ -68,6 +69,12 @@ The downloaded PDFs/HTML text and generated manifest stay in `public_sources/dow
 
 The public run includes 15 direct questions, six paraphrases, two project-specific no-evidence cases, and one professional-review refusal. Two paraphrase cases retrieve the correct source but miss one expected phrase within the top four chunks; those cases remain in [`failure_analysis.md`](demo_outputs/public_sources/failure_analysis.md).
 
+Uncertainty check: public Hit@1 `0.952` has a 95% Wilson interval of `[0.773, 0.992]` over `21` answerable cases; MRR `0.976` has a 95% bootstrap interval of `[0.929, 1.000]`; no-answer `1.000` is `2/2` with a Wilson interval of `[0.342, 1.000]`. Hybrid versus BM25 MRR delta is `0.012` with a 95% paired interval of `[0.000, 0.036]`; `inconclusive_interval_includes_zero`.
+
+![Public-source retrieval point estimates and 95% fixed-case uncertainty intervals](demo_outputs/public_sources/retrieval_uncertainty_intervals.svg)
+
+These intervals resample the same authored cases. They do not measure expert-label agreement, source currency, or performance on a broader query population.
+
 ## Demo
 
 ```bash
@@ -94,6 +101,9 @@ Generated evaluation artifacts are in [`demo_outputs/`](demo_outputs/):
 - [`retrieval_eval_report.md`](demo_outputs/retrieval_eval_report.md)
 - [`retrieval_ablation_summary.json`](demo_outputs/retrieval_ablation_summary.json)
 - [`retrieval_ablation_report.md`](demo_outputs/retrieval_ablation_report.md)
+- [`retrieval_uncertainty_summary.json`](demo_outputs/retrieval_uncertainty_summary.json)
+- [`retrieval_uncertainty_report.md`](demo_outputs/retrieval_uncertainty_report.md)
+- [`retrieval_uncertainty_intervals.svg`](demo_outputs/retrieval_uncertainty_intervals.svg)
 - [`accessible_route_answer.md`](demo_outputs/accessible_route_answer.md)
 - [`no_answer_failure_case.md`](demo_outputs/no_answer_failure_case.md)
 - [`service_contract_summary.json`](demo_outputs/service_contract_summary.json)
@@ -122,6 +132,7 @@ python projects/aec-code-compliance-rag/evaluate_service_reliability.py
 - Conservative authority/document inference so BCA, PUB, NParks, URA, NEA, SCDF, and LTA questions stay within the named agency or document family where possible.
 - Local TF-IDF, BM25, dense LSA, and hybrid retrieval modes, with optional sentence-transformer embedding and cross-encoder reranking modes.
 - Retrieval ablation report comparing modes over the same synthetic eval set.
+- Fixed-seed uncertainty report with Wilson intervals for binary outcomes, bootstrap intervals for mean metrics, and paired mode deltas.
 - Deterministic no-API answer mode plus optional OpenAI-compatible provider through shared portfolio utilities.
 - Citation formatting with references like `[C1] mock_aec_guidance.md > Accessible Routes`.
 - Source-status analysis that flags retrieved evidence requiring version/jurisdiction review.
@@ -148,7 +159,7 @@ python projects/aec-code-compliance-rag/evaluate_service_reliability.py
 4. Each chunk receives traceable metadata: source, title, source type, allowed use, section, heading, clause ID, page value, chunk ID, start word, end word, document version, jurisdiction, code year, and superseded status.
 5. A local retriever ranks the eligible source subset for a question. The default app mode is hybrid TF-IDF/BM25; the eval script also compares TF-IDF, BM25, dense LSA, and hybrid modes.
 6. The assistant returns an answer only from retrieved evidence, exposes structured citations, and warns when retrieved sources need version or jurisdiction review.
-7. The retrieval evaluator runs sample questions and writes metrics plus demo outputs.
+7. The retrieval evaluator runs sample questions, computes fixed-case uncertainty and paired mode deltas, and writes metrics plus demo outputs.
 8. The service factory applies API-key authentication, request IDs, readiness checks, redacted query logs, process counters, and bounded payload-free SQLite telemetry around the same assistant boundary.
 9. Query objectives evaluate the latest durable `POST /query` window only after a minimum sample count; the fixed workload reconstructs the app to verify persistence.
 
@@ -169,6 +180,7 @@ The tests cover:
 - Empty and no-result handling.
 - Project-specific questions that lack project records.
 - Retrieval evaluation metrics.
+- Deterministic intervals, paired-case validation, exact paired ties, and small-sample width flags.
 - Fail-closed authentication and readiness behavior.
 - Request-ID propagation and sanitization.
 - Default query-payload redaction, explicit payload opt-in, and legacy SQLite schema migration.

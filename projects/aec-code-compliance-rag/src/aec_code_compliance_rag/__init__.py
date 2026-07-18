@@ -27,6 +27,12 @@ from .service import (
     evaluate_query_objectives,
 )
 from .source_manifest import load_source_manifest
+from .uncertainty import (
+    bootstrap_mean_interval,
+    build_retrieval_uncertainty,
+    paired_bootstrap_mean_interval,
+    wilson_score_interval,
+)
 
 __all__ = [
     "DocumentChunk",
@@ -58,4 +64,8 @@ __all__ = [
     "load_eval_cases",
     "load_pdf_chunks",
     "load_source_manifest",
+    "bootstrap_mean_interval",
+    "build_retrieval_uncertainty",
+    "paired_bootstrap_mean_interval",
+    "wilson_score_interval",
 ]

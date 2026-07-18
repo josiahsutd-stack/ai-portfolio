@@ -14,6 +14,8 @@ These three projects carry the clearest technical and domain evidence.
 | [Construction Embodied Agent Simulator](projects/vla-embodied-agent-simulator/README.md) | Shared demonstrations, semantic and rendered-pixel observations, appearance-shift evaluation, closed-loop imitation, action filtering, and planar MuJoCo command replay. | On 96 unseen grids, egocentric filtered success is `0.760`; rendered-RGB success is `0.719` normally and `0.427` under an unseen palette, which requires 3315 interventions. On a balanced 12-scenario physics subset, raw egocentric commands contact rigid geometry 51/150 times; filtered commands record 0/148 contacts. | RGB pixels are state-rendered and the filter sees full rules. MuJoCo uses a planar body and static proxies; no physical-camera perception, foundation VLA, robot kinematics, ROS, hardware, or physical-safety validation. |
 | [Constraint-Aware Massing Explorer](projects/constraint-aware-massing-explorer/README.md) | Parametric geometry, hard constraints, Pareto ranking, editable objectives, and transparent environmental/access proxies. | Across 864 candidates per method: feasible rate `0.977` versus `0.052` for the unconstrained baseline; mean best GFA error `0.19%` versus `34.47%`. | Rectangular proxy model; no code inference, internal egress, calibrated daylight/CFD, structure, or approvable design. |
 
+Uncertainty check: public Hit@1 `0.952` has a 95% Wilson interval of `[0.773, 0.992]` over `21` answerable cases; MRR `0.976` has a 95% bootstrap interval of `[0.929, 1.000]`; no-answer `1.000` is `2/2` with a Wilson interval of `[0.342, 1.000]`. Hybrid versus BM25 MRR delta is `0.012` with a 95% paired interval of `[0.000, 0.036]`; the interval includes zero, so mode superiority is inconclusive on this authored set.
+
 For a 15-minute technical screen, these three links contain the highest-signal code, evaluation design, failure boundaries, and generated evidence. The [evidence ledger](docs/EVIDENCE_LEDGER.md) records the artifact and command behind each headline metric.
 
 ![Constraint-aware massing option with plan, isometric view, and measured proxies](docs/assets/screenshots/massing-explorer-demo.png)
@@ -87,9 +89,12 @@ The checked-in in-process service evaluation records 12/12 contract checks passe
 
 A separate fixed in-process workload records 14/14 reliability checks passed: 48/48 responses returned 200, zero server errors, P95 at or below 500 ms, and 48 durable query rows remained after app reconstruction. Exact wall-clock latency is runtime-only because it varies by machine; this is not sustained-load, network, uptime, or capacity evidence.
 
+The public retrieval artifact also reports deterministic Wilson and fixed-seed bootstrap intervals plus paired mode deltas. The intervals measure sensitivity to resampling the same 24 authored cases; they do not establish independent labels, document currency, or performance on a broader query population.
+
 - [Architecture](projects/aec-code-compliance-rag/ARCHITECTURE.md)
 - [Evaluation design and results](projects/aec-code-compliance-rag/EVAL.md)
 - [Generated evaluation outputs](projects/aec-code-compliance-rag/demo_outputs/)
+- [Public uncertainty report](projects/aec-code-compliance-rag/demo_outputs/public_sources/retrieval_uncertainty_report.md)
 - [Local service contract report](projects/aec-code-compliance-rag/demo_outputs/service_contract_report.md)
 - [Local reliability report](projects/aec-code-compliance-rag/demo_outputs/service_reliability_report.md)
 - [Public-source inventory and provenance](projects/aec-code-compliance-rag/public_sources/SOURCE_NOTES.md)
@@ -106,6 +111,10 @@ python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py --corpus p
 The downloader targets official BCA, URA, NEA, SCDF, LTA, PUB, and NParks sources. It rejects HTML or error payloads masquerading as PDFs and records resolved URLs plus SHA-256 fingerprints. Downloaded files remain local and are not redistributed.
 
 ![AEC RAG local Streamlit demo with source citations](docs/assets/screenshots/aec-rag-demo.png)
+
+![Public-source retrieval point estimates and 95% fixed-case uncertainty intervals](portfolio-site/assets/retrieval-uncertainty.svg)
+
+*Generated from the fingerprinted 24-case public snapshot. Wide intervals expose small-sample limits; they are not external-validity or professional-accuracy claims.*
 
 ## Embodied AI Project
 

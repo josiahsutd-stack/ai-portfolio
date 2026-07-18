@@ -26,7 +26,8 @@ flowchart LR
   API --> MET["Process counters and durable request telemetry"]
   API --> OBJ["Query latency and server-error objectives"]
   D --> I["Retrieval evaluator"]
-  I --> J["demo_outputs"]
+  I --> U["Uncertainty and paired-mode analysis"]
+  U --> J["demo_outputs"]
   API --> SI["In-process service evaluator"]
   SI --> J
   API --> RI["Concurrent reliability evaluator"]
@@ -47,7 +48,8 @@ flowchart LR
 | Observability | `src/aec_code_compliance_rag/observability.py` | Persists redacted query audit records plus bounded request timestamp, instance id, request id, route template, status, and latency rows in local SQLite. Service telemetry does not store arbitrary headers, query strings, questions, or bodies. |
 | Service boundary | `src/aec_code_compliance_rag/service.py` | Builds the FastAPI app, validates request schemas, fails closed on absent/invalid API keys, attaches bounded request ids, distinguishes liveness/readiness, records process counters, and evaluates query objectives over a durable window. |
 | Evaluation | `src/aec_code_compliance_rag/evaluation.py` | Loads evaluation cases and computes retrieval metrics. |
-| Evaluation CLI | `evaluate_retrieval.py` | Runs the evaluator and writes versioned artifacts in `demo_outputs/`. |
+| Uncertainty | `src/aec_code_compliance_rag/uncertainty.py` | Computes Wilson intervals, fixed-seed bootstrap intervals, and paired retrieval-mode deltas over matching case IDs. |
+| Evaluation CLI | `evaluate_retrieval.py` | Runs retrieval, ablation, uncertainty, and demo-output generation into `demo_outputs/`. |
 | Service evaluation CLI | `evaluate_service.py` | Runs deterministic in-process ASGI contract checks and writes versioned service evidence. |
 | Reliability evaluation CLI | `evaluate_service_reliability.py` | Runs a fixed concurrent in-process query workload, verifies latency/error budgets and app-reconstruction persistence, and writes versioned pass/fail evidence. |
 | Demo UI | `app.py` | Streamlit interface for local question answering and citation inspection. |
@@ -89,6 +91,12 @@ The optional public corpus uses `public_sources/sources.json` as the committed s
 The default retriever combines local TF-IDF and BM25 scores, then applies a small lexical coverage boost. The project also includes TF-IDF-only, BM25-only, and dense LSA modes for comparison. These committed modes stay runnable without paid APIs, local model downloads, or external infrastructure. Exact chunk text, component scores, dense scores, metadata, filters, and citations remain inspectable.
 
 Optional `semantic` and `hybrid_cross_encoder` modes use `sentence-transformers` for embedding retrieval and cross-encoder reranking. They are useful extension points, but the default review path does not require downloading model weights.
+
+## Evaluation And Uncertainty Boundary
+
+The evaluator retains per-case retrieval outcomes and projects compact case metrics for each portable retrieval mode. `uncertainty.py` then reports 95% Wilson intervals for binary outcomes, deterministic percentile-bootstrap intervals for mean metrics, and paired-bootstrap deltas over identical answerable case IDs. Mismatched case sets fail instead of being compared.
+
+This layer measures how the aggregate changes when the same authored cases are resampled. It does not model independent-label quality, document currency, expert disagreement, or a broader query population. Sorted ablation point estimates therefore remain descriptive; paired intervals determine whether the fixed set supports a directional mode comparison.
 
 The assistant can rebuild a temporary retriever over a filtered source subset for a query. Supported local filters include jurisdiction, source type, and superseded status. For the Singapore public-source corpus, the assistant also applies conservative authority and document-family inference. A question that names BCA, PUB, NParks, URA, NEA, SCDF, or LTA is restricted to that publisher when matching sources exist. A question that names a specific document family, such as BCA Code on Accessibility, PUB Surface Water Drainage, or NParks Greenery Provision and Tree Conservation, is restricted to that document ID. Manual source filters still take precedence.
 

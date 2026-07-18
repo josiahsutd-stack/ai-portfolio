@@ -5,6 +5,7 @@ import copy
 import hashlib
 import json
 import sys
+from html import escape
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent
@@ -13,11 +14,22 @@ sys.path.extend([str(PROJECT_ROOT / "src"), str(REPO_ROOT)])
 
 from aec_code_compliance_rag import (  # noqa: E402
     build_assistant_from_paths,
+    build_retrieval_uncertainty,
     downloaded_public_paths,
     evaluate_retrieval,
     evaluate_retrieval_modes,
     load_eval_cases,
 )
+
+UNCERTAINTY_METRIC_LABELS = {
+    "retrieval_hit_at_1": "Hit@1",
+    "mean_reciprocal_rank": "Mean reciprocal rank",
+    "citation_coverage": "Citation coverage",
+    "grounding_check_rate": "Grounding check rate",
+    "status_accuracy": "Status accuracy",
+    "no_answer_accuracy": "No-answer accuracy",
+    "review_or_unsupported_accuracy": "Review/unsupported routing",
+}
 
 
 def _stable_review_payload(payload: dict[str, object]) -> dict[str, object]:
@@ -258,6 +270,201 @@ def _write_ablation_report(
     output_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+def _write_uncertainty_report(
+    payload: dict[str, object], output_path: Path, *, corpus_label: str
+) -> None:
+    protocol = payload["protocol"]
+    support = payload["support"]
+    metrics = payload["metrics"]
+    lines = [
+        "# Retrieval Uncertainty Report",
+        "",
+        f"{corpus_label} uncertainty analysis for the AEC retrieval evaluation.",
+        "",
+        "## Interpretation Boundary",
+        "",
+        str(protocol["interpretation"]),
+        "",
+        "These intervals are not a claim of production accuracy or external validity.",
+        "",
+        "## Protocol",
+        "",
+        f"- Confidence level: {protocol['confidence_level']}",
+        f"- Bootstrap resamples: {protocol['bootstrap_resamples']}",
+        f"- Bootstrap seed: {protocol['bootstrap_seed']}",
+        f"- Sampling unit: `{protocol['sampling_unit']}`",
+        f"- Wide-interval threshold: {protocol['wide_interval_threshold']}",
+        f"- Total authored cases: {support['all_cases']}",
+        f"- Answerable cases: {support['answerable_cases']}",
+        f"- No-evidence cases: {support['no_evidence_cases']}",
+        f"- Review or unsupported-scope cases: {support['review_or_unsupported_cases']}",
+        "",
+        "## Metric Intervals",
+        "",
+        "| Metric | Point | 95% interval | n | Method | Width flag |",
+        "| --- | ---: | ---: | ---: | --- | --- |",
+    ]
+    for metric_name, interval in metrics.items():
+        lines.append(
+            "| {label} | {point:.3f} | [{lower:.3f}, {upper:.3f}] | {count} | "
+            "`{method}` | {flag} |".format(
+                label=UNCERTAINTY_METRIC_LABELS.get(metric_name, metric_name),
+                point=interval["point_estimate"],
+                lower=interval["lower"],
+                upper=interval["upper"],
+                count=interval["sample_count"],
+                method=interval["method"],
+                flag="wide" if interval["wide"] else "not wide",
+            )
+        )
+
+    lines.extend(
+        [
+            "",
+            "## Answerable Case Types",
+            "",
+            "| Case type | n | Hit@1 (95% Wilson) | MRR (95% bootstrap) |",
+            "| --- | ---: | ---: | ---: |",
+        ]
+    )
+    for case_type, subgroup in payload["answerable_case_type_metrics"].items():
+        hit = subgroup["retrieval_hit_at_1"]
+        mrr = subgroup["mean_reciprocal_rank"]
+        lines.append(
+            f"| `{case_type}` | {subgroup['sample_count']} | "
+            f"{hit['point_estimate']:.3f} [{hit['lower']:.3f}, {hit['upper']:.3f}] | "
+            f"{mrr['point_estimate']:.3f} [{mrr['lower']:.3f}, {mrr['upper']:.3f}] |"
+        )
+
+    lines.extend(
+        [
+            "",
+            "## Paired Retrieval-Mode Comparisons",
+            "",
+            (
+                "Each delta is candidate minus baseline over matching answerable case IDs. "
+                "A comparison is marked inconclusive when its 95% interval includes zero."
+            ),
+            "",
+            "| Comparison | Metric | Delta | 95% paired interval | Win/tie/loss | Conclusion |",
+            "| --- | --- | ---: | ---: | ---: | --- |",
+        ]
+    )
+    for comparison in payload["paired_mode_comparisons"]:
+        for metric_name, interval in comparison["metrics"].items():
+            lines.append(
+                "| `{candidate}` vs `{baseline}` | {metric} | {delta:+.3f} | "
+                "[{lower:+.3f}, {upper:+.3f}] | {wins}/{ties}/{losses} | `{conclusion}` |".format(
+                    candidate=comparison["candidate_mode"],
+                    baseline=comparison["baseline_mode"],
+                    metric=UNCERTAINTY_METRIC_LABELS.get(metric_name, metric_name),
+                    delta=interval["point_estimate"],
+                    lower=interval["lower"],
+                    upper=interval["upper"],
+                    wins=interval["wins"],
+                    ties=interval["ties"],
+                    losses=interval["losses"],
+                    conclusion=interval["conclusion"],
+                )
+            )
+
+    lines.extend(
+        [
+            "",
+            "## Reviewer Takeaway",
+            "",
+            (
+                "Point estimates remain useful as deterministic regression checks. Wide "
+                "intervals identify claims that need more independently labeled cases before "
+                "they should be generalized. Paired comparisons describe only this fixed set."
+            ),
+        ]
+    )
+    output_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def _write_uncertainty_svg(
+    payload: dict[str, object], output_path: Path, *, corpus_label: str
+) -> None:
+    width = 1200
+    height = 760
+    plot_left = 330
+    plot_right = 900
+    plot_width = plot_right - plot_left
+    metric_names = [
+        "retrieval_hit_at_1",
+        "mean_reciprocal_rank",
+        "citation_coverage",
+        "grounding_check_rate",
+        "status_accuracy",
+    ]
+    support = payload["support"]
+    elements = [
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img" aria-labelledby="title desc">',
+        '<title id="title">AEC retrieval uncertainty intervals</title>',
+        '<desc id="desc">Point estimates and 95 percent intervals for a fixed authored public-source retrieval evaluation.</desc>',
+        '<rect width="1200" height="760" fill="#fbfcfe"/>',
+        '<rect x="28" y="28" width="1144" height="704" rx="8" fill="#ffffff" stroke="#d8dee8"/>',
+        '<text x="72" y="88" fill="#12233f" font-family="Arial, sans-serif" font-size="30" font-weight="700">AEC retrieval uncertainty</text>',
+        f'<text x="72" y="120" fill="#536174" font-family="Arial, sans-serif" font-size="16">{escape(corpus_label)} fixed snapshot • {support["all_cases"]} authored cases • {support["answerable_cases"]} answerable • 95% intervals</text>',
+        '<text x="72" y="157" fill="#0d6f69" font-family="Arial, sans-serif" font-size="14" font-weight="700">CASE-RESAMPLING UNCERTAINTY, NOT EXTERNAL VALIDITY</text>',
+    ]
+    for tick in range(0, 11, 2):
+        value = tick / 10
+        x = plot_left + plot_width * value
+        elements.extend(
+            [
+                f'<line x1="{x:.1f}" y1="188" x2="{x:.1f}" y2="510" stroke="#e7ebf1"/>',
+                f'<text x="{x:.1f}" y="532" text-anchor="middle" fill="#68768a" font-family="Arial, sans-serif" font-size="13">{value:.1f}</text>',
+            ]
+        )
+    for index, metric_name in enumerate(metric_names):
+        interval = payload["metrics"][metric_name]
+        y = 220 + index * 62
+        lower_x = plot_left + plot_width * float(interval["lower"])
+        upper_x = plot_left + plot_width * float(interval["upper"])
+        point_x = plot_left + plot_width * float(interval["point_estimate"])
+        color = "#d65f4a" if interval["wide"] else "#0d7f78"
+        elements.extend(
+            [
+                f'<text x="72" y="{y + 5}" fill="#24344d" font-family="Arial, sans-serif" font-size="17" font-weight="600">{escape(UNCERTAINTY_METRIC_LABELS[metric_name])}</text>',
+                f'<line x1="{lower_x:.1f}" y1="{y}" x2="{upper_x:.1f}" y2="{y}" stroke="{color}" stroke-width="8" stroke-linecap="round"/>',
+                f'<line x1="{lower_x:.1f}" y1="{y - 10}" x2="{lower_x:.1f}" y2="{y + 10}" stroke="{color}" stroke-width="2"/>',
+                f'<line x1="{upper_x:.1f}" y1="{y - 10}" x2="{upper_x:.1f}" y2="{y + 10}" stroke="{color}" stroke-width="2"/>',
+                f'<circle cx="{point_x:.1f}" cy="{y}" r="8" fill="#12233f" stroke="#ffffff" stroke-width="3"/>',
+                f'<text x="930" y="{y + 5}" fill="#24344d" font-family="Arial, sans-serif" font-size="15">{interval["point_estimate"]:.3f} [{interval["lower"]:.3f}, {interval["upper"]:.3f}]</text>',
+                f'<text x="1120" y="{y + 5}" text-anchor="end" fill="#68768a" font-family="Arial, sans-serif" font-size="13">n={interval["sample_count"]}</text>',
+            ]
+        )
+
+    bm25 = next(
+        comparison
+        for comparison in payload["paired_mode_comparisons"]
+        if comparison["baseline_mode"] == "bm25"
+    )
+    paired_mrr = bm25["metrics"]["mean_reciprocal_rank"]
+    no_answer = payload["metrics"].get("no_answer_accuracy")
+    elements.extend(
+        [
+            '<rect x="72" y="566" width="1056" height="112" rx="6" fill="#f3f6f9" stroke="#d8dee8"/>',
+            '<text x="96" y="600" fill="#12233f" font-family="Arial, sans-serif" font-size="16" font-weight="700">Paired mode result</text>',
+            f'<text x="96" y="628" fill="#24344d" font-family="Arial, sans-serif" font-size="16">Hybrid vs BM25 MRR delta {paired_mrr["point_estimate"]:+.3f} [{paired_mrr["lower"]:+.3f}, {paired_mrr["upper"]:+.3f}]</text>',
+            f'<text x="752" y="628" fill="#d65f4a" font-family="Arial, sans-serif" font-size="14" font-weight="700">{escape(str(paired_mrr["conclusion"]).replace("_", " ").upper())}</text>',
+        ]
+    )
+    if no_answer:
+        elements.append(
+            f'<text x="96" y="657" fill="#536174" font-family="Arial, sans-serif" font-size="14">No-answer: {no_answer["point_estimate"]:.3f} [{no_answer["lower"]:.3f}, {no_answer["upper"]:.3f}], n={no_answer["sample_count"]}; the perfect point score has a wide interval.</text>'
+        )
+    elements.extend(
+        [
+            '<text x="72" y="708" fill="#68768a" font-family="Arial, sans-serif" font-size="13">Intervals reflect resampling of this authored case set only; they do not measure expert agreement, source currency, or real-world accuracy.</text>',
+            "</svg>",
+        ]
+    )
+    output_path.write_text("\n".join(elements) + "\n", encoding="utf-8")
+
+
 def _append_source_lines(lines: list[str], sources: list[dict[str, object]]) -> None:
     if not sources:
         lines.append("- No sources returned.")
@@ -423,15 +630,24 @@ def main() -> None:
         manifest_path=manifest_path,
         chunks=assistant.chunks,
     )
+    uncertainty_payload = build_retrieval_uncertainty(payload, ablation_payload)
     stable_payload = {
         "artifact_schema_version": "2.0",
         "provenance": provenance,
         **_stable_review_payload(payload),
     }
+    artifact_ablation_payload = copy.deepcopy(ablation_payload)
+    for mode_payload in artifact_ablation_payload["results"].values():
+        mode_payload.pop("case_metrics", None)
     stable_ablation_payload = {
         "artifact_schema_version": "2.0",
         "provenance": provenance,
-        **_stable_review_payload(ablation_payload),
+        **_stable_review_payload(artifact_ablation_payload),
+    }
+    stable_uncertainty_payload = {
+        "artifact_schema_version": "1.0",
+        "provenance": provenance,
+        **_stable_review_payload(uncertainty_payload),
     }
 
     (output_dir / "retrieval_eval_summary.json").write_text(
@@ -442,6 +658,10 @@ def main() -> None:
         json.dumps(stable_ablation_payload, indent=2) + "\n",
         encoding="utf-8",
     )
+    (output_dir / "retrieval_uncertainty_summary.json").write_text(
+        json.dumps(stable_uncertainty_payload, indent=2) + "\n",
+        encoding="utf-8",
+    )
     (output_dir / "evaluation_manifest.json").write_text(
         json.dumps(
             {
@@ -449,6 +669,7 @@ def main() -> None:
                 "provenance": provenance,
                 "summary": stable_payload["summary"],
                 "ranked_modes": stable_ablation_payload["ranked_modes"],
+                "uncertainty_metrics": stable_uncertainty_payload["metrics"],
             },
             indent=2,
         )
@@ -463,6 +684,23 @@ def main() -> None:
         output_dir / "retrieval_ablation_report.md",
         corpus_label=corpus_label,
     )
+    _write_uncertainty_report(
+        stable_uncertainty_payload,
+        output_dir / "retrieval_uncertainty_report.md",
+        corpus_label=corpus_label,
+    )
+    uncertainty_svg_path = output_dir / "retrieval_uncertainty_intervals.svg"
+    _write_uncertainty_svg(
+        stable_uncertainty_payload,
+        uncertainty_svg_path,
+        corpus_label=corpus_label,
+    )
+    if args.corpus == "public":
+        site_svg_path = REPO_ROOT / "portfolio-site" / "assets" / "retrieval-uncertainty.svg"
+        site_svg_path.write_text(
+            uncertainty_svg_path.read_text(encoding="utf-8"),
+            encoding="utf-8",
+        )
     _write_failure_analysis(
         stable_payload,
         output_dir / "failure_analysis.md",

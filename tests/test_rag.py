@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 
 import aec_code_compliance_rag.public_sources as public_sources
+import pytest
 from aec_code_compliance_rag import (
     BM25Retriever,
     DenseLsaRetriever,
@@ -10,6 +11,7 @@ from aec_code_compliance_rag import (
     RAGAssistant,
     RetrievalEvalCase,
     build_assistant_from_paths,
+    build_retrieval_uncertainty,
     check_citation_faithfulness,
     chunk_text,
     download_public_sources,
@@ -18,6 +20,8 @@ from aec_code_compliance_rag import (
     evaluate_retrieval_modes,
     load_document_chunks,
     load_source_manifest,
+    paired_bootstrap_mean_interval,
+    wilson_score_interval,
 )
 
 
@@ -720,6 +724,141 @@ def test_retrieval_mode_ablation_reports_all_modes(tmp_path: Path) -> None:
     assert {row["mode"] for row in payload["ranked_modes"]} == set(payload["modes"])
     assert payload["results"]["hybrid"]["summary"]["case_count"] == 1
     assert payload["results"]["dense_lsa"]["summary"]["status_accuracy"] == 1.0
+    assert payload["results"]["hybrid"]["case_metrics"] == [
+        {
+            "case_id": "case-001",
+            "case_type": "answerable_direct",
+            "expected_status": "answered",
+            "expected_no_answer": False,
+            "reciprocal_rank": 1.0,
+            "hit_at_1": 1.0,
+            "citation_coverage": 1.0,
+            "simple_grounding_check": True,
+            "status_correct": True,
+            "no_answer_correct": False,
+        }
+    ]
+
+
+def _uncertainty_fixture() -> tuple[dict[str, object], dict[str, object]]:
+    evaluation = {
+        "results": [
+            {
+                "case_id": "a",
+                "case_type": "direct",
+                "expected_status": "answered",
+                "expected_source": "guide.md",
+                "retrieved_sources": ["guide.md"],
+                "reciprocal_rank": 1.0,
+                "citation_coverage": 1.0,
+                "simple_grounding_check": True,
+                "status_correct": True,
+                "no_answer_correct": False,
+            },
+            {
+                "case_id": "b",
+                "case_type": "paraphrase",
+                "expected_status": "answered",
+                "expected_source": "guide.md",
+                "retrieved_sources": ["other.md", "guide.md"],
+                "reciprocal_rank": 0.5,
+                "citation_coverage": 0.5,
+                "simple_grounding_check": False,
+                "status_correct": True,
+                "no_answer_correct": False,
+            },
+            {
+                "case_id": "n",
+                "case_type": "no_evidence",
+                "expected_status": "no_evidence",
+                "expected_source": "__NO_ANSWER__",
+                "retrieved_sources": [],
+                "reciprocal_rank": 1.0,
+                "citation_coverage": 1.0,
+                "simple_grounding_check": True,
+                "status_correct": True,
+                "no_answer_correct": True,
+            },
+        ]
+    }
+    answerable_metrics = [
+        {
+            "case_id": "a",
+            "case_type": "direct",
+            "expected_status": "answered",
+            "expected_no_answer": False,
+            "reciprocal_rank": 1.0,
+            "hit_at_1": 1.0,
+            "citation_coverage": 1.0,
+            "simple_grounding_check": True,
+            "status_correct": True,
+            "no_answer_correct": False,
+        },
+        {
+            "case_id": "b",
+            "case_type": "paraphrase",
+            "expected_status": "answered",
+            "expected_no_answer": False,
+            "reciprocal_rank": 0.5,
+            "hit_at_1": 0.0,
+            "citation_coverage": 0.5,
+            "simple_grounding_check": False,
+            "status_correct": True,
+            "no_answer_correct": False,
+        },
+    ]
+    ablation = {
+        "results": {
+            "hybrid": {"case_metrics": answerable_metrics},
+            "bm25": {"case_metrics": json.loads(json.dumps(answerable_metrics))},
+        }
+    }
+    return evaluation, ablation
+
+
+def test_retrieval_uncertainty_is_deterministic_and_exposes_small_sample_width() -> None:
+    evaluation, ablation = _uncertainty_fixture()
+
+    first = build_retrieval_uncertainty(evaluation, ablation, resamples=500, seed=7)
+    second = build_retrieval_uncertainty(evaluation, ablation, resamples=500, seed=7)
+
+    assert first == second
+    hit_at_1 = first["metrics"]["retrieval_hit_at_1"]
+    assert hit_at_1["lower"] <= hit_at_1["point_estimate"] <= hit_at_1["upper"]
+    assert first["metrics"]["no_answer_accuracy"]["sample_count"] == 1
+    assert first["metrics"]["no_answer_accuracy"]["wide"]
+    paired_mrr = first["paired_mode_comparisons"][0]["metrics"]["mean_reciprocal_rank"]
+    assert paired_mrr["point_estimate"] == 0.0
+    assert paired_mrr["lower"] == 0.0
+    assert paired_mrr["upper"] == 0.0
+    assert paired_mrr["conclusion"] == "inconclusive_interval_includes_zero"
+
+
+def test_uncertainty_rejects_unpaired_mode_case_ids() -> None:
+    evaluation, ablation = _uncertainty_fixture()
+    ablation["results"]["bm25"]["case_metrics"].pop()
+
+    with pytest.raises(ValueError, match="identical case IDs"):
+        build_retrieval_uncertainty(evaluation, ablation, resamples=500)
+
+
+def test_interval_helpers_bound_binary_scores_and_preserve_paired_ties() -> None:
+    perfect_small_sample = wilson_score_interval([True, True])
+    tied = paired_bootstrap_mean_interval(
+        [1.0, 0.5, 0.0],
+        [1.0, 0.5, 0.0],
+        resamples=500,
+        seed=11,
+    )
+
+    assert perfect_small_sample["point_estimate"] == 1.0
+    assert perfect_small_sample["lower"] == 0.342
+    assert perfect_small_sample["upper"] == 1.0
+    assert perfect_small_sample["wide"]
+    assert tied["point_estimate"] == tied["lower"] == tied["upper"] == 0.0
+    assert tied["wins"] == 0
+    assert tied["ties"] == 3
+    assert tied["losses"] == 0
 
 
 def test_retrieval_evaluation_scores_no_answer_case() -> None:

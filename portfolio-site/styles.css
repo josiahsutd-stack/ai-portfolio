@@ -325,6 +325,14 @@ h3 {
   line-height: 1.5;
 }
 
+.workflow-proof--light {
+  margin-top: 38px;
+}
+
+.workflow-proof--light figcaption {
+  color: var(--muted);
+}
+
 .workflow-callout {
   display: grid;
   gap: 10px;

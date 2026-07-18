@@ -22,9 +22,14 @@ Expected generated files:
 - `retrieval_eval_report.md`
 - `retrieval_ablation_summary.json`
 - `retrieval_ablation_report.md`
+- `retrieval_uncertainty_summary.json`
+- `retrieval_uncertainty_report.md`
+- `retrieval_uncertainty_intervals.svg`
 - `accessible_route_answer.md`
 - `no_answer_failure_case.md`
 - `public_sources/retrieval_eval_report.md`
+- `public_sources/retrieval_uncertainty_report.md`
+- `public_sources/retrieval_uncertainty_intervals.svg`
 - `public_sources/evaluation_manifest.json`
 - `public_sources/accessible_route_answer.md`
 - `public_sources/no_answer_failure_case.md`

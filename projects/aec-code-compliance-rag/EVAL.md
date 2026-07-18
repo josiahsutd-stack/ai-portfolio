@@ -24,6 +24,9 @@ This writes:
 - `demo_outputs/retrieval_eval_report.md`
 - `demo_outputs/retrieval_ablation_summary.json`
 - `demo_outputs/retrieval_ablation_report.md`
+- `demo_outputs/retrieval_uncertainty_summary.json`
+- `demo_outputs/retrieval_uncertainty_report.md`
+- `demo_outputs/retrieval_uncertainty_intervals.svg`
 - `demo_outputs/failure_analysis.md`
 - `demo_outputs/accessible_route_answer.md`
 - `demo_outputs/no_answer_failure_case.md`
@@ -116,6 +119,25 @@ The committed snapshot was generated on 18 July 2026 after 15 official-source pa
 
 The correct source appears within the top four for every answerable case, but this does not mean every retrieved chunk contains every expected phrase. Two paraphrase cases miss one expected phrase at top four and are retained in the versioned failure analysis.
 
+## Fixed-Case Uncertainty
+
+The evaluator reports 95% Wilson intervals for binary case outcomes, fixed-seed 10,000-resample percentile-bootstrap intervals for mean metrics, and paired-bootstrap deltas over matching answerable case IDs. The sampling unit is one authored evaluation case.
+
+| Measure | Point | 95% interval | Support | Method |
+| --- | ---: | ---: | ---: | --- |
+| Hybrid Hit@1 | `0.952` | `[0.773, 0.992]` | `21` answerable cases | Wilson score |
+| Hybrid MRR | `0.976` | `[0.929, 1.000]` | `21` answerable cases | Percentile bootstrap |
+| Citation coverage | `0.968` | `[0.921, 1.000]` | `21` answerable cases | Percentile bootstrap |
+| Grounding check | `0.905` | `[0.711, 0.973]` | `21` answerable cases | Wilson score |
+| No-answer accuracy | `1.000` | `[0.342, 1.000]` | `2` no-evidence cases | Wilson score |
+| Review/unsupported routing | `1.000` | `[0.207, 1.000]` | `1` case | Wilson score |
+
+Hybrid versus BM25 MRR delta is `0.012` with a 95% paired interval of `[0.000, 0.036]`; `inconclusive_interval_includes_zero`. Their Hit@1 and citation coverage are identical on all 21 answerable cases. Hybrid has a positive fixed-set MRR delta over TF-IDF, but that comparison still describes only this authored snapshot.
+
+The intervals quantify sensitivity to resampling these fixed authored cases. They do not measure independent-label quality, expert agreement, corpus currency, project applicability, or performance on future questions. The perfect 2/2 no-answer point estimate is therefore reported with its wide interval, not presented as certainty.
+
+Generated evidence: [`retrieval_uncertainty_report.md`](demo_outputs/public_sources/retrieval_uncertainty_report.md), [`retrieval_uncertainty_summary.json`](demo_outputs/public_sources/retrieval_uncertainty_summary.json), and [`retrieval_uncertainty_intervals.svg`](demo_outputs/public_sources/retrieval_uncertainty_intervals.svg).
+
 ## Metrics
 
 | Metric | Meaning |
@@ -148,7 +170,7 @@ The evaluation script also compares four local retrieval modes over the same cas
 - `dense_lsa`: local dense baseline using TF-IDF projected with latent semantic analysis.
 - `hybrid`: default app mode combining TF-IDF, BM25, and a lightweight rerank boost.
 
-The ablation artifacts are meant to show retrieval evaluation discipline. They are not a claim that the best synthetic-mode score will transfer to real compliance documents.
+The ablation artifacts are meant to show retrieval evaluation discipline. The sorted point-estimate table is not evidence that one mode is generally superior; the paired uncertainty report is the interpretation surface for mode differences. None of these results is expected to transfer automatically to real compliance questions.
 
 Optional modes `semantic` and `hybrid_cross_encoder` are exposed in the app and assistant boundary, but they require `requirements-embeddings.txt` and local model downloads. The committed evaluation artifacts use portable modes that reproduce without a GPU or model cache.
 
@@ -173,6 +195,7 @@ Optional modes `semantic` and `hybrid_cross_encoder` are exposed in the app and 
 - Questions that require a real jurisdiction, code year, or amendment cannot be answered from the synthetic corpus.
 - The public-source corpus uses official public downloads, but it does not verify amendments, authority interpretations, project-specific applicability, or professional sign-off.
 - The public eval has only 24 authored cases and no independent domain-expert labels.
+- Hit@1, grounding, no-answer, and review-routing intervals are wide at the current support sizes.
 - Two current paraphrase cases retrieve the expected source but miss one expected phrase in the top-four chunks.
 - TF-IDF can miss semantically related wording if key terms are absent from the query.
 - Citation coverage only checks expected terms in retrieved evidence; it is not full answer faithfulness.
@@ -185,5 +208,5 @@ Optional modes `semantic` and `hybrid_cross_encoder` are exposed in the app and 
 - Add citation-faithfulness checks from answer sentence to supporting chunk.
 - Add Singapore amendment-refresh and superseded-document tests.
 - Compare optional embedding and cross-encoder modes on the same fingerprinted public snapshot.
-- Track no-result rate and low-confidence answer rate over a larger eval set.
+- Expand the public set with independent labels, report annotation disagreement, and narrow the no-answer and paraphrase intervals before making broader accuracy claims.
 - Exercise the service behind a real reverse proxy with identity-aware authorization, fault injection, network load tests, distributed telemetry, and deployment-specific latency/error objectives.

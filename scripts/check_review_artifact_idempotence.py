@@ -25,6 +25,7 @@ ARTIFACT_FILES = [
     ROOT / "portfolio-site" / "assets" / "aec-workflow-trace.svg",
     ROOT / "portfolio-site" / "assets" / "semantic-raster-comparison.svg",
     ROOT / "portfolio-site" / "assets" / "physics-replay-comparison.svg",
+    ROOT / "portfolio-site" / "assets" / "retrieval-uncertainty.svg",
 ]
 VERSIONED_SUFFIXES = {".json", ".md", ".svg"}
 
