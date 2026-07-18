@@ -214,8 +214,8 @@
         <div class="container embodied__grid">
           <div class="visual-stack">
             <figure class="visual-figure visual-figure--diagram">
-              <img src="assets/semantic-raster-comparison.svg" alt="Seven by seven semantic state grid with measured random-forest and MLP holdout results" />
-              <figcaption>Generated from evaluator output. The grid is fully observable simulator state, not camera input.</figcaption>
+              <img src="assets/semantic-raster-comparison.svg" alt="Synthetic construction grid, rendered RGB crops, and measured holdout results across four observation families" />
+              <figcaption>Generated from evaluator output. RGB pixels are rendered from privileged simulator state, not a physical camera.</figcaption>
             </figure>
             <figure class="visual-figure">
               <img src="assets/embodied-ai-concept.webp" alt="Concept illustration of a construction robot following a planned safe route" />
@@ -227,14 +227,16 @@
             <h2>Language, state, action, and visible failure</h2>
             <p class="section-copy">
               The simulator maps task instructions and structured construction grids to closed-loop actions.
-              It compares engineered-state, world-raster, and agent-centered local-state imitation on the same
-              demonstrations and holdout layouts. Raw failures and filter interventions remain visible.
+              It compares engineered-state, semantic-raster, agent-centered local-state, and rendered-RGB imitation
+              on the same demonstrations and holdout layouts. An unseen palette exposes visual brittleness.
             </p>
             <dl class="fact-list">
-              <div><dt>Policies</dt><dd>24-feature random forest, 398-value world-raster MLP, and 210-value egocentric MLP fitted from shared A* demonstrations</dd></div>
+              <div><dt>Policies</dt><dd>Random forest plus world-raster, egocentric-state, and rendered-RGB MLPs fitted from shared A* demonstrations</dd></div>
               <div><dt>Holdout</dt><dd>96 disjoint procedural scenarios with raw and filtered closed-loop rollouts</dd></div>
               <div><dt>Finding</dt><dd>Egocentric action accuracy 0.834 versus world-raster 0.478; filtered success 0.760 with 943 interventions</dd></div>
-              <div><dt>Limit</dt><dd>Simulator-state observations and full-state rule filter; no camera perception, ROS, physics, hardware, or physical-safety validation</dd></div>
+              <div><dt>Pixel ablation</dt><dd>Rendered-RGB action accuracy falls from 0.813 to 0.474 when pixels are replaced by training means</dd></div>
+              <div><dt>RGB shift</dt><dd>Action accuracy 0.813 to 0.417; raw success 0.635 to 0.000; shifted filter interventions 3315</dd></div>
+              <div><dt>Limit</dt><dd>Pixels are rendered from privileged state and the filter has full rules; no physical camera, ROS, physics, hardware, or safety validation</dd></div>
             </dl>
             <div class="inline-links">
               <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/vla-embodied-agent-simulator">Project</a>
@@ -248,9 +250,9 @@
           <div class="flow-track">
             <div class="flow-node"><span>01</span><strong>Task and grid</strong><small>Language instruction plus structured state</small></div>
             <span class="flow-connector" aria-hidden="true"></span>
-            <div class="flow-node"><span>02</span><strong>Observation</strong><small>Engineered, world-raster, or egocentric local state</small></div>
+            <div class="flow-node"><span>02</span><strong>Observation</strong><small>Engineered, semantic, or rendered RGB input</small></div>
             <span class="flow-connector" aria-hidden="true"></span>
-            <div class="flow-node"><span>03</span><strong>Learned action</strong><small>Random forest or one of two MLPs</small></div>
+            <div class="flow-node"><span>03</span><strong>Learned action</strong><small>Random forest or one of three MLPs</small></div>
             <span class="flow-connector" aria-hidden="true"></span>
             <div class="flow-node"><span>04</span><strong>Safety filter</strong><small>Optional rejection of invalid actions</small></div>
             <span class="flow-connector" aria-hidden="true"></span>
