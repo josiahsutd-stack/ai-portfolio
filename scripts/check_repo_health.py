@@ -120,15 +120,19 @@ INFLATED_PROJECT_NAME_PHRASES = {
     "platform",
     "vlm",
 }
-REMOVED_WEAK_EXPERIMENT_SLUGS = {
+RETIRED_EXPERIMENT_SLUGS = {
+    "agentic-research-ops-assistant",
     "bim-issue-detection-agent",
+    "construction-robot-task-planner",
     "deep-learning-vision-lab",
     "fine-tuning-lora-lab",
     "llm-evals-guardrails-platform",
+    "mlops-model-serving-monitoring",
     "multimodal-vlm-visual-qa",
     "real-model-finetune-lab",
     "recommender-system-ranking-engine",
     "reinforcement-learning-portfolio",
+    "site-robot-safety-monitor",
     "time-series-anomaly-forecasting",
 }
 
@@ -239,11 +243,11 @@ def check_project_manifest() -> list[str]:
     directory_slugs = {path.name for path in project_dirs()}
     if len(slugs) != len(set(slugs)):
         issues.append("projects/projects.yml: duplicate project slug")
-    restored_weak_experiments = sorted(set(slugs) & REMOVED_WEAK_EXPERIMENT_SLUGS)
-    if restored_weak_experiments:
+    restored_retired_experiments = sorted(set(slugs) & RETIRED_EXPERIMENT_SLUGS)
+    if restored_retired_experiments:
         issues.append(
-            "projects/projects.yml: removed no-evidence experiments must stay absent: "
-            + ", ".join(restored_weak_experiments)
+            "projects/projects.yml: retired experiment slugs must stay absent: "
+            + ", ".join(restored_retired_experiments)
         )
     if set(slugs) != directory_slugs:
         missing_rows = sorted(directory_slugs - set(slugs))

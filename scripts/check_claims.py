@@ -47,6 +47,7 @@ SIMULATED_ENDORSEMENT_PHRASES = [
     "recruiter verdict",
 ]
 DEPRECATED_PUBLIC_PHRASES = [
+    "deterministic research workflow assistant",
     "project brief and specification copilot",
     "visual qa provider contract",
 ]

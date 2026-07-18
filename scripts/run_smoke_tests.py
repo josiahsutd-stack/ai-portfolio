@@ -16,12 +16,12 @@ MODULES = [
     "project_specification_copilot",
     "building_energy_ml_pipeline",
     "constraint_aware_massing_explorer",
-    "construction_robot_task_planner",
-    "site_robot_safety_monitor",
+    "construction_grid_route_planner",
+    "robot_telemetry_rule_monitor",
     "visual_provider_contract",
-    "agentic_research_ops_assistant",
+    "deterministic_research_workflow",
     "vla_embodied_agent_simulator",
-    "mlops_model_serving_monitoring",
+    "local_model_serving_monitoring",
     "local_text_classification_lab",
 ]
 
@@ -150,11 +150,11 @@ def run_core_smoke() -> list[str]:
     except Exception as exc:  # noqa: BLE001
         issues.append(f"vla_embodied_agent_simulator core smoke failed: {exc}")
     try:
-        from mlops_model_serving_monitoring import generate_churn_data, train_churn_model
+        from local_model_serving_monitoring import generate_churn_data, train_churn_model
 
         train_churn_model(generate_churn_data(40))
     except Exception as exc:  # noqa: BLE001
-        issues.append(f"mlops_model_serving_monitoring core smoke failed: {exc}")
+        issues.append(f"local_model_serving_monitoring core smoke failed: {exc}")
     try:
         from local_text_classification_lab import train_text_classifier
 

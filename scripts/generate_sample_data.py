@@ -496,7 +496,7 @@ def generate_massing_scenarios() -> None:
     )
 
 
-def generate_robot_task_planner_data() -> None:
+def generate_construction_grid_route_data() -> None:
     payload = {
         "note": "Synthetic construction robotics demo data. Not a real robot map.",
         "site_map": {
@@ -529,11 +529,11 @@ def generate_robot_task_planner_data() -> None:
         ],
     }
     write_json(
-        ROOT / "experiments/construction-robot-task-planner/sample_data/site_tasks.json", payload
+        ROOT / "experiments/construction-grid-route-planner/sample_data/site_tasks.json", payload
     )
 
 
-def generate_site_robot_safety_data() -> None:
+def generate_robot_telemetry_rule_data() -> None:
     rows = []
     zones = ["open deck", "worker corridor", "material laydown", "restricted lift zone"]
     for minute in range(36):
@@ -562,7 +562,7 @@ def generate_site_robot_safety_data() -> None:
             }
         )
     pd.DataFrame(rows).to_csv(
-        ROOT / "experiments/site-robot-safety-monitor/sample_data/synthetic_robot_telemetry.csv",
+        ROOT / "experiments/robot-telemetry-rule-monitor/sample_data/synthetic_robot_telemetry.csv",
         index=False,
     )
 
@@ -585,7 +585,7 @@ def generate_general_ai_sample_data() -> None:
     )
     write_text(
         ROOT
-        / "experiments/agentic-research-ops-assistant/sample_data/local_docs/ai_deployment_strategies.md",
+        / "experiments/deterministic-research-workflow/sample_data/local_docs/ai_deployment_strategies.md",
         """
         # AI Deployment Strategies
 
@@ -596,7 +596,7 @@ def generate_general_ai_sample_data() -> None:
     )
     write_text(
         ROOT
-        / "experiments/agentic-research-ops-assistant/sample_data/local_docs/multimodal_ai_market.md",
+        / "experiments/deterministic-research-workflow/sample_data/local_docs/multimodal_ai_market.md",
         """
         # Multimodal AI Market Brief
 
@@ -664,8 +664,10 @@ def generate_general_ai_sample_data() -> None:
         ],
     )
     write_json(
-        ROOT / "experiments/mlops-model-serving-monitoring/sample_data/model_registry/README.json",
-        {"note": "Local demo registry. Generated models are synthetic and not production assets."},
+        ROOT / "experiments/local-model-serving-monitoring/sample_data/model_artifacts/README.json",
+        {
+            "note": "Local demo artifact directory. Generated models are synthetic and not production assets."
+        },
     )
     sys.path.insert(0, str(ROOT / "experiments/local-text-classification-lab/src"))
     from local_text_classification_lab import write_default_examples
@@ -681,8 +683,8 @@ def main() -> None:
     generate_bim_exports()
     generate_energy_data()
     generate_massing_scenarios()
-    generate_robot_task_planner_data()
-    generate_site_robot_safety_data()
+    generate_construction_grid_route_data()
+    generate_robot_telemetry_rule_data()
     generate_general_ai_sample_data()
     print("Synthetic sample data generated for selected projects and experiments.")
 

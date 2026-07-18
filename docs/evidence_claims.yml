@@ -925,9 +925,9 @@ claims:
           - "relative to that baseline is `{mae_reduction}`"
 
   - id: synthetic-robot-safety-rule-execution
-    project_slug: site-robot-safety-monitor
-    artifact: experiments/site-robot-safety-monitor/demo_outputs/safety_monitor_demo_summary.json
-    command: python experiments/site-robot-safety-monitor/generate_demo_report.py
+    project_slug: robot-telemetry-rule-monitor
+    artifact: experiments/robot-telemetry-rule-monitor/demo_outputs/safety_monitor_demo_summary.json
+    command: python experiments/robot-telemetry-rule-monitor/generate_demo_report.py
     evaluation_scope: Deterministic rule execution over {row_count} bundled unlabeled synthetic telemetry rows
     metrics:
       row_count:
@@ -944,7 +944,7 @@ claims:
         json_path: first_event.evidence
     result_template: "{event_count} rule events ({high_count} high, {medium_count} medium) from {row_count} synthetic rows; no labeled accuracy evaluation"
     public_surfaces:
-      - path: experiments/site-robot-safety-monitor/README.md
+      - path: experiments/robot-telemetry-rule-monitor/README.md
         contains:
           - "| Synthetic telemetry rows | `{row_count}` |"
           - "| Emitted rule events | `{event_count}` |"

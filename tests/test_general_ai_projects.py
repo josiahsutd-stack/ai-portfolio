@@ -2,8 +2,8 @@ import json
 from pathlib import Path
 
 import pytest
-from agentic_research_ops_assistant import ResearchAgent, evaluate_trace
-from mlops_model_serving_monitoring import (
+from deterministic_research_workflow import ResearchWorkflow, evaluate_trace
+from local_model_serving_monitoring import (
     ChurnPredictionInput,
     detect_drift,
     generate_churn_data,
@@ -39,37 +39,37 @@ def test_vlm_structured_output_schema_and_validation() -> None:
     assert "did not inspect or infer" in response.answer
 
 
-def test_agent_planning_tool_execution_and_citations(tmp_path) -> None:
+def test_research_workflow_planning_tool_execution_and_citations(tmp_path) -> None:
     docs = tmp_path / "docs"
     docs.mkdir()
     (docs / "deployment.md").write_text(
         "# Deployment\nOnline model deployment needs monitoring and rollback.", encoding="utf-8"
     )
     trace_db = tmp_path / "traces.sqlite"
-    agent = ResearchAgent(docs, trace_db_path=trace_db)
+    workflow = ResearchWorkflow(docs, trace_db_path=trace_db)
 
-    trace = agent.run("Compare AI model deployment strategies")
+    trace = workflow.run("Compare AI model deployment strategies")
 
     assert "search_local_docs" in trace.plan
     assert trace.tool_calls
     assert trace.citations == ["deployment.md"]
     assert "Research Brief" in trace.final_report
     assert trace.evaluation["passed"]
-    assert agent.recent_traces(limit=1)[0]["trace_id"] == trace.trace_id
+    assert workflow.recent_traces(limit=1)[0]["trace_id"] == trace.trace_id
     assert trace_db.exists()
 
 
-def test_agent_tool_permissions_and_trace_eval(tmp_path) -> None:
+def test_research_workflow_tool_permissions_and_trace_eval(tmp_path) -> None:
     docs = tmp_path / "docs"
     docs.mkdir()
     (docs / "ops.md").write_text("# Ops\nMonitoring requires logs and alerts.", encoding="utf-8")
-    agent = ResearchAgent(
+    workflow = ResearchWorkflow(
         docs,
         trace_db_path=tmp_path / "limited.sqlite",
         allowed_tools={"search_local_docs", "create_report", "ask_human_approval", "save_memory"},
     )
 
-    trace = agent.run("Summarize monitoring requirements")
+    trace = workflow.run("Summarize monitoring requirements")
     evaluation = evaluate_trace(trace.model_dump())
 
     assert "summarize_document" not in trace.plan
@@ -78,10 +78,10 @@ def test_agent_tool_permissions_and_trace_eval(tmp_path) -> None:
     assert trace.planner_reason.startswith("Default deterministic local planner")
 
 
-def test_agent_retry_succeeds_after_transient_failure(tmp_path) -> None:
+def test_research_workflow_retry_succeeds_after_transient_failure(tmp_path) -> None:
     docs = tmp_path / "docs"
     docs.mkdir()
-    agent = ResearchAgent(docs, trace_db_path=tmp_path / "retry.sqlite", max_retries=2)
+    workflow = ResearchWorkflow(docs, trace_db_path=tmp_path / "retry.sqlite", max_retries=2)
     calls = {"count": 0}
 
     def flaky_tool() -> str:
@@ -90,7 +90,7 @@ def test_agent_retry_succeeds_after_transient_failure(tmp_path) -> None:
             raise RuntimeError("temporary failure")
         return "ok"
 
-    result, call = agent._run_tool("search_local_docs", flaky_tool)  # noqa: SLF001
+    result, call = workflow._run_tool("search_local_docs", flaky_tool)  # noqa: SLF001
 
     assert result == "ok"
     assert call.status == "ok"
@@ -98,15 +98,15 @@ def test_agent_retry_succeeds_after_transient_failure(tmp_path) -> None:
     assert call.errors == ["temporary failure"]
 
 
-def test_agent_retry_exhausts_and_records_error(tmp_path) -> None:
+def test_research_workflow_retry_exhausts_and_records_error(tmp_path) -> None:
     docs = tmp_path / "docs"
     docs.mkdir()
-    agent = ResearchAgent(docs, trace_db_path=tmp_path / "retry.sqlite", max_retries=1)
+    workflow = ResearchWorkflow(docs, trace_db_path=tmp_path / "retry.sqlite", max_retries=1)
 
     def failing_tool() -> str:
         raise RuntimeError("still broken")
 
-    result, call = agent._run_tool("search_local_docs", failing_tool)  # noqa: SLF001
+    result, call = workflow._run_tool("search_local_docs", failing_tool)  # noqa: SLF001
 
     assert result is None
     assert call.status == "error"
@@ -115,16 +115,16 @@ def test_agent_retry_exhausts_and_records_error(tmp_path) -> None:
     assert call.errors == ["still broken", "still broken"]
 
 
-def test_agent_denied_tool_records_trace_without_execution(tmp_path) -> None:
+def test_research_workflow_denied_tool_records_trace_without_execution(tmp_path) -> None:
     docs = tmp_path / "docs"
     docs.mkdir()
-    agent = ResearchAgent(
+    workflow = ResearchWorkflow(
         docs,
         trace_db_path=tmp_path / "denied.sqlite",
         allowed_tools={"search_local_docs"},
     )
 
-    result, call = agent._run_tool("create_report", lambda: "should not run")  # noqa: SLF001
+    result, call = workflow._run_tool("create_report", lambda: "should not run")  # noqa: SLF001
 
     assert result is None
     assert call.status == "denied"
@@ -155,7 +155,7 @@ def test_vla_task_completion_plan() -> None:
     assert done
 
 
-def test_mlops_prediction_schema_and_drift_detection() -> None:
+def test_local_model_prediction_schema_and_drift_detection() -> None:
     data = generate_churn_data()
     model, _metrics = train_churn_model(data)
     prediction = predict_churn(
@@ -180,10 +180,10 @@ def test_mlops_prediction_schema_and_drift_detection() -> None:
     assert population_stability_index(data["usage_score"], current["usage_score"]) > 0
 
 
-def test_mlops_artifact_logging_and_drift_history(tmp_path) -> None:
+def test_local_model_artifact_logging_and_drift_history(tmp_path) -> None:
     data = generate_churn_data(80)
     model, metrics = train_churn_model(data)
-    artifacts = save_model_artifact(model, metrics, registry_dir=tmp_path / "registry")
+    artifacts = save_model_artifact(model, metrics, artifact_dir=tmp_path / "model_artifacts")
     db_path = tmp_path / "observability.sqlite"
     payload = {
         "tenure_months": 12,
@@ -326,13 +326,13 @@ def test_openai_compatible_vlm_provider_parses_schema(monkeypatch) -> None:
     assert response.confidence == 0.71
 
 
-def test_mlops_rejects_missing_prediction_fields() -> None:
+def test_local_model_rejects_missing_prediction_fields() -> None:
     model, _metrics = train_churn_model(generate_churn_data())
     with pytest.raises(ValueError):
         predict_churn(model, {"tenure_months": 1})
 
 
-def test_mlops_rejects_impossible_prediction_values() -> None:
+def test_local_model_rejects_impossible_prediction_values() -> None:
     model, _metrics = train_churn_model(generate_churn_data())
     with pytest.raises(ValueError):
         predict_churn(
@@ -346,7 +346,7 @@ def test_mlops_rejects_impossible_prediction_values() -> None:
         )
 
 
-def test_mlops_schema_rejects_extra_fields() -> None:
+def test_local_model_schema_rejects_extra_fields() -> None:
     with pytest.raises(ValueError):
         ChurnPredictionInput.model_validate(
             {

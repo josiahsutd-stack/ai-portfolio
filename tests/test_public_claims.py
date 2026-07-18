@@ -1,5 +1,5 @@
 from scripts.check_claims import ROOT, collect_issues, line_issues, public_text_files
-from scripts.check_repo_health import REMOVED_WEAK_EXPERIMENT_SLUGS, check_forbidden_public_docs
+from scripts.check_repo_health import RETIRED_EXPERIMENT_SLUGS, check_forbidden_public_docs
 
 
 def test_claim_scan_includes_static_site_and_integration_docs() -> None:
@@ -49,16 +49,30 @@ def test_claim_scan_rejects_deprecated_project_name() -> None:
     assert any("deprecated public project name" in issue for issue in issues)
 
 
-def test_removed_or_renamed_inflated_experiment_slugs_stay_absent() -> None:
+def test_claim_scan_rejects_retired_research_workflow_title() -> None:
+    issues = line_issues(
+        ROOT / "profile-readme.md",
+        1,
+        "Deterministic Research Workflow Assistant",
+    )
+
+    assert any("deprecated public project name" in issue for issue in issues)
+
+
+def test_removed_or_renamed_experiment_slugs_stay_absent() -> None:
     expected = {
+        "agentic-research-ops-assistant",
         "bim-issue-detection-agent",
+        "construction-robot-task-planner",
         "deep-learning-vision-lab",
         "llm-evals-guardrails-platform",
+        "mlops-model-serving-monitoring",
         "multimodal-vlm-visual-qa",
         "real-model-finetune-lab",
         "recommender-system-ranking-engine",
         "reinforcement-learning-portfolio",
+        "site-robot-safety-monitor",
         "time-series-anomaly-forecasting",
     }
 
-    assert expected <= REMOVED_WEAK_EXPERIMENT_SLUGS
+    assert expected <= RETIRED_EXPERIMENT_SLUGS

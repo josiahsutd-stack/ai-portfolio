@@ -42,13 +42,13 @@ If a package still cannot be imported, confirm the virtual environment is active
 Run one project at a time:
 
 ```bash
-streamlit run experiments/agentic-research-ops-assistant/app.py
+streamlit run experiments/deterministic-research-workflow/app.py
 ```
 
 If the port is busy:
 
 ```bash
-streamlit run experiments/agentic-research-ops-assistant/app.py --server.port 8502
+streamlit run experiments/deterministic-research-workflow/app.py --server.port 8502
 ```
 
 ## FastAPI Issues
@@ -56,7 +56,7 @@ streamlit run experiments/agentic-research-ops-assistant/app.py --server.port 85
 Use the project `src` path:
 
 ```bash
-python -m uvicorn mlops_model_serving_monitoring.api:app --app-dir experiments/mlops-model-serving-monitoring/src --reload
+python -m uvicorn local_model_serving_monitoring.api:app --app-dir experiments/local-model-serving-monitoring/src --reload
 ```
 
 If the port is busy, add `--port 8001`.
@@ -87,7 +87,7 @@ Current demos do not require external databases. Future persistence can use loca
 Build from the repository root:
 
 ```bash
-docker build -f experiments/mlops-model-serving-monitoring/Dockerfile -t ai-portfolio-mlops .
+docker build -f experiments/local-model-serving-monitoring/Dockerfile -t ai-portfolio-local-serving .
 ```
 
 If Docker cannot find files, confirm you are in the repo root.

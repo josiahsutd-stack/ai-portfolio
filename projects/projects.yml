@@ -90,35 +90,35 @@ projects:
     boundary: "No code inference, internal egress model, calibrated environmental simulation, or approvable design"
     readme_path: projects/constraint-aware-massing-explorer/README.md
   - name: Construction Grid Route Planner
-    slug: construction-robot-task-planner
+    slug: construction-grid-route-planner
     category: AI for the Built Environment
-    skill_area: Embodied AI planning
+    skill_area: Construction grid planning
     flagship: false
-    demo_command: streamlit run experiments/construction-robot-task-planner/app.py
-    test_command: pytest tests/test_robot_task_planner.py
+    demo_command: streamlit run experiments/construction-grid-route-planner/app.py
+    test_command: pytest tests/test_construction_grid_route_planner.py
     tech_stack: [Python, Streamlit, FastAPI]
     summary: Uses A* to route a simulated construction robot through synthetic grid constraints.
-    skills: [A* planning, simulation, safety constraints]
+    skills: [A* search, synthetic grid simulation, route constraints]
     status: experiment
     data_mode: "Synthetic grid maps"
     implementation_mode: "Deterministic A* route planning"
     boundary: "No perception, motion planning, physics, ROS, or robot hardware"
-    readme_path: experiments/construction-robot-task-planner/README.md
+    readme_path: experiments/construction-grid-route-planner/README.md
   - name: Robot Telemetry Safety Rule Monitor
-    slug: site-robot-safety-monitor
+    slug: robot-telemetry-rule-monitor
     category: AI for the Built Environment
-    skill_area: Robotics safety monitoring
+    skill_area: Robot telemetry rules
     flagship: false
-    demo_command: streamlit run experiments/site-robot-safety-monitor/app.py
-    test_command: pytest tests/test_site_robot_safety.py
+    demo_command: streamlit run experiments/robot-telemetry-rule-monitor/app.py
+    test_command: pytest tests/test_robot_telemetry_rule_monitor.py
     tech_stack: [Python, pandas, FastAPI]
     summary: Applies explicit safety rules to synthetic construction-robot telemetry.
-    skills: [telemetry validation, anomaly rules, human-robot safety concepts]
+    skills: [telemetry validation, threshold rules, event tracing]
     status: experiment
     data_mode: "Synthetic robot telemetry"
     implementation_mode: "Deterministic threshold and zone rules"
     boundary: "Not a certified safety system or physical robot validation"
-    readme_path: experiments/site-robot-safety-monitor/README.md
+    readme_path: experiments/robot-telemetry-rule-monitor/README.md
   - name: Visual Provider Contract
     slug: visual-provider-contract
     category: General AI Engineering
@@ -134,12 +134,12 @@ projects:
     implementation_mode: "Zero-confidence mock and optional OpenAI-compatible hosted request path"
     boundary: "No local VLM, OCR, visual reasoning, or defect-detection evidence"
     readme_path: experiments/visual-provider-contract/README.md
-  - name: Deterministic Research Workflow Assistant
-    slug: agentic-research-ops-assistant
+  - name: Deterministic Research Workflow
+    slug: deterministic-research-workflow
     category: General AI Engineering
     skill_area: Inspectable tool workflow and retrieval
     flagship: false
-    demo_command: streamlit run experiments/agentic-research-ops-assistant/app.py
+    demo_command: streamlit run experiments/deterministic-research-workflow/app.py
     test_command: pytest tests/test_general_ai_projects.py
     tech_stack: [Python, Streamlit, Pydantic, scikit-learn]
     summary: Deterministic planner-executor workflow with a permissioned tool registry, citations, approval checkpoint, SQLite traces, retries, and trace evaluation.
@@ -148,7 +148,7 @@ projects:
     data_mode: "Bundled local documents and synthetic evaluation tasks"
     implementation_mode: "Rule-based planner, deterministic local tools, and optional provider-formatted prose"
     boundary: "Not an autonomous web-research agent or adaptive LLM planner"
-    readme_path: experiments/agentic-research-ops-assistant/README.md
+    readme_path: experiments/deterministic-research-workflow/README.md
   - name: Construction Embodied Agent Simulator
     slug: vla-embodied-agent-simulator
     category: General AI Engineering
@@ -165,20 +165,20 @@ projects:
     boundary: "Pixels are rendered from simulator state and the filter has full rules; MuJoCo uses a planar body and static proxies, with no physical-camera perception, foundation VLA, mobile-robot dynamics, ROS, hardware, or physical-safety validation"
     readme_path: projects/vla-embodied-agent-simulator/README.md
   - name: Local Model Serving and Monitoring Scaffold
-    slug: mlops-model-serving-monitoring
+    slug: local-model-serving-monitoring
     category: General AI Engineering
-    skill_area: MLOps
+    skill_area: Local model operations
     flagship: false
-    demo_command: streamlit run experiments/mlops-model-serving-monitoring/app.py
+    demo_command: streamlit run experiments/local-model-serving-monitoring/app.py
     test_command: pytest tests/test_general_ai_projects.py
     tech_stack: [Python, pandas, scikit-learn, FastAPI, SQLite, Docker]
     summary: Local training, serving, schema validation, model artifacts, inference logging, and drift history over synthetic churn data.
-    skills: [MLOps, model serving, drift detection, inference logging]
+    skills: [model serving, drift detection, inference logging, artifact metadata]
     status: experiment
     data_mode: "Synthetic churn data"
     implementation_mode: "Random-forest training, FastAPI, joblib artifacts, SQLite logs, and PSI drift checks"
     boundary: "Not a deployed registry, orchestrator, alerting service, or delayed-label monitoring system"
-    readme_path: experiments/mlops-model-serving-monitoring/README.md
+    readme_path: experiments/local-model-serving-monitoring/README.md
   - name: Local Text Classification Lab
     slug: local-text-classification-lab
     category: General AI Engineering

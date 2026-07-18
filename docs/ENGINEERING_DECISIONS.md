@@ -22,6 +22,7 @@ This repository is intentionally local-first. That choice keeps the core workflo
 - The QS workbench measures explicit vector fixtures, not arbitrary drawings.
 - The integration converts mass footprints into room-like rectangles only to test typed data exchange; it does not claim that the resulting geometry is a functional plan.
 - The visual-contract mock validates bytes and schemas while returning zero confidence and empty semantic fields.
+- Supporting experiment names describe their executed mechanism: A* grid routing, telemetry rules, a deterministic research workflow, local model serving, and local artifact files. Broader robotics, autonomous-agent, registry, or platform behavior is not implied by their slugs.
 
 ## Evidence Not Claimed
 

@@ -8,12 +8,12 @@ pythonpath = [
   "projects/project-specification-copilot/src",
   "experiments/building-energy-ml-pipeline/src",
   "projects/constraint-aware-massing-explorer/src",
-  "experiments/construction-robot-task-planner/src",
-  "experiments/site-robot-safety-monitor/src",
+  "experiments/construction-grid-route-planner/src",
+  "experiments/robot-telemetry-rule-monitor/src",
   "experiments/visual-provider-contract/src",
-  "experiments/agentic-research-ops-assistant/src",
+  "experiments/deterministic-research-workflow/src",
   "projects/vla-embodied-agent-simulator/src",
-  "experiments/mlops-model-serving-monitoring/src",
+  "experiments/local-model-serving-monitoring/src",
   "experiments/local-text-classification-lab/src"
 ]
 
