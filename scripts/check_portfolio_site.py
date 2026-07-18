@@ -16,6 +16,7 @@ PLACEHOLDER_PATTERNS = [
 ]
 URL_PATTERN = re.compile(r"url\((?P<quote>['\"]?)(?P<path>.*?)(?P=quote)\)")
 REQUIRED_HOME_ASSETS = [
+    "assets/favicon.svg",
     "assets/applied-ai-construction-hero.webp",
     "assets/embodied-ai-concept.webp",
     "assets/architecture-ai-transfer-map.webp",
@@ -37,6 +38,8 @@ REQUIRED_HOME_SECTIONS = [
     'aria-expanded="false"',
     "scroll-progress",
     "workflow-proof--system",
+    'property="og:image"',
+    'rel="canonical"',
 ]
 
 

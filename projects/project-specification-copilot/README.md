@@ -4,9 +4,9 @@ Local, chat-style collaboration workflow for client, architect, consultant, QS, 
 
 **Data status:** all bundled conversations, roles, requirements, and evaluation labels are synthetic. No client correspondence or project specification is included.
 
-![Generated trace from synthetic messages to approved specification clauses](demo_outputs/sample_trace.svg)
+[![Project communication journey from role-tagged messages to governed requirements and source-linked draft clauses](demo_outputs/system_map.svg)](demo_outputs/system_map.svg)
 
-![Exact-case accuracy across direct forms, paraphrases, and negative controls](demo_outputs/language_stress_comparison.svg)
+*Generated from the workflow regression and language stress artifacts. The approval gate, retained misses, supplied-role boundary, and human-review requirement are visible in the same map.*
 
 ## Implemented System
 
@@ -46,7 +46,11 @@ A separate fixed language stress set contains `33` candidate-authored single-mes
 | Negative-control accuracy | `1.000` |
 | Paraphrase exact-case accuracy | `0.882` |
 
-The retained misses are “four thousand two hundred square metres” and “a dozen consultation rooms.” These results bound documented single-message coverage; they do not establish open-domain conversation understanding.
+The retained misses are "four thousand two hundred square metres" and "a dozen consultation rooms." These results bound documented single-message coverage; they do not establish open-domain conversation understanding.
+
+![Generated trace from synthetic messages to approved specification clauses](demo_outputs/sample_trace.svg)
+
+![Exact-case accuracy across direct forms, paraphrases, and negative controls](demo_outputs/language_stress_comparison.svg)
 
 ## Run Locally
 
@@ -76,22 +80,7 @@ Tests cover extraction, paraphrase variants, question and historical-context abs
 
 ## Architecture
 
-```mermaid
-flowchart LR
-  A["Role-tagged messages"] --> B["Deterministic requirement extractor"]
-  B --> C["Versioned requirement ledger"]
-  C --> D["Conflict register"]
-  C --> E["Role authorization gate"]
-  E --> F["Approved requirements"]
-  F --> G["Source-linked draft clauses"]
-  D --> H["Open decisions"]
-  A --> I["Append-only SQLite audit events"]
-  B --> I
-  D --> I
-  E --> I
-```
-
-See [`ARCHITECTURE.md`](ARCHITECTURE.md) for state transitions and trust boundaries.
+The generated system map above is the visual index. [`ARCHITECTURE.md`](ARCHITECTURE.md) documents message identity, requirement state transitions, role permissions, conflict resolution, and draft trust boundaries.
 
 ## Limitations
 

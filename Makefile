@@ -1,6 +1,6 @@
 PYTHON ?= python
 
-.PHONY: setup verify review sample-data test lint format smoke health claims commands evidence provenance site review-artifacts demo clean run-portfolio
+.PHONY: setup verify review sample-data test lint format smoke health claims commands visual-contract evidence provenance site visuals review-artifacts demo clean run-portfolio
 
 setup:
 	$(PYTHON) scripts/setup.py
@@ -36,6 +36,9 @@ claims:
 commands:
 	$(PYTHON) scripts/check_documented_commands.py
 
+visual-contract:
+	$(PYTHON) scripts/check_visual_contract.py
+
 evidence:
 	$(PYTHON) scripts/check_evidence_claims.py
 
@@ -44,6 +47,9 @@ provenance:
 
 site:
 	$(PYTHON) scripts/check_portfolio_site.py
+
+visuals:
+	$(PYTHON) scripts/generate_system_maps.py
 
 review-artifacts:
 	$(PYTHON) scripts/generate_review_artifacts.py

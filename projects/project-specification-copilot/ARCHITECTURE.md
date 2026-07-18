@@ -22,15 +22,17 @@ The Streamlit interface presents one shared project conversation. Each message r
 
 ## State Transitions
 
-```mermaid
-stateDiagram-v2
-  [*] --> Proposed: requirement extracted
-  Proposed --> Approved: authorized role approval
-  Proposed --> Superseded: competing requirement approved
-  Approved --> Superseded: replacement approved
-  Proposed --> Proposed: supporting source added
-  Approved --> Approved: supporting source added
-```
+[![Project communication and specification system map with message provenance, bounded extraction, requirement state, role approval, draft clauses, and measured language failures](demo_outputs/system_map.svg)](demo_outputs/system_map.svg)
+
+The visual map is generated from both evaluation artifacts. The requirement lifecycle itself is intentionally small and inspectable:
+
+| Current state | Event | Next state | Recorded effect |
+| --- | --- | --- | --- |
+| None | Documented requirement extracted | Proposed | Message id and normalized value are retained. |
+| Proposed | Authorized role approval | Approved | Approver role and approval event are recorded. |
+| Proposed | Competing value approved | Superseded | The approved replacement resolves the matching-key conflict. |
+| Approved | Replacement approved | Superseded | The earlier approved value remains in history. |
+| Proposed or approved | Supporting source added | Unchanged | Provenance grows without silently changing approval state. |
 
 ## Conflict Handling
 

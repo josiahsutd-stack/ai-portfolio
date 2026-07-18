@@ -17,19 +17,9 @@ The system searches a bounded family of rectangular 2.5D massing typologies. It 
 
 ## Data Flow
 
-```mermaid
-flowchart TD
-  A["Scenario JSON"] --> B["SiteScenario validation"]
-  B --> C1["Unconstrained baseline sampler"]
-  B --> C2["Constraint-aware sampler"]
-  C1 --> D["Shared hard validator"]
-  C2 --> D
-  D --> E["Feasible and invalid sets"]
-  E --> F["GFA, solar, daylight, wind, and access proxies"]
-  F --> G["Pareto dominance"]
-  G --> H["Preference-weighted ordering"]
-  H --> I["JSON, Markdown, SVG, and Streamlit views"]
-```
+[![Constraint-aware massing system map with supplied inputs, seeded generation, hard validation, proxy comparison, baseline evidence, and design review](demo_outputs/system_map.svg)](demo_outputs/system_map.svg)
+
+The map is generated from the current benchmark artifact. Both samplers feed the same hard validator and reporting path; the measured baseline comparison does not bypass constraints or use a different scoring implementation.
 
 ## Hard And Soft Separation
 

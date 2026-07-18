@@ -1,10 +1,14 @@
 # AEC Code Compliance RAG
 
-Primary review project for this AI engineering portfolio.
+This local retrieval system asks a concrete engineering question: can a reviewer find both the document and the exact evidence behind an AEC answer, and will the system abstain when its corpus does not support one?
 
-This is a local, source-grounded retrieval assistant for AEC guidance. The implemented workflow covers document chunking, source manifests, metadata-filtered retrieval, citation formatting, abstention, retrieval evaluation, and an authenticated local service contract with bounded durable telemetry.
+The implemented workflow covers document validation, page-aware chunking, source manifests, metadata-filtered retrieval, structured citations, abstention, retrieval evaluation, and an authenticated local service contract with bounded durable telemetry.
 
 The default corpus is synthetic demo data so the project runs without private data. An optional Singapore public-source workflow downloads official public BCA, URA, NEA, SCDF, LTA, PUB, and NParks documents locally for retrieval evaluation. Outputs are not legal, code, engineering, architectural, or professional compliance advice.
+
+[![AEC retrieval journey from validated sources to ranked evidence, citation or abstention, and a tested local service boundary](demo_outputs/system_map.svg)](demo_outputs/system_map.svg)
+
+*Generated from the checked-in retrieval and service evidence. Document discovery, exact evidence location, no-answer behavior, and the professional-review boundary are shown separately.*
 
 ## Problem
 

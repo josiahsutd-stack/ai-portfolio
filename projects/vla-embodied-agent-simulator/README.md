@@ -1,10 +1,14 @@
 # Construction Embodied Agent Simulator
 
-A local construction-site agent testbed for evaluating how task parsing, observation design, imitation learning, appearance shift, action filtering, and a continuous command boundary affect behavior. Four learned policy families share the same expert demonstrations and disjoint holdout layouts: an engineered-state random forest, a world-frame semantic-raster MLP, an egocentric local-state MLP, and an MLP over rendered egocentric RGB pixels plus bounded task telemetry. A separate headless MuJoCo adapter replays selected policy commands as continuous planar rigid-body motion.
+A local construction-agent testbed for one question: how do observation design, imitation learning, appearance shift, and an action filter change closed-loop behavior?
+
+Four learned policy families share the same expert demonstrations and disjoint holdout layouts: an engineered-state random forest, a world-frame semantic-raster MLP, an egocentric local-state MLP, and an MLP over rendered egocentric RGB pixels plus bounded task telemetry. A separate headless MuJoCo adapter replays selected policy commands as continuous planar rigid-body motion.
 
 **Claim boundary:** the semantic observations and RGB renderer are generated directly from privileged simulator state. The RGB classifier consumes actual pixel values, but not images from a physical or photorealistic simulated camera. All local classifiers see a 5x5 crop plus relative subgoal geometry; the safety filter still has full simulator-rule access. MuJoCo replays planar cell targets against rigid obstacle and exclusion proxies; it is not a mobile-robot model or controller validation. This project does not establish object detection, depth, realistic sensor handling, learned language grounding, a foundation vision-language-action model, ROS integration, hardware control, or physical safety.
 
-![Semantic raster and measured representation comparison](demo_outputs/semantic_raster_comparison.svg)
+[![Embodied-agent journey from task and simulator state through shared demonstrations, policy families, action filtering, and measured rollouts](demo_outputs/system_map.svg)](demo_outputs/system_map.svg)
+
+*Generated from the current holdout and physics-replay artifacts. The appearance-shift failure, filter dependence, state-rendered pixel source, and simulation boundary remain explicit.*
 
 ## Evidence Snapshot
 
@@ -25,6 +29,8 @@ The evaluator generates 192 training and 96 holdout scenarios across delivery, i
 | Deterministic A* reference | Not applicable | `1.000` | `0.000` | Full-map oracle-style planning reference, not learned behavior. |
 
 The world-frame MLP result is retained as negative evidence. Agent-centered local encoding recovers `0.356` action accuracy and `0.468` filtered success over that baseline. It reaches filtered success `0.062` above the random forest while trailing the random forest's action accuracy by `0.021`. Replacing all RGB pixels with their training-set means reduces action accuracy from `0.813` to `0.474`, showing that the image contributes beyond the ten telemetry values. The unseen palette then reduces action accuracy by `0.396` and filtered success by `0.292`. Success requires a task-specific terminal event; timeout and nonterminal battery recovery are failures. These are synthetic observation and robustness results, not physical-camera perception or autonomous robot safety.
+
+![Semantic raster and measured representation comparison](demo_outputs/semantic_raster_comparison.svg)
 
 ## Physics Command Replay
 
@@ -101,35 +107,7 @@ The generated `joblib` models are written under `.artifacts/vla-embodied-agent-s
 
 ## Architecture
 
-```mermaid
-flowchart LR
-  A["Language instruction"] --> B["Rule-based task parser"]
-  C["Fully observable grid state"] --> D["24 engineered features"]
-  C --> E["8 x 7 x 7 semantic channels + 6 globals"]
-  C --> M["Agent-centered 5 x 5 channels + 10 globals"]
-  C --> O["Rendered 10 x 10 RGB crop + 10 globals"]
-  F["A* expert trajectories"] --> G["Shared state-action demonstrations"]
-  G --> H["Random forest"]
-  G --> I["Standardized 64-unit MLP"]
-  G --> N["Standardized 64-unit MLP"]
-  G --> P["Two training appearances"]
-  D --> H
-  E --> I
-  M --> N
-  O --> P
-  P --> R["Standardized 64-unit MLP"]
-  H --> J["Raw or filtered action"]
-  I --> J
-  N --> J
-  R --> J
-  J --> K["Environment transition"]
-  K --> L["Trace, success, safety, and intervention metrics"]
-  J --> S["12-scenario command subset"]
-  S --> T["Headless MuJoCo planar replay"]
-  T --> U["Contact, target, and alignment metrics"]
-```
-
-See [`ARCHITECTURE.md`](ARCHITECTURE.md) for component responsibilities and the runtime boundary.
+The generated system map above is the visual index. [`ARCHITECTURE.md`](ARCHITECTURE.md) documents the observation contracts, shared demonstration split, policy boundaries, action filter, runtime loop, and separate MuJoCo command replay.
 
 ## Evaluation Protocol
 

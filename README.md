@@ -20,7 +20,7 @@ These three projects carry the clearest technical and domain evidence.
 python scripts/reviewer_check.py
 ```
 
-This non-mutating check validates public claims, documentation commands, links, the static site, every advertised app title, and focused tests for the flagship, embodied, massing, and integration paths. The [evidence ledger](docs/EVIDENCE_LEDGER.md) maps each headline measurement to its versioned JSON artifact and reproduction command.
+This non-mutating check validates public claims, documentation commands, generated system maps, links, the static site, every advertised app title, and focused tests for the flagship, embodied, massing, and integration paths. The [evidence ledger](docs/EVIDENCE_LEDGER.md) maps each headline measurement to its versioned JSON artifact and reproduction command.
 
 <details>
 <summary><strong>Flagship retrieval statistics and label provenance</strong></summary>

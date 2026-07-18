@@ -4,38 +4,9 @@ This project is a local RAG assistant for AEC guidance, not a source of complian
 
 ## System Flow
 
-```mermaid
-flowchart LR
-  A["Synthetic Markdown/PDF guidance or downloaded Singapore public sources"] --> B["Section/page-aware chunker"]
-  S["public_sources/sources.json downloader"] --> A
-  M["source_manifest.json or generated public source manifest"] --> C["Chunk metadata contract"]
-  B --> C["Chunk metadata contract"]
-  C --> D["Filtered local hybrid lexical retriever"]
-  Q["User question"] --> D
-  D --> E["Top-k chunks with scores"]
-  E --> F["Grounded answer builder"]
-  E --> G["Citation formatter"]
-  E --> K["Source status analyzer"]
-  F --> H["Answer"]
-  G --> H
-  K --> H
-  API["FastAPI service factory"] --> AUTH["API key and request ID boundary"]
-  AUTH --> Q
-  API --> LIVE["Liveness and readiness"]
-  API --> LOG["Redacted SQLite query log"]
-  API --> MET["Process counters and durable request telemetry"]
-  API --> OBJ["Query latency and server-error objectives"]
-  D --> I["Retrieval evaluator"]
-  T["Candidate-authored exact chunk and page targets"] --> V["Fail-closed target validator"]
-  C --> V
-  V --> I
-  I --> U["Uncertainty and paired-mode analysis"]
-  U --> J["demo_outputs"]
-  API --> SI["In-process service evaluator"]
-  SI --> J
-  API --> RI["Concurrent reliability evaluator"]
-  RI --> J
-```
+[![AEC retrieval system map with source validation, metadata-rich ingestion, inspectable ranking, answer gating, service controls, and measured evidence](demo_outputs/system_map.svg)](demo_outputs/system_map.svg)
+
+The map is generated after the retrieval and service evaluators. It separates the request path from the proof and control plane: public-document discovery is measured independently from exact-chunk and page localization, while abstention and the local service boundary remain visible beside the result.
 
 ## Module Boundaries
 

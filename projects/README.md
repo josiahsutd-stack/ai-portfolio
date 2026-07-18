@@ -2,6 +2,8 @@
 
 Five projects carry the portfolio's main claims. Together they connect source-grounded AEC intelligence, embodied construction workflows, computational design search, traceable requirements, and quantity-surveying automation. The hierarchy is machine-readable in [`projects.yml`](projects.yml).
 
+The [system-map index](../docs/architecture-diagrams.md) provides a visual first pass through every selected project before the detailed evidence below.
+
 | Tier | Project | Implemented evidence | Hard boundary |
 | --- | --- | --- | --- |
 | Flagship | [AEC Code Compliance RAG](aec-code-compliance-rag/README.md) | Four local retrieval modes, page-aware metadata, citations, abstention, a 51-case regression set, a fingerprinted 24-case public snapshot, an authenticated service contract, and bounded durable telemetry with a fixed reliability workload. | Not compliance certification, legal advice, expert validation, external deployment, sustained capacity, uptime, or proof that public documents remain current. |

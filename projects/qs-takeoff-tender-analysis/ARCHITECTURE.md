@@ -2,18 +2,9 @@
 
 ## System Boundary
 
-```mermaid
-flowchart LR
-  A["Synthetic vector floor plan"] --> B["Schema and scale validation"]
-  B --> C["Atomic wall segmentation"]
-  C --> D["External/shared-wall classification"]
-  D --> E["Opening deductions and quantity lines"]
-  F["Versioned synthetic rate library"] --> G["Unit-safe cost build-up"]
-  E --> G
-  H["Synthetic normalized tenders"] --> I["Completeness and ratio-band checks"]
-  G --> I
-  I --> J["Human review queue; no award recommendation"]
-```
+[![QS takeoff and tender-analysis system map with vector validation, shared-wall geometry, formula-backed quantities, synthetic rates, and explainable exceptions](demo_outputs/system_map.svg)](demo_outputs/system_map.svg)
+
+The map is generated from the current authored fixture evaluation. It keeps geometry measurement, rate application, and tender checks as separate contracts so a correct quantity cannot be mistaken for validated pricing or commercial advice.
 
 ## Trust Boundaries
 

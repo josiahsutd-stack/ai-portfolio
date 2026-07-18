@@ -3,10 +3,10 @@
 ## Five-Minute Screen
 
 1. Read the root `README.md` selected-work table and claim boundaries.
-2. Open `projects/aec-code-compliance-rag/EVAL.md`, `demo_outputs/public_sources/target_label_report.md`, `demo_outputs/public_sources/retrieval_eval_summary.json`, `demo_outputs/service_contract_report.md`, and `demo_outputs/service_reliability_report.md`.
-3. Open `projects/vla-embodied-agent-simulator/EVAL.md` for learned-policy holdout results.
-4. Open `projects/constraint-aware-massing-explorer/EVAL.md` and its option diagrams.
-5. Use `docs/EVIDENCE_LEDGER.md` to trace displayed values to versioned artifacts.
+2. Use `docs/architecture-diagrams.md` to compare the five generated system maps and the executed integration trace.
+3. Open `projects/aec-code-compliance-rag/EVAL.md` and `demo_outputs/public_sources/target_label_report.md` to inspect the flagship's harder exact-evidence result.
+4. Open the embodied and massing `EVAL.md` files for holdout failures and the shared baseline comparison.
+5. Use `docs/EVIDENCE_LEDGER.md` to trace displayed values to versioned artifacts and reproduction commands.
 
 ## Fifteen-Minute Screen
 

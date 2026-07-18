@@ -4,7 +4,9 @@ Local quantity-takeoff, cost-build-up, and tender-exception workflow over explic
 
 **Data status:** all bundled plans, rates, and tenders are synthetic fixtures. No customer drawings, rate books, quotations, bidder identities, or live project data are included.
 
-![Measured plan, cost build-up, and tender exception evidence](../../docs/assets/screenshots/qs-takeoff-tender-demo.png)
+[![QS journey from validated vector geometry to auditable quantities, bounded cost build-up, and tender exceptions](demo_outputs/system_map.svg)](demo_outputs/system_map.svg)
+
+*Generated from the current fixture evaluation and sample geometry. Measurement provenance, the weaker naive baseline, synthetic pricing, and the no-award boundary remain visible.*
 
 ## Evidence Snapshot
 
@@ -21,6 +23,8 @@ Local quantity-takeoff, cost-build-up, and tender-exception workflow over explic
 | Tender exception precision / recall / F1 | 1.000 / 1.000 / 1.000 |
 
 These are deterministic regression results on deliberately small authored fixtures. They are evidence that the implemented formulas and checks reproduce known examples, not evidence of open-world drawing understanding or commercial accuracy. Full case details are in [EVAL.md](EVAL.md) and [evaluation_summary.json](demo_outputs/evaluation_summary.json).
+
+![Measured plan, cost build-up, and tender exception evidence](../../docs/assets/screenshots/qs-takeoff-tender-demo.png)
 
 ## Local Review
 

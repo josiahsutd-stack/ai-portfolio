@@ -2,23 +2,9 @@
 
 ## Contract Boundary
 
-```mermaid
-flowchart LR
-  A["Synthetic role-tagged messages"] --> B["Specification engine"]
-  B --> C{"Approved and conflict-free?"}
-  C -- "No" --> X["Reject handoff"]
-  C -- "Yes" --> D["Requirement-to-scenario adapter"]
-  S["Synthetic site input"] --> D
-  D --> E{"Area and height checks pass?"}
-  E -- "No" --> X
-  E -- "Yes" --> F["Massing generation and ranking"]
-  F --> G{"Feasible storey-matched option?"}
-  G -- "No" --> X
-  G -- "Yes" --> H["One-storey schematic envelope adapter"]
-  H --> I["QS takeoff and synthetic rate build-up"]
-  I --> J["Trace, summary, and SVG"]
-  J --> K["Architect / engineer / QS / authority review"]
-```
+[![Executed AEC design-to-cost contract with two source streams, approval gates, typed project handoffs, traceability, and four professional review gates](demo_outputs/workflow_trace.svg)](demo_outputs/workflow_trace.svg)
+
+This diagram is rendered from `workflow_trace.json`, not drawn as an aspirational architecture. It records the values that crossed each interface, the identifiers that survive downstream, the conditions that reject a handoff, and the decisions that remain outside automation.
 
 ## Components
 

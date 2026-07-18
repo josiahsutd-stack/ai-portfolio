@@ -2,6 +2,8 @@
 
 ## Fifteen-Minute Technical Screen
 
+Each selected project opens with a generated system map using the same reading order: implemented stages, measured evidence, failure or control boundary, and required human review. The [system-map index](architecture-diagrams.md) collects those views without claiming cross-project behavior that has not been executed.
+
 | Order | Project | Evidence to inspect | Interpretation limit |
 | --- | --- | --- | --- |
 | 1 | `projects/aec-code-compliance-rag` | architecture, public provenance, document-versus-exact retrieval metrics, target-label audit, fixed-case uncertainty, ablation, failure analysis, demo answers, local service contract, fixed reliability workload, durable telemetry, and focused tests | Flagship retrieval system; chunk/page targets are candidate-authored rather than expert labels, intervals are not external validity, and in-process reliability evidence is not compliance certification, deployment, uptime, or capacity evidence. |

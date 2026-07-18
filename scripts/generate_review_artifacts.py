@@ -24,6 +24,7 @@ COMMANDS = [
     [sys.executable, "experiments/visual-provider-contract/generate_contract_artifact.py"],
     [sys.executable, "experiments/local-text-classification-lab/evaluate_model.py"],
     [sys.executable, "projects/vla-embodied-agent-simulator/evaluate_vla.py"],
+    [sys.executable, "scripts/generate_system_maps.py"],
     [sys.executable, "scripts/check_evidence_claims.py", "--write"],
 ]
 

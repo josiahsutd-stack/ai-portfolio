@@ -26,38 +26,9 @@ The system accepts a natural-language task and structured grid state, then emits
 
 ## Training And Evaluation Flow
 
-```mermaid
-flowchart LR
-  A["192 fixed-seed training scenarios"] --> B["A* expert trajectories"]
-  B --> C["Shared state-action demonstrations"]
-  C --> D["24 engineered features"]
-  C --> E["8 x 7 x 7 channels + 6 globals"]
-  C --> L["8 x 5 x 5 local channels + 10 globals"]
-  C --> N["10 x 10 RGB crop + 10 globals"]
-  D --> F["Random forest"]
-  E --> G["StandardScaler + 64-unit MLP"]
-  L --> M["StandardScaler + 64-unit MLP"]
-  N --> O["Day + overcast training appearances"]
-  O --> P["StandardScaler + 64-unit MLP"]
-  H["96 disjoint holdout scenarios"] --> I["Expert-state action metrics"]
-  F --> I
-  G --> I
-  M --> I
-  P --> I
-  Q["Unseen work-light palette"] --> I
-  H --> J["Raw and filtered closed-loop rollouts"]
-  F --> J
-  G --> J
-  M --> J
-  P --> J
-  Q --> J
-  J --> K["Success, safety, intervention, and failure artifacts"]
-  H --> R["Balanced 12-scenario subset"]
-  M --> R
-  R --> S["Raw, filtered, and A* movement traces"]
-  S --> T["Headless MuJoCo planar replay"]
-  T --> U["Contacts, target reach, alignment error"]
-```
+[![Construction embodied-agent system map with shared demonstrations, four observation families, raw and filtered action paths, holdout failures, and planar physics replay](demo_outputs/system_map.svg)](demo_outputs/system_map.svg)
+
+The map is generated from the current holdout and physics-replay evidence. All learned families share demonstrations and scenario splits; raw and filtered results remain separate, and the MuJoCo command replay is downstream evidence rather than a coupled training environment.
 
 ## Runtime Flow
 

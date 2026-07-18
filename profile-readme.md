@@ -2,6 +2,10 @@
 
 I build evaluated AI systems for design and construction decisions. My architecture background gives me a domain lens for public AEC documents, spatial constraints, project requirements, quantity takeoff, and construction robotics; tests, evaluation fixtures, and reproducible outputs carry the technical claims.
 
+[![Executed AEC journey from approved project intent through constraint-aware massing to a traceable schematic cost input](https://raw.githubusercontent.com/josiahsutd-stack/ai-portfolio/main/integrations/aec-design-to-cost/demo_outputs/workflow_trace.svg)](https://github.com/josiahsutd-stack/ai-portfolio/tree/main/integrations/aec-design-to-cost)
+
+*The diagram is generated from an executed synthetic trace. It shows implemented handoffs and explicit review gates, not production deployment or a completed design service.*
+
 ## Selected Work
 
 | Project | Engineering evidence | Boundary |
