@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Construction embodied-agent case study: shared demonstrations, state and rendered-pixel policies, appearance shift, action filtering, and planar MuJoCo command replay." />
+    <meta name="theme-color" content="#0d1b2a" />
+    <title>Construction Embodied Agent | Josiah Lau</title>
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body class="case-page">
+    <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+    <header class="site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark">JL</span><span>Josiah Lau</span></a>
+      <button class="nav-toggle" type="button" aria-label="Open navigation" aria-controls="main-nav" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav id="main-nav" aria-label="Case study navigation">
+        <a href="#overview">Overview</a>
+        <a href="#system">System</a>
+        <a href="#evidence">Evidence</a>
+        <a href="#decisions">Decisions</a>
+        <a href="#run">Run locally</a>
+        <a href="../index.html#work">All work</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="case-hero case-hero--embodied">
+        <div class="case-hero__media" aria-hidden="true"></div>
+        <div class="container case-hero__content">
+          <p class="eyebrow">Primary case study / Embodied AI</p>
+          <h1>Construction Embodied Agent Simulator</h1>
+          <p class="hero-role">Language-conditioned action under spatial and appearance shift.</p>
+          <p class="lede">
+            Shared expert demonstrations support a controlled comparison between engineered state, egocentric state, semantic rasters, and rendered RGB. Raw and filtered rollouts expose where learned action prediction is brittle.
+          </p>
+          <div class="case-hero__actions">
+            <a class="button button--primary" href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/vla-embodied-agent-simulator">Open source</a>
+            <a class="button" href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/projects/vla-embodied-agent-simulator/EVAL.md">Read evaluation</a>
+          </div>
+        </div>
+        <p class="hero-image-note">Generated concept image / not simulator or hardware evidence</p>
+      </section>
+
+      <section class="case-summary" id="overview">
+        <div class="container case-summary__grid">
+          <article><span>Problem</span><p>A policy can appear competent on familiar grids while failing under visual shift or issuing actions that violate known construction-zone rules.</p></article>
+          <article><span>System</span><p>Procedural grids, A* demonstrations, four observation families, closed-loop rollouts, action filtering, and planar MuJoCo replay.</p></article>
+          <article><span>Evidence</span><p>96 disjoint holdout scenarios plus a 12-scenario physics subset, with raw failures and intervention counts preserved.</p></article>
+          <article><span>Boundary</span><p>Structured 2D simulation with state-rendered pixels. No physical camera, ROS stack, mobile robot, or safety validation.</p></article>
+        </div>
+      </section>
+
+      <section class="band case-system" id="system">
+        <div class="container">
+          <div class="case-heading">
+            <div><p class="eyebrow">System</p><h2>One demonstration set, multiple observation contracts</h2></div>
+            <p class="section-copy">The comparison holds task generation, expert actions, and holdout layouts constant. Observation encodings and policy models change; the rule-aware filter remains a separate control layer.</p>
+          </div>
+          <figure class="case-diagram case-diagram--scrollable" tabindex="0" aria-label="Scrollable embodied agent system map">
+            <img src="../assets/embodied-system-map.svg" alt="Embodied-agent system map showing procedural tasks, expert demonstrations, observation families, learned policies, action filtering, rollouts, and physics replay" />
+            <figcaption>Generated from checked-in evaluator outputs. Simulator state remains privileged and is not confused with physical perception.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="band case-evidence" id="evidence">
+        <div class="container">
+          <div class="case-heading">
+            <div><p class="eyebrow">Measured behavior</p><h2>The filter prevents contacts but does not repair perception</h2></div>
+            <p class="section-copy">Filtered success improves the command path on the authored rules, while the unseen-palette test shows that rendered-pixel behavior is not robust to appearance change.</p>
+          </div>
+          <div class="metric-grid">
+            <article><span>Filtered success</span><strong>0.760</strong><small>96 unseen procedural scenarios</small></article>
+            <article><span>Raw contacts</span><strong>51</strong><small>Across 150 MuJoCo command movements</small></article>
+            <article><span>Filtered contacts</span><strong>0</strong><small>Across 148 filtered movements</small></article>
+            <article><span>Shifted RGB success</span><strong>0.000</strong><small>Raw rollout under an unseen palette</small></article>
+          </div>
+          <div class="case-visual-grid">
+            <figure>
+              <img src="../assets/semantic-raster-comparison.svg" alt="State, semantic-raster, egocentric, and rendered-RGB policy results on held-out construction grids" />
+              <figcaption>Rendered RGB is produced from simulator state. It is a controlled visual-input experiment, not camera evidence.</figcaption>
+            </figure>
+            <figure>
+              <img src="../assets/physics-replay-comparison.svg" alt="Raw, filtered, and reference command contact rates in planar MuJoCo replay" />
+              <figcaption>The physics adapter measures named rigid contacts; it does not model a complete robot or construction environment.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="band band--ink" id="decisions">
+        <div class="container">
+          <div class="case-heading">
+            <div><p class="eyebrow">Engineering decisions</p><h2>Failure is separated by layer</h2></div>
+            <p class="section-copy">Policy quality, appearance sensitivity, rule filtering, and command replay are measured independently so one layer cannot hide another.</p>
+          </div>
+          <div class="decision-list">
+            <article><span>01</span><h3>Disjoint procedural holdout</h3><p>Training and evaluation use separate generated layouts, reducing direct map memorization while keeping task difficulty inspectable.</p></article>
+            <article><span>02</span><h3>Shared demonstrations</h3><p>Every learned observation family is fitted from the same expert trajectories, making comparison more meaningful than unrelated policy runs.</p></article>
+            <article><span>03</span><h3>Appearance stress test</h3><p>An unseen palette changes rendered pixels without changing the underlying grid. Raw success collapsing to zero exposes visual brittleness directly.</p></article>
+            <article><span>04</span><h3>Independent action control</h3><p>The rule-aware filter has access to full simulator rules and logs every intervention. It is a privileged safety scaffold, not learned robustness.</p></article>
+          </div>
+          <div class="failure-callout">
+            <p class="eyebrow">Retained failure</p>
+            <h3>Rendered-pixel behavior does not survive a simple appearance change.</h3>
+            <p>Action accuracy falls from 0.813 to 0.417 and raw success falls from 0.635 to 0.000 under the unseen palette. The result argues for stronger visual representations and domain randomization, not a deployment claim.</p>
+            <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/projects/vla-embodied-agent-simulator/demo_outputs/behavior_cloning_failure_analysis.md">Inspect failure analysis</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="band case-run" id="run">
+        <div class="container case-run__grid">
+          <div>
+            <p class="eyebrow">Run locally</p>
+            <h2>Regenerate the holdout evidence</h2>
+            <p class="section-copy">The evaluator trains compact local models, runs closed-loop holdouts, records interventions, and writes the checked-in comparison artifacts.</p>
+          </div>
+          <div class="run-panel">
+            <code>python projects/vla-embodied-agent-simulator/evaluate_vla.py</code>
+            <code>python -m pytest tests/test_vla_embodied_agent.py</code>
+            <code>streamlit run projects/vla-embodied-agent-simulator/app.py</code>
+          </div>
+        </div>
+        <div class="container case-footer-nav">
+          <a href="aec-rag.html">Previous case study: AEC RAG</a>
+          <a href="massing-explorer.html">Next case study: Massing Explorer</a>
+        </div>
+      </section>
+    </main>
+    <script src="../site.js"></script>
+  </body>
+</html>

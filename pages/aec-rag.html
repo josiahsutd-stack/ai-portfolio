@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="AEC Code Compliance RAG case study: page-aware ingestion, local retrieval baselines, citations, abstention, evaluation, and tested service boundaries." />
+    <meta name="theme-color" content="#0d1b2a" />
+    <title>AEC Code Compliance RAG | Josiah Lau</title>
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body class="case-page">
+    <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+    <header class="site-header">
+      <a class="brand" href="../index.html#top"><span class="brand-mark">JL</span><span>Josiah Lau</span></a>
+      <button class="nav-toggle" type="button" aria-label="Open navigation" aria-controls="main-nav" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav id="main-nav" aria-label="Case study navigation">
+        <a href="#overview">Overview</a>
+        <a href="#system">System</a>
+        <a href="#evidence">Evidence</a>
+        <a href="#decisions">Decisions</a>
+        <a href="#run">Run locally</a>
+        <a href="../index.html#work">All work</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="case-hero case-hero--rag">
+        <div class="case-hero__media" aria-hidden="true"></div>
+        <div class="container case-hero__content">
+          <p class="eyebrow">Flagship case study / Source-grounded AI</p>
+          <h1>AEC Code Compliance RAG</h1>
+          <p class="hero-role">A local document-assistance system that retrieves, cites, or refuses.</p>
+          <p class="lede">
+            The project treats evidence location, source identity, unsupported scope, and service behavior as separate engineering problems. It runs without a paid API and keeps every headline metric tied to a fixed evaluation artifact.
+          </p>
+          <div class="case-hero__actions">
+            <a class="button button--primary" href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/aec-code-compliance-rag">Open source</a>
+            <a class="button" href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/projects/aec-code-compliance-rag/EVAL.md">Read evaluation</a>
+          </div>
+        </div>
+        <p class="hero-image-note">Actual local interface / labeled demo data</p>
+      </section>
+
+      <section class="case-summary" id="overview">
+        <div class="container case-summary__grid">
+          <article><span>Problem</span><p>AEC questions need the right publication, passage, page, and source status rather than a plausible unsupported answer.</p></article>
+          <article><span>System</span><p>Page-aware ingestion, four local retrieval modes, structured citations, abstention, FastAPI contracts, and payload-free telemetry.</p></article>
+          <article><span>Evidence</span><p>Document Hit@1 0.952 and exact-target Hit@1 0.810 across 21 answerable public-source cases, with uncertainty and failures retained.</p></article>
+          <article><span>Boundary</span><p>Document assistance only. No authority validation, live amendment guarantee, compliance certification, or professional sign-off.</p></article>
+        </div>
+      </section>
+
+      <section class="band case-system" id="system">
+        <div class="container">
+          <div class="case-heading">
+            <div><p class="eyebrow">System</p><h2>Evidence remains traceable from source to response</h2></div>
+            <p class="section-copy">Each stage has a typed output and a visible control boundary. Retrieval can succeed at the document level while still missing the labeled supporting passage, so those measurements remain separate.</p>
+          </div>
+          <figure class="case-diagram case-diagram--scrollable" tabindex="0" aria-label="Scrollable AEC RAG system map">
+            <img src="../assets/aec-rag-system-map.svg" alt="AEC RAG system map showing source validation, page-aware chunks, four retrieval modes, answer controls, service boundary, metrics, and professional review" />
+            <figcaption>Generated from checked-in evaluator outputs and architecture metadata. The professional-review boundary is part of the system, not a footnote.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="band case-evidence" id="evidence">
+        <div class="container">
+          <div class="case-heading">
+            <div><p class="eyebrow">Measured behavior</p><h2>Strong publication retrieval, weaker passage localization</h2></div>
+            <p class="section-copy">The harder exact-target and page-level metrics prevent the document score from being mistaken for answer support. Labels were authored from the fixed local snapshot and have not been independently expert-reviewed.</p>
+          </div>
+          <div class="metric-grid">
+            <article><span>Document Hit@1</span><strong>0.952</strong><small>95% Wilson interval [0.773, 0.992], n=21</small></article>
+            <article><span>Exact-target Hit@1</span><strong>0.810</strong><small>Candidate-authored supporting chunks, n=21</small></article>
+            <article><span>Source-page Hit@1</span><strong>0.778</strong><small>18 page-labeled answerable cases</small></article>
+            <article><span>No-answer</span><strong>2 / 2</strong><small>Too small for a broad abstention claim</small></article>
+          </div>
+          <div class="case-visual-grid">
+            <figure>
+              <img src="../assets/retrieval-granularity.svg" alt="Document, exact-target, and source-page retrieval metrics" />
+              <figcaption>Expected publication retrieval is easier than locating the labeled supporting evidence.</figcaption>
+            </figure>
+            <figure>
+              <img src="../assets/retrieval-uncertainty.svg" alt="Point estimates and 95 percent intervals for the fixed public-source retrieval cases" />
+              <figcaption>Intervals describe this fixed authored set only; they do not establish external validity.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="band band--ink" id="decisions">
+        <div class="container">
+          <div class="case-heading">
+            <div><p class="eyebrow">Engineering decisions</p><h2>Designed for inspection before fluency</h2></div>
+            <p class="section-copy">The most important choices make incorrect confidence easier to detect and reproduce.</p>
+          </div>
+          <div class="decision-list">
+            <article><span>01</span><h3>Stable evidence identity</h3><p>Source hashes, page numbers, headings, clause identifiers, and word offsets survive ingestion so citations can be tested rather than formatted after generation.</p></article>
+            <article><span>02</span><h3>Comparable local baselines</h3><p>TF-IDF, BM25, dense LSA, and hybrid ranking share one corpus and query set. The hybrid-versus-BM25 MRR interval includes zero, so mode superiority remains inconclusive.</p></article>
+            <article><span>03</span><h3>Fail-closed answer path</h3><p>Unsupported scope and weak evidence produce an explicit no-answer response. Source-status warnings remain attached to retrieved material.</p></article>
+            <article><span>04</span><h3>Bounded service evidence</h3><p>Contract and fixed-workload checks cover authentication, validation, redaction, telemetry durability, and in-process response objectives without claiming deployment or uptime.</p></article>
+          </div>
+          <div class="failure-callout">
+            <p class="eyebrow">Retained failure</p>
+            <h3>Publication-level success can conceal evidence-level misses.</h3>
+            <p>Exact-target Hit@1 trails document Hit@1 by 0.142. That gap is shown as a result to improve, not rounded away as a successful RAG claim.</p>
+            <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/projects/aec-code-compliance-rag/demo_outputs/public_sources/failure_analysis.md">Inspect failure analysis</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="band case-run" id="run">
+        <div class="container case-run__grid">
+          <div>
+            <p class="eyebrow">Run locally</p>
+            <h2>Reproduce the default evidence path</h2>
+            <p class="section-copy">The default corpus is bundled and synthetic so the evaluation, service checks, tests, and interface run without network access or paid APIs.</p>
+          </div>
+          <div class="run-panel">
+            <code>python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py</code>
+            <code>python projects/aec-code-compliance-rag/evaluate_service.py</code>
+            <code>python -m pytest tests/test_rag.py tests/test_rag_service.py</code>
+            <code>streamlit run projects/aec-code-compliance-rag/app.py</code>
+          </div>
+        </div>
+        <div class="container case-footer-nav">
+          <a href="../index.html#work">Back to selected work</a>
+          <a href="embodied-ai.html">Next case study: Embodied AI</a>
+        </div>
+      </section>
+    </main>
+    <script src="../site.js"></script>
+  </body>
+</html>
