@@ -1,0 +1,13 @@
+{
+  "capture": {
+    "width": 1280,
+    "height": 640
+  },
+  "source_files": [
+    "portfolio-site/index.html#site-header-and-hero",
+    "portfolio-site/styles.css",
+    "portfolio-site/assets/applied-ai-construction-hero.webp"
+  ],
+  "source_sha256": "c9cf7c98881a66eee24ed75ef861b1c217141dda4a35d91d6a76113eaa40f524",
+  "preview_sha256": "92c44cf70ea3e90a95bb882dbeea75917ff3c9c07836fab96065ac46af153a6d"
+}

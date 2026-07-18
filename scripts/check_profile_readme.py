@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import hashlib
+import json
 import re
 import sys
 from pathlib import Path
@@ -9,8 +11,23 @@ PROFILE = ROOT / "profile-readme.md"
 PROFILE_PREVIEW = ROOT / "portfolio-site" / "assets" / "portfolio-home-preview.jpg"
 LEGACY_PROFILE_PREVIEW = ROOT / "portfolio-site" / "assets" / "portfolio-home-preview.png"
 GITHUB_REPOSITORY_PREVIEW = ROOT / "portfolio-site" / "assets" / "github-repository-preview.jpg"
+GITHUB_REPOSITORY_PREVIEW_MANIFEST = ROOT / "portfolio-site" / "repository-preview-manifest.json"
+PORTFOLIO_HOME = ROOT / "portfolio-site" / "index.html"
+PORTFOLIO_STYLES = ROOT / "portfolio-site" / "styles.css"
+PORTFOLIO_HERO = ROOT / "portfolio-site" / "assets" / "applied-ai-construction-hero.webp"
 PROFILE_BRIEF = ROOT / "portfolio-site" / "assets" / "Josiah_Lau_Applied_AI_Portfolio_Brief.pdf"
 LINK_PATTERN = re.compile(r"!?\[[^\]]*\]\((?P<target>[^)]+)\)")
+REPOSITORY_PREVIEW_SOURCE_PATTERN = re.compile(
+    r'<header class="site-header">.*?</header>\s*'
+    r'<main id="main-content"[^>]*>\s*'
+    r'<section class="hero".*?</section>',
+    flags=re.DOTALL,
+)
+REPOSITORY_PREVIEW_SOURCE_FILES = (
+    "portfolio-site/index.html#site-header-and-hero",
+    "portfolio-site/styles.css",
+    "portfolio-site/assets/applied-ai-construction-hero.webp",
+)
 REQUIRED_TEXT = (
     "# Josiah Lau | Applied AI Engineer",
     "https://josiahsutd-stack.github.io/ai-portfolio/",
@@ -86,6 +103,56 @@ def jpeg_dimensions(path: Path) -> tuple[int, int] | None:
     return None
 
 
+def repository_preview_source_digest() -> str | None:
+    match = REPOSITORY_PREVIEW_SOURCE_PATTERN.search(PORTFOLIO_HOME.read_text(encoding="utf-8"))
+    if match is None:
+        return None
+
+    digest = hashlib.sha256()
+    inputs = (
+        (REPOSITORY_PREVIEW_SOURCE_FILES[0], match.group(0).encode("utf-8")),
+        (REPOSITORY_PREVIEW_SOURCE_FILES[1], PORTFOLIO_STYLES.read_bytes()),
+        (REPOSITORY_PREVIEW_SOURCE_FILES[2], PORTFOLIO_HERO.read_bytes()),
+    )
+    for label, payload in inputs:
+        digest.update(label.encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(payload)
+        digest.update(b"\0")
+    return digest.hexdigest()
+
+
+def repository_preview_manifest_issues() -> list[str]:
+    label = "portfolio-site/repository-preview-manifest.json"
+    try:
+        manifest = json.loads(GITHUB_REPOSITORY_PREVIEW_MANIFEST.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as error:
+        return [f"{label}: invalid manifest: {error}"]
+
+    issues: list[str] = []
+    if manifest.get("capture") != {"width": 1280, "height": 640}:
+        issues.append(f"{label}: capture must remain 1280x640")
+    if tuple(manifest.get("source_files", ())) != REPOSITORY_PREVIEW_SOURCE_FILES:
+        issues.append(f"{label}: source file list is stale")
+
+    source_digest = repository_preview_source_digest()
+    if source_digest is None:
+        issues.append(f"{label}: homepage header and hero source cannot be located")
+    elif manifest.get("source_sha256") != source_digest:
+        issues.append(
+            "portfolio-site/assets/github-repository-preview.jpg: "
+            "homepage hero changed after the repository preview was captured"
+        )
+
+    if GITHUB_REPOSITORY_PREVIEW.is_file():
+        preview_digest = hashlib.sha256(GITHUB_REPOSITORY_PREVIEW.read_bytes()).hexdigest()
+        if manifest.get("preview_sha256") != preview_digest:
+            issues.append(
+                "portfolio-site/assets/github-repository-preview.jpg: preview hash is stale"
+            )
+    return issues
+
+
 def collect_issues(text: str | None = None) -> list[str]:
     content = PROFILE.read_text(encoding="utf-8") if text is None else text
     issues: list[str] = []
@@ -141,6 +208,7 @@ def collect_issues(text: str | None = None) -> list[str]:
             issues.append(
                 "profile-readme.md: GitHub repository social preview must remain under 1 MB"
             )
+        issues.extend(repository_preview_manifest_issues())
 
     if not PROFILE_BRIEF.is_file():
         issues.append("profile-readme.md: generated portfolio brief is missing")
