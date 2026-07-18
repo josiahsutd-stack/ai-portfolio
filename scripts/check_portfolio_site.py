@@ -17,6 +17,7 @@ SOCIAL_SITE_NAME = "Josiah Lau | Applied AI Engineering"
 SOCIAL_LOCALE = "en_SG"
 SOCIAL_CARD_MANIFEST_PATH = SITE_ROOT / "social-card-manifest.json"
 STYLES_PATH = SITE_ROOT / "styles.css"
+SITE_SCRIPT_PATH = SITE_ROOT / "site.js"
 PLACEHOLDER_PATTERNS = [
     "your-username",
     "your-name",
@@ -30,6 +31,10 @@ JSON_LD_PATTERN = re.compile(
     re.DOTALL,
 )
 SOCIAL_CARD_BODY_PATTERN = re.compile(r"<body\b[\s\S]*?</body>", re.IGNORECASE)
+SOCIAL_CARD_SCRIPT_VERSION_PATTERN = re.compile(
+    r'(?P<prefix><script\s+src="(?:\.\./)?site\.js)\?v=[0-9a-f]{12}(?P<suffix>"[^>]*></script>)',
+    re.IGNORECASE,
+)
 REQUIRED_CONTRAST_PAIRS = [
     ("clay", "white", 4.5),
     ("clay", "paper", 4.5),
@@ -44,6 +49,7 @@ RESPONSIVE_MEDIA_SELECTORS = (
     ".architecture-tile img",
     ".case-visual-grid img",
 )
+SHARED_ASSET_HASH_LENGTH = 12
 REQUIRED_HOME_ASSETS = [
     "assets/favicon.svg",
     "assets/applied-ai-construction-hero.webp",
@@ -290,6 +296,8 @@ class SiteLinkParser(HTMLParser):
         self.twitter: dict[str, str | None] = {}
         self.canonical_links: list[str | None] = []
         self.image_preloads: list[dict[str, str | None]] = []
+        self.stylesheets: list[str | None] = []
+        self.scripts: list[str | None] = []
         self.nav_toggles: list[dict[str, str | None]] = []
         self.skip_links: list[str | None] = []
         self.main_content_tabindexes: list[str | None] = []
@@ -324,6 +332,10 @@ class SiteLinkParser(HTMLParser):
                 self.canonical_links.append(attributes.get("href"))
             if "preload" in rels and attributes.get("as") == "image":
                 self.image_preloads.append(attributes)
+            if "stylesheet" in rels:
+                self.stylesheets.append(attributes.get("href"))
+        elif tag == "script" and attributes.get("src"):
+            self.scripts.append(attributes.get("src"))
 
         classes = set((attributes.get("class") or "").split())
         if tag == "a" and "skip-link" in classes:
@@ -475,6 +487,31 @@ def check_responsive_media_contracts() -> list[str]:
             issues.append(
                 f"portfolio-site/styles.css: {selector} must declare a stable aspect ratio"
             )
+    return issues
+
+
+def check_shared_asset_version_contracts() -> list[str]:
+    style_version = hashlib.sha256(STYLES_PATH.read_bytes()).hexdigest()[:SHARED_ASSET_HASH_LENGTH]
+    script_version = hashlib.sha256(SITE_SCRIPT_PATH.read_bytes()).hexdigest()[
+        :SHARED_ASSET_HASH_LENGTH
+    ]
+    issues: list[str] = []
+    for path in html_files():
+        parser = SiteLinkParser()
+        parser.feed(path.read_text(encoding="utf-8"))
+        if path.name == "404.html":
+            prefix = PUBLIC_BASE_URL
+        elif path.parent == SITE_ROOT:
+            prefix = ""
+        else:
+            prefix = "../"
+        expected_stylesheet = f"{prefix}styles.css?v={style_version}"
+        expected_script = f"{prefix}site.js?v={script_version}"
+        label = path.relative_to(ROOT)
+        if parser.stylesheets != [expected_stylesheet]:
+            issues.append(f"{label}: shared stylesheet URL must use the current content hash")
+        if parser.scripts != [expected_script]:
+            issues.append(f"{label}: shared script URL must use the current content hash")
     return issues
 
 
@@ -641,7 +678,8 @@ def social_card_body_digest(path: Path) -> str | None:
     match = SOCIAL_CARD_BODY_PATTERN.search(path.read_text(encoding="utf-8"))
     if not match:
         return None
-    return hashlib.sha256(match.group(0).encode("utf-8")).hexdigest()
+    visual_body = SOCIAL_CARD_SCRIPT_VERSION_PATTERN.sub(r"\g<prefix>\g<suffix>", match.group(0))
+    return hashlib.sha256(visual_body.encode("utf-8")).hexdigest()
 
 
 def check_social_preview_contracts() -> list[str]:
@@ -926,6 +964,7 @@ def main() -> None:
         check_html_links()
         + check_css_assets()
         + check_responsive_media_contracts()
+        + check_shared_asset_version_contracts()
         + check_page_accessibility_contracts()
         + check_public_discovery_contracts()
         + check_social_preview_contracts()

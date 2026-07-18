@@ -14,6 +14,7 @@ from scripts.check_portfolio_site import (
     check_palette_contrast,
     check_public_discovery_contracts,
     check_responsive_media_contracts,
+    check_shared_asset_version_contracts,
     check_shared_interaction_contracts,
     check_social_preview_contracts,
     html_files,
@@ -62,6 +63,21 @@ def test_responsive_media_contract_detects_a_stretched_diagram(tmp_path, monkeyp
     assert any(".architecture-map img must use height: auto" in issue for issue in issues)
 
 
+def test_shared_site_assets_use_current_content_hashes() -> None:
+    assert check_shared_asset_version_contracts() == []
+
+
+def test_shared_asset_contract_detects_a_stale_stylesheet_hash(tmp_path, monkeypatch) -> None:
+    stale_styles = tmp_path / "styles.css"
+    stale_styles.write_bytes(portfolio_site.STYLES_PATH.read_bytes() + b"\n")
+    monkeypatch.setattr(portfolio_site, "STYLES_PATH", stale_styles)
+
+    issues = check_shared_asset_version_contracts()
+
+    assert len(issues) == len(html_files())
+    assert all("stylesheet URL must use the current content hash" in issue for issue in issues)
+
+
 def test_every_public_page_keeps_accessibility_metadata_and_controls() -> None:
     assert check_page_accessibility_contracts() == []
 
@@ -89,6 +105,23 @@ def test_social_preview_manifest_detects_stale_page_and_card_hashes(tmp_path, mo
         for issue in issues
     )
     assert any("social-card-home.png: social preview hash is stale" in issue for issue in issues)
+
+
+def test_social_preview_digest_ignores_shared_script_cache_tokens(tmp_path) -> None:
+    page = tmp_path / "page.html"
+    page.write_text(
+        '<body><main>Visible evidence</main><script src="site.js?v=0123456789ab"></script></body>',
+        encoding="utf-8",
+    )
+    unversioned_page = tmp_path / "unversioned.html"
+    unversioned_page.write_text(
+        '<body><main>Visible evidence</main><script src="site.js"></script></body>',
+        encoding="utf-8",
+    )
+
+    assert portfolio_site.social_card_body_digest(page) == portfolio_site.social_card_body_digest(
+        unversioned_page
+    )
 
 
 def test_visual_entry_pages_preload_only_their_first_screen_hero() -> None:
