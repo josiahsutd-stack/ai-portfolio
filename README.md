@@ -1,10 +1,14 @@
 # Josiah Lau | Applied AI Engineer
 
+[**Open the visual portfolio**](https://josiahsutd-stack.github.io/ai-portfolio/) | [GitHub profile](https://github.com/josiahsutd-stack) | [System maps](docs/architecture-diagrams.md) | [Five-minute evidence path](docs/how-to-review-this-portfolio.md) | [Evidence ledger](docs/EVIDENCE_LEDGER.md)
+
+[![Josiah Lau applied AI engineering visual portfolio home page](portfolio-site/assets/portfolio-home-preview.png)](https://josiahsutd-stack.github.io/ai-portfolio/)
+
+*Homepage preview. The construction-robot backdrop is a generated concept image; measured project evidence and explicit boundaries begin below.*
+
 I build evaluated AI systems for design and construction decisions. My background in architecture informs the domain models, constraints, review gates, and visual communication in this portfolio; the engineering evidence comes from runnable code, tests, evaluation datasets, and reproducible outputs.
 
 The selected projects form one technical journey: source-grounded AEC knowledge, approved project requirements, constrained design options, traceable quantities, and embodied-agent simulation. Every project runs locally without paid APIs and labels synthetic, public-source, simulated, and generated evidence explicitly.
-
-[Visual portfolio](https://josiahsutd-stack.github.io/ai-portfolio/) | [System maps](docs/architecture-diagrams.md) | [Five-minute evidence path](docs/how-to-review-this-portfolio.md) | [Evidence ledger](docs/EVIDENCE_LEDGER.md)
 
 ## Selected Work
 

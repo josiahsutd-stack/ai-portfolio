@@ -1,10 +1,12 @@
 # Josiah Lau | Applied AI Engineer
 
+[**Visual portfolio**](https://josiahsutd-stack.github.io/ai-portfolio/) | [Evidence repository](https://github.com/josiahsutd-stack/ai-portfolio) | [LinkedIn](https://www.linkedin.com/in/josiah-lau-8041822b6/)
+
 I build evaluated AI systems for design and construction decisions. My architecture background gives me a domain lens for public AEC documents, spatial constraints, project requirements, quantity takeoff, and construction robotics; tests, evaluation fixtures, and reproducible outputs carry the technical claims.
 
-[![Executed AEC journey from approved project intent through constraint-aware massing to a traceable schematic cost input](https://raw.githubusercontent.com/josiahsutd-stack/ai-portfolio/main/integrations/aec-design-to-cost/demo_outputs/workflow_trace.svg)](https://github.com/josiahsutd-stack/ai-portfolio/tree/main/integrations/aec-design-to-cost)
+[![Josiah Lau applied AI engineering visual portfolio home page](https://raw.githubusercontent.com/josiahsutd-stack/ai-portfolio/main/portfolio-site/assets/portfolio-home-preview.png)](https://josiahsutd-stack.github.io/ai-portfolio/)
 
-*The diagram is generated from an executed synthetic trace. It shows implemented handoffs and explicit review gates, not production deployment or a completed design service.*
+*Homepage preview. The construction-robot backdrop is a generated concept image; measured project evidence and explicit boundaries begin below.*
 
 ## Selected Work
 
@@ -38,4 +40,4 @@ Projects are local prototypes unless explicitly stated otherwise. Synthetic data
 - [Evidence and source repository](https://github.com/josiahsutd-stack/ai-portfolio)
 - [GitHub](https://github.com/josiahsutd-stack)
 - [LinkedIn](https://www.linkedin.com/in/josiah-lau-8041822b6/)
-- Email is available in application materials.
+- [Email](mailto:josiahsutd@gmail.com)

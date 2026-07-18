@@ -25,6 +25,7 @@ REQUIRED_HOME_ASSETS = [
     "assets/monsoon-works-concept.webp",
 ]
 REQUIRED_HOME_BOUNDARIES = [
+    "generated portfolio concept image / not hardware evidence",
     "not a simulator screenshot or hardware evidence",
     "ai-assisted visualization anchored to original drawings",
     "not commissioned or built",
@@ -32,9 +33,15 @@ REQUIRED_HOME_BOUNDARIES = [
 ]
 REQUIRED_HOME_SECTIONS = [
     "focused experiments",
-    "prioritizes implementation evidence over project count",
+    "remain experiments rather than first-screen portfolio claims",
     "one-command technical check",
     "python scripts/reviewer_check.py",
+    "five implemented systems across one aec decision journey",
+    'id="capabilities"',
+    'id="directory"',
+    'id="contact"',
+    "evidence-card__visual",
+    "mailto:josiahsutd@gmail.com",
     'aria-expanded="false"',
     "scroll-progress",
     "workflow-proof--system",

@@ -11,6 +11,7 @@ COMMANDS = [
     [sys.executable, "scripts/check_repo_health.py"],
     [sys.executable, "scripts/check_claims.py"],
     [sys.executable, "scripts/check_documented_commands.py"],
+    [sys.executable, "scripts/check_profile_readme.py"],
     [sys.executable, "scripts/check_visual_contract.py"],
     [sys.executable, "scripts/check_portfolio_site.py"],
     [sys.executable, "scripts/check_markdown_links.py"],

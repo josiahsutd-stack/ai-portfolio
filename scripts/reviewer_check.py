@@ -10,6 +10,7 @@ PUBLIC_CONTRACT_CHECKS = [
     "scripts/check_repo_health.py",
     "scripts/check_claims.py",
     "scripts/check_documented_commands.py",
+    "scripts/check_profile_readme.py",
     "scripts/check_visual_contract.py",
     "scripts/check_portfolio_site.py",
     "scripts/check_markdown_links.py",
@@ -25,6 +26,7 @@ REVIEW_TEST_FILES = [
     "tests/test_manifest_commands.py",
     "tests/test_public_claims.py",
     "tests/test_documented_commands.py",
+    "tests/test_profile_readme.py",
     "tests/test_visual_contract.py",
 ]
 

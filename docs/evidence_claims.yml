@@ -30,9 +30,7 @@ claims:
     public_surfaces:
       - path: portfolio-site/index.html
         contains:
-          - "Recall@{retrieval_k} {recall_at_4}"
-          - "MRR {mrr}"
-          - "Synthetic {case_count}-case regression set"
+          - "{case_count}-case synthetic set: Recall@{retrieval_k} {recall_at_4} / MRR {mrr} / Hit@3 {hit_at_3}"
       - path: projects/README.md
         contains:
           - "a {case_count}-case regression set"
@@ -112,10 +110,8 @@ claims:
           - "| Source-page target MRR | `{page_mrr}` |"
       - path: portfolio-site/index.html
         contains:
-          - "Public Hit@1 {hit_at_1} / MRR {mrr}"
-          - "Public {case_count}-case snapshot over {document_count} local documents"
-          - "Exact evidence Hit@1 {exact_hit_at_1} / MRR {exact_mrr} on {evidence_target_case_count} candidate-authored targets"
-          - "Source-page Hit@1 {page_hit_at_1} / MRR {page_mrr} on {page_target_case_count} page-labeled cases"
+          - "{case_count} authored public-source cases over a fingerprinted {document_count}-document snapshot"
+          - "Document Hit@1 {hit_at_1} / MRR {mrr}; exact-target Hit@1 {exact_hit_at_1} / MRR {exact_mrr}; source-page Hit@1 {page_hit_at_1} / MRR {page_mrr}."
 
   - id: aec-public-source-uncertainty
     project_slug: aec-code-compliance-rag
@@ -218,7 +214,6 @@ claims:
           - "Hybrid versus BM25 MRR delta is `{bm25_mrr_delta}` with a 95% paired interval of `[{bm25_mrr_lower}, {bm25_mrr_upper}]`; `{bm25_conclusion}`."
       - path: portfolio-site/index.html
         contains:
-          - "95% intervals: Hit@1 [{hit_lower}, {hit_upper}], n={answerable_case_count}; MRR [{mrr_lower}, {mrr_upper}]."
           - "Public Hit@1 {hit_at_1} has a 95% Wilson interval of [{hit_lower}, {hit_upper}] over {answerable_case_count} answerable cases; MRR {mrr} has a 95% bootstrap interval of [{mrr_lower}, {mrr_upper}]. No-answer {no_answer} is {no_answer_case_count}/{no_answer_case_count} with a Wilson interval of [{no_answer_lower}, {no_answer_upper}]."
           - "Exact-target uncertainty: Hit@1 {exact_hit_at_1} [{exact_hit_lower}, {exact_hit_upper}] and MRR {exact_mrr} [{exact_mrr_lower}, {exact_mrr_upper}] across {answerable_case_count} candidate-authored targets."
 
