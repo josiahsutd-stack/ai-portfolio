@@ -23,6 +23,7 @@ REQUIRED_HOME_ASSETS = [
     "assets/bamboo-factory-thesis.webp",
     "assets/tideline-commons-concept.webp",
     "assets/monsoon-works-concept.webp",
+    "assets/Josiah_Lau_Applied_AI_Portfolio_Brief.pdf",
 ]
 REQUIRED_HOME_BOUNDARIES = [
     "generated portfolio concept image / not hardware evidence",
@@ -53,6 +54,8 @@ REQUIRED_HOME_SECTIONS = [
     "professional delivery",
     "2024 - present",
     "msc design + ai",
+    "download portfolio brief",
+    "two-page portfolio brief",
 ]
 CASE_STUDY_REQUIREMENTS = {
     "pages/aec-rag.html": [
@@ -211,7 +214,8 @@ def check_home_evidence_labels() -> list[str]:
     issues = [
         f"portfolio-site/index.html: required visual missing: {asset}"
         for asset in REQUIRED_HOME_ASSETS
-        if asset not in text and asset not in (SITE_ROOT / "styles.css").read_text(encoding="utf-8")
+        if asset.lower() not in text
+        and asset.lower() not in (SITE_ROOT / "styles.css").read_text(encoding="utf-8").lower()
     ]
     issues.extend(
         f"portfolio-site/index.html: visual boundary missing: {boundary}"

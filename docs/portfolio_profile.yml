@@ -1,0 +1,45 @@
+name: Josiah Lau
+title: Applied AI Engineer
+location: Singapore
+email: josiahsutd@gmail.com
+website: https://josiahsutd-stack.github.io/ai-portfolio/
+github: https://github.com/josiahsutd-stack/ai-portfolio
+linkedin: https://www.linkedin.com/in/josiah-lau-8041822b6/
+positioning: Applied AI for the decisions that shape buildings and construction.
+summary: >-
+  Architecture and delivery experience inform the domain models, spatial constraints,
+  review gates, and visual communication. Runnable code, fixed evaluation fixtures,
+  generated evidence, and explicit limitations carry the engineering claims.
+qualifications:
+  - M.Arch
+  - MSc Design + AI
+tools:
+  - Python
+  - FastAPI
+  - Streamlit
+  - scikit-learn
+  - MuJoCo
+  - SQLite
+  - Revit
+  - Rhino/Grasshopper
+experience:
+  - period: 2024 - present
+    role: Director
+    organization: 3JAI Studio
+    scope: AI workflow systems, review criteria, and client delivery
+  - period: 2022 - 2024
+    role: Project Manager
+    organization: People's Association
+    scope: Tender, cost, progress, defects, audit, and handover
+  - period: 2020 - 2021
+    role: Architect
+    organization: HDB
+    scope: GIS, estate planning, environmental studies, and agency coordination
+  - period: "2020"
+    role: Graduate Architect
+    organization: aKTa-RCHITECTS
+    scope: Authority submissions and construction packages
+  - period: 2018 - 2019
+    role: M.Arch Intern
+    organization: Tierra Design
+    scope: Grasshopper CAD automation and drawing QA

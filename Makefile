@@ -1,6 +1,6 @@
 PYTHON ?= python
 
-.PHONY: setup verify review sample-data test lint format smoke health claims commands profile visual-contract evidence provenance site visuals review-artifacts demo clean run-portfolio
+.PHONY: setup verify review sample-data test lint format smoke health claims commands profile brief visual-contract evidence provenance site visuals review-artifacts demo clean run-portfolio
 
 setup:
 	$(PYTHON) scripts/setup.py
@@ -38,6 +38,9 @@ commands:
 
 profile:
 	$(PYTHON) scripts/check_profile_readme.py
+
+brief:
+	$(PYTHON) scripts/generate_portfolio_brief.py --check
 
 visual-contract:
 	$(PYTHON) scripts/check_visual_contract.py

@@ -1,6 +1,6 @@
 # Josiah Lau | Applied AI Engineer
 
-[**Visual portfolio**](https://josiahsutd-stack.github.io/ai-portfolio/) | [Evidence repository](https://github.com/josiahsutd-stack/ai-portfolio) | [LinkedIn](https://www.linkedin.com/in/josiah-lau-8041822b6/)
+[**Visual portfolio**](https://josiahsutd-stack.github.io/ai-portfolio/) | [Two-page portfolio brief](https://josiahsutd-stack.github.io/ai-portfolio/assets/Josiah_Lau_Applied_AI_Portfolio_Brief.pdf) | [Evidence repository](https://github.com/josiahsutd-stack/ai-portfolio) | [LinkedIn](https://www.linkedin.com/in/josiah-lau-8041822b6/)
 
 I build evaluated AI systems for design and construction decisions. My architecture background gives me a domain lens for public AEC documents, spatial constraints, project requirements, quantity takeoff, and construction robotics; tests, evaluation fixtures, and reproducible outputs carry the technical claims.
 

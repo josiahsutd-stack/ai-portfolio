@@ -2,6 +2,8 @@
 
 The [visual portfolio](https://josiahsutd-stack.github.io/ai-portfolio/) provides the public project narrative; this guide points from that presentation layer to the repository evidence behind it.
 
+The [two-page portfolio brief](https://josiahsutd-stack.github.io/ai-portfolio/assets/Josiah_Lau_Applied_AI_Portfolio_Brief.pdf) is a generated take-away summary. Its project metrics come from the checked-in evaluation artifacts, and its professional chronology comes from portfolio-owner-supplied profile data; neither source is third-party validation.
+
 ## Fifteen-Minute Technical Screen
 
 Each selected project opens with a generated system map using the same reading order: implemented stages, measured evidence, failure or control boundary, and required human review. The [system-map index](architecture-diagrams.md) collects those views without claiming cross-project behavior that has not been executed.

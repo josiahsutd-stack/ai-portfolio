@@ -26,6 +26,7 @@ COMMANDS = [
     [sys.executable, "projects/vla-embodied-agent-simulator/evaluate_vla.py"],
     [sys.executable, "scripts/generate_system_maps.py"],
     [sys.executable, "scripts/check_evidence_claims.py", "--write"],
+    [sys.executable, "scripts/generate_portfolio_brief.py"],
 ]
 
 

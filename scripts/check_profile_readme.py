@@ -7,10 +7,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PROFILE = ROOT / "profile-readme.md"
 PROFILE_PREVIEW = ROOT / "portfolio-site" / "assets" / "portfolio-home-preview.png"
+PROFILE_BRIEF = ROOT / "portfolio-site" / "assets" / "Josiah_Lau_Applied_AI_Portfolio_Brief.pdf"
 LINK_PATTERN = re.compile(r"!?\[[^\]]*\]\((?P<target>[^)]+)\)")
 REQUIRED_TEXT = (
     "# Josiah Lau | Applied AI Engineer",
     "https://josiahsutd-stack.github.io/ai-portfolio/",
+    "https://josiahsutd-stack.github.io/ai-portfolio/assets/Josiah_Lau_Applied_AI_Portfolio_Brief.pdf",
     "https://github.com/josiahsutd-stack/ai-portfolio",
     "https://www.linkedin.com/in/josiah-lau-8041822b6/",
     "mailto:josiahsutd@gmail.com",
@@ -72,6 +74,9 @@ def collect_issues(text: str | None = None) -> list[str]:
 
     if not PROFILE_PREVIEW.is_file():
         issues.append("profile-readme.md: local portfolio preview image is missing")
+
+    if not PROFILE_BRIEF.is_file():
+        issues.append("profile-readme.md: generated portfolio brief is missing")
 
     if len(content.splitlines()) > 90:
         issues.append("profile-readme.md: profile entry point exceeds 90 lines")

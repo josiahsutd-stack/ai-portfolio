@@ -27,8 +27,9 @@ ARTIFACT_FILES = [
     ROOT / "portfolio-site" / "assets" / "physics-replay-comparison.svg",
     ROOT / "portfolio-site" / "assets" / "retrieval-uncertainty.svg",
     ROOT / "portfolio-site" / "assets" / "retrieval-granularity.svg",
+    ROOT / "portfolio-site" / "assets" / "Josiah_Lau_Applied_AI_Portfolio_Brief.pdf",
 ]
-VERSIONED_SUFFIXES = {".json", ".md", ".svg"}
+VERSIONED_SUFFIXES = {".json", ".md", ".svg", ".pdf"}
 
 
 def artifact_hashes() -> dict[Path, str]:
