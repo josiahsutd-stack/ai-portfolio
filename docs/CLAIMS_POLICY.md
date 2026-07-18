@@ -33,3 +33,10 @@ This repository is a junior/applied AI engineering portfolio. Claims should stay
 ## Review Rule
 
 If a claim cannot be traced to code, tests, eval output, demo output, or a clearly labeled optional integration, it should be rewritten as a future improvement or limitation.
+
+## Presentation Rules
+
+- Do not publish candidate-authored hiring verdicts, interview recommendations, recruiter quotations, or portfolio scores.
+- Do not use numeric ratings such as `9/10` as evidence. Report implemented scope, measured outputs, and missing validation instead.
+- Do not frame a self-review as an independent assessment. Engineering audits must identify their scope and source of evidence.
+- Preserve negative results and corrected metrics when they materially change the interpretation of a project.

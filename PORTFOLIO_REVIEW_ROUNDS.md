@@ -1,6 +1,6 @@
-# Portfolio Review Record
+# Engineering Review History
 
-**Document status:** self-authored engineering audit, not an external recruiter endorsement.
+This change log preserves material credibility defects, the corrections made, and the current artifact that verifies each outcome. It is engineering history, not an external review or endorsement.
 
 | Round | Credibility issue | Repository change | Verifiable outcome |
 | --- | --- | --- | --- |
@@ -13,5 +13,6 @@
 | 7. Cross-project credibility | A workflow diagram implied continuity without demonstrating that the specification, massing, and QS schemas actually exchanged data. | Added a separate deterministic integration contract with approved-requirement gating, field-level sources, cross-project invariants, schematic geometry provenance, generated traces, and rejection tests. | One labeled synthetic fixture records 5 approved requirements, 16 sourced fields, 96 generated candidates, and 7 priced takeoff lines; tender analysis remains explicitly not run. |
 | 8. Embodied representation audit | The embodied project had only an engineered classical policy, while future visual-policy language could be mistaken for implemented capability. | Added a fully observable semantic-raster encoder, a deterministic MLP baseline on the same demonstrations and holdout, model-specific tests and cards, a generated comparison visual, and explicit non-perception boundaries. | Across 96 holdout scenarios, the random forest reaches `0.855` action accuracy and `0.698` filtered success; the raster MLP reaches `0.478` and `0.292`. The weaker neural result remains published. |
 | 9. Egocentric observation and terminal-semantics audit | The world-frame raster showed that a neural label alone added little, but the project did not test observation alignment. Visual QA also exposed a timeout path that could misclassify nonterminal battery recovery as task success. | Added a 5x5 agent-centered encoder and third shared-split MLP; then restricted success to task-specific terminal events, penalized unnecessary charging, and added recovery/timeout regression tests before regenerating all evidence. | Egocentric action accuracy is `0.834`; raw success is `0.573`; corrected filtered success is `0.760` with `943` interventions. The discarded inflated result is not used on public surfaces. |
+| 10. Evidence-presentation audit | A candidate-authored scorecard used numeric ratings and interview language that could be mistaken for an independent assessment. The claim checker also skipped static-site HTML and integration docs. | Replaced the scorecard with a source-linked coverage matrix, added explicit presentation rules, expanded scanning to Markdown and HTML, and added regression tests plus an obsolete-file invariant. | `scripts/check_claims.py` now audits 163 public text files; the evidence audit reports implemented scope and missing validation without self-ratings. |
 
 The audit intentionally preserves limitations and negative evidence. Perfect fixture scores are labeled as deterministic regression results, not general model-quality claims.

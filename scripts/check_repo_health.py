@@ -11,6 +11,7 @@ PROJECTS_DIR = ROOT / "projects"
 EXPERIMENTS_DIR = ROOT / "experiments"
 REQUIRED_DOCS = [
     "README.md",
+    "EVIDENCE_COVERAGE_AUDIT.md",
     "profile-readme.md",
     "docs/troubleshooting.md",
     "docs/how-to-review-this-portfolio.md",
@@ -42,6 +43,7 @@ REQUIRED_DOCS = [
     "experiments/real-model-finetune-lab/sample_data/uci_sms_subset_manifest.json",
     "experiments/real-model-finetune-lab/scripts/build_uci_sms_subset.py",
 ]
+FORBIDDEN_PUBLIC_DOCS = ["FINAL_HIRING_MANAGER_REVIEW.md"]
 REQUIRED_README_PATTERNS = {
     "demo command": r"streamlit run (projects|experiments)/.+/app\.py",
     "tests": r"## Tests|pytest tests/|python -m pytest tests/",
@@ -123,6 +125,14 @@ def project_dirs() -> list[Path]:
 
 def check_required_docs() -> list[str]:
     return [f"missing required doc: {doc}" for doc in REQUIRED_DOCS if not (ROOT / doc).exists()]
+
+
+def check_forbidden_public_docs() -> list[str]:
+    return [
+        f"obsolete public doc must remain removed: {doc}"
+        for doc in FORBIDDEN_PUBLIC_DOCS
+        if (ROOT / doc).exists()
+    ]
 
 
 def check_root_readme() -> list[str]:
@@ -258,6 +268,7 @@ def check_generic_language() -> list[str]:
 def main() -> None:
     issues = (
         check_required_docs()
+        + check_forbidden_public_docs()
         + check_root_readme()
         + check_verification_workflow()
         + check_project_manifest()

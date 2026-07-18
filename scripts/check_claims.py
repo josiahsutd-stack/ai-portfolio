@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 import sys
 from pathlib import Path
 
@@ -8,6 +9,7 @@ PUBLIC_TEXT_ROOTS = [
     ROOT / "docs",
     ROOT / "projects",
     ROOT / "experiments",
+    ROOT / "integrations",
     ROOT / "portfolio-site",
 ]
 RISKY_PHRASES = [
@@ -35,6 +37,16 @@ OWNER_FACING_PHRASES = [
     "replace the root readme",
     "finalize public contact links",
 ]
+SIMULATED_ENDORSEMENT_PHRASES = [
+    "brutally honest score",
+    "earn an interview",
+    "hiring verdict",
+    "i would hire",
+    "i would not hire",
+    "interview readiness",
+    "recruiter verdict",
+]
+SELF_SCORE_PATTERN = re.compile(r"\b\d+(?:\.\d+)?/10\b")
 ALLOWED_CONTEXT = [
     "do not claim",
     "not ",
@@ -51,10 +63,11 @@ ALLOWED_CONTEXT = [
 ]
 
 
-def markdown_files() -> list[Path]:
+def public_text_files() -> list[Path]:
     files = list(ROOT.glob("*.md"))
-    for directory in PUBLIC_TEXT_ROOTS[:3]:
+    for directory in PUBLIC_TEXT_ROOTS:
         files.extend(directory.rglob("*.md"))
+        files.extend(directory.rglob("*.html"))
     return sorted(
         {
             path
@@ -73,27 +86,48 @@ def line_allowed(line: str, phrase: str) -> bool:
     return any(marker in prefix for marker in ALLOWED_CONTEXT)
 
 
-def main() -> None:
+def line_issues(path: Path, lineno: int, line: str) -> list[str]:
     issues: list[str] = []
-    for path in markdown_files():
+    relative = path.relative_to(ROOT)
+    lowered = line.lower()
+    for phrase in [*PLACEHOLDER_PHRASES, *OWNER_FACING_PHRASES]:
+        if phrase in lowered:
+            issues.append(
+                f"{relative}:{lineno}: public owner-facing or placeholder text `{phrase}`"
+            )
+    for phrase in SIMULATED_ENDORSEMENT_PHRASES:
+        if phrase in lowered:
+            issues.append(
+                f"{relative}:{lineno}: simulated hiring endorsement `{phrase}` is not evidence"
+            )
+    if SELF_SCORE_PATTERN.search(line):
+        issues.append(
+            f"{relative}:{lineno}: candidate-authored numeric portfolio score is not evidence"
+        )
+    for phrase in RISKY_PHRASES:
+        if phrase in lowered and not line_allowed(line, phrase):
+            issues.append(
+                f"{relative}:{lineno}: risky claim `{phrase}` needs evidence or limitation context"
+            )
+    return issues
+
+
+def collect_issues() -> list[str]:
+    issues: list[str] = []
+    for path in public_text_files():
         for lineno, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
-            lowered = line.lower()
-            for phrase in [*PLACEHOLDER_PHRASES, *OWNER_FACING_PHRASES]:
-                if phrase in lowered:
-                    issues.append(
-                        f"{path.relative_to(ROOT)}:{lineno}: public owner-facing or placeholder text `{phrase}`"
-                    )
-            for phrase in RISKY_PHRASES:
-                if phrase in lowered and not line_allowed(line, phrase):
-                    issues.append(
-                        f"{path.relative_to(ROOT)}:{lineno}: risky claim `{phrase}` needs evidence or limitation context"
-                    )
+            issues.extend(line_issues(path, lineno, line))
+    return issues
+
+
+def main() -> None:
+    issues = collect_issues()
     if issues:
         print("Claim check failed:")
         for issue in issues:
             print(f"- {issue}")
         sys.exit(1)
-    print(f"Claim check passed for {len(markdown_files())} markdown files.")
+    print(f"Claim check passed for {len(public_text_files())} public text files.")
 
 
 if __name__ == "__main__":

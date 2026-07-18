@@ -157,8 +157,8 @@ shared/                   small reusable local AI utilities
 - [Scope and limitations](docs/SCOPE_AND_LIMITATIONS.md)
 - [Claims policy](docs/CLAIMS_POLICY.md)
 - [Authenticity and ownership](docs/AUTHENTICITY_AND_OWNERSHIP.md)
-- [Portfolio review record](PORTFOLIO_REVIEW_ROUNDS.md)
-- [Final evidence audit](FINAL_HIRING_MANAGER_REVIEW.md)
+- [Engineering review history](PORTFOLIO_REVIEW_ROUNDS.md)
+- [Evidence coverage audit](EVIDENCE_COVERAGE_AUDIT.md)
 
 ## Static Portfolio
 
