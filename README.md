@@ -4,7 +4,7 @@
 
 [**Open the visual portfolio**](https://josiahsutd-stack.github.io/ai-portfolio/)
 
-[![Josiah Lau applied AI engineering visual portfolio home page](portfolio-site/assets/portfolio-home-preview.jpg)](https://josiahsutd-stack.github.io/ai-portfolio/)
+[![Josiah Lau applied AI engineering visual portfolio home page](portfolio-site/assets/github-repository-preview.jpg)](https://josiahsutd-stack.github.io/ai-portfolio/)
 
 *Homepage preview. The construction-robot backdrop is a generated concept image; measured project evidence and explicit boundaries begin below.*
 

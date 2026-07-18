@@ -6,6 +6,7 @@ from scripts.check_profile_readme import (
     collect_issues,
     jpeg_dimensions,
 )
+from scripts.generate_github_avatar import AVATAR_SIZE, avatar_is_current, build_avatar_image
 
 
 def test_profile_readme_is_self_contained_and_recruiter_facing() -> None:
@@ -33,6 +34,21 @@ def test_repository_social_preview_detects_a_stale_hero_capture(tmp_path, monkey
     issues = profile_readme.repository_preview_manifest_issues()
 
     assert any("homepage hero changed" in issue for issue in issues)
+
+
+def test_github_profile_avatar_matches_the_portfolio_identity() -> None:
+    assert build_avatar_image().size == (AVATAR_SIZE, AVATAR_SIZE)
+    assert avatar_is_current()
+
+
+def test_github_profile_avatar_detects_stale_pixels(tmp_path, monkeypatch) -> None:
+    stale_avatar = tmp_path / "github-profile-avatar.png"
+    build_avatar_image().crop((0, 0, 256, 256)).save(stale_avatar)
+    monkeypatch.setattr(profile_readme, "AVATAR_PATH", stale_avatar)
+
+    issues = profile_readme.github_profile_avatar_issues()
+
+    assert any("avatar is stale" in issue for issue in issues)
 
 
 def test_profile_readme_rejects_relative_links() -> None:

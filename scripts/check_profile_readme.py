@@ -7,10 +7,18 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from scripts.generate_github_avatar import AVATAR_PATH, avatar_is_current  # noqa: E402
+
 PROFILE = ROOT / "profile-readme.md"
-PROFILE_PREVIEW = ROOT / "portfolio-site" / "assets" / "portfolio-home-preview.jpg"
-LEGACY_PROFILE_PREVIEW = ROOT / "portfolio-site" / "assets" / "portfolio-home-preview.png"
 GITHUB_REPOSITORY_PREVIEW = ROOT / "portfolio-site" / "assets" / "github-repository-preview.jpg"
+PROFILE_PREVIEW = GITHUB_REPOSITORY_PREVIEW
+LEGACY_PROFILE_PREVIEWS = (
+    ROOT / "portfolio-site" / "assets" / "portfolio-home-preview.png",
+    ROOT / "portfolio-site" / "assets" / "portfolio-home-preview.jpg",
+)
 GITHUB_REPOSITORY_PREVIEW_MANIFEST = ROOT / "portfolio-site" / "repository-preview-manifest.json"
 PORTFOLIO_HOME = ROOT / "portfolio-site" / "index.html"
 PORTFOLIO_STYLES = ROOT / "portfolio-site" / "styles.css"
@@ -35,7 +43,7 @@ REQUIRED_TEXT = (
     "https://github.com/josiahsutd-stack/ai-portfolio",
     "https://www.linkedin.com/in/josiah-lau-8041822b6/",
     "mailto:josiahsutd@gmail.com",
-    "portfolio-site/assets/portfolio-home-preview.jpg",
+    "portfolio-site/assets/github-repository-preview.jpg",
     "AEC Code Compliance RAG",
     "Construction Embodied Agent Simulator",
     "Constraint-Aware Massing Explorer",
@@ -153,6 +161,17 @@ def repository_preview_manifest_issues() -> list[str]:
     return issues
 
 
+def github_profile_avatar_issues() -> list[str]:
+    label = "portfolio-site/assets/github-profile-avatar.png"
+    if not AVATAR_PATH.is_file():
+        return [f"{label}: GitHub profile avatar is missing"]
+    if AVATAR_PATH.stat().st_size >= 1_000_000:
+        return [f"{label}: GitHub profile avatar must remain under 1 MB"]
+    if not avatar_is_current(AVATAR_PATH):
+        return [f"{label}: avatar is stale or does not match the deterministic renderer"]
+    return []
+
+
 def collect_issues(text: str | None = None) -> list[str]:
     content = PROFILE.read_text(encoding="utf-8") if text is None else text
     issues: list[str] = []
@@ -194,8 +213,11 @@ def collect_issues(text: str | None = None) -> list[str]:
     elif not PROFILE_PREVIEW.read_bytes().startswith(b"\xff\xd8\xff"):
         issues.append("profile-readme.md: portfolio preview must contain JPEG data")
 
-    if LEGACY_PROFILE_PREVIEW.exists():
-        issues.append("profile-readme.md: stale PNG-named portfolio preview remains")
+    for legacy_preview in LEGACY_PROFILE_PREVIEWS:
+        if legacy_preview.exists():
+            issues.append(
+                f"profile-readme.md: stale duplicate preview remains at {legacy_preview.name}"
+            )
 
     if not GITHUB_REPOSITORY_PREVIEW.is_file():
         issues.append("profile-readme.md: GitHub repository social preview is missing")
@@ -209,6 +231,8 @@ def collect_issues(text: str | None = None) -> list[str]:
                 "profile-readme.md: GitHub repository social preview must remain under 1 MB"
             )
         issues.extend(repository_preview_manifest_issues())
+
+    issues.extend(github_profile_avatar_issues())
 
     if not PROFILE_BRIEF.is_file():
         issues.append("profile-readme.md: generated portfolio brief is missing")
