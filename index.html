@@ -33,13 +33,12 @@
         <span></span><span></span><span></span>
       </button>
       <nav id="main-nav" aria-label="Main navigation">
-        <a href="#evidence">Work</a>
-        <a href="#workflow">AEC Workflow</a>
-        <a href="#flagship">AEC RAG</a>
-        <a href="#embodied">Embodied</a>
-        <a href="#architecture">Architecture</a>
-        <a href="#boundaries">Scope</a>
-        <a href="pages/recruiter-view.html">Project Guide</a>
+        <a href="#work">Work</a>
+        <a href="#workflow">AEC journey</a>
+        <a href="#capabilities">Capabilities</a>
+        <a href="#architecture">Background</a>
+        <a href="#directory">Project index</a>
+        <a href="#contact">Contact</a>
       </nav>
     </header>
 
@@ -47,71 +46,123 @@
       <section class="hero" aria-label="Portfolio introduction">
         <div class="hero__media" aria-hidden="true"></div>
         <div class="hero__content">
-          <p class="eyebrow">Applied AI Engineer</p>
+          <p class="eyebrow">Portfolio / 2026</p>
           <h1>Josiah Lau</h1>
           <p class="hero-role">
-            Source-grounded AEC intelligence, embodied AI, and computational design.
+            Applied AI for the decisions that shape buildings and construction.
           </p>
           <p class="lede">
-            I build evaluated systems for public AEC documents, project requirements,
-            massing decisions, quantity takeoff, and construction robotics simulation.
+            I connect source-grounded knowledge, approved requirements, constrained geometry,
+            traceable quantities, and simulated action in systems that remain inspectable from input to evidence.
           </p>
           <div class="hero-meta" aria-label="Portfolio at a glance">
             <div><span>Domain</span><strong>Design + construction</strong></div>
-            <div><span>Evidence</span><strong>Code + evals + failure cases</strong></div>
-            <div><span>Runtime</span><strong>Local + no paid APIs</strong></div>
+            <div><span>Primary work</span><strong>RAG + embodied AI + computational design</strong></div>
+            <div><span>Evidence</span><strong>Runnable code + evals + visible limits</strong></div>
           </div>
           <div class="hero__actions">
-            <a class="button button--primary" href="#evidence">View selected work</a>
+            <a class="button button--primary" href="#portfolio-map">Explore the portfolio</a>
             <a
               class="button"
               href="https://github.com/josiahsutd-stack/ai-portfolio"
-            >GitHub repository</a>
+            >Open source and evidence</a>
+          </div>
+        </div>
+        <p class="hero-image-note">Generated portfolio concept image / not hardware evidence</p>
+      </section>
+
+      <section class="band portfolio-map" id="portfolio-map">
+        <div class="container">
+          <div class="portfolio-map__intro">
+            <div>
+              <p class="eyebrow">Portfolio Map</p>
+              <h2>Five implemented systems across one AEC decision journey</h2>
+            </div>
+            <p class="section-copy">
+              The portfolio follows information as it moves from source documents and project conversations
+              into design options, quantities, and simulated site action. Each project remains independently
+              runnable; one tested integration proves a bounded specification-to-cost handoff.
+            </p>
+          </div>
+          <nav class="journey-strip" aria-label="Portfolio project journey">
+            <a href="#flagship">
+              <span>01 / Knowledge</span>
+              <strong>AEC Code Compliance RAG</strong>
+              <small>Public-document retrieval, citations, abstention, and service evidence.</small>
+            </a>
+            <a href="#workflow">
+              <span>02 / Intent</span>
+              <strong>Project requirements</strong>
+              <small>Role-tagged communication, approvals, conflicts, and draft clauses.</small>
+            </a>
+            <a href="#work">
+              <span>03 / Options</span>
+              <strong>Constraint-aware massing</strong>
+              <small>Seeded geometry, hard checks, proxy objectives, and Pareto ranking.</small>
+            </a>
+            <a href="#workflow">
+              <span>04 / Quantity</span>
+              <strong>QS takeoff and costing</strong>
+              <small>Measured geometry, rate provenance, uncertainty, and tender exceptions.</small>
+            </a>
+            <a href="#embodied">
+              <span>05 / Action</span>
+              <strong>Embodied-agent simulation</strong>
+              <small>Shared demonstrations, visual shift, action filtering, and physics replay.</small>
+            </a>
+          </nav>
+          <div class="portfolio-map__links">
+            <a href="#work">Selected project evidence</a>
+            <a href="#directory">Complete project index</a>
+            <a href="pages/skills-matrix.html">Evidence-linked skills</a>
           </div>
         </div>
       </section>
 
-      <section class="band band--tight" id="evidence">
+      <section class="band band--tight" id="work">
         <div class="container">
           <div class="section-heading">
             <p class="eyebrow">Selected Work</p>
-            <h2>Source-grounded AI, construction robotics, and computational design</h2>
+            <h2>Three projects, three kinds of engineering evidence</h2>
             <p class="section-copy">
-              These three projects best represent my current work. The reported numbers come
-              from bundled evaluations, public-source snapshots, and simulator scenarios, with limits stated beside them.
+              The strongest work combines implementation depth, measured behavior, visual explanation,
+              and explicit failure boundaries. Metrics come from fixed public-source snapshots,
+              bundled synthetic fixtures, or simulator holdouts as labeled beside each result.
             </p>
           </div>
           <div class="evidence-grid">
             <article class="evidence-card evidence-card--primary">
+              <img class="evidence-card__visual" src="assets/aec-rag-demo.png" alt="Local AEC retrieval interface with a grounded answer and source citations" />
               <span>01 / Flagship</span>
               <h3>AEC Code Compliance RAG</h3>
               <p>Public-source ingestion, four retrieval modes, citations, abstention, evals, and focused tests.</p>
               <strong>Document retrieval is stronger than exact evidence retrieval</strong>
-              <small>Exact evidence Hit@1 0.810 / MRR 0.881 on 21 candidate-authored targets.</small>
-              <small>Public Hit@1 0.952 / MRR 0.976 at document level. Public 24-case snapshot over 15 local documents.</small>
-              <small>Source-page Hit@1 0.778 / MRR 0.861 on 18 page-labeled cases. Labels are not independent expert annotations.</small>
-              <small>Synthetic 51-case regression set: Recall@4 1.000 / MRR 0.906. Not compliance certification.</small>
-              <small>95% intervals: Hit@1 [0.773, 0.992], n=21; MRR [0.929, 1.000]. No-answer is 2/2, not a broad accuracy claim.</small>
+              <small>Document Hit@1 0.952 / MRR 0.976; exact-target Hit@1 0.810 / MRR 0.881; page Hit@1 0.778 on fixed candidate-authored labels.</small>
+              <small>Public Hit@1 95% interval [0.773, 0.992], n=21. No-answer is 2/2; this is not compliance certification or broad accuracy evidence.</small>
               <a href="#flagship">View project</a>
             </article>
             <article class="evidence-card">
+              <img class="evidence-card__visual" src="assets/semantic-raster-comparison.svg" alt="Construction-grid observations and measured holdout behavior across state and rendered-pixel policies" />
               <span>02 / Embodied AI</span>
               <h3>Construction Embodied Agent Simulator</h3>
               <p>Shared expert demonstrations, rendered-pixel shift tests, raw and filtered rollouts, and planar MuJoCo command replay.</p>
               <strong>0.760 filtered success / 51 raw contacts / 0 filtered contacts</strong>
-              <small>96 unseen grids for policy evaluation; 12-scenario physics subset. State-rendered pixels and static collision proxies, not camera or hardware evidence.</small>
+              <small>96 unseen grids for policy evaluation; 12-scenario physics subset with named rigid-contact telemetry.</small>
+              <small>Rendered-RGB success falls from 0.719 to 0.427 under an unseen palette. Pixels come from state; no camera or hardware evidence.</small>
               <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/vla-embodied-agent-simulator">View project</a>
             </article>
             <article class="evidence-card">
+              <img class="evidence-card__visual" src="assets/massing-explorer-demo.png" alt="Constraint-aware massing plan, isometric view, and transparent proxy measurements" />
               <span>03 / Computational Design</span>
               <h3>Constraint-Aware Massing Explorer</h3>
               <p>Seeded geometric options, hard constraints, Pareto ranking, editable objectives, and transparent environmental and access proxies.</p>
               <strong>0.977 feasible rate / 0.19% mean best GFA error</strong>
-              <small>864 candidates per method across synthetic sites; rectangular proxy model, not approvable design.</small>
+              <small>864 candidates per method across synthetic sites; unconstrained baseline feasible rate 0.052 and mean best GFA error 34.47%.</small>
+              <small>Rectangular envelopes and transparent proxies only; no code inference, calibrated environmental simulation, or approvable design.</small>
               <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/constraint-aware-massing-explorer">View project</a>
             </article>
           </div>
-          <figure class="workflow-proof">
+          <figure class="workflow-proof workflow-proof--light">
             <img src="assets/physics-replay-comparison.svg" alt="Measured target-reach and rigid-contact rates for raw, filtered, and reference embodied-agent command traces" />
             <figcaption>
               Headless planar MuJoCo replay: raw egocentric commands contact named rigid geometry on 51/150 movements; filtered egocentric and A* traces record 0 contacts across 148 and 98 movements. Not a mobile-robot or safety validation.
@@ -178,6 +229,50 @@
         </div>
       </section>
 
+      <section class="band capabilities-band" id="capabilities">
+        <div class="container">
+          <div class="capabilities-intro">
+            <div>
+              <p class="eyebrow">Capabilities</p>
+              <h2>Domain reasoning backed by inspectable engineering</h2>
+            </div>
+            <p class="section-copy">
+              Architecture contributes the problem framing: constraints, alternatives, coordination,
+              review gates, and accountable handoff. Software and ML evidence still come from code,
+              fixed datasets, tests, and reproducible artifacts.
+            </p>
+          </div>
+          <div class="capability-grid">
+            <article>
+              <span>01</span>
+              <h3>Source-grounded AI</h3>
+              <p>Page-aware ingestion, metadata-rich chunks, retrieval baselines, citations, abstention, and evaluation.</p>
+            </article>
+            <article>
+              <span>02</span>
+              <h3>Embodied AI</h3>
+              <p>Observation encodings, behavior cloning, appearance shift, action filtering, and planar physics replay.</p>
+            </article>
+            <article>
+              <span>03</span>
+              <h3>Computational design</h3>
+              <p>Parametric geometry, hard-constraint validation, Pareto ranking, and explicit proxy objectives.</p>
+            </article>
+            <article>
+              <span>04</span>
+              <h3>AEC workflow systems</h3>
+              <p>Requirements, approvals, source lineage, quantity provenance, cost build-up, and human review boundaries.</p>
+            </article>
+            <article>
+              <span>05</span>
+              <h3>Engineering practice</h3>
+              <p>Typed APIs, SQLite state, automated tests, generated evidence, idempotence checks, and local-first delivery.</p>
+            </article>
+          </div>
+          <a class="text-link text-link--dark" href="pages/skills-matrix.html">Open the evidence-linked skills matrix</a>
+        </div>
+      </section>
+
       <section class="band flagship" id="flagship">
         <div class="container flagship__grid">
           <div>
@@ -191,6 +286,7 @@
             </p>
             <dl class="fact-list">
               <div><dt>Evaluation</dt><dd>51 synthetic cases plus 24 authored public-source cases over a fingerprinted 15-document snapshot</dd></div>
+              <div><dt>Synthetic check</dt><dd>51-case synthetic set: Recall@4 1.000 / MRR 0.906 / Hit@3 1.000</dd></div>
               <div><dt>Evidence location</dt><dd>Document Hit@1 0.952 versus exact candidate-authored target Hit@1 0.810; source-page Hit@1 0.778</dd></div>
               <div><dt>Uncertainty</dt><dd>Public Hit@1 0.952 [0.773, 0.992], n=21; MRR 0.976 [0.929, 1.000]. Hybrid-vs-BM25 MRR delta 0.012 [0.000, 0.036], inconclusive</dd></div>
               <div><dt>Service</dt><dd>12/12 local contract checks passed; 9 requests observed before metrics response. The fixed workload returned 48/48 HTTP 200 responses, 0 server errors, and P95 at or below 500 ms</dd></div>
@@ -221,7 +317,7 @@
           <figure class="workflow-proof workflow-proof--light">
             <img src="assets/retrieval-granularity.svg" alt="Document-level, exact-chunk, and source-page retrieval metrics for the fixed AEC public-source snapshot" />
             <figcaption>
-              Finding the expected publication is easier than retrieving the labeled supporting passage. Exact targets were authored from the fixed local snapshot and have not been independently reviewed.
+              Document Hit@1 0.952 / MRR 0.976; exact-target Hit@1 0.810 / MRR 0.881; source-page Hit@1 0.778 / MRR 0.861. Finding the expected publication is easier than retrieving the labeled supporting passage. Exact targets were authored from the fixed local snapshot and have not been independently reviewed.
             </figcaption>
           </figure>
           <figure class="workflow-proof workflow-proof--light">
@@ -304,18 +400,52 @@
         </div>
       </section>
 
-      <section class="band" id="supporting">
+      <section class="band directory-band" id="directory">
         <div class="container">
-          <div class="section-heading">
-            <p class="eyebrow">Focused Experiments</p>
-            <h2>Smaller systems stay bounded</h2>
-            <p class="section-copy">Domain rule systems, provider contracts, local model training, monitoring, energy regression, and robotics utilities remain runnable and tested outside the selected project set.</p>
+          <div class="directory-intro">
+            <div>
+              <p class="eyebrow">Project Index</p>
+              <h2>A direct route into every implemented system</h2>
+            </div>
+            <p class="section-copy">
+              Five selected projects carry the portfolio narrative. Eight smaller experiments test
+              focused engineering patterns without inheriting flagship claims.
+            </p>
           </div>
-          <p class="experiment-note">
-            The complete evidence and limitations remain under
-            <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/experiments">experiments/</a>.
-            The retained set prioritizes implementation evidence over project count and does not carry first-screen portfolio claims.
-          </p>
+          <div class="directory-list">
+            <a class="directory-item" href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/aec-code-compliance-rag">
+              <span>Flagship / Source-grounded AI</span><strong>AEC Code Compliance RAG</strong><small>Retrieval, citations, abstention, service contracts, telemetry, evals, and tests.</small>
+            </a>
+            <a class="directory-item" href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/vla-embodied-agent-simulator">
+              <span>Primary / Embodied AI</span><strong>Construction Embodied Agent Simulator</strong><small>State and rendered-pixel policies, holdouts, filtering, failure analysis, and MuJoCo replay.</small>
+            </a>
+            <a class="directory-item" href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/constraint-aware-massing-explorer">
+              <span>Primary / Computational Design</span><strong>Constraint-Aware Massing Explorer</strong><small>Geometric search, hard constraints, Pareto ranking, proxy metrics, and visual outputs.</small>
+            </a>
+            <a class="directory-item" href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/project-specification-copilot">
+              <span>Supporting / Project Requirements</span><strong>Communication and Specification Assistant</strong><small>Role-tagged messages, conflicts, scoped approvals, audit events, and language stress tests.</small>
+            </a>
+            <a class="directory-item" href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/qs-takeoff-tender-analysis">
+              <span>Supporting / QS Automation</span><strong>Takeoff and Tender Analysis Workbench</strong><small>Vector measurement, rate provenance, uncertainty bands, and tender exceptions.</small>
+            </a>
+            <a class="directory-item directory-item--integration" href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/integrations/aec-design-to-cost">
+              <span>Tested Integration</span><strong>Approved intent to bounded cost input</strong><small>Source-linked requirements, typed handoffs, rejection tests, and one checked-in synthetic trace.</small>
+            </a>
+          </div>
+          <details class="experiment-directory">
+            <summary>Eight focused experiments</summary>
+            <div class="experiment-links">
+              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/experiments/bim-schedule-rule-checker">BIM Schedule Rule Checker</a>
+              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/experiments/building-energy-regression">Building Energy Regression</a>
+              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/experiments/construction-grid-route-planner">Construction Grid Route Planner</a>
+              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/experiments/robot-telemetry-rule-monitor">Robot Telemetry Rule Monitor</a>
+              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/experiments/visual-provider-contract">Visual Provider Contract</a>
+              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/experiments/deterministic-research-workflow">Deterministic Research Workflow</a>
+              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/experiments/local-model-serving-monitoring">Local Model Serving and Monitoring</a>
+              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/experiments/local-text-classification-lab">Local Text Classification Lab</a>
+            </div>
+            <p>These systems are runnable and tested, but remain experiments rather than first-screen portfolio claims.</p>
+          </details>
         </div>
       </section>
 
@@ -335,17 +465,18 @@
         </div>
       </section>
 
-      <section class="band contact" id="review-links">
+      <section class="band contact" id="contact">
         <div class="container contact__grid">
           <div>
-            <p class="eyebrow">More Detail</p>
-            <h2>Code, evaluation notes, and limitations</h2>
+            <p class="eyebrow">Contact + Evidence</p>
+            <h2>Continue into code, evaluations, and project context</h2>
           </div>
           <div class="contact__links">
             <a href="https://github.com/josiahsutd-stack/ai-portfolio">Repository</a>
             <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/docs/REVIEWER_GUIDE.md">Project Guide</a>
             <a href="pages/skills-matrix.html">Skills Matrix</a>
             <a href="https://www.linkedin.com/in/josiah-lau-8041822b6/">LinkedIn</a>
+            <a href="mailto:josiahsutd@gmail.com">Email</a>
           </div>
         </div>
       </section>
