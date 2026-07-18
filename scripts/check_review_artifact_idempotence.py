@@ -11,6 +11,7 @@ ARTIFACT_DIRS = [
     ROOT / "projects" / "agentic-research-ops-assistant" / "demo_outputs",
     ROOT / "projects" / "mlops-model-serving-monitoring" / "demo_outputs",
     ROOT / "projects" / "real-model-finetune-lab" / "demo_outputs",
+    ROOT / "projects" / "vla-embodied-agent-simulator" / "demo_outputs",
 ]
 VERSIONED_SUFFIXES = {".json", ".md"}
 

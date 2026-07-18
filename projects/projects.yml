@@ -129,16 +129,16 @@ projects:
     status: supporting
     mock_mode_supported: true
     readme_path: projects/agentic-research-ops-assistant/README.md
-  - name: VLA Embodied Agent Simulator
+  - name: Construction Embodied Agent Simulator
     slug: vla-embodied-agent-simulator
     category: General AI Engineering
-    skill_area: VLA and robotics simulation
+    skill_area: Embodied AI and robotics simulation
     flagship: false
     demo_command: streamlit run projects/vla-embodied-agent-simulator/app.py
     test_command: pytest tests/test_general_ai_projects.py
     tech_stack: [Python, Streamlit]
-    summary: Compares random, naive, and safety-shielded policies in a construction-site grid simulation with action masks, metrics, and replay traces.
-    skills: [embodied AI simulation, task parsing, action masks, safety constraints, policy evaluation]
+    summary: Trains and evaluates a behavior-cloning action policy on disjoint procedural construction-grid splits alongside deterministic planning and safety-filtered baselines.
+    skills: [embodied AI simulation, behavior cloning, task parsing, action masks, safety constraints, holdout policy evaluation]
     status: supporting
     mock_mode_supported: true
     readme_path: projects/vla-embodied-agent-simulator/README.md

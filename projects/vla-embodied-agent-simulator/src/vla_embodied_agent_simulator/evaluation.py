@@ -22,6 +22,7 @@ class EpisodeResult:
     steps: int
     total_reward: float
     unsafe_action_count: int
+    task_error_count: int
     blocked_action_count: int
     intervention_count: int
     final_position: tuple[int, int]
@@ -57,9 +58,14 @@ def run_episode(
         }
         for step in env.trace
     ]
-    unsafe_action_count = sum(1 for step in env.trace if "error" in step.info)
     blocked_action_count = sum(
         1 for step in env.trace if step.info.get("error") == "unsafe_or_blocked_move"
+    )
+    unsafe_action_count = blocked_action_count
+    task_error_count = sum(
+        1
+        for step in env.trace
+        if "error" in step.info and step.info.get("error") != "unsafe_or_blocked_move"
     )
     return EpisodeResult(
         scenario_id=scenario.scenario_id,
@@ -70,6 +76,7 @@ def run_episode(
         steps=len(env.trace),
         total_reward=round(total_reward, 3),
         unsafe_action_count=unsafe_action_count,
+        task_error_count=task_error_count,
         blocked_action_count=blocked_action_count,
         intervention_count=len(plan.interventions),
         final_position=env.agent,
@@ -99,6 +106,10 @@ def evaluate_policy_suite(
             "unsafe_action_rate": round(
                 sum(row.unsafe_action_count for row in rows)
                 / max(1, sum(row.steps for row in rows)),
+                3,
+            ),
+            "task_error_rate": round(
+                sum(row.task_error_count for row in rows) / max(1, sum(row.steps for row in rows)),
                 3,
             ),
             "blocked_action_count": sum(row.blocked_action_count for row in rows),
@@ -150,6 +161,7 @@ def _compact_episode(episode: dict[str, object]) -> dict[str, object]:
         "steps": episode["steps"],
         "total_reward": episode["total_reward"],
         "unsafe_action_count": episode["unsafe_action_count"],
+        "task_error_count": episode["task_error_count"],
         "blocked_action_count": episode["blocked_action_count"],
         "intervention_count": episode["intervention_count"],
         "final_position": episode["final_position"],
@@ -158,26 +170,27 @@ def _compact_episode(episode: dict[str, object]) -> dict[str, object]:
 
 def _markdown_report(payload: dict[str, object]) -> str:
     lines = [
-        "# VLA Embodied Agent Evaluation",
+        "# Construction Embodied Agent Evaluation",
         "",
         "Local construction-site simulation metrics. This is not a real robot deployment.",
         "",
         f"- Scenarios: {payload['scenario_count']}",
         "",
-        "| Policy | Success rate | Avg steps | Avg reward | Unsafe action rate | Blocked actions | Safety interventions |",
-        "| --- | --- | --- | --- | --- | --- | --- |",
+        "| Policy | Success rate | Avg steps | Avg reward | Unsafe action rate | Task error rate | Blocked actions | Safety interventions |",
+        "| --- | --- | --- | --- | --- | --- | --- | --- |",
     ]
     policies = payload["policies"]
     assert isinstance(policies, dict)
     for policy_name, metrics in policies.items():
         assert isinstance(metrics, dict)
         lines.append(
-            "| {policy} | {success} | {steps} | {reward} | {unsafe} | {blocked} | {interventions} |".format(
+            "| {policy} | {success} | {steps} | {reward} | {unsafe} | {task_error} | {blocked} | {interventions} |".format(
                 policy=policy_name,
                 success=metrics["success_rate"],
                 steps=metrics["average_steps"],
                 reward=metrics["average_reward"],
                 unsafe=metrics["unsafe_action_rate"],
+                task_error=metrics["task_error_rate"],
                 blocked=metrics["blocked_action_count"],
                 interventions=metrics["intervention_count"],
             )
@@ -198,7 +211,7 @@ def _markdown_report(payload: dict[str, object]) -> str:
 
 def _episode_replay(episode: dict[str, object]) -> str:
     lines = [
-        "# Sample VLA Episode Replay",
+        "# Sample Embodied Agent Episode Replay",
         "",
         f"- Scenario: {episode['scenario_name']}",
         f"- Instruction: {episode['instruction']}",

@@ -29,7 +29,7 @@ This portfolio is a local-first applied AI engineering portfolio. It demonstrate
 - Do not infer real visual reasoning from mock VLM outputs.
 - Do not infer real LoRA model improvement from the Fine-Tuning LoRA Lab.
 - Do not infer senior-level MLOps ownership from the local MLOps skeleton.
-- Do not infer real robot safety validation from construction robot, VLA, or reinforcement-learning simulations.
+- Do not infer real robot safety validation from construction-robot, embodied-agent, or reinforcement-learning simulations.
 
 ## Where The Strongest Evidence Lives
 

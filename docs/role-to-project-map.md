@@ -6,7 +6,7 @@ The AEC RAG project is the sole flagship. Other projects are selected below by r
 | --- | --- | --- | --- |
 | Applied AI Engineer | AEC Code Compliance RAG | Real Model Fine-Tune Lab, Agentic Research Ops | Local prototypes without customer or production evidence. |
 | LLM / Agent Engineer | AEC Code Compliance RAG | Agentic Research Ops, LLM Evals and Guardrails | Deterministic local providers and retrieval; no autonomous web agent. |
-| Embodied AI / Robotics Engineer | VLA Embodied Agent Simulator | Construction Robot Task Planner, Site Robot Safety Monitor | Grid simulation and synthetic telemetry; no learned control or hardware. |
+| Embodied AI / Robotics Engineer | Construction Embodied Agent Simulator | Construction Robot Task Planner, Site Robot Safety Monitor | Real behavior cloning in grid simulation; no foundation VLA, perception, ROS, or hardware. |
 | ML Engineer | Real Model Fine-Tune Lab | MLOps Serving and Monitoring, Energy ML | Small classical models and synthetic/domain-demo datasets. |
 | MLOps Engineer | MLOps Serving and Monitoring | Real Model Fine-Tune Lab, Time-Series Forecasting | Local SQLite/artifact scaffolds, not a deployed ML platform. |
 | AEC Technology Engineer | AEC Code Compliance RAG | BIM Issue Detection, Building Energy ML | Document assistance and synthetic workflows, not professional sign-off. |

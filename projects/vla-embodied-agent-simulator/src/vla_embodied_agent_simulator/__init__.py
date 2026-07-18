@@ -15,10 +15,22 @@ from .evaluation import (
     run_episode,
     write_evaluation_artifacts,
 )
+from .learning import (
+    FEATURE_NAMES,
+    BehaviorCloningTrainingResult,
+    encode_policy_state,
+    evaluate_behavior_cloning,
+    generate_behavior_cloning_scenarios,
+    make_behavior_cloning_policy,
+    train_behavior_cloning_policy,
+    write_behavior_cloning_artifacts,
+)
 from .policies import PolicyPlan, naive_language_policy, random_policy, safety_shielded_policy
 
 __all__ = [
     "ACTIONS",
+    "FEATURE_NAMES",
+    "BehaviorCloningTrainingResult",
     "EpisodeResult",
     "EpisodeStep",
     "GridWorldEnv",
@@ -26,7 +38,11 @@ __all__ = [
     "SiteScenario",
     "TaskSpec",
     "default_construction_scenarios",
+    "encode_policy_state",
+    "evaluate_behavior_cloning",
     "evaluate_policy_suite",
+    "generate_behavior_cloning_scenarios",
+    "make_behavior_cloning_policy",
     "naive_language_policy",
     "parse_instruction",
     "plan_from_instruction",
@@ -34,5 +50,7 @@ __all__ = [
     "run_episode",
     "safety_shielded_policy",
     "shortest_path_actions",
+    "train_behavior_cloning_policy",
+    "write_behavior_cloning_artifacts",
     "write_evaluation_artifacts",
 ]

@@ -7,7 +7,7 @@ This guide gives recruiters and technical interviewers a short path through the 
 | Order | Project | Evidence to inspect | Interpretation limit |
 | --- | --- | --- | --- |
 | 1 | `projects/aec-code-compliance-rag` | `EVAL.md`, `ARCHITECTURE.md`, `demo_outputs/`, `tests/test_rag.py` | Flagship retrieval system; not compliance certification. |
-| 2 | `projects/vla-embodied-agent-simulator` | policy comparison, replay trace, environment and policy code, focused tests | Embodied-agent simulation; no learned VLA or hardware. |
+| 2 | `projects/vla-embodied-agent-simulator` | procedural splits, fitted behavior-cloning model, raw/filtered holdout metrics, failure analysis, replay traces, and focused tests | Structured embodied-agent simulation; not a foundation VLA or hardware. |
 | 3 | `projects/real-model-finetune-lab` | held-out metrics, confusion matrix, training code, focused tests | Real classical-model fitting on small datasets; no transformer training. |
 
 Agentic Research Ops and MLOps Serving and Monitoring are the strongest supporting workflow projects. The other fourteen projects are narrower experiments or baselines.
@@ -30,7 +30,7 @@ python scripts/verify.py
 ## Role-Specific Paths
 
 - Applied AI / LLM: AEC RAG, Agentic Research Ops, then Real Model Fine-Tune Lab.
-- Embodied AI / robotics: VLA Simulator, AEC RAG for construction-domain grounding, then Robot Task Planner.
+- Embodied AI / robotics: Construction Embodied Agent Simulator, AEC RAG for construction-domain grounding, then Robot Task Planner.
 - ML / MLOps: Real Model Fine-Tune Lab, MLOps Serving and Monitoring, then Time-Series Forecasting.
 - Multimodal / CV: VLM Visual QA and Vision Threshold Baseline are supporting experiments only; neither proves deep-learning training.
 
@@ -39,11 +39,11 @@ python scripts/verify.py
 - How does authority and page metadata move from downloaded AEC documents into retrieved citations?
 - Why compare TF-IDF, BM25, dense LSA, and hybrid retrieval before adding hosted embeddings?
 - How does the AEC assistant distinguish an answer from no evidence or professional-review scope?
-- How do action masks and route planning change VLA simulator behavior relative to random and naive baselines?
+- How does the safety filter change learned-policy success and unsafe-action rates relative to raw behavior cloning and the deterministic A* reference?
 - Where are fitted model parameters created, and how are baseline, validation, and held-out test metrics separated?
 - How do denied tools, retries, approval gates, and failed calls appear in an agent trace?
 - What can a local drift simulation reveal, and what would require delayed labels or production telemetry?
 
 ## Ownership Check
 
-The strongest ownership evidence would be a live change to retrieval behavior, a new VLA scenario and regression test, or a modification to the training split followed by an explanation of the resulting metrics. README fluency alone is not treated as ownership evidence.
+The strongest ownership evidence would be a live change to retrieval behavior, a new embodied-agent scenario and regression test, or a modification to the training split followed by an explanation of the resulting metrics. README fluency alone is not treated as ownership evidence.

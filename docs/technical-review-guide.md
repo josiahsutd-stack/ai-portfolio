@@ -12,15 +12,15 @@ This guide separates implementation evidence from portfolio framing. The reposit
 
 **Boundary:** The default 51-case set is synthetic. Optional public documents are downloaded locally and are not guaranteed current. There is no OCR, authority validation, professional advice, or compliance certification.
 
-## 2. VLA Embodied Agent Simulator - Embodied AI Evidence
+## 2. Construction Embodied Agent Simulator - Embodied AI Evidence
 
-**Implemented:** Rule-based language-to-task parsing, grid observations, action masks, rewards, obstacles, restricted and worker-proximity zones, battery constraints, random/naive/safety-shielded policies, A* planning, metrics, and replay traces.
+**Implemented:** Rule-based language-to-task parsing, procedural train/holdout grids, expert A* demonstrations, a real random-forest behavior-cloning policy, raw and safety-filtered rollout modes, action masks, intervention logs, closed-loop metrics, failure analysis, and replay traces.
 
-**Inspect:** `environment.py`, `policies.py`, `evaluation.py`, `demo_outputs/vla_eval_report.md`, `demo_outputs/sample_episode_replay.md`, and `tests/test_vla_embodied_agent.py`.
+**Inspect:** `environment.py`, `policies.py`, `learning.py`, `EVAL.md`, `demo_outputs/behavior_cloning_eval_report.md`, `demo_outputs/behavior_cloning_failure_analysis.md`, and `tests/test_vla_embodied_agent.py`.
 
 **Engineering question:** Which safety failures are prevented by action masks and route planning, and which risks are absent from the simulator?
 
-**Boundary:** Three deterministic 2D scenarios are regression tests, not evidence of perception, learned control, physics, ROS integration, hardware behavior, or physical safety.
+**Boundary:** The learned classifier consumes 24 engineered structured-state features. It is not a foundation VLA and does not establish perception, physics, ROS integration, hardware behavior, or physical safety.
 
 ## 3. Real Model Fine-Tune Lab - Model Training Evidence
 

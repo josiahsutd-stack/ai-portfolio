@@ -1,24 +1,33 @@
-# VLA Embodied Agent Simulator
+# Construction Embodied Agent Simulator
 
-Construction-site embodied AI simulation for mapping natural-language tasks into safe action sequences. The project is intentionally local and deterministic so reviewers can inspect the environment, policy behavior, traces, and safety metrics without robot hardware.
+Local construction-site simulation for mapping language tasks and structured site state into action sequences. The project compares deterministic planning, naive and random baselines, and a real behavior-cloning policy trained from expert trajectories.
 
-This is not a real robot deployment. It does not claim ROS integration, SLAM, perception hardware, learned control, or validated physical safety.
+The repository folder retains its original `vla-embodied-agent-simulator` slug. “VLA-inspired” describes the language-state-action workflow only: this project is not a foundation vision-language-action model and does not consume images or language embeddings.
 
 ## What It Demonstrates
 
 - Language-to-task parsing for delivery, inspection, and charging instructions.
-- Gym-style grid environment with observations, action masks, rewards, traces, and terminal states.
-- Site constraints: obstacles, restricted zones, worker-proximity zones, slow zones, and battery limits.
-- Three policy baselines: random, naive language, and safety-shielded route planning.
-- Evaluation artifacts with success rate, unsafe action rate, blocked actions, rewards, and replay traces.
+- Grid environment with observations, rewards, traces, terminal states, and action safety checks.
+- Construction-site constraints: obstacles, restricted zones, worker-proximity zones, slow zones, and battery limits.
+- Deterministic A* planning plus random and naive-language baselines.
+- Real random-forest behavior cloning trained on expert action demonstrations.
+- Disjoint fixed-seed procedural train and holdout scenario sets.
+- Raw and safety-filtered learned-policy evaluation with visible interventions and failures.
+- Generated metrics, model card, failure analysis, replay traces, and focused tests.
 
-## Scenarios
+## Evidence Snapshot
 
-| Scenario | Task | Safety pressure |
+| Evaluation | Result | Interpretation |
 | --- | --- | --- |
-| Drywall Delivery To Level 2 Staging | Pick up a drywall stack and deliver it to a staging area. | Direct route is blocked, so safe planning must detour around obstacles and restricted zones. |
-| Blocked Corridor Inspection | Reach and inspect a corridor area near the lift lobby. | Goal is near worker and restricted zones. |
-| Low Battery Return To Charger | Return to the charging dock. | Battery is low and the path contains blocked and slow cells. |
+| Hand-authored simulator regression | A* safety-shielded planner completes `3/3` scenarios with `0.000` unsafe-action rate. | Planner and environment regression evidence only. |
+| Holdout expert-action classification | `0.863` accuracy and `0.922` macro-F1 over 226 expert states from 24 unseen scenarios. | Measures imitation on expert states, not closed-loop control. |
+| Raw behavior cloning | `0.500` success and `0.740` unsafe-action rate over 24 unseen scenarios. | Exposes compounding model error without repair. |
+| Behavior cloning plus safety filter | `0.625` success, `0.000` unsafe-action rate, and 207 interventions. | Safety filtering blocks unsafe/task-invalid actions but does not guarantee task completion. |
+| A* planning reference on holdout | `1.000` success and `0.000` unsafe-action rate. | Oracle-style deterministic planning reference, not a learned policy. |
+
+These values come from fixed local seeds and the bundled simulator. They are not robotics benchmark, hardware, or physical-safety results.
+
+![Local Construction Embodied Agent demo running the learned safety-filtered policy](../../docs/assets/screenshots/embodied-agent-demo.png)
 
 ## Run
 
@@ -26,7 +35,7 @@ This is not a real robot deployment. It does not claim ROS integration, SLAM, pe
 streamlit run projects/vla-embodied-agent-simulator/app.py
 ```
 
-Generate evaluation artifacts:
+Generate both rule-policy and learned-policy artifacts:
 
 ```bash
 python projects/vla-embodied-agent-simulator/evaluate_vla.py
@@ -35,69 +44,86 @@ python projects/vla-embodied-agent-simulator/evaluate_vla.py
 Run the focused tests:
 
 ```bash
-python -m pytest tests/test_vla_embodied_agent.py tests/test_general_ai_projects.py
+python -m pytest tests/test_vla_embodied_agent.py
 ```
+
+The fitted `behavior_cloning_policy.joblib` file is generated under `.artifacts/vla-embodied-agent-simulator/` and ignored by Git. Deterministic metrics and reports are versioned in `demo_outputs/`.
 
 ## Reviewer Evidence
 
-- `src/vla_embodied_agent_simulator/environment.py`: environment state, actions, rewards, action safety, scenarios, and A* route planning.
-- `src/vla_embodied_agent_simulator/policies.py`: random, naive language, and safety-shielded policy baselines.
-- `src/vla_embodied_agent_simulator/evaluation.py`: repeatable episode evaluation and artifact generation.
-- `demo_outputs/vla_eval_report.md`: metrics comparing baseline and shielded policies.
-- `demo_outputs/sample_episode_replay.md`: step-by-step replay for a successful shielded episode.
-- `tests/test_vla_embodied_agent.py`: regression tests for parsing, safety behavior, metrics, and artifact creation.
+- `src/vla_embodied_agent_simulator/environment.py`: state, actions, rewards, safety checks, scenarios, and A* route planning.
+- `src/vla_embodied_agent_simulator/policies.py`: random, naive-language, and deterministic safety-shielded baselines.
+- `src/vla_embodied_agent_simulator/learning.py`: procedural splits, feature encoding, real classifier fitting, learned policy rollout, safety filter, and failure reporting.
+- `src/vla_embodied_agent_simulator/evaluation.py`: repeatable hand-authored scenario evaluation and artifact generation.
+- `demo_outputs/behavior_cloning_eval_report.md`: learned-policy action and closed-loop holdout metrics.
+- `demo_outputs/behavior_cloning_failure_analysis.md`: failed learned-policy holdout episodes.
+- `demo_outputs/behavior_cloning_model_card.md`: inputs, outputs, training source, and non-capabilities.
+- `demo_outputs/sample_episode_replay.md`: step-by-step deterministic planner replay.
+- `tests/test_vla_embodied_agent.py`: parsing, safety, split, training, holdout, and artifact regression tests.
 
 ## Architecture
 
 ```mermaid
 flowchart LR
-  A["Instruction"] --> B["Task parser"]
-  C["Grid observation"] --> D["Policy"]
-  E["Action mask and safety checks"] --> D
+  A["Language instruction"] --> B["Rule-based task parser"]
+  C["Structured grid state"] --> D["Policy features"]
+  E["Expert A* trajectories"] --> F["Random-forest behavior cloning"]
   B --> D
-  D --> F["Action sequence"]
-  F --> G["Environment step loop"]
-  G --> H["Trace and metrics"]
+  D --> F
+  F --> G["Ranked action probabilities"]
+  G --> H["Optional action safety filter"]
+  H --> I["Environment step"]
+  I --> J["Trace, reward, and holdout metrics"]
 ```
 
-## Current Results
+See [ARCHITECTURE.md](ARCHITECTURE.md) for component and data-flow details.
 
-The expected evaluation pattern is:
+## Evaluation Design
 
-- `safety_shielded` completes all included scenarios with zero unsafe actions.
-- `naive_language` can parse the task but may collide with blocked worksite cells because it follows direct Manhattan movement.
-- `random` is included only as a weak action-space baseline.
+- Eight train and eight holdout scenarios are generated for each task type: delivery, inspection, and charging.
+- Train and holdout generators use different fixed seeds and disjoint scenario IDs.
+- Expert A* actions provide supervised labels for behavior cloning.
+- Action accuracy and macro-F1 are measured on holdout expert states.
+- Closed-loop success, reward, unsafe attempts, blocked actions, and interventions are measured on complete unseen episodes.
+- No expert fallback toward the task goal is supplied to either learned policy during evaluation. The filtered policy may route only to a charger when battery reserve is insufficient.
 
-Regenerate `demo_outputs/` after changing scenarios or policies.
-
-## Reviewer Signal
-
-This project shows embodied-AI engineering judgment in a small, inspectable form: task parsing, state transitions, action masking, safety constraints, baseline comparison, evaluation artifacts, and honest simulation boundaries.
-
-## Engineering Notes
-
-- The environment records every transition so action choices and failures can be reviewed step by step.
-- A* route planning uses simulator safety checks instead of letting the planner pass through blocked cells.
-- The naive baseline is intentionally simple, which makes the value of route planning and safety checks visible in the metrics.
-- The Streamlit app exposes scenarios, policies, final grid state, trace rows, and policy-level evaluation in one local view.
-
-## Technical Review Discussion Points
-
-- How language instructions become task specs, target objects, target zones, and success actions.
-- How action masks reject out-of-bounds moves, obstacles, restricted zones, worker-proximity cells, and battery-depleted actions.
-- Why the random and naive policies are useful baselines even though they are weak.
-- What would be required before claiming real embodied-AI deployment: perception, simulation benchmarks, ROS/simulator bridges, hardware tests, and safety validation.
+See [EVAL.md](EVAL.md) for metric definitions and leakage controls.
 
 ## Limitations
 
-- Grid world only; no camera observations, 3D simulation, physics, ROS, SLAM, or robot actuation.
-- Rule-based language parsing, not a foundation VLA model.
-- Safety checks are simulator constraints, not real-world robot safety validation.
-- Rewards and metrics are useful for regression tests, not for claiming deployed robotics performance.
+- Structured 7x7 grids only; no camera, depth, point cloud, 3D physics, or real construction-site telemetry.
+- Rule-based language parsing; no language encoder or free-form instruction generalization benchmark.
+- Random-forest action classifier; not a foundation VLA, deep policy, or reinforcement-learning result.
+- Expert demonstrations come from the same simulator's A* planner.
+- The action safety filter enforces simulator rules only and cannot establish real-world robot safety.
+- Twenty-four holdout scenarios are useful regression evidence, not a standard robotics benchmark.
+- No ROS, Isaac Sim, Gazebo, SLAM, motion planning, actuation, sim-to-real, or hardware testing.
+
+See [LIMITATIONS.md](LIMITATIONS.md) for failure modes and claim boundaries.
 
 ## Credible Next Steps
 
-- Add Gymnasium wrappers and train a small policy against the same action mask.
-- Add visual observations rendered from the grid and compare language-only versus vision-state policies.
+- Add visual observations and compare structured-state behavior cloning with image-conditioned policies.
+- Add Gymnasium interfaces and a learned RL baseline on the same held-out scenario protocol.
+- Add richer procedural layouts, dynamic workers, partial observability, and out-of-distribution tests.
 - Add ROS 2 or Isaac Sim adapters as offline interfaces before any hardware claim.
-- Add scenario files for Singapore construction-site workflows, including lift-lobby access, temporary works zones, and material handling routes.
+- Validate task definitions and safety constraints with construction robotics practitioners.
+
+## Reviewer Signal
+
+Embodied-AI simulation, real supervised policy fitting, train/holdout discipline, closed-loop evaluation, action masking, safety interventions, baseline comparison, and honest failure analysis.
+
+## Engineering Notes
+
+- High action accuracy is not presented as control success; the lower closed-loop rate demonstrates compounding imitation error.
+- The raw learned policy is retained because its failures show what the safety filter changes.
+- The filtered policy has no A* fallback toward the task goal. A separate battery-reserve controller may route only to a charger, so unresolved task failures remain visible.
+- The fitted model binary is a runtime artifact while deterministic evidence remains reviewable in Git.
+
+## Technical Review Discussion Points
+
+- Why expert-state action accuracy overestimates closed-loop policy quality.
+- How train/holdout scenario leakage is prevented and tested.
+- Which unsafe or task-invalid actions the runtime filter rejects.
+- Why an A* expert is a useful reference but not evidence of learned planning.
+- What perception, dynamics, middleware, and physical validation would be required for real construction robotics.

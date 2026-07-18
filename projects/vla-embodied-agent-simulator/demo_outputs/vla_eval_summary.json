@@ -6,7 +6,8 @@
       "success_rate": 0.667,
       "average_steps": 10.333,
       "average_reward": -0.467,
-      "unsafe_action_rate": 0.161,
+      "unsafe_action_rate": 0.129,
+      "task_error_rate": 0.032,
       "blocked_action_count": 4,
       "intervention_count": 0
     },
@@ -15,7 +16,8 @@
       "success_rate": 0.0,
       "average_steps": 18,
       "average_reward": -3.8,
-      "unsafe_action_rate": 0.37,
+      "unsafe_action_rate": 0.111,
+      "task_error_rate": 0.259,
       "blocked_action_count": 6,
       "intervention_count": 0
     },
@@ -25,6 +27,7 @@
       "average_steps": 11,
       "average_reward": 2.567,
       "unsafe_action_rate": 0.0,
+      "task_error_rate": 0.0,
       "blocked_action_count": 0,
       "intervention_count": 0
     }
@@ -37,7 +40,8 @@
       "success": false,
       "steps": 18,
       "total_reward": 1.1,
-      "unsafe_action_count": 4,
+      "unsafe_action_count": 0,
+      "task_error_count": 4,
       "blocked_action_count": 0,
       "intervention_count": 0,
       "final_position": [
@@ -52,7 +56,8 @@
       "success": false,
       "steps": 12,
       "total_reward": -4.3,
-      "unsafe_action_count": 5,
+      "unsafe_action_count": 4,
+      "task_error_count": 1,
       "blocked_action_count": 4,
       "intervention_count": 0,
       "final_position": [
@@ -68,6 +73,7 @@
       "steps": 14,
       "total_reward": 4.8,
       "unsafe_action_count": 0,
+      "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 0,
       "final_position": [
@@ -82,7 +88,8 @@
       "success": false,
       "steps": 18,
       "total_reward": -6.1,
-      "unsafe_action_count": 8,
+      "unsafe_action_count": 3,
+      "task_error_count": 5,
       "blocked_action_count": 3,
       "intervention_count": 0,
       "final_position": [
@@ -98,6 +105,7 @@
       "steps": 9,
       "total_reward": 1.8,
       "unsafe_action_count": 0,
+      "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 0,
       "final_position": [
@@ -113,6 +121,7 @@
       "steps": 9,
       "total_reward": 1.8,
       "unsafe_action_count": 0,
+      "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 0,
       "final_position": [
@@ -127,7 +136,8 @@
       "success": false,
       "steps": 18,
       "total_reward": -6.4,
-      "unsafe_action_count": 8,
+      "unsafe_action_count": 3,
+      "task_error_count": 5,
       "blocked_action_count": 3,
       "intervention_count": 0,
       "final_position": [
@@ -143,6 +153,7 @@
       "steps": 10,
       "total_reward": 1.1,
       "unsafe_action_count": 0,
+      "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 0,
       "final_position": [
@@ -158,6 +169,7 @@
       "steps": 10,
       "total_reward": 1.1,
       "unsafe_action_count": 0,
+      "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 0,
       "final_position": [

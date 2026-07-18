@@ -1,4 +1,4 @@
-# Sample VLA Episode Replay
+# Sample Embodied Agent Episode Replay
 
 - Scenario: Drywall Delivery To Level 2 Staging
 - Instruction: Deliver the drywall stack to the level 2 staging area.

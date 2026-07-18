@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
 
@@ -14,20 +15,49 @@ from vla_embodied_agent_simulator import (
     GridWorldEnv,
     default_construction_scenarios,
     evaluate_policy_suite,
+    make_behavior_cloning_policy,
     naive_language_policy,
     random_policy,
     run_episode,
     safety_shielded_policy,
+    train_behavior_cloning_policy,
 )
 
-POLICIES = {
+RULE_POLICIES = {
     "Safety shielded": safety_shielded_policy,
     "Naive language": naive_language_policy,
     "Random": random_policy,
 }
+POLICY_NAMES = [
+    "Safety shielded",
+    "Behavior cloning + safety filter",
+    "Behavior cloning raw",
+    "Naive language",
+    "Random",
+]
 
-st.set_page_config(page_title="VLA Embodied Agent Simulator", page_icon="AI", layout="wide")
-st.title("Construction Site VLA Agent Simulator")
+
+@st.cache_resource(show_spinner="Training local behavior-cloning policy...")
+def behavior_cloning_policies():
+    model, _result = train_behavior_cloning_policy()
+    return {
+        "Behavior cloning + safety filter": make_behavior_cloning_policy(
+            model,
+            safety_filter=True,
+        ),
+        "Behavior cloning raw": make_behavior_cloning_policy(
+            model,
+            safety_filter=False,
+        ),
+    }
+
+
+st.set_page_config(
+    page_title="Construction Embodied Agent Simulator",
+    page_icon="AI",
+    layout="wide",
+)
+st.title("Construction Embodied Agent Simulator")
 st.caption("Local simulation only. No robot hardware, ROS, SLAM, or real actuation.")
 
 scenarios = default_construction_scenarios()
@@ -35,14 +65,17 @@ scenario_by_name = {scenario.name: scenario for scenario in scenarios}
 selected_scenario = scenario_by_name[
     st.sidebar.selectbox("Scenario", list(scenario_by_name), index=0)
 ]
-policy_name = st.sidebar.selectbox("Policy", list(POLICIES), index=0)
+policy_name = st.sidebar.selectbox("Policy", POLICY_NAMES, index=0)
 instruction = st.text_area("Instruction", selected_scenario.instruction, height=80)
 
 scenario = selected_scenario
 if instruction != selected_scenario.instruction:
     scenario = type(selected_scenario)(**{**selected_scenario.__dict__, "instruction": instruction})
 
-episode = run_episode(scenario, POLICIES[policy_name])
+policy = RULE_POLICIES.get(policy_name)
+if policy is None:
+    policy = behavior_cloning_policies()[policy_name]
+episode = run_episode(scenario, policy)
 env = GridWorldEnv.from_scenario(scenario)
 for action in [step["action"] for step in episode.trace]:
     env.step(str(action))
@@ -81,3 +114,23 @@ st.subheader("Policy Evaluation")
 payload = evaluate_policy_suite(scenarios)
 metrics = [{"policy": policy, **values} for policy, values in payload["policies"].items()]
 st.dataframe(pd.DataFrame(metrics), use_container_width=True, hide_index=True)
+
+behavior_path = PROJECT_ROOT / "demo_outputs" / "behavior_cloning_eval_summary.json"
+if behavior_path.exists():
+    behavior_payload = json.loads(behavior_path.read_text(encoding="utf-8"))
+    st.subheader("Learned Policy Holdout Evidence")
+    st.caption(
+        "Fixed-seed procedural holdout. Train and holdout scenario IDs are disjoint; "
+        "failures remain in the published evaluation artifacts."
+    )
+    behavior_metrics = [
+        {"policy": name, **values} for name, values in behavior_payload["policies"].items()
+    ]
+    st.dataframe(pd.DataFrame(behavior_metrics), use_container_width=True, hide_index=True)
+    with st.expander("Training and split metadata"):
+        st.json(
+            {
+                "training": behavior_payload["training"],
+                "scenario_id_overlap": behavior_payload["split"]["scenario_id_overlap"],
+            }
+        )

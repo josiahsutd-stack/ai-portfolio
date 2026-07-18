@@ -7,7 +7,7 @@ I build source-grounded AI systems, embodied-agent simulations, and measurable l
 | Project | Engineering evidence | Boundary |
 | --- | --- | --- |
 | [AEC Code Compliance RAG](https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/aec-code-compliance-rag) | Singapore public-source ingestion, metadata-rich chunks, four local retrieval modes, citations, abstention, evals, and tests. | Document-assistance prototype, not compliance certification. |
-| [VLA Embodied Agent Simulator](https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/vla-embodied-agent-simulator) | Construction-site task parsing, action masks, three policy baselines, safety metrics, and replay traces. | 2D simulation, not a learned VLA model or robot deployment. |
+| [Construction Embodied Agent Simulator](https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/vla-embodied-agent-simulator) | Procedural train/holdout grids, expert trajectories, real behavior cloning, closed-loop metrics, action filtering, and visible failures. | Structured 2D simulation, not a foundation VLA or robot deployment. |
 | [Real Model Fine-Tune Lab](https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/real-model-finetune-lab) | Real scikit-learn model fitting, fixed splits, baseline comparison, held-out metrics, and generated weights. | Small classical NLP model, not transformer fine-tuning. |
 
 ## Supporting Work

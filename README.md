@@ -11,7 +11,7 @@ Start with these three projects. They carry the clearest evidence and represent 
 | Priority | Project | Evidence | Current local result | Boundary |
 | --- | --- | --- | --- | --- |
 | 1 - Flagship | [AEC Code Compliance RAG](projects/aec-code-compliance-rag/README.md) | Public-source ingestion, page-aware chunks, four retrieval modes, citations, abstention, 51-case synthetic regression set, and focused tests. | Hybrid retrieval: `Recall@4 1.000`, `MRR 0.906`, `Hit@3 1.000` on the bundled synthetic eval. | Document-assistance prototype; not compliance certification or professional advice. |
-| 2 - Embodied AI | [VLA Embodied Agent Simulator](projects/vla-embodied-agent-simulator/README.md) | Language-to-task parsing, action masks, construction-site constraints, three policy baselines, metrics, and replay traces. | Safety-shielded policy: `3/3` simulated scenarios completed with `0.000` unsafe-action rate. | Deterministic 2D grid simulation; no learned VLA model, perception stack, ROS, or hardware validation. |
+| 2 - Embodied AI | [Construction Embodied Agent Simulator](projects/vla-embodied-agent-simulator/README.md) | Procedural construction grids, expert demonstrations, a fitted behavior-cloning model, disjoint holdout episodes, action filtering, failure analysis, and tests. | Filtered learned policy: `0.625` success with `0.000` unsafe-action rate on 24 unseen scenarios; raw policy succeeds on `0.500`. | Structured 2D simulation; not a foundation VLA, perception stack, ROS integration, or hardware validation. |
 | 3 - Model Training | [Real Model Fine-Tune Lab](projects/real-model-finetune-lab/README.md) | Real TF-IDF/logistic-regression fitting, fixed splits, dummy baseline, held-out metrics, confusion matrix, and generated weights. | Compact UCI SMS subset: `0.975` accuracy and macro-F1 on a 40-row test split. | Small classical-ML exercise; not transformer fine-tuning or a benchmark claim. |
 
 The metric values above are regression evidence for the included datasets and scenarios. They are not claims of real-world compliance, robot safety, or production model quality.
@@ -103,7 +103,7 @@ The remaining projects are deliberately tiered below the flagship and supporting
 | Public-source subset | Public data or documents with source notes; still limited in size and review scope. |
 | Synthetic data | Generated demo data containing no customer, employer, private-project, or confidential content. |
 | Mock provider | Deterministic LLM/VLM substitute used to test workflow contracts without paid services. |
-| Simulation | Locally evaluated environment behavior; no physical robot or real-world safety claim. |
+| Simulation | Locally evaluated environment behavior, including a small learned action policy; no physical robot or real-world safety claim. |
 | Generated artifact | Reproducible output from an evaluation command. Runtime model binaries and databases are ignored by Git. |
 
 ## Repository Map
