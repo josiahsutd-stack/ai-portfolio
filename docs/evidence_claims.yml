@@ -21,10 +21,6 @@ claims:
         decimals: 3
     result_template: "Recall@{retrieval_k} {recall_at_4}; MRR {mrr}; Hit@3 {hit_at_3}; {case_count} cases"
     public_surfaces:
-      - path: README.md
-        contains:
-          - "{case_count}-case synthetic regression set"
-          - "Hybrid retrieval: `Recall@{retrieval_k} {recall_at_4}`, `MRR {mrr}`, and `Hit@3 {hit_at_3}`"
       - path: portfolio-site/index.html
         contains:
           - "Recall@{retrieval_k} {recall_at_4}"
@@ -32,13 +28,16 @@ claims:
           - "Synthetic {case_count}-case regression set"
       - path: projects/README.md
         contains:
-          - "{case_count}-case regression evaluation"
+          - "a {case_count}-case regression set"
       - path: docs/technical-review-guide.md
         contains:
-          - "default {case_count}-case set is synthetic"
+          - "The {case_count}-case default set is synthetic"
+      - path: projects/aec-code-compliance-rag/README.md
+        contains:
+          - "| Synthetic regression | {case_count} bundled cases | Recall@{retrieval_k} `{recall_at_4}`; MRR `{mrr}`; Hit@3 `{hit_at_3}` |"
       - path: projects/aec-code-compliance-rag/EVAL.md
         contains:
-          - "{case_count}-case synthetic retrieval and abstention evaluation set"
+          - "a {case_count}-case synthetic retrieval and abstention evaluation set"
 
   - id: aec-public-source-retrieval
     project_slug: aec-code-compliance-rag
@@ -66,7 +65,7 @@ claims:
     public_surfaces:
       - path: README.md
         contains:
-          - "Public-source snapshot: `Hit@1 {hit_at_1}`, `MRR {mrr}`, `paraphrase MRR {paraphrase_mrr}`, and `no-answer {no_answer}` across {case_count} cases over {document_count} downloaded documents."
+          - "Public {case_count}-case snapshot over {document_count} validated documents: `Hit@1 {hit_at_1}`, `MRR {mrr}`, paraphrase `MRR {paraphrase_mrr}`, and no-answer accuracy `{no_answer}`."
       - path: projects/aec-code-compliance-rag/README.md
         contains:
           - "| Singapore public-source snapshot | {case_count} cases over {document_count} downloaded documents | Hit@1 `{hit_at_1}`; MRR `{mrr}`; paraphrase MRR `{paraphrase_mrr}`; no-answer `{no_answer}` |"
@@ -82,6 +81,145 @@ claims:
         contains:
           - "Public Hit@1 {hit_at_1} / MRR {mrr}"
           - "Public {case_count}-case snapshot over {document_count} local documents"
+
+  - id: constraint-aware-massing
+    project_slug: constraint-aware-massing-explorer
+    artifact: projects/constraint-aware-massing-explorer/demo_outputs/evaluation_summary.json
+    command: python projects/constraint-aware-massing-explorer/evaluate_massing.py
+    evaluation_scope: Fixed three-site, three-seed synthetic geometry benchmark with {candidate_count} candidates per mode
+    metrics:
+      candidate_count:
+        json_path: evaluated_candidates_per_mode
+      constrained_feasible:
+        json_path: aggregate.constraint_aware_feasible_rate
+        decimals: 3
+      baseline_feasible:
+        json_path: aggregate.baseline_feasible_rate
+        decimals: 3
+      constrained_gfa_error_percent:
+        json_path: aggregate.constraint_aware_mean_best_gfa_error_percent
+        decimals: 2
+      baseline_gfa_error_percent:
+        json_path: aggregate.baseline_mean_best_gfa_error_percent
+        decimals: 2
+    result_template: "Feasible rate {constrained_feasible} vs {baseline_feasible}; mean best GFA error {constrained_gfa_error_percent}% vs {baseline_gfa_error_percent}%; {candidate_count} candidates per mode"
+    public_surfaces:
+      - path: README.md
+        contains:
+          - "Across {candidate_count} candidates per method: feasible rate `{constrained_feasible}` versus `{baseline_feasible}` for the unconstrained baseline; mean best GFA error `{constrained_gfa_error_percent}%` versus `{baseline_gfa_error_percent}%`."
+      - path: portfolio-site/index.html
+        contains:
+          - "{constrained_feasible} feasible rate / {constrained_gfa_error_percent}% mean best GFA error"
+          - "{candidate_count} candidates per method across synthetic sites"
+      - path: projects/constraint-aware-massing-explorer/README.md
+        contains:
+          - "(`{candidate_count}` candidates per mode in total)"
+          - "| Mean feasible-candidate rate | `{constrained_feasible}` | `{baseline_feasible}` |"
+          - "| Mean best target-GFA error | `{constrained_gfa_error_percent}%` | `{baseline_gfa_error_percent}%` |"
+      - path: projects/constraint-aware-massing-explorer/EVAL.md
+        contains:
+          - "| Mean feasible-candidate rate | `{constrained_feasible}` | `{baseline_feasible}` |"
+          - "| Mean best target-GFA error | `{constrained_gfa_error_percent}%` | `{baseline_gfa_error_percent}%` |"
+
+  - id: specification-copilot-fixtures
+    project_slug: project-specification-copilot
+    artifact: projects/project-specification-copilot/demo_outputs/evaluation_summary.json
+    command: python projects/project-specification-copilot/evaluate_specification.py
+    evaluation_scope: Authored deterministic phrase-grammar regression over {case_count} synthetic conversations and {message_count} messages
+    metrics:
+      case_count:
+        json_path: case_count
+      message_count:
+        json_path: message_count
+      extraction_f1:
+        json_path: metrics.requirement_extraction_f1
+        decimals: 3
+      conflict_f1:
+        json_path: metrics.open_conflict_f1
+        decimals: 3
+      approval_f1:
+        json_path: metrics.approval_state_f1
+        decimals: 3
+      clause_f1:
+        json_path: metrics.spec_clause_f1
+        decimals: 3
+      citation_coverage:
+        json_path: metrics.requirement_citation_coverage
+        decimals: 3
+    result_template: "Extraction/conflict/approval/clause F1 {extraction_f1}/{conflict_f1}/{approval_f1}/{clause_f1}; citation coverage {citation_coverage}; {case_count} synthetic cases"
+    public_surfaces:
+      - path: README.md
+        contains:
+          - "across {case_count} synthetic conversations and {message_count} messages"
+      - path: portfolio-site/index.html
+        contains:
+          - "{case_count} conversations / {message_count} messages / {extraction_f1} fixture F1"
+      - path: projects/project-specification-copilot/README.md
+        contains:
+          - "contains `{case_count}` synthetic conversations and `{message_count}` messages"
+          - "| Requirement extraction F1 | `{extraction_f1}` |"
+          - "| Open-conflict F1 | `{conflict_f1}` |"
+          - "| Approval-state F1 | `{approval_f1}` |"
+          - "| Specification-clause F1 | `{clause_f1}` |"
+          - "| Requirement citation coverage | `{citation_coverage}` |"
+      - path: projects/project-specification-copilot/EVAL.md
+        contains:
+          - "over `{message_count}` messages in `{case_count}` synthetic cases"
+
+  - id: qs-takeoff-tender-fixtures
+    project_slug: qs-takeoff-tender-analysis
+    artifact: projects/qs-takeoff-tender-analysis/demo_outputs/evaluation_summary.json
+    command: python projects/qs-takeoff-tender-analysis/evaluate_qs.py
+    evaluation_scope: Hand-calculated deterministic fixture regression over {plan_count} synthetic vector plans, {quantity_count} quantity lines, and {tender_count} tenders
+    metrics:
+      plan_count:
+        json_path: scope.plan_count
+      quantity_count:
+        json_path: scope.quantity_line_count
+      tender_count:
+        json_path: scope.tender_count
+      quantity_exact:
+        json_path: metrics.quantity_line_exact_match_rate
+        decimals: 3
+      wall_mae:
+        json_path: metrics.wall_length_mean_absolute_error_m
+        decimals: 3
+      baseline_wall_mae:
+        json_path: metrics.naive_perimeter_wall_mean_absolute_error_m
+        decimals: 3
+      provenance_coverage:
+        json_path: metrics.cost_line_provenance_coverage
+        decimals: 3
+      tender_f1:
+        json_path: metrics.tender_flag_f1
+        decimals: 3
+    result_template: "Quantity exact match {quantity_exact}; wall MAE {wall_mae} m vs baseline {baseline_wall_mae} m; tender F1 {tender_f1}; {plan_count} plans"
+    public_surfaces:
+      - path: README.md
+        contains:
+          - "{quantity_count}/{quantity_count} authored quantities and all 5 tender exceptions reproduced; naive perimeter baseline wall MAE `{baseline_wall_mae} m`, implemented estimator `{wall_mae} m`."
+      - path: portfolio-site/index.html
+        contains:
+          - "{quantity_count}/{quantity_count} quantities / 5/5 tender exceptions"
+      - path: projects/qs-takeoff-tender-analysis/README.md
+        contains:
+          - "| Hand-calculated floor-plan fixtures | {plan_count} |"
+          - "| Authored quantity lines | {quantity_count} |"
+          - "| Quantity line exact-match rate | {quantity_exact} |"
+          - "| Shared-wall estimator MAE | {wall_mae} m |"
+          - "| Naive room-perimeter baseline MAE | {baseline_wall_mae} m |"
+          - "| Cost lines with geometry and rate provenance | {provenance_coverage} |"
+          - "| Tender exception precision / recall / F1 | {tender_f1} / {tender_f1} / {tender_f1} |"
+      - path: projects/qs-takeoff-tender-analysis/EVAL.md
+        contains:
+          - "- {plan_count} synthetic rectangular floor plans"
+          - "- {quantity_count} expected quantity lines"
+          - "- {tender_count} synthetic anonymous tenders with 5 authored review exceptions"
+          - "| Quantity line exact-match rate | {quantity_exact} |"
+          - "| Wall-length MAE | {wall_mae} m |"
+          - "| Naive perimeter baseline wall-length MAE | {baseline_wall_mae} m |"
+          - "| Cost-line provenance coverage | {provenance_coverage} |"
+          - "| Tender exception F1 | {tender_f1} |"
 
   - id: embodied-behavior-cloning
     project_slug: vla-embodied-agent-simulator
@@ -123,7 +261,7 @@ claims:
     public_surfaces:
       - path: README.md
         contains:
-          - "`{filtered_success}` success with a `{filtered_unsafe_rate}` unsafe-action rate on {holdout_scenarios} unseen scenarios"
+          - "`{filtered_success}` success and `{filtered_unsafe_rate}` unsafe-action rate on {holdout_scenarios} unseen structured-grid scenarios"
           - "raw policy success is `{raw_success}`"
       - path: portfolio-site/index.html
         contains:
@@ -153,8 +291,8 @@ claims:
 
   - id: public-sms-classification
     project_slug: real-model-finetune-lab
-    artifact: projects/real-model-finetune-lab/demo_outputs/public_sms_metrics.json
-    command: python projects/real-model-finetune-lab/evaluate_model.py
+    artifact: experiments/real-model-finetune-lab/demo_outputs/public_sms_metrics.json
+    command: python experiments/real-model-finetune-lab/evaluate_model.py
     evaluation_scope: Deterministic source-traceable {train_rows}/{validation_rows}/{test_rows} split of a compact balanced UCI SMS subset
     metrics:
       train_rows:
@@ -177,20 +315,13 @@ claims:
         decimals: 3
     result_template: "Test accuracy {test_accuracy}; macro-F1 {test_macro_f1}; baseline accuracy {baseline_accuracy}; {test_rows} test rows"
     public_surfaces:
-      - path: README.md
-        contains:
-          - "`{test_accuracy}` accuracy and macro-F1 on a {test_rows}-row test split"
-      - path: portfolio-site/index.html
-        contains:
-          - "{test_accuracy} test accuracy and macro-F1"
-          - "with {test_rows} test rows"
-      - path: projects/real-model-finetune-lab/README.md
+      - path: experiments/real-model-finetune-lab/README.md
         contains:
           - "| Public SMS baseline accuracy | `{baseline_accuracy}` |"
           - "| Public SMS validation accuracy | `{validation_accuracy}` |"
           - "| Public SMS test accuracy | `{test_accuracy}` |"
           - "| Public SMS test macro-F1 | `{test_macro_f1}` |"
-      - path: projects/real-model-finetune-lab/EVAL.md
+      - path: experiments/real-model-finetune-lab/EVAL.md
         contains:
           - "| Train rows | `{train_rows}` |"
           - "| Validation rows | `{validation_rows}` |"

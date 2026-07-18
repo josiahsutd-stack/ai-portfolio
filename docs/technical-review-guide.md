@@ -1,50 +1,56 @@
 # Technical Review Guide
 
-This guide separates implementation evidence from portfolio framing. The `projects/` directory contains one flagship, two role-defining projects, and two substantial supporting systems. Fourteen smaller baselines live separately under `experiments/`.
+The selected set contains one flagship, two role-defining primary projects, and two supporting AEC workflow systems. Fourteen narrower baselines remain under `experiments/`.
 
 ## 1. AEC Code Compliance RAG - Flagship
 
-**Implemented:** Markdown and text-based PDF ingestion, fail-closed public downloads, corpus fingerprints, page/section metadata, source filters, TF-IDF/BM25/dense-LSA/hybrid retrieval, citation objects, status handling, retrieval ablation, failure analysis, demo answers, and focused tests.
+**Implemented:** fail-closed public downloads, corpus fingerprints, page and section metadata, source filters, TF-IDF/BM25/dense-LSA/hybrid retrieval, citation objects, status handling, ablation, failure analysis, demo answers, and focused tests.
 
-**Inspect:** `src/aec_code_compliance_rag/`, `evaluate_retrieval.py`, `EVAL.md`, `ARCHITECTURE.md`, `demo_outputs/`, and `tests/test_rag.py`.
+**Evidence:** `src/aec_code_compliance_rag/`, `scripts/evaluate_retrieval.py`, `EVAL.md`, `ARCHITECTURE.md`, `demo_outputs/`, and `tests/test_rag.py`.
 
-**Engineering question:** How does the system preserve provenance and choose between an answer, no evidence, and professional-review scope?
+**Technical question:** How does provenance move from a downloaded document into a cited answer, and when does the system abstain?
 
-**Boundary:** The default 51-case set is synthetic. The committed 24-case public result describes one fingerprinted 15-document download snapshot, not current-code validation. There is no OCR, independent expert labeling, authority validation, professional advice, or compliance certification.
+**Boundary:** The 51-case default set is synthetic. The 24-case public result describes one fingerprinted 15-document snapshot, not current-code validation or professional compliance advice.
 
-## 2. Construction Embodied Agent Simulator - Embodied AI Evidence
+## 2. Construction Embodied Agent Simulator - Primary
 
-**Implemented:** Rule-based language-to-task parsing, procedural train/holdout grids, expert A* demonstrations, a real random-forest behavior-cloning policy, raw and safety-filtered rollout modes, action masks, intervention logs, closed-loop metrics, failure analysis, and replay traces.
+**Implemented:** language-to-task parsing, procedural train/holdout grids, expert A* demonstrations, random-forest behavior cloning, raw and filtered rollouts, action masks, intervention logs, closed-loop metrics, failure analysis, and replay traces.
 
-**Inspect:** `environment.py`, `policies.py`, `learning.py`, `EVAL.md`, `demo_outputs/behavior_cloning_eval_report.md`, `demo_outputs/behavior_cloning_failure_analysis.md`, and `tests/test_vla_embodied_agent.py`.
+**Evidence:** `environment.py`, `policies.py`, `learning.py`, `EVAL.md`, `demo_outputs/behavior_cloning_failure_analysis.md`, and `tests/test_vla_embodied_agent.py`.
 
-**Engineering question:** Which safety failures are prevented by action masks and route planning, and which risks are absent from the simulator?
+**Technical question:** Which failures does the action filter prevent, and which physical risks are absent from the simulator?
 
-**Boundary:** The learned classifier consumes 24 engineered structured-state features. It is not a foundation VLA and does not establish perception, physics, ROS integration, hardware behavior, or physical safety.
+**Boundary:** The classifier consumes engineered structured-state features. It is not a foundation VLA and has no perception, physics, ROS, or hardware validation.
 
-## 3. Local Text Classification Lab - Model Training Evidence
+## 3. Constraint-Aware Massing Explorer - Primary
 
-**Implemented:** Fixed train/validation/test splits, TF-IDF features, logistic regression, dummy baseline, held-out metrics, confusion matrix, generated joblib artifacts, reports, and focused tests.
+**Implemented:** four rectangular typologies, hard site/height/coverage/GFA/access checks, proxy objectives, Pareto filtering, weighted ranking, naive baseline comparison, seeded evaluation, SVG plans and isometrics, and focused tests.
 
-**Inspect:** `training.py`, `evaluate_model.py`, `demo_outputs/public_sms_metrics.json`, `demo_outputs/public_sms_confusion_matrix.json`, dataset source notes, and `tests/test_real_model_finetune_lab.py`.
+**Evidence:** `generator.py`, `constraints.py`, `objectives.py`, `evaluation.py`, `EVAL.md`, `demo_outputs/`, and `tests/test_massing_explorer.py`.
 
-**Engineering question:** How do the baseline, validation, and held-out test results differ, and where do the learned coefficients live?
+**Technical question:** Which constraints fail closed, how are Pareto options selected, and where do environmental proxies stop being trustworthy?
 
-**Boundary:** The public SMS subset contains 240 rows and the test split contains 40. This is classical ML, not transformer or LoRA training, and the result is not a benchmark claim.
+**Boundary:** No code inference, internal egress model, calibrated daylight/CFD, structure, constructability, or approvable design.
 
-## Supporting Systems
+## 4. Project Brief and Specification Copilot - Supporting
 
-### Deterministic Research Workflow Assistant
+**Implemented:** immutable role-tagged messages, requirement versions, conflict records, approval scopes, SQLite audit events, source ids, open decisions, and clauses generated only from approved requirements.
 
-Permissioned deterministic planning, local retrieval, citations, retries, approval gates, SQLite traces, and trace evaluation. It demonstrates inspectable agent control flow, not autonomous research or live web access.
+**Evidence:** `engine.py`, `extractor.py`, `store.py`, `EVAL.md`, `demo_outputs/sample_specification.md`, and `tests/test_project_specification_copilot.py`.
 
-### Local Model Serving And Monitoring Scaffold
+**Boundary:** Perfect fixture metrics are regression results over an authored deterministic grammar, not open-domain language understanding or a professional specification.
 
-Synthetic churn training, generated artifact metadata, FastAPI validation, SQLite prediction logs, mean-shift and PSI-style drift checks, and monitoring reports. It demonstrates local lifecycle structure, not deployed platform ownership.
+## 5. QS Takeoff and Tender Analysis Workbench - Supporting
+
+**Implemented:** typed vector plans, shared-wall segmentation, opening deductions, seven quantity classes, unit-safe rates, provenance, uncertainty bands, tender completeness and ratio checks, visual outputs, and focused tests.
+
+**Evidence:** `takeoff.py`, `costing.py`, `tender.py`, `EVAL.md`, `demo_outputs/`, and `tests/test_qs_takeoff_tender_analysis.py`.
+
+**Boundary:** No PDF/CAD/BIM extraction, current market rates, bill of quantities, professional QS validation, or award recommendation.
 
 ## Experiments And Baselines
 
-The [`experiments/`](../experiments/README.md) directory contains the visual-provider contract, LoRA data/configuration validator, vision threshold model, sequential-decision environments, ranking and time-series baselines, BIM and energy checks, construction metadata classifier, spatial scorer, job matcher, and smaller robotics simulations. Their README limitations are part of the record; none supports the headline claims or carries equal depth to the flagship.
+The [`experiments/`](../experiments/README.md) directory contains generic model, workflow, MLOps, vision, ranking, time-series, BIM, energy, and smaller robotics studies. Their limitations are part of the public record; none carries equal depth to the flagship.
 
 ## Verification
 
@@ -52,4 +58,4 @@ The [`experiments/`](../experiments/README.md) directory contains the visual-pro
 python scripts/verify.py
 ```
 
-The verifier scans public claims and links, imports selected-project and experiment modules, regenerates deterministic evidence artifacts, checks formatting and linting, and runs the full test suite.
+The verifier scans claims and links, imports every module, regenerates deterministic artifacts twice, checks formatting and linting, and runs the complete test suite.

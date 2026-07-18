@@ -1,0 +1,336 @@
+{
+  "aggregate": {
+    "baseline_feasible_rate": 0.052083,
+    "baseline_mean_best_gfa_error_fraction": 0.34474,
+    "baseline_mean_best_gfa_error_percent": 34.47,
+    "baseline_mean_best_utility": 0.628101,
+    "constraint_aware_feasible_rate": 0.976852,
+    "constraint_aware_mean_best_gfa_error_fraction": 0.001858,
+    "constraint_aware_mean_best_gfa_error_percent": 0.19,
+    "constraint_aware_mean_best_utility": 0.767183
+  },
+  "artifact_schema_version": 1,
+  "boundaries": [
+    "No rule inference from building codes; all numeric constraints are supplied inputs.",
+    "Solar, daylight, wind, and access values are transparent geometric proxies.",
+    "The access grid covers open-site routes only, not internal egress compliance.",
+    "No CFD, climate model, daylight engine, structure, cost, or constructability analysis."
+  ],
+  "candidate_count_per_mode_per_run": 96,
+  "data_status": "synthetic",
+  "evaluated_candidates_per_mode": 864,
+  "evaluation_scope": "fixed bundled synthetic sites and deterministic seeded search",
+  "run_count": 9,
+  "runs": [
+    {
+      "modes": {
+        "constraint_aware": {
+          "best_gfa_error_fraction": 0.002771,
+          "best_utility": 0.784025,
+          "candidate_count": 96,
+          "feasible_count": 95,
+          "feasible_rate": 0.989583,
+          "pareto_count": 60,
+          "violation_counts": {
+            "max_gfa": 1
+          }
+        },
+        "unconstrained_baseline": {
+          "best_gfa_error_fraction": 0.258503,
+          "best_utility": 0.673571,
+          "candidate_count": 96,
+          "feasible_count": 3,
+          "feasible_rate": 0.03125,
+          "pareto_count": 3,
+          "violation_counts": {
+            "egress_path": 6,
+            "height_limit": 34,
+            "ingress_path": 12,
+            "max_gfa": 43,
+            "outside_site": 85,
+            "setback_envelope": 174,
+            "site_coverage": 18
+          }
+        }
+      },
+      "scenario_id": "urban-infill-01",
+      "seed": 11
+    },
+    {
+      "modes": {
+        "constraint_aware": {
+          "best_gfa_error_fraction": 0.000604,
+          "best_utility": 0.787101,
+          "candidate_count": 96,
+          "feasible_count": 95,
+          "feasible_rate": 0.989583,
+          "pareto_count": 70,
+          "violation_counts": {
+            "max_gfa": 1
+          }
+        },
+        "unconstrained_baseline": {
+          "best_gfa_error_fraction": 0.029272,
+          "best_utility": 0.645272,
+          "candidate_count": 96,
+          "feasible_count": 5,
+          "feasible_rate": 0.052083,
+          "pareto_count": 5,
+          "violation_counts": {
+            "egress_path": 5,
+            "height_limit": 43,
+            "ingress_path": 8,
+            "max_gfa": 42,
+            "outside_site": 101,
+            "setback_envelope": 173,
+            "site_coverage": 20
+          }
+        }
+      },
+      "scenario_id": "urban-infill-01",
+      "seed": 23
+    },
+    {
+      "modes": {
+        "constraint_aware": {
+          "best_gfa_error_fraction": 0.000715,
+          "best_utility": 0.775247,
+          "candidate_count": 96,
+          "feasible_count": 90,
+          "feasible_rate": 0.9375,
+          "pareto_count": 72,
+          "violation_counts": {
+            "max_gfa": 6
+          }
+        },
+        "unconstrained_baseline": {
+          "best_gfa_error_fraction": 0.313766,
+          "best_utility": 0.69893,
+          "candidate_count": 96,
+          "feasible_count": 4,
+          "feasible_rate": 0.041667,
+          "pareto_count": 4,
+          "violation_counts": {
+            "egress_path": 15,
+            "height_limit": 39,
+            "ingress_path": 11,
+            "max_gfa": 43,
+            "outside_site": 88,
+            "setback_envelope": 179,
+            "site_coverage": 19
+          }
+        }
+      },
+      "scenario_id": "urban-infill-01",
+      "seed": 37
+    },
+    {
+      "modes": {
+        "constraint_aware": {
+          "best_gfa_error_fraction": 0.00315,
+          "best_utility": 0.724438,
+          "candidate_count": 96,
+          "feasible_count": 93,
+          "feasible_rate": 0.96875,
+          "pareto_count": 35,
+          "violation_counts": {
+            "max_gfa": 3
+          }
+        },
+        "unconstrained_baseline": {
+          "best_gfa_error_fraction": 0.320663,
+          "best_utility": 0.552683,
+          "candidate_count": 96,
+          "feasible_count": 7,
+          "feasible_rate": 0.072917,
+          "pareto_count": 6,
+          "violation_counts": {
+            "egress_path": 7,
+            "height_limit": 72,
+            "ingress_path": 9,
+            "max_gfa": 43,
+            "outside_site": 105,
+            "setback_envelope": 174,
+            "site_coverage": 48
+          }
+        }
+      },
+      "scenario_id": "tropical-campus-02",
+      "seed": 11
+    },
+    {
+      "modes": {
+        "constraint_aware": {
+          "best_gfa_error_fraction": 0.001512,
+          "best_utility": 0.730669,
+          "candidate_count": 96,
+          "feasible_count": 92,
+          "feasible_rate": 0.958333,
+          "pareto_count": 23,
+          "violation_counts": {
+            "max_gfa": 4
+          }
+        },
+        "unconstrained_baseline": {
+          "best_gfa_error_fraction": 0.369523,
+          "best_utility": 0.596432,
+          "candidate_count": 96,
+          "feasible_count": 3,
+          "feasible_rate": 0.03125,
+          "pareto_count": 3,
+          "violation_counts": {
+            "egress_path": 13,
+            "height_limit": 61,
+            "ingress_path": 10,
+            "max_gfa": 51,
+            "outside_site": 106,
+            "setback_envelope": 172,
+            "site_coverage": 56
+          }
+        }
+      },
+      "scenario_id": "tropical-campus-02",
+      "seed": 23
+    },
+    {
+      "modes": {
+        "constraint_aware": {
+          "best_gfa_error_fraction": 0.001001,
+          "best_utility": 0.73258,
+          "candidate_count": 96,
+          "feasible_count": 94,
+          "feasible_rate": 0.979167,
+          "pareto_count": 30,
+          "violation_counts": {
+            "max_gfa": 2
+          }
+        },
+        "unconstrained_baseline": {
+          "best_gfa_error_fraction": 0.595444,
+          "best_utility": 0.451786,
+          "candidate_count": 96,
+          "feasible_count": 3,
+          "feasible_rate": 0.03125,
+          "pareto_count": 3,
+          "violation_counts": {
+            "egress_path": 7,
+            "height_limit": 51,
+            "ingress_path": 13,
+            "max_gfa": 42,
+            "outside_site": 94,
+            "setback_envelope": 172,
+            "site_coverage": 51
+          }
+        }
+      },
+      "scenario_id": "tropical-campus-02",
+      "seed": 37
+    },
+    {
+      "modes": {
+        "constraint_aware": {
+          "best_gfa_error_fraction": 0.00315,
+          "best_utility": 0.792068,
+          "candidate_count": 96,
+          "feasible_count": 94,
+          "feasible_rate": 0.979167,
+          "pareto_count": 64,
+          "violation_counts": {
+            "max_gfa": 2
+          }
+        },
+        "unconstrained_baseline": {
+          "best_gfa_error_fraction": 0.292708,
+          "best_utility": 0.699947,
+          "candidate_count": 96,
+          "feasible_count": 6,
+          "feasible_rate": 0.0625,
+          "pareto_count": 5,
+          "violation_counts": {
+            "egress_path": 4,
+            "height_limit": 46,
+            "ingress_path": 7,
+            "max_gfa": 25,
+            "outside_site": 108,
+            "setback_envelope": 170,
+            "site_coverage": 13
+          }
+        }
+      },
+      "scenario_id": "mixed-use-corner-03",
+      "seed": 11
+    },
+    {
+      "modes": {
+        "constraint_aware": {
+          "best_gfa_error_fraction": 0.001512,
+          "best_utility": 0.790303,
+          "candidate_count": 96,
+          "feasible_count": 95,
+          "feasible_rate": 0.989583,
+          "pareto_count": 57,
+          "violation_counts": {
+            "max_gfa": 1
+          }
+        },
+        "unconstrained_baseline": {
+          "best_gfa_error_fraction": 0.61038,
+          "best_utility": 0.635613,
+          "candidate_count": 96,
+          "feasible_count": 6,
+          "feasible_rate": 0.0625,
+          "pareto_count": 6,
+          "violation_counts": {
+            "egress_path": 12,
+            "height_limit": 53,
+            "ingress_path": 9,
+            "max_gfa": 29,
+            "outside_site": 94,
+            "setback_envelope": 163,
+            "site_coverage": 17
+          }
+        }
+      },
+      "scenario_id": "mixed-use-corner-03",
+      "seed": 23
+    },
+    {
+      "modes": {
+        "constraint_aware": {
+          "best_gfa_error_fraction": 0.002309,
+          "best_utility": 0.78822,
+          "candidate_count": 96,
+          "feasible_count": 96,
+          "feasible_rate": 1.0,
+          "pareto_count": 54,
+          "violation_counts": {}
+        },
+        "unconstrained_baseline": {
+          "best_gfa_error_fraction": 0.312403,
+          "best_utility": 0.698679,
+          "candidate_count": 96,
+          "feasible_count": 8,
+          "feasible_rate": 0.083333,
+          "pareto_count": 8,
+          "violation_counts": {
+            "egress_path": 6,
+            "height_limit": 54,
+            "ingress_path": 12,
+            "max_gfa": 29,
+            "outside_site": 83,
+            "setback_envelope": 160,
+            "site_coverage": 13
+          }
+        }
+      },
+      "scenario_id": "mixed-use-corner-03",
+      "seed": 37
+    }
+  ],
+  "scenario_count": 3,
+  "seeds": [
+    11,
+    23,
+    37
+  ]
+}

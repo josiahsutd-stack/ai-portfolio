@@ -31,9 +31,9 @@ REQUIRED_DOCS = [
     "projects/projects.yml",
     "experiments/README.md",
     ".github/workflows/verify.yml",
-    "projects/real-model-finetune-lab/EVAL.md",
-    "projects/real-model-finetune-lab/sample_data/uci_sms_subset_manifest.json",
-    "projects/real-model-finetune-lab/scripts/build_uci_sms_subset.py",
+    "experiments/real-model-finetune-lab/EVAL.md",
+    "experiments/real-model-finetune-lab/sample_data/uci_sms_subset_manifest.json",
+    "experiments/real-model-finetune-lab/scripts/build_uci_sms_subset.py",
 ]
 REQUIRED_README_PATTERNS = {
     "demo command": r"streamlit run (projects|experiments)/.+/app\.py",

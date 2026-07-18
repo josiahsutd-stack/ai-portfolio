@@ -8,15 +8,15 @@ ROOT = Path(__file__).resolve().parents[1]
 
 COMMANDS = [
     [sys.executable, "projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py"],
-    [sys.executable, "experiments/constraint-aware-massing-explorer/evaluate_massing.py"],
-    [sys.executable, "experiments/project-specification-copilot/evaluate_specification.py"],
-    [sys.executable, "experiments/qs-takeoff-tender-analysis/evaluate_qs.py"],
-    [sys.executable, "projects/agentic-research-ops-assistant/scripts/evaluate_agent.py"],
-    [sys.executable, "projects/mlops-model-serving-monitoring/scripts/evaluate_model.py"],
+    [sys.executable, "projects/constraint-aware-massing-explorer/evaluate_massing.py"],
+    [sys.executable, "projects/project-specification-copilot/evaluate_specification.py"],
+    [sys.executable, "projects/qs-takeoff-tender-analysis/evaluate_qs.py"],
+    [sys.executable, "experiments/agentic-research-ops-assistant/scripts/evaluate_agent.py"],
+    [sys.executable, "experiments/mlops-model-serving-monitoring/scripts/evaluate_model.py"],
     [sys.executable, "experiments/building-energy-ml-pipeline/evaluate_model.py"],
     [sys.executable, "experiments/site-robot-safety-monitor/generate_demo_report.py"],
     [sys.executable, "experiments/multimodal-vlm-visual-qa/generate_contract_artifact.py"],
-    [sys.executable, "projects/real-model-finetune-lab/evaluate_model.py"],
+    [sys.executable, "experiments/real-model-finetune-lab/evaluate_model.py"],
     [sys.executable, "projects/vla-embodied-agent-simulator/evaluate_vla.py"],
     [sys.executable, "scripts/check_evidence_claims.py", "--write"],
 ]

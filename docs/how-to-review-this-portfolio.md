@@ -1,24 +1,33 @@
-# How To Review This Portfolio
+# Portfolio Evidence Paths
 
-## Five-Minute Path
+## Five-Minute Screen
 
-1. Read the root `README.md` evidence table and boundaries.
-2. Open `docs/EVIDENCE_LEDGER.md` to trace the headline values to versioned JSON.
-3. Open `projects/aec-code-compliance-rag/EVAL.md`.
-4. Inspect `projects/aec-code-compliance-rag/demo_outputs/retrieval_ablation_report.md`.
-5. Skim `tests/test_rag.py` for retrieval, citation, and abstention coverage.
-6. Choose either the Construction Embodied Agent Simulator or Local Text Classification Lab based on the target role.
+1. Read the root `README.md` selected-work table and claim boundaries.
+2. Open `projects/aec-code-compliance-rag/EVAL.md` and `demo_outputs/public_evaluation_summary.json`.
+3. Open `projects/vla-embodied-agent-simulator/EVAL.md` for learned-policy holdout results.
+4. Open `projects/constraint-aware-massing-explorer/EVAL.md` and its option diagrams.
+5. Use `docs/EVIDENCE_LEDGER.md` to trace displayed values to versioned artifacts.
 
-## Fifteen-Minute Path
+## Fifteen-Minute Screen
 
 ```bash
 python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
 python projects/vla-embodied-agent-simulator/evaluate_vla.py
-python projects/real-model-finetune-lab/evaluate_model.py
-python -m pytest tests/test_rag.py tests/test_vla_embodied_agent.py tests/test_real_model_finetune_lab.py
+python projects/constraint-aware-massing-explorer/evaluate_massing.py
+python -m pytest tests/test_rag.py tests/test_vla_embodied_agent.py tests/test_massing_explorer.py
 ```
 
-The commands use bundled synthetic data or a labeled public subset and require no paid APIs. Generated model binaries and runtime databases are ignored by Git; deterministic metrics, reports, and traces are versioned for comparison.
+The commands use bundled synthetic data or a labeled public snapshot and require no paid APIs. Deterministic metrics, reports, traces, and diagrams are versioned for comparison.
+
+## AEC Workflow Evidence
+
+```bash
+python projects/project-specification-copilot/evaluate_specification.py
+python projects/qs-takeoff-tender-analysis/evaluate_qs.py
+python -m pytest tests/test_project_specification_copilot.py tests/test_qs_takeoff_tender_analysis.py
+```
+
+These supporting systems connect role-tagged communication to approved requirements, massing constraints, measured geometry, cost provenance, and tender exceptions. Every bundled conversation, site, rate, and tender is synthetic and labeled.
 
 ## Optional Public AEC Check
 
@@ -31,11 +40,11 @@ This path downloads official Singapore sources locally. It demonstrates provenan
 
 ## Evidence Hierarchy
 
-1. AEC Code Compliance RAG: sole flagship and deepest code/evaluation surface.
-2. Construction Embodied Agent Simulator: strongest embodied-AI evidence, with real behavior cloning and disjoint holdout episodes inside a structured 2D environment.
-3. Local Text Classification Lab: clearest proof that classical model parameters are actually fitted and evaluated.
-4. Deterministic Research Workflow Assistant and Local Model Serving and Monitoring: substantial supporting workflow systems.
-5. Remaining work under [`experiments/`](../experiments/README.md): narrower baselines and interface contracts.
+1. AEC Code Compliance RAG: sole flagship and deepest retrieval/evaluation surface.
+2. Construction Embodied Agent Simulator: strongest embodied-AI evidence.
+3. Constraint-Aware Massing Explorer: strongest computational-design evidence.
+4. Project Specification Copilot and QS Takeoff/Tender Workbench: supporting AEC workflow systems.
+5. Work under [`experiments/`](../experiments/README.md): narrower generic and AEC baselines.
 
 ## Full Verification
 
@@ -43,4 +52,4 @@ This path downloads official Singapore sources locally. It demonstrates provenan
 python scripts/verify.py
 ```
 
-The full check covers fixture generation, repository health, claim and link scans, selected-project and experiment imports, deterministic evidence-artifact generation, formatting, linting, and pytest.
+The full check covers fixture generation, repository health, public claims and links, all imports, deterministic artifact generation, formatting, linting, and pytest.

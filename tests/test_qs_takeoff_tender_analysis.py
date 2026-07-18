@@ -24,7 +24,7 @@ from qs_takeoff_tender_analysis import (
 )
 from qs_takeoff_tender_analysis.api import takeoff as api_takeoff
 
-PROJECT_ROOT = Path("experiments/qs-takeoff-tender-analysis")
+PROJECT_ROOT = Path("projects/qs-takeoff-tender-analysis")
 DATA_DIR = PROJECT_ROOT / "sample_data"
 
 

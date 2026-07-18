@@ -212,7 +212,7 @@ def render_ledger(contexts: list[ClaimContext]) -> str:
     lines = [
         "# Reproducible Evidence Ledger",
         "",
-        "This ledger maps selected quantitative results to versioned JSON artifacts and the local commands that produced them. Values and metric-bearing scope text are regenerated and checked for drift by `scripts/check_evidence_claims.py`.",
+        "This ledger maps versioned quantitative results to JSON artifacts and the local commands that produced them. Values and metric-bearing scope text are regenerated and checked for drift by `scripts/check_evidence_claims.py`.",
         "",
         "| Project | Evaluation scope | Current artifact-backed result | Versioned evidence | Reproduce | Interpretation boundary |",
         "| --- | --- | --- | --- | --- | --- |",

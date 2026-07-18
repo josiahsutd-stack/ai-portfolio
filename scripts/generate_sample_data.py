@@ -491,7 +491,7 @@ def generate_massing_scenarios() -> None:
     ]
     write_json(
         ROOT
-        / "experiments/constraint-aware-massing-explorer/sample_data/synthetic_site_scenarios.json",
+        / "projects/constraint-aware-massing-explorer/sample_data/synthetic_site_scenarios.json",
         scenarios,
     )
 
@@ -585,7 +585,7 @@ def generate_general_ai_sample_data() -> None:
     )
     write_text(
         ROOT
-        / "projects/agentic-research-ops-assistant/sample_data/local_docs/ai_deployment_strategies.md",
+        / "experiments/agentic-research-ops-assistant/sample_data/local_docs/ai_deployment_strategies.md",
         """
         # AI Deployment Strategies
 
@@ -596,7 +596,7 @@ def generate_general_ai_sample_data() -> None:
     )
     write_text(
         ROOT
-        / "projects/agentic-research-ops-assistant/sample_data/local_docs/multimodal_ai_market.md",
+        / "experiments/agentic-research-ops-assistant/sample_data/local_docs/multimodal_ai_market.md",
         """
         # Multimodal AI Market Brief
 
@@ -687,7 +687,7 @@ def generate_general_ai_sample_data() -> None:
         ],
     )
     write_json(
-        ROOT / "projects/mlops-model-serving-monitoring/sample_data/model_registry/README.json",
+        ROOT / "experiments/mlops-model-serving-monitoring/sample_data/model_registry/README.json",
         {"note": "Local demo registry. Generated models are synthetic and not production assets."},
     )
     write_json(
@@ -712,11 +712,11 @@ def generate_general_ai_sample_data() -> None:
             "requires_gpu_for_real_training": True,
         },
     )
-    sys.path.insert(0, str(ROOT / "projects/real-model-finetune-lab/src"))
+    sys.path.insert(0, str(ROOT / "experiments/real-model-finetune-lab/src"))
     from real_model_finetune_lab import write_default_examples
 
     write_default_examples(
-        ROOT / "projects/real-model-finetune-lab/sample_data/training_examples.json"
+        ROOT / "experiments/real-model-finetune-lab/sample_data/training_examples.json"
     )
 
 

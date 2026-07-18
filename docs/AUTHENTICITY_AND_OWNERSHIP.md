@@ -7,16 +7,17 @@ This repository is intentionally local-first. That choice keeps the core workflo
 - Synthetic data is used because real AEC, customer, and robot-site data would create privacy and professional-liability issues.
 - Mock LLM and visual-provider paths exist so tests can exercise workflow behavior without paid services.
 - I selected AEC RAG as the primary project because it connects my built-environment background with applied AI engineering.
+- I promoted the massing, specification, and QS systems only after each had focused tests, an evaluator, generated evidence, and explicit limitations.
 - TF-IDF was kept because it is transparent and fast. BM25, dense LSA, and hybrid retrieval were added to compare local baselines without pretending to use hosted neural retrieval.
-- Research-workflow planning is deterministic by default so tool selection, retries, citations, and approval checkpoints can be tested.
-- MLOps uses synthetic churn data to show schema validation, artifact metadata, logging, and drift simulation without claiming production monitoring.
+- Massing objectives remain transparent proxies because calibrated daylight, wind, structure, and egress simulation are not implemented.
+- QS rates and tenders remain synthetic because current commercial data requires permission, provenance, and professional review.
 
 ## Known Tradeoffs
 
 - Synthetic evals are useful for regression and review, not real benchmark evidence.
 - Citation coverage is lexical and deterministic; it is not full factual verification.
-- The research assistant is a traceable local tool workflow, not autonomous web research or an adaptive LLM planner.
-- The serving and monitoring project is a local scaffold, not a deployed platform.
+- The specification extractor is a traceable deterministic grammar, not open-domain conversation intelligence.
+- The QS workbench measures explicit vector fixtures, not arbitrary drawings.
 - The visual-contract mock validates bytes and schemas while returning zero confidence and empty semantic fields.
 
 ## Evidence Not Claimed

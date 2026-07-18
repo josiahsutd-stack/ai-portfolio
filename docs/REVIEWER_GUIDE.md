@@ -1,51 +1,45 @@
 # Reviewer Guide
 
-This guide gives recruiters and technical interviewers a short path through the repository without treating project count as project depth.
-
-## Fifteen-Minute Screen
+## Fifteen-Minute Technical Screen
 
 | Order | Project | Evidence to inspect | Interpretation limit |
 | --- | --- | --- | --- |
-| 1 | `projects/aec-code-compliance-rag` | `EVAL.md`, `ARCHITECTURE.md`, `demo_outputs/`, `tests/test_rag.py` | Flagship retrieval system; not compliance certification. |
-| 2 | `projects/vla-embodied-agent-simulator` | procedural splits, fitted behavior-cloning model, raw/filtered holdout metrics, failure analysis, replay traces, and focused tests | Structured embodied-agent simulation; not a foundation VLA or hardware. |
-| 3 | `projects/real-model-finetune-lab` | held-out metrics, confusion matrix, training code, focused tests | Real classical-model fitting on small datasets; no transformer training. |
+| 1 | `projects/aec-code-compliance-rag` | architecture, public provenance, retrieval ablation, failure analysis, demo answers, and focused tests | Flagship retrieval system; not compliance certification. |
+| 2 | `projects/vla-embodied-agent-simulator` | procedural splits, fitted behavior-cloning policy, raw/filtered holdout metrics, failures, replay traces, and tests | Structured simulation; not a foundation VLA or hardware. |
+| 3 | `projects/constraint-aware-massing-explorer` | hard constraints, proxy objectives, Pareto ranking, baseline evaluation, diagrams, and tests | Rectangular proxy geometry; not professional design. |
 
-Deterministic Research Workflow Assistant and Local Model Serving and Monitoring are the strongest supporting workflow projects. Fourteen narrower baselines are separated under [`experiments/`](../experiments/README.md); they remain tested but do not support the headline claims.
+The specification and QS projects extend the same AEC workflow with auditability and commercial-review boundaries. Fourteen narrower baselines remain under [`experiments/`](../experiments/README.md).
 
 ## Fast Verification
 
 ```bash
 python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
 python projects/vla-embodied-agent-simulator/evaluate_vla.py
-python projects/real-model-finetune-lab/evaluate_model.py
-python -m pytest tests/test_rag.py tests/test_vla_embodied_agent.py tests/test_real_model_finetune_lab.py
+python projects/constraint-aware-massing-explorer/evaluate_massing.py
+python -m pytest tests/test_rag.py tests/test_vla_embodied_agent.py tests/test_massing_explorer.py
 ```
 
-Full repository check:
+Full repository check: `python scripts/verify.py`.
 
-```bash
-python scripts/verify.py
-```
+The [evidence ledger](EVIDENCE_LEDGER.md) maps displayed metrics to versioned artifacts, evaluation scope, and reproduction commands.
 
-The [headline evidence ledger](EVIDENCE_LEDGER.md) maps each displayed metric to an exact JSON path, versioned artifact, evaluation scope, and reproduction command.
+## Role-Specific Evidence
 
-## Role-Specific Paths
-
-- Applied AI / LLM: AEC RAG, Deterministic Research Workflow Assistant, then Local Text Classification Lab.
-- Embodied AI / robotics: Construction Embodied Agent Simulator, AEC RAG for construction-domain grounding, then Construction Grid Route Planner.
-- ML / MLOps: Local Text Classification Lab, Local Model Serving and Monitoring, then Time-Series Forecast and Anomaly Baselines.
-- Multimodal / CV: Visual QA Provider Contract and Vision Threshold Baseline are experiments only; the former proves an interface contract and the latter a deterministic image baseline, not deep-learning training.
+- Applied AEC AI: AEC RAG, Massing Explorer, Specification Copilot, then QS Workbench.
+- Embodied AI and robotics: Construction Embodied Agent, Grid Route Planner, then Robot Telemetry Monitor.
+- Retrieval and LLM systems: AEC RAG, Specification Copilot state machine, then the deterministic research-workflow experiment.
+- ML and MLOps: the text-classification and model-monitoring experiments retain focused classical-model evidence but are not selected work.
+- Multimodal and CV: the visual-provider and threshold-model experiments prove only bounded interface and baseline behavior.
 
 ## Technical Questions Supported By Evidence
 
-- How does authority and page metadata move from downloaded AEC documents into retrieved citations?
-- Why compare TF-IDF, BM25, dense LSA, and hybrid retrieval before adding hosted embeddings?
-- How does the AEC assistant distinguish an answer from no evidence or professional-review scope?
-- How does the safety filter change learned-policy success and unsafe-action rates relative to raw behavior cloning and the deterministic A* reference?
-- Where are fitted model parameters created, and how are baseline, validation, and held-out test metrics separated?
-- How do denied tools, retries, approval gates, and failed calls appear in an agent trace?
-- What can a local drift simulation reveal, and what would require delayed labels or production telemetry?
+- How does page and authority metadata move from public AEC documents into citations?
+- Why compare lexical, probabilistic, latent-semantic, and hybrid retrieval locally?
+- How do raw and filtered learned-policy rollouts differ on disjoint scenarios?
+- How are hard massing constraints separated from editable proxy objectives?
+- How do message ids, requirement versions, approval scopes, and draft clauses remain traceable?
+- How are shared walls deduplicated, rate units validated, and tender exceptions explained?
 
 ## Ownership Check
 
-The strongest ownership evidence would be a live change to retrieval behavior, a new embodied-agent scenario and regression test, or a modification to the training split followed by an explanation of the resulting metrics. README fluency alone is not treated as ownership evidence.
+High-signal ownership evidence is a live change to retrieval behavior, a new embodied or massing scenario with a regression test, or a modified quantity fixture followed by a correct explanation of changed outputs. README fluency alone is not ownership evidence.

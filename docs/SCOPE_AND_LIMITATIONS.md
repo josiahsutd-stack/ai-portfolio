@@ -1,40 +1,42 @@
 # Scope And Limitations
 
-This portfolio is a local-first applied AI engineering portfolio. It demonstrates implementation structure, evaluation discipline, and domain translation through runnable code, tests, generated artifacts, and project documentation.
+This is a local-first applied AI engineering portfolio for the built environment. It demonstrates implementation structure, evaluation discipline, and domain translation through runnable code, tests, generated artifacts, and explicit review boundaries.
 
-## What Is Implemented Versus Prototype
+## Evidence Categories
 
-| Category | Meaning in this repo |
+| Category | Meaning in this repository |
 | --- | --- |
-| Real implementation | Local code paths that run and are tested: retrieval, schema validation, fitted scikit-learn models, mock providers, artifact writing, trace/log persistence, drift calculations, citation objects, eval cases, and replay traces. |
-| Mock provider | Deterministic substitute for an LLM/VLM so workflow behavior can be tested without paid APIs. |
-| Synthetic data | Generated/demo data with no customer, employer, private project, or confidential content. |
-| Prototype | A runnable local skeleton that shows engineering shape but lacks production data, monitoring, security, scale, and user adoption. |
-| Local engineering scaffold | A small local version of a real concern, such as SQLite inference logs, model metadata, citation objects, trace records, eval cases, or drift reports. |
+| Real implementation | Tested local code for retrieval, validation, geometry, fitted scikit-learn policies/models, persistence, metrics, and simulation. |
+| Public-source snapshot | Locally downloaded public documents with provenance and fingerprints; still limited by date, scope, and expert review. |
+| Synthetic fixture | Authored or generated data with no customer, employer, private-project, bidder, or confidential content. |
+| Mock provider | Deterministic substitute for an LLM or VLM used to test workflow contracts without paid APIs. |
+| Proxy analysis | Transparent geometric or environmental heuristic that is not calibrated professional simulation. |
 
-## Honest Limitations
+## Portfolio-Wide Limitations
 
 - No real users, customers, deployments, adoption, benchmark wins, or paid-client outcomes are claimed.
-- All included datasets are synthetic unless a file explicitly says otherwise.
+- AEC outputs are not legal, code, engineering, architectural, QS, tender, or professional compliance advice.
 - Mock LLM/VLM paths validate workflow behavior, not model intelligence.
-- AEC outputs are not legal, code, engineering, architectural, or professional compliance advice.
-- The LoRA Dataset and Configuration Validator does not load or update a model; the separate Local Text Classification Lab trains a small classical ML model.
-- Robotics projects are simulations, not robot hardware deployments.
-- CI may be blocked by GitHub account state even when local tests pass.
+- Robotics results come from structured simulation, not robot hardware.
+- Massing options do not include statutory inference, internal egress, calibrated daylight/CFD, structure, or constructability.
+- Specification fixtures use a deterministic phrase grammar and do not prove open-domain conversation understanding.
+- QS fixtures do not parse PDF/CAD/BIM drawings or use live market rates.
+- CI execution can be blocked by GitHub account state even when local verification passes.
 
 ## What Not To Infer
 
 - Do not infer production reliability from local demos.
-- Do not infer real-world code-compliance capability from synthetic examples or downloaded public-source retrieval demos.
-- Do not infer real visual reasoning from the Visual QA Provider Contract's mock output.
-- Do not infer LoRA model improvement from the LoRA Dataset and Configuration Validator.
-- Do not infer senior-level MLOps ownership from the local MLOps skeleton.
-- Do not infer real robot safety validation from construction-robot, embodied-agent, or reinforcement-learning simulations.
+- Do not infer current-code compliance from a dated public-document retrieval snapshot.
+- Do not infer professional design validity from geometric proxy scores.
+- Do not infer a professional project specification from fixture-level extraction metrics.
+- Do not infer a bill of quantities, market estimate, or tender recommendation from synthetic QS fixtures.
+- Do not infer physical safety from embodied-agent, route-planning, or telemetry simulations.
+- Do not infer deep visual reasoning or transformer training from the bounded experiments.
 
-## Where The Strongest Evidence Lives
+## Strongest Evidence Locations
 
-- AEC RAG depth: `projects/aec-code-compliance-rag/`
-- Agent workflow depth: `projects/agentic-research-ops-assistant/`
-- MLOps workflow depth: `projects/mlops-model-serving-monitoring/`
-- Real model fitting: `projects/real-model-finetune-lab/`
-- Embodied AI simulation: `projects/vla-embodied-agent-simulator/`
+- AEC retrieval: `projects/aec-code-compliance-rag/`
+- Embodied AI: `projects/vla-embodied-agent-simulator/`
+- Computational design: `projects/constraint-aware-massing-explorer/`
+- Requirements and specification workflow: `projects/project-specification-copilot/`
+- Quantity and tender workflow: `projects/qs-takeoff-tender-analysis/`

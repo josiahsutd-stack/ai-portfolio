@@ -72,7 +72,7 @@ def run_core_smoke() -> list[str]:
 
         plans = load_floor_plans(
             ROOT
-            / "experiments"
+            / "projects"
             / "qs-takeoff-tender-analysis"
             / "sample_data"
             / "synthetic_floor_plans.json"

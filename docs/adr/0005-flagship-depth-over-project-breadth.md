@@ -1,12 +1,14 @@
 # ADR 0005: Flagship Depth Over Project Breadth
 
+**Status:** Superseded in part by [ADR 0006](0006-aec-workflow-selected-set.md). AEC RAG remains the sole flagship.
+
 ## Context
 
 The repository contains projects with different levels of depth and evidence.
 
 ## Decision
 
-Present AEC Code Compliance RAG as the single flagship, with embodied-agent simulation and local text classification as complementary selected work. Label the remaining projects as supporting systems or experiments.
+At the time of this decision, present AEC Code Compliance RAG as the single flagship, with embodied-agent simulation and local text classification as complementary selected work. Label the remaining projects as supporting systems or experiments.
 
 ## Consequences
 

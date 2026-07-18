@@ -44,7 +44,7 @@ def test_public_subset_builder_is_deterministic_balanced_and_disjoint() -> None:
 
 
 def test_checked_in_public_subset_matches_provenance_manifest() -> None:
-    project = Path("projects/real-model-finetune-lab/sample_data")
+    project = Path("experiments/real-model-finetune-lab/sample_data")
 
     assert (
         validate_checked_in_subset(
@@ -55,7 +55,7 @@ def test_checked_in_public_subset_matches_provenance_manifest() -> None:
 
 
 def test_public_subset_validator_detects_manifest_and_tsv_tampering(tmp_path: Path) -> None:
-    source = Path("projects/real-model-finetune-lab/sample_data")
+    source = Path("experiments/real-model-finetune-lab/sample_data")
     tsv_path = tmp_path / "subset.tsv"
     manifest_path = tmp_path / "manifest.json"
     shutil.copyfile(source / "uci_sms_subset.tsv", tsv_path)
@@ -103,7 +103,7 @@ def test_real_model_dataset_has_fixed_train_eval_splits() -> None:
 
 def test_real_model_artifacts_are_written(tmp_path: Path) -> None:
     result = write_training_artifacts(
-        "projects/real-model-finetune-lab/sample_data/training_examples.json",
+        "experiments/real-model-finetune-lab/sample_data/training_examples.json",
         tmp_path,
     )
 
@@ -115,7 +115,7 @@ def test_real_model_artifacts_are_written(tmp_path: Path) -> None:
 
 
 def test_public_dataset_training_uses_held_out_test_set(tmp_path: Path) -> None:
-    dataset_path = Path("projects/real-model-finetune-lab/sample_data/uci_sms_subset.tsv")
+    dataset_path = Path("experiments/real-model-finetune-lab/sample_data/uci_sms_subset.tsv")
     model, result = train_on_public_dataset(dataset_path, tmp_path)
 
     assert result.train_rows == 160
@@ -133,7 +133,7 @@ def test_public_dataset_training_uses_held_out_test_set(tmp_path: Path) -> None:
 
 
 def test_public_dataset_artifacts_are_written(tmp_path: Path) -> None:
-    dataset_path = Path("projects/real-model-finetune-lab/sample_data/uci_sms_subset.tsv")
+    dataset_path = Path("experiments/real-model-finetune-lab/sample_data/uci_sms_subset.tsv")
     result = write_public_dataset_artifacts(dataset_path, tmp_path)
 
     assert result.test_accuracy > result.baseline_test_accuracy

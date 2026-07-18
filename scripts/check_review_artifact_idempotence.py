@@ -8,15 +8,15 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 ARTIFACT_DIRS = [
     ROOT / "projects" / "aec-code-compliance-rag" / "demo_outputs",
-    ROOT / "experiments" / "constraint-aware-massing-explorer" / "demo_outputs",
-    ROOT / "experiments" / "project-specification-copilot" / "demo_outputs",
-    ROOT / "experiments" / "qs-takeoff-tender-analysis" / "demo_outputs",
-    ROOT / "projects" / "agentic-research-ops-assistant" / "demo_outputs",
-    ROOT / "projects" / "mlops-model-serving-monitoring" / "demo_outputs",
+    ROOT / "projects" / "constraint-aware-massing-explorer" / "demo_outputs",
+    ROOT / "projects" / "project-specification-copilot" / "demo_outputs",
+    ROOT / "projects" / "qs-takeoff-tender-analysis" / "demo_outputs",
+    ROOT / "experiments" / "agentic-research-ops-assistant" / "demo_outputs",
+    ROOT / "experiments" / "mlops-model-serving-monitoring" / "demo_outputs",
     ROOT / "experiments" / "building-energy-ml-pipeline" / "demo_outputs",
     ROOT / "experiments" / "site-robot-safety-monitor" / "demo_outputs",
     ROOT / "experiments" / "multimodal-vlm-visual-qa" / "demo_outputs",
-    ROOT / "projects" / "real-model-finetune-lab" / "demo_outputs",
+    ROOT / "experiments" / "real-model-finetune-lab" / "demo_outputs",
     ROOT / "projects" / "vla-embodied-agent-simulator" / "demo_outputs",
 ]
 ARTIFACT_FILES = [ROOT / "docs" / "EVIDENCE_LEDGER.md"]

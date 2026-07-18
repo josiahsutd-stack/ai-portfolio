@@ -16,7 +16,7 @@ from project_specification_copilot import (
 ROOT = Path(__file__).resolve().parents[1]
 CASE_PATH = (
     ROOT
-    / "experiments"
+    / "projects"
     / "project-specification-copilot"
     / "sample_data"
     / "synthetic_conversations.json"

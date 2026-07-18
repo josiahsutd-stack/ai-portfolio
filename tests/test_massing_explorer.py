@@ -21,7 +21,7 @@ from constraint_aware_massing_explorer.models import SiteScenario
 ROOT = Path(__file__).resolve().parents[1]
 SCENARIO_PATH = (
     ROOT
-    / "experiments"
+    / "projects"
     / "constraint-aware-massing-explorer"
     / "sample_data"
     / "synthetic_site_scenarios.json"

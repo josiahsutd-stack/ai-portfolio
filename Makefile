@@ -34,7 +34,7 @@ evidence:
 	$(PYTHON) scripts/check_evidence_claims.py
 
 provenance:
-	$(PYTHON) projects/real-model-finetune-lab/scripts/build_uci_sms_subset.py --check
+	$(PYTHON) experiments/real-model-finetune-lab/scripts/build_uci_sms_subset.py --check
 
 site:
 	$(PYTHON) scripts/check_portfolio_site.py
