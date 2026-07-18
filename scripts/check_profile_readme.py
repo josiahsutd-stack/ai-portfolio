@@ -8,6 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 PROFILE = ROOT / "profile-readme.md"
 PROFILE_PREVIEW = ROOT / "portfolio-site" / "assets" / "portfolio-home-preview.jpg"
 LEGACY_PROFILE_PREVIEW = ROOT / "portfolio-site" / "assets" / "portfolio-home-preview.png"
+GITHUB_REPOSITORY_PREVIEW = ROOT / "portfolio-site" / "assets" / "github-repository-preview.jpg"
 PROFILE_BRIEF = ROOT / "portfolio-site" / "assets" / "Josiah_Lau_Applied_AI_Portfolio_Brief.pdf"
 LINK_PATTERN = re.compile(r"!?\[[^\]]*\]\((?P<target>[^)]+)\)")
 REQUIRED_TEXT = (
@@ -35,6 +36,54 @@ FORBIDDEN_PROFILE_PHRASES = (
     "for a 15-minute",
     "the candidate's",
 )
+
+
+def jpeg_dimensions(path: Path) -> tuple[int, int] | None:
+    data = path.read_bytes()
+    if len(data) < 4 or data[:2] != b"\xff\xd8":
+        return None
+
+    start_of_frame_markers = {
+        0xC0,
+        0xC1,
+        0xC2,
+        0xC3,
+        0xC5,
+        0xC6,
+        0xC7,
+        0xC9,
+        0xCA,
+        0xCB,
+        0xCD,
+        0xCE,
+        0xCF,
+    }
+    offset = 2
+    while offset + 3 < len(data):
+        if data[offset] != 0xFF:
+            offset += 1
+            continue
+        while offset < len(data) and data[offset] == 0xFF:
+            offset += 1
+        if offset >= len(data):
+            return None
+        marker = data[offset]
+        offset += 1
+        if marker in {0x01, *range(0xD0, 0xDA)}:
+            continue
+        if offset + 2 > len(data):
+            return None
+        segment_length = int.from_bytes(data[offset : offset + 2], "big")
+        if segment_length < 2 or offset + segment_length > len(data):
+            return None
+        if marker in start_of_frame_markers:
+            if segment_length < 7:
+                return None
+            height = int.from_bytes(data[offset + 3 : offset + 5], "big")
+            width = int.from_bytes(data[offset + 5 : offset + 7], "big")
+            return width, height
+        offset += segment_length
+    return None
 
 
 def collect_issues(text: str | None = None) -> list[str]:
@@ -80,6 +129,18 @@ def collect_issues(text: str | None = None) -> list[str]:
 
     if LEGACY_PROFILE_PREVIEW.exists():
         issues.append("profile-readme.md: stale PNG-named portfolio preview remains")
+
+    if not GITHUB_REPOSITORY_PREVIEW.is_file():
+        issues.append("profile-readme.md: GitHub repository social preview is missing")
+    else:
+        if jpeg_dimensions(GITHUB_REPOSITORY_PREVIEW) != (1280, 640):
+            issues.append(
+                "profile-readme.md: GitHub repository social preview must be a 1280x640 JPEG"
+            )
+        if GITHUB_REPOSITORY_PREVIEW.stat().st_size >= 1_000_000:
+            issues.append(
+                "profile-readme.md: GitHub repository social preview must remain under 1 MB"
+            )
 
     if not PROFILE_BRIEF.is_file():
         issues.append("profile-readme.md: generated portfolio brief is missing")

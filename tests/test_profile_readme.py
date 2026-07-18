@@ -1,8 +1,17 @@
-from scripts.check_profile_readme import collect_issues
+from scripts.check_profile_readme import (
+    GITHUB_REPOSITORY_PREVIEW,
+    collect_issues,
+    jpeg_dimensions,
+)
 
 
 def test_profile_readme_is_self_contained_and_recruiter_facing() -> None:
     assert collect_issues() == []
+
+
+def test_repository_social_preview_matches_github_upload_contract() -> None:
+    assert jpeg_dimensions(GITHUB_REPOSITORY_PREVIEW) == (1280, 640)
+    assert GITHUB_REPOSITORY_PREVIEW.stat().st_size < 1_000_000
 
 
 def test_profile_readme_rejects_relative_links() -> None:
