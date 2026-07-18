@@ -4,13 +4,13 @@ The selected set contains one flagship, two role-defining primary projects, and 
 
 ## 1. AEC Code Compliance RAG - Flagship
 
-**Implemented:** fail-closed public downloads, corpus fingerprints, page and section metadata, source filters, TF-IDF/BM25/dense-LSA/hybrid retrieval, citation objects, status handling, ablation, failure analysis, and a fail-closed local API with request tracing, redacted audit logs, readiness, and process-local metrics.
+**Implemented:** fail-closed public downloads, corpus fingerprints, page and section metadata, source filters, TF-IDF/BM25/dense-LSA/hybrid retrieval, citation objects, status handling, ablation, failure analysis, and a fail-closed local API with request tracing, redacted audit logs, readiness, bounded durable telemetry, and query latency/error objectives.
 
-**Evidence:** `src/aec_code_compliance_rag/`, `scripts/evaluate_retrieval.py`, `evaluate_service.py`, `EVAL.md`, `ARCHITECTURE.md`, `demo_outputs/`, `tests/test_rag.py`, and `tests/test_rag_service.py`.
+**Evidence:** `src/aec_code_compliance_rag/`, `scripts/evaluate_retrieval.py`, `evaluate_service.py`, `evaluate_service_reliability.py`, `EVAL.md`, `ARCHITECTURE.md`, `demo_outputs/`, `tests/test_rag.py`, and `tests/test_rag_service.py`.
 
 **Technical question:** How does provenance move from a downloaded document into a cited answer, and when does the system abstain?
 
-**Boundary:** The 51-case default set is synthetic. The 24-case public result describes one fingerprinted 15-document snapshot, not current-code validation or professional compliance advice. The service suite is in-process ASGI evidence, not an external deployment, security assessment, or usage record.
+**Boundary:** The 51-case default set is synthetic. The 24-case public result describes one fingerprinted 15-document snapshot, not current-code validation or professional compliance advice. The service suites are in-process ASGI evidence, not external deployment, sustained capacity, uptime, security-assessment, or usage evidence.
 
 ## 2. Construction Embodied Agent Simulator - Primary
 

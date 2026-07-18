@@ -2,7 +2,7 @@
 
 Primary review project for this AI engineering portfolio.
 
-This is a local, source-grounded retrieval assistant for AEC guidance. The implemented workflow covers document chunking, source manifests, metadata-filtered retrieval, citation formatting, abstention, retrieval evaluation, and an authenticated local service contract.
+This is a local, source-grounded retrieval assistant for AEC guidance. The implemented workflow covers document chunking, source manifests, metadata-filtered retrieval, citation formatting, abstention, retrieval evaluation, and an authenticated local service contract with bounded durable telemetry.
 
 The default corpus is synthetic demo data so the project runs without private data. An optional Singapore public-source workflow downloads official public BCA, URA, NEA, SCDF, LTA, PUB, and NParks documents locally for retrieval evaluation. Outputs are not legal, code, engineering, architectural, or professional compliance advice.
 
@@ -16,7 +16,7 @@ Design writeup: [Designing A Source-Grounded AEC RAG Assistant](../../docs/AEC_R
 
 ## Why It Matters
 
-The project connects AI engineering with the built environment. It shows how a junior/applied AI engineer can structure a domain RAG system without pretending the demo is a deployed compliance product.
+The project connects AI engineering with the built environment through inspectable retrieval, provenance, failure handling, and local service contracts. The evidence is bounded to the checked-in corpora, evaluations, and in-process workloads; it is not presented as a deployed compliance product.
 
 Evidence in this repository:
 
@@ -28,8 +28,9 @@ Evidence in this repository:
 - Optional retrieval filters for jurisdiction, document type, and superseded-source handling.
 - Source-status warnings for superseded, mixed-version, mixed-jurisdiction, or mixed-year evidence.
 - Retrieval evaluation and mode ablation with sample questions and repeatable metrics.
-- A fail-closed FastAPI service with API-key authentication, bounded request IDs, liveness/readiness checks, redacted SQLite query logs, and process-local metrics.
-- Tests for chunking, retrieval, citations, no-result handling, authentication, request tracing, log migration, redaction, and service errors.
+- A fail-closed FastAPI service with API-key authentication, bounded request IDs, liveness/readiness checks, redacted SQLite query logs, process counters, and bounded payload-free request telemetry.
+- Query-specific P95 latency and server-error objectives that remain `insufficient_data` until the configured sample size is reached.
+- Tests for chunking, retrieval, citations, no-result handling, authentication, request tracing, log migration, redaction, telemetry retention/app-reconstruction behavior, objective states, and service errors.
 - Clear architecture, limitations, demo artifacts, and production next steps.
 
 ## Quickstart
@@ -40,6 +41,7 @@ From the repository root:
 python scripts/generate_sample_data.py
 python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
 python projects/aec-code-compliance-rag/evaluate_service.py
+python projects/aec-code-compliance-rag/evaluate_service_reliability.py
 pytest tests/test_rag.py tests/test_rag_service.py
 streamlit run projects/aec-code-compliance-rag/app.py
 ```
@@ -62,6 +64,7 @@ The downloaded PDFs/HTML text and generated manifest stay in `public_sources/dow
 | Synthetic regression | 51 bundled cases | Recall@4 `1.000`; MRR `0.906`; Hit@3 `1.000` | Small authored corpus; useful for deterministic regression only. |
 | Singapore public-source snapshot | 24 cases over 15 downloaded documents | Hit@1 `0.952`; MRR `0.976`; paraphrase MRR `0.917`; no-answer `1.000` | Documents were downloaded and validated on 18 July 2026; no authority or expert applicability review. |
 | Local service contract | 12 in-process ASGI checks | 12/12 checks passed; 9 requests and 3 client errors observed before the metrics response | Synthetic corpus; no external deployment, traffic, load, availability, or security assessment. |
+| Local reliability evaluation | 48 requests at maximum concurrency 8 | 48/48 responses returned 200; 0 server errors; P95 at or below 500 ms; 48 durable query rows survived app reconstruction | Warmed in-process ASGI workload on one local machine; not network, sustained-load, uptime, or capacity evidence. |
 
 The public run includes 15 direct questions, six paraphrases, two project-specific no-evidence cases, and one professional-review refusal. Two paraphrase cases retrieve the correct source but miss one expected phrase within the top four chunks; those cases remain in [`failure_analysis.md`](demo_outputs/public_sources/failure_analysis.md).
 
@@ -95,6 +98,8 @@ Generated evaluation artifacts are in [`demo_outputs/`](demo_outputs/):
 - [`no_answer_failure_case.md`](demo_outputs/no_answer_failure_case.md)
 - [`service_contract_summary.json`](demo_outputs/service_contract_summary.json)
 - [`service_contract_report.md`](demo_outputs/service_contract_report.md)
+- [`service_reliability_summary.json`](demo_outputs/service_reliability_summary.json)
+- [`service_reliability_report.md`](demo_outputs/service_reliability_report.md)
 - [`public_sources/`](demo_outputs/public_sources/) for optional Singapore public-source eval outputs after running the public corpus command.
 
 Regenerate them with:
@@ -102,6 +107,7 @@ Regenerate them with:
 ```bash
 python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
 python projects/aec-code-compliance-rag/evaluate_service.py
+python projects/aec-code-compliance-rag/evaluate_service_reliability.py
 ```
 
 ## Features
@@ -124,7 +130,8 @@ python projects/aec-code-compliance-rag/evaluate_service.py
 - Versioned demo-output generation.
 - Streamlit public/synthetic corpus switch and an API-key-protected FastAPI review service.
 - Public liveness/readiness checks plus authenticated source, query, retrieval, log, and metrics endpoints.
-- Tests covering chunking, retrieval, citations, no-result handling, eval scoring, authentication, tracing, redaction, and service failures.
+- Durable local route/status/latency rows with fixed retention, payload exclusion, app-reconstruction persistence, and fail-open write handling.
+- Tests covering chunking, retrieval, citations, no-result handling, eval scoring, authentication, tracing, redaction, service failures, telemetry retention, app-reconstruction persistence, and objective transitions.
 
 ## Architecture And Evaluation Docs
 
@@ -142,7 +149,8 @@ python projects/aec-code-compliance-rag/evaluate_service.py
 5. A local retriever ranks the eligible source subset for a question. The default app mode is hybrid TF-IDF/BM25; the eval script also compares TF-IDF, BM25, dense LSA, and hybrid modes.
 6. The assistant returns an answer only from retrieved evidence, exposes structured citations, and warns when retrieved sources need version or jurisdiction review.
 7. The retrieval evaluator runs sample questions and writes metrics plus demo outputs.
-8. The service factory applies API-key authentication, request IDs, readiness checks, redacted local logs, and process-local metrics around the same assistant boundary.
+8. The service factory applies API-key authentication, request IDs, readiness checks, redacted query logs, process counters, and bounded payload-free SQLite telemetry around the same assistant boundary.
+9. Query objectives evaluate the latest durable `POST /query` window only after a minimum sample count; the fixed workload reconstructs the app to verify persistence.
 
 ## Tests
 
@@ -164,7 +172,8 @@ The tests cover:
 - Fail-closed authentication and readiness behavior.
 - Request-ID propagation and sanitization.
 - Default query-payload redaction, explicit payload opt-in, and legacy SQLite schema migration.
-- Success and failure audit records plus route/status metrics.
+- Success and failure audit records plus process and durable route/status/latency metrics.
+- Bounded telemetry retention, payload-field exclusion, fail-open write handling, app-reconstruction persistence, and insufficient/pass/fail objective states.
 
 ## Optional Public-Source Review
 
@@ -196,9 +205,10 @@ Reproduce the checked-in service evidence without starting a network listener:
 
 ```bash
 python projects/aec-code-compliance-rag/evaluate_service.py
+python projects/aec-code-compliance-rag/evaluate_service_reliability.py
 ```
 
-That evaluator uses FastAPI's in-process ASGI test client over the synthetic corpus. It verifies interface behavior only; it is not deployment or usage evidence.
+The first evaluator checks interface behavior. The second warms the index, sends 48 queries with maximum concurrency 8, checks a 500 ms P95 and 0.01 server-error-rate budget, then reconstructs the app against the same SQLite file. Both are in-process and synthetic; neither is deployment, sustained-load, uptime, or usage evidence.
 
 ## Limitations
 
@@ -208,8 +218,8 @@ That evaluator uses FastAPI's in-process ASGI test client over the synthetic cor
 - TF-IDF, BM25, dense LSA, and hybrid modes are transparent and local. Optional embedding/reranking modes require `requirements-embeddings.txt` and model downloads.
 - The local answer mode is deterministic and extractive; it is not a real expert model.
 - API authentication is one static shared key. There is no user identity, OAuth, RBAC, rate limiting, TLS termination, or secret manager.
-- Metrics are in memory and reset on restart. SQLite logs are local and suited only to single-process review.
-- The service has not been externally deployed, load tested, penetration tested, or observed under user traffic.
+- Process counters reset on restart. Bounded route/status/latency rows and redacted query logs persist in one local SQLite file, which is not a distributed metrics backend.
+- The service has not been externally deployed, network load tested, penetration tested, or observed under user traffic. The fixed concurrent ASGI workload does not establish capacity or availability.
 - The project does not certify against current building-code amendments, authority interpretations, project submissions, or professional review requirements.
 - No real project, client, or construction data is included.
 
@@ -222,7 +232,7 @@ That evaluator uses FastAPI's in-process ASGI test client over the synthetic cor
 - Expand the public evaluation with expert-labeled clause and page targets, ambiguous jurisdiction cases, and adversarial wording.
 - Add stronger conflict detection for contradictory source content and superseded clauses.
 - Add an expert-review queue for uncertain answers.
-- Add identity-aware authorization, rate limits, durable telemetry, load tests, and deployment checks before considering an externally reachable service.
+- Add identity-aware authorization, rate limits, managed secrets, distributed telemetry, reverse-proxy/network load tests, and deployment checks before considering an externally reachable service.
 
 ## Evidence
 

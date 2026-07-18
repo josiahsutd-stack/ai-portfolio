@@ -23,11 +23,14 @@ flowchart LR
   AUTH --> Q
   API --> LIVE["Liveness and readiness"]
   API --> LOG["Redacted SQLite query log"]
-  API --> MET["Process-local route and latency metrics"]
+  API --> MET["Process counters and durable request telemetry"]
+  API --> OBJ["Query latency and server-error objectives"]
   D --> I["Retrieval evaluator"]
   I --> J["demo_outputs"]
   API --> SI["In-process service evaluator"]
   SI --> J
+  API --> RI["Concurrent reliability evaluator"]
+  RI --> J
 ```
 
 ## Module Boundaries
@@ -41,11 +44,12 @@ flowchart LR
 | Retrieval | `src/aec_code_compliance_rag/retrieval.py` | Provides TF-IDF, BM25, dense LSA, hybrid retrieval, and optional sentence-transformer/cross-encoder modes over local chunks. |
 | Assistant | `src/aec_code_compliance_rag/assistant.py` | Builds the retrieval boundary, applies explicit and inferred authority/document source filters, handles questions, formats citations, checks source status, checks support, and returns abstention statuses. |
 | Faithfulness | `src/aec_code_compliance_rag/faithfulness.py` | Applies deterministic citation-marker and lexical-support checks for demo answers. |
-| Observability | `src/aec_code_compliance_rag/observability.py` | Persists request ids, operation status, filters, error types, and redacted query metadata to a migration-tolerant local SQLite table. Full payload storage requires explicit opt-in. |
-| Service boundary | `src/aec_code_compliance_rag/service.py` | Builds the FastAPI app, validates request schemas, fails closed on absent/invalid API keys, attaches bounded request ids, distinguishes liveness/readiness, and records in-memory route/status/latency metrics. |
+| Observability | `src/aec_code_compliance_rag/observability.py` | Persists redacted query audit records plus bounded request timestamp, instance id, request id, route template, status, and latency rows in local SQLite. Service telemetry does not store arbitrary headers, query strings, questions, or bodies. |
+| Service boundary | `src/aec_code_compliance_rag/service.py` | Builds the FastAPI app, validates request schemas, fails closed on absent/invalid API keys, attaches bounded request ids, distinguishes liveness/readiness, records process counters, and evaluates query objectives over a durable window. |
 | Evaluation | `src/aec_code_compliance_rag/evaluation.py` | Loads evaluation cases and computes retrieval metrics. |
 | Evaluation CLI | `evaluate_retrieval.py` | Runs the evaluator and writes versioned artifacts in `demo_outputs/`. |
 | Service evaluation CLI | `evaluate_service.py` | Runs deterministic in-process ASGI contract checks and writes versioned service evidence. |
+| Reliability evaluation CLI | `evaluate_service_reliability.py` | Runs a fixed concurrent in-process query workload, verifies latency/error budgets and app-reconstruction persistence, and writes versioned pass/fail evidence. |
 | Demo UI | `app.py` | Streamlit interface for local question answering and citation inspection. |
 | API entrypoint | `api.py` | Loads environment-backed settings and exposes the service factory app to Uvicorn. |
 
@@ -137,9 +141,12 @@ The FastAPI boundary is deliberately small and fail-closed:
 - `/sources`, `/query`, `/retrieve`, `/logs/recent`, and `/metrics` require a shared `X-API-Key`.
 - Client-supplied request IDs are accepted only when they match a bounded 64-character token pattern; otherwise the service generates one.
 - Query and response payloads are redacted from SQLite by default. Full payload storage is an explicit local configuration choice.
-- Metrics are process-local counters and a bounded latency sample. Unmatched URLs share one label to bound route cardinality; all metrics reset when the process restarts.
+- Process counters use a bounded latency sample and reset when the process restarts. Unmatched URLs share one label to bound route cardinality.
+- A separate SQLite table retains at most 5,000 request observations containing only timestamp, service-instance id, bounded request id, method, route template, status, and latency. It excludes arbitrary headers, query strings, questions, and bodies.
+- Query objectives inspect the latest 200 durable `POST /query` rows and remain `insufficient_data` until at least 20 observations exist by default. Environment settings can change the local window and budgets.
+- Telemetry write failures increment a process counter and do not take down request handling.
 
-`evaluate_service.py` verifies these interface behaviors with an in-process ASGI client. It does not exercise TLS, reverse proxies, multiple workers, network failure, load, secret rotation, identity-aware authorization, distributed telemetry, or an external deployment.
+`evaluate_service.py` verifies interface behavior. `evaluate_service_reliability.py` adds a warmed 48-query workload at maximum concurrency 8, a 500 ms P95 budget, a 0.01 server-error-rate budget, and app reconstruction against the same SQLite file. Neither evaluator exercises TLS, reverse proxies, multiple workers, network failure, sustained load, secret rotation, identity-aware authorization, distributed telemetry, or an external deployment.
 
 ## Production Extension Points
 
@@ -152,4 +159,4 @@ The current project is intentionally local and synthetic. A serious applied exte
 - Stronger answer-faithfulness evaluation against retrieved chunks.
 - Human approval workflow for compliance-sensitive responses.
 - Monitoring for no-result rate, citation coverage, low-score answers, and stale documents.
-- Identity-aware authorization, managed secrets, rate limiting, durable audit storage, distributed telemetry, and load/security testing.
+- Identity-aware authorization, managed secrets, rate limiting, multi-process aggregation, distributed telemetry, and network load/security testing.

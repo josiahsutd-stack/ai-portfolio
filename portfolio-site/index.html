@@ -170,13 +170,14 @@
               This is the most developed project in the portfolio. It applies built-environment
               domain knowledge to Markdown and page-aware PDF ingestion, Singapore public-source
               manifests, source filters, TF-IDF, BM25, dense LSA,
-              hybrid retrieval, citation checks, unsupported-scope handling, and a tested local service contract.
+              hybrid retrieval, citation checks, unsupported-scope handling, and a tested local service with bounded durable telemetry.
             </p>
             <dl class="fact-list">
               <div><dt>Evaluation</dt><dd>51 synthetic cases plus 24 public-source cases over a fingerprinted 15-document snapshot</dd></div>
-              <div><dt>Service</dt><dd>12/12 local contract checks passed; 9 requests observed before metrics response</dd></div>
-              <div><dt>Proof</dt><dd>Architecture, eval design, ablation, failure analysis, demo answers, service report, and tests</dd></div>
-              <div><dt>Limit</dt><dd>No authority validation, professional sign-off, OCR, external deployment, traffic, or live amendment guarantee</dd></div>
+              <div><dt>Service</dt><dd>12/12 local contract checks passed; 9 requests observed before metrics response. The fixed workload returned 48/48 HTTP 200 responses, 0 server errors, and P95 at or below 500 ms</dd></div>
+              <div><dt>Persistence</dt><dd>48 payload-free query telemetry rows remained after app reconstruction</dd></div>
+              <div><dt>Proof</dt><dd>Architecture, eval design, ablation, failure analysis, demo answers, service reports, and tests</dd></div>
+              <div><dt>Limit</dt><dd>No authority validation, professional sign-off, OCR, network load, uptime, external deployment, traffic, or live amendment guarantee</dd></div>
             </dl>
             <div class="inline-links">
               <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/aec-code-compliance-rag">Project</a>
@@ -184,6 +185,7 @@
               <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/tests/test_rag.py">Tests</a>
               <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/tests/test_rag_service.py">Service tests</a>
               <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/projects/aec-code-compliance-rag/demo_outputs/service_contract_report.md">Service contract</a>
+              <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/projects/aec-code-compliance-rag/demo_outputs/service_reliability_report.md">Reliability evidence</a>
             </div>
           </div>
           <figure class="evidence-shot">

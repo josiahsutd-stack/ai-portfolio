@@ -1,0 +1,51 @@
+{
+  "artifact_schema_version": 1,
+  "checks": {
+    "all_workload_requests_return_200": true,
+    "durable_query_count_matches_workload": true,
+    "durable_telemetry_survives_app_reconstruction": true,
+    "no_server_errors_in_workload": true,
+    "objective_status_survives_app_reconstruction": true,
+    "p95_latency_budget_is_met": true,
+    "process_metrics_reset_on_app_reconstruction": true,
+    "query_logs_are_complete_and_redacted": true,
+    "query_objective_has_sufficient_data": true,
+    "readiness_warms_index": true,
+    "request_ids_remain_unique_and_propagated": true,
+    "server_error_rate_budget_is_met": true,
+    "telemetry_schema_excludes_request_payloads": true,
+    "telemetry_writes_succeed": true
+  },
+  "data_status": "synthetic",
+  "evaluation_scope": "fixed concurrent in-process ASGI workload after local index warm-up; no network, external deployment, sustained load, or user traffic",
+  "objectives": {
+    "minimum_query_requests": 48,
+    "p95_latency_budget_ms": 500.0,
+    "p95_latency_budget_passed": true,
+    "server_error_rate_budget": 0.01,
+    "server_error_rate_budget_passed": true,
+    "status": "pass"
+  },
+  "observed": {
+    "check_count": 14,
+    "durable_query_count_after_app_reconstruction": 48,
+    "durable_query_count_before_app_reconstruction": 48,
+    "durable_request_rows_after_app_reconstruction": 50,
+    "passed_check_count": 14,
+    "process_request_count_after_app_reconstruction": 0,
+    "redacted_query_log_count": 48,
+    "server_error_count": 0,
+    "server_error_rate": 0.0,
+    "successful_response_count": 48,
+    "telemetry_retention_limit": 5000,
+    "unique_response_request_id_count": 48,
+    "versioned_latency_result": "p95_at_or_below_500_ms"
+  },
+  "passed": true,
+  "workload": {
+    "corpus": "bundled synthetic",
+    "max_concurrency": 8,
+    "question_count": 4,
+    "request_count": 48
+  }
+}

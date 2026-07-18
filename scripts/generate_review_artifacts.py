@@ -9,6 +9,10 @@ ROOT = Path(__file__).resolve().parents[1]
 COMMANDS = [
     [sys.executable, "projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py"],
     [sys.executable, "projects/aec-code-compliance-rag/evaluate_service.py"],
+    [
+        sys.executable,
+        "projects/aec-code-compliance-rag/evaluate_service_reliability.py",
+    ],
     [sys.executable, "projects/constraint-aware-massing-explorer/evaluate_massing.py"],
     [sys.executable, "projects/project-specification-copilot/evaluate_specification.py"],
     [sys.executable, "projects/qs-takeoff-tender-analysis/evaluate_qs.py"],

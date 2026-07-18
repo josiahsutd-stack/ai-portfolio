@@ -7,7 +7,7 @@ from .evaluation import (
     load_eval_cases,
 )
 from .faithfulness import check_citation_faithfulness
-from .observability import QueryLogger
+from .observability import QueryLogger, ServiceTelemetryStore
 from .pdf_ingestion import load_pdf_chunks
 from .public_sources import download_public_sources, downloaded_public_paths
 from .retrieval import (
@@ -24,6 +24,7 @@ from .service import (
     ServiceMetrics,
     ServiceSettings,
     create_service_app,
+    evaluate_query_objectives,
 )
 from .source_manifest import load_source_manifest
 
@@ -37,6 +38,7 @@ __all__ = [
     "SentenceTransformerRetriever",
     "ServiceMetrics",
     "ServiceSettings",
+    "ServiceTelemetryStore",
     "CrossEncoderRerankedRetriever",
     "RetrievalEvalCase",
     "TfidfRetriever",
@@ -45,6 +47,7 @@ __all__ = [
     "build_assistant_from_paths",
     "check_citation_faithfulness",
     "create_service_app",
+    "evaluate_query_objectives",
     "chunk_pdf_pages",
     "chunk_text",
     "evaluate_retrieval",

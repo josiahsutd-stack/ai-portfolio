@@ -116,6 +116,49 @@ claims:
         contains:
           - "{passed_check_count}/{check_count} local contract checks passed; {request_count} requests observed before metrics response"
 
+  - id: aec-local-service-reliability
+    project_slug: aec-code-compliance-rag
+    artifact: projects/aec-code-compliance-rag/demo_outputs/service_reliability_summary.json
+    command: python projects/aec-code-compliance-rag/evaluate_service_reliability.py
+    evaluation_scope: Fixed warmed in-process ASGI workload over the bundled synthetic corpus; no network, external deployment, sustained load, or user traffic
+    metrics:
+      check_count:
+        json_path: observed.check_count
+      passed_check_count:
+        json_path: observed.passed_check_count
+      request_count:
+        json_path: workload.request_count
+      max_concurrency:
+        json_path: workload.max_concurrency
+      successful_response_count:
+        json_path: observed.successful_response_count
+      server_error_count:
+        json_path: observed.server_error_count
+      server_error_rate:
+        json_path: observed.server_error_rate
+        decimals: 3
+      p95_latency_budget_ms:
+        json_path: objectives.p95_latency_budget_ms
+        decimals: 0
+      durable_query_count_after_app_reconstruction:
+        json_path: observed.durable_query_count_after_app_reconstruction
+    result_template: "{passed_check_count}/{check_count} checks passed; {successful_response_count}/{request_count} HTTP 200 responses; {server_error_count} server errors; P95 at or below {p95_latency_budget_ms} ms; {durable_query_count_after_app_reconstruction} durable query rows after app reconstruction"
+    public_surfaces:
+      - path: README.md
+        contains:
+          - "Fixed local workload: {successful_response_count}/{request_count} responses returned 200, zero server errors, and P95 at or below {p95_latency_budget_ms} ms."
+          - "A separate fixed in-process workload records {passed_check_count}/{check_count} reliability checks passed: {successful_response_count}/{request_count} responses returned 200, zero server errors, P95 at or below {p95_latency_budget_ms} ms, and {durable_query_count_after_app_reconstruction} durable query rows remained after app reconstruction."
+      - path: projects/aec-code-compliance-rag/README.md
+        contains:
+          - "| Local reliability evaluation | {request_count} requests at maximum concurrency {max_concurrency} | {successful_response_count}/{request_count} responses returned 200; {server_error_count} server errors; P95 at or below {p95_latency_budget_ms} ms; {durable_query_count_after_app_reconstruction} durable query rows survived app reconstruction |"
+      - path: projects/aec-code-compliance-rag/EVAL.md
+        contains:
+          - "Current artifact-backed result: {passed_check_count}/{check_count} reliability checks passed; {successful_response_count}/{request_count} responses returned 200, {server_error_count} server errors were observed, P95 was at or below {p95_latency_budget_ms} ms, and {durable_query_count_after_app_reconstruction} durable query rows survived app reconstruction."
+      - path: portfolio-site/index.html
+        contains:
+          - "fixed workload returned {successful_response_count}/{request_count} HTTP 200 responses, {server_error_count} server errors, and P95 at or below {p95_latency_budget_ms} ms"
+          - "{durable_query_count_after_app_reconstruction} payload-free query telemetry rows remained after app reconstruction"
+
   - id: constraint-aware-massing
     project_slug: constraint-aware-massing-explorer
     artifact: projects/constraint-aware-massing-explorer/demo_outputs/evaluation_summary.json

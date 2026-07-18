@@ -4,7 +4,7 @@
 
 | Order | Project | Evidence to inspect | Interpretation limit |
 | --- | --- | --- | --- |
-| 1 | `projects/aec-code-compliance-rag` | architecture, public provenance, retrieval ablation, failure analysis, demo answers, local service contract, and focused tests | Flagship retrieval system; not compliance certification or deployment evidence. |
+| 1 | `projects/aec-code-compliance-rag` | architecture, public provenance, retrieval ablation, failure analysis, demo answers, local service contract, fixed reliability workload, durable telemetry, and focused tests | Flagship retrieval system; in-process reliability evidence is not compliance certification, deployment, uptime, or capacity evidence. |
 | 2 | `projects/vla-embodied-agent-simulator` | engineered, semantic-raster, egocentric-state, and rendered-RGB comparison; unseen appearance shift; 96-scenario holdout; raw/filtered metrics; failures; model cards; and tests | RGB pixels are state-rendered and filters see full rules; no physical-camera, foundation-VLA, or hardware evidence. |
 | 3 | `projects/constraint-aware-massing-explorer` | hard constraints, proxy objectives, Pareto ranking, baseline evaluation, diagrams, and tests | Rectangular proxy geometry; not professional design. |
 
@@ -15,6 +15,7 @@ The specification and QS projects extend the same AEC workflow with auditability
 ```bash
 python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
 python projects/aec-code-compliance-rag/evaluate_service.py
+python projects/aec-code-compliance-rag/evaluate_service_reliability.py
 python projects/vla-embodied-agent-simulator/evaluate_vla.py
 python projects/constraint-aware-massing-explorer/evaluate_massing.py
 python integrations/aec-design-to-cost/run_workflow.py

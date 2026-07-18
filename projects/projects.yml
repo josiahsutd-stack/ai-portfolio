@@ -7,12 +7,12 @@ projects:
     demo_command: streamlit run projects/aec-code-compliance-rag/app.py
     test_command: pytest tests/test_rag.py
     tech_stack: [Python, Streamlit, scikit-learn]
-    summary: Primary source-grounded AEC RAG assistant with provenance-rich chunks, retrieval and service-contract evaluation, citations, abstention, and an authenticated local API boundary.
-    skills: [RAG, retrieval evaluation, citations, chunk metadata, FastAPI service contracts, AEC workflows]
+    summary: Primary source-grounded AEC RAG assistant with provenance-rich chunks, retrieval and service-contract evaluation, citations, abstention, bounded durable telemetry, and an authenticated local API boundary.
+    skills: [RAG, retrieval evaluation, citations, chunk metadata, FastAPI service contracts, durable local telemetry, latency and error objectives, AEC workflows]
     status: flagship
     data_mode: "Synthetic bundled corpus by default; optional locally downloaded official public documents"
-    implementation_mode: "TF-IDF, BM25, dense LSA, and hybrid retrieval behind Streamlit and a fail-closed local FastAPI service"
-    boundary: "Document-assistance prototype; not compliance certification, professional advice, or external deployment evidence"
+    implementation_mode: "TF-IDF, BM25, dense LSA, and hybrid retrieval behind Streamlit and a fail-closed local FastAPI service with bounded SQLite telemetry"
+    boundary: "Document-assistance prototype; not compliance certification, professional advice, sustained-load, uptime, or external deployment evidence"
     readme_path: projects/aec-code-compliance-rag/README.md
   - name: QS Takeoff and Tender Analysis Workbench
     slug: qs-takeoff-tender-analysis

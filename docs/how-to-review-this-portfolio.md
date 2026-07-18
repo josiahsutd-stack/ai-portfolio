@@ -3,7 +3,7 @@
 ## Five-Minute Screen
 
 1. Read the root `README.md` selected-work table and claim boundaries.
-2. Open `projects/aec-code-compliance-rag/EVAL.md`, `demo_outputs/public_sources/retrieval_eval_summary.json`, and `demo_outputs/service_contract_report.md`.
+2. Open `projects/aec-code-compliance-rag/EVAL.md`, `demo_outputs/public_sources/retrieval_eval_summary.json`, `demo_outputs/service_contract_report.md`, and `demo_outputs/service_reliability_report.md`.
 3. Open `projects/vla-embodied-agent-simulator/EVAL.md` for learned-policy holdout results.
 4. Open `projects/constraint-aware-massing-explorer/EVAL.md` and its option diagrams.
 5. Use `docs/EVIDENCE_LEDGER.md` to trace displayed values to versioned artifacts.
@@ -13,6 +13,7 @@
 ```bash
 python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py
 python projects/aec-code-compliance-rag/evaluate_service.py
+python projects/aec-code-compliance-rag/evaluate_service_reliability.py
 python projects/vla-embodied-agent-simulator/evaluate_vla.py
 python projects/constraint-aware-massing-explorer/evaluate_massing.py
 python -m pytest tests/test_rag.py tests/test_rag_service.py tests/test_vla_embodied_agent.py tests/test_massing_explorer.py

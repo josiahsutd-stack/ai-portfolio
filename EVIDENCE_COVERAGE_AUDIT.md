@@ -6,7 +6,7 @@
 
 | Area | Implemented evidence | Source of record | Not demonstrated |
 | --- | --- | --- | --- |
-| AEC document retrieval and local service | Validated public-document ingestion, metadata-rich chunks, four local retrieval modes, citations, abstention, adversarial cases, ablation, failure analysis, and a fail-closed local API contract with redacted logs. | [AEC RAG evaluation](projects/aec-code-compliance-rag/EVAL.md), [service contract report](projects/aec-code-compliance-rag/demo_outputs/service_contract_report.md), and [public-source inventory](projects/aec-code-compliance-rag/public_sources/SOURCE_NOTES.md) | Compliance certification, legal advice, authority approval, a broad expert-labeled benchmark, external deployment, traffic, scale, availability, or production security. |
+| AEC document retrieval and local service | Validated public-document ingestion, metadata-rich chunks, four local retrieval modes, citations, abstention, adversarial cases, ablation, failure analysis, fail-closed authentication, redacted logs, bounded durable request telemetry, and a fixed local latency/error objective. | [AEC RAG evaluation](projects/aec-code-compliance-rag/EVAL.md), [service contract report](projects/aec-code-compliance-rag/demo_outputs/service_contract_report.md), [local reliability report](projects/aec-code-compliance-rag/demo_outputs/service_reliability_report.md), and [public-source inventory](projects/aec-code-compliance-rag/public_sources/SOURCE_NOTES.md) | Compliance certification, legal advice, authority approval, a broad expert-labeled benchmark, external deployment, network or sustained load, traffic, scale, availability, distributed monitoring, or production security. |
 | Embodied-agent control | Engineered, semantic-raster, egocentric-state, and rendered-RGB observations trained from shared A* demonstrations; held-out appearance shift; disjoint action metrics; raw and filtered rollouts; intervention counts; terminal-semantics regression tests. | [Embodied evaluation](projects/vla-embodied-agent-simulator/EVAL.md) and [model cards](projects/vla-embodied-agent-simulator/demo_outputs/) | Physical-camera perception, detection/depth, realistic sensor effects, foundation VLA behavior, physics, ROS 2 integration, robot hardware, or physical-safety validation. |
 | Constraint-aware massing | Parametric geometry, hard-constraint filtering, editable objective proxies, Pareto ranking, unconstrained baseline, and generated option diagrams. | [Massing evaluation](projects/constraint-aware-massing-explorer/EVAL.md) | Code inference, internal egress, structure, calibrated daylight or CFD, and approvable design output. |
 | Project requirements | Role-tagged messages, versioned requirements, conflicts, scoped approvals, source ids, audit events, and draft clauses over authored fixtures. | [Specification evaluation](projects/project-specification-copilot/EVAL.md) | Open-domain conversation understanding, uncontrolled natural language, professional specification authorship, or live-team usage. |
@@ -28,13 +28,13 @@ The repository does not claim to close these gaps:
 
 1. Independent labels or review from an architect, engineer, quantity surveyor, authority, robotics practitioner, or other domain professional.
 2. Permissioned real-project data with a held-out protocol and documented annotation disagreements.
-3. A deployed selected project with identity-aware authorization, durable monitoring, latency and error objectives, and usage evidence.
+3. A deployed selected project with identity-aware authorization, distributed monitoring, deployment-specific latency/error objectives, and usage evidence.
 4. An embodied-policy input derived from physical or photorealistic sensed data, a physics-based simulator, ROS 2, or hardware.
 5. Evidence of customer use, operational reliability, professional acceptance, or commercial outcomes.
 
 ## Highest-Value Next Evidence
 
 1. One permissioned public or partner AEC dataset with expert labels and a held-out evaluation protocol.
-2. One deployed selected project with identity-aware authorization, durable monitoring, latency/error budgets, and usage evidence.
+2. One deployed selected project with identity-aware authorization, distributed monitoring, deployment-specific latency/error budgets, and usage evidence.
 3. One robotics integration beyond synthetic semantic state, such as perception input, ROS 2 simulation, or a physics-based environment.
 4. Professional review of a bounded massing, specification, or QS output with documented disagreement and corrections.

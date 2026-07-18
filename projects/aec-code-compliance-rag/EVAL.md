@@ -55,6 +55,25 @@ Generated evidence:
 
 This contract suite does not start an external listener. It provides no evidence about cloud deployment, TLS, secret management, multiple workers, load capacity, availability, penetration resistance, incident response, privacy compliance, or user traffic.
 
+## Local Reliability Evaluation
+
+Run the bounded workload separately:
+
+```bash
+python projects/aec-code-compliance-rag/evaluate_service_reliability.py
+```
+
+The evaluator warms the hybrid index, sends 48 synthetic-corpus queries with maximum concurrency 8, reads query-specific objectives, reconstructs the app against the same SQLite file, and checks that process counters reset while durable request telemetry remains.
+
+Current artifact-backed result: 14/14 reliability checks passed; 48/48 responses returned 200, 0 server errors were observed, P95 was at or below 500 ms, and 48 durable query rows survived app reconstruction.
+
+Generated evidence:
+
+- [`demo_outputs/service_reliability_summary.json`](demo_outputs/service_reliability_summary.json)
+- [`demo_outputs/service_reliability_report.md`](demo_outputs/service_reliability_report.md)
+
+Exact wall-clock P95 is printed at runtime but not committed because it is machine-dependent. The versioned result records only whether the fixed 500 ms local budget passed. This is one warmed in-process workload, not network load, sustained capacity, uptime, availability, or production-SLO evidence.
+
 ## Evaluation Data
 
 Evaluation cases live in:
@@ -167,4 +186,4 @@ Optional modes `semantic` and `hybrid_cross_encoder` are exposed in the app and 
 - Add Singapore amendment-refresh and superseded-document tests.
 - Compare optional embedding and cross-encoder modes on the same fingerprinted public snapshot.
 - Track no-result rate and low-confidence answer rate over a larger eval set.
-- Exercise the service behind a real reverse proxy with identity-aware authorization, fault injection, concurrency/load tests, durable telemetry, and explicit latency/error objectives.
+- Exercise the service behind a real reverse proxy with identity-aware authorization, fault injection, network load tests, distributed telemetry, and deployment-specific latency/error objectives.

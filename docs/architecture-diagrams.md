@@ -11,6 +11,10 @@ flowchart LR
   C --> D["Ranked evidence chunks"]
   D --> E["Grounded response or abstention"]
   E --> F["Citations, status, and eval artifacts"]
+  API["Fail-closed FastAPI boundary"] --> Q
+  API --> T["Redacted query log and bounded request telemetry"]
+  T --> O["Query P95 and server-error objectives"]
+  O --> R["Concurrent local reliability artifact"]
 ```
 
 ## QS Takeoff and Tender Analysis Workbench

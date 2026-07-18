@@ -19,6 +19,11 @@ Runtime configuration:
 | `AEC_RAG_CORPUS` | `synthetic` | Use `public` only after downloading the optional public corpus. |
 | `AEC_RAG_LOG_PATH` | `.artifacts/aec-rag/query_log.sqlite` | Ignored local SQLite path; not a distributed audit store. |
 | `AEC_RAG_LOG_PAYLOADS` | `false` | Questions and response bodies remain redacted unless explicitly enabled. |
+| `AEC_RAG_TELEMETRY_RETENTION` | `5000` | Maximum local request rows retained in SQLite. |
+| `AEC_RAG_TELEMETRY_WINDOW` | `200` | Latest durable rows considered by service metrics. |
+| `AEC_RAG_QUERY_OBJECTIVE_MIN_REQUESTS` | `20` | Query objective remains `insufficient_data` below this sample. |
+| `AEC_RAG_QUERY_P95_BUDGET_MS` | `500` | Local query P95 threshold; not a production SLO. |
+| `AEC_RAG_QUERY_SERVER_ERROR_RATE_BUDGET` | `0.01` | Local query 5xx-rate threshold; not an availability claim. |
 
 Public endpoints are `/health/live` and `/health/ready`. The `X-API-Key` header is required for `/sources`, `/query`, `/retrieve`, `/logs/recent`, and `/metrics`.
 
@@ -26,9 +31,10 @@ The deterministic contract evaluator exercises authentication, request IDs, read
 
 ```bash
 python projects/aec-code-compliance-rag/evaluate_service.py
+python projects/aec-code-compliance-rag/evaluate_service_reliability.py
 ```
 
-Its versioned outputs are [`service_contract_summary.json`](demo_outputs/service_contract_summary.json) and [`service_contract_report.md`](demo_outputs/service_contract_report.md). This is in-process ASGI evidence, not proof of an internet-facing deployment.
+Versioned outputs include the [service contract report](demo_outputs/service_contract_report.md) and [local reliability report](demo_outputs/service_reliability_report.md). The latter runs 48 warmed in-process queries at maximum concurrency 8, checks fixed latency/error budgets, and reconstructs the app to verify local SQLite persistence. These are not proof of an internet-facing deployment, sustained capacity, or availability.
 
 ## Verified Local Streamlit App
 
@@ -92,4 +98,4 @@ Only do that if the host allows network download and persistent storage.
 
 ## Safety Copy
 
-Any hosted version must identify the interface as source-grounded document assistance, not legal, architectural, engineering, or code-compliance sign-off. Before a deployment could support an operational claim, it would also need identity-aware authorization, managed secrets, TLS, rate limiting, durable telemetry, source refresh controls, load and security testing, incident handling, and observed reliability targets.
+Any hosted version must identify the interface as source-grounded document assistance, not legal, architectural, engineering, or code-compliance sign-off. Before a deployment could support an operational claim, it would also need identity-aware authorization, managed secrets, TLS, rate limiting, distributed telemetry, source refresh controls, network load and security testing, incident handling, and observed reliability targets.
