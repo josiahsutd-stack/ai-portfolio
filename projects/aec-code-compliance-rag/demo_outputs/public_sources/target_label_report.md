@@ -1,6 +1,6 @@
 # Evidence Target Label Audit
 
-Targets were authored by the portfolio candidate from the fixed local public-source snapshot. They are not independent expert labels, official clause annotations, or evidence of regulatory validation.
+Targets were manually selected by the project author from the fixed local public-source snapshot. They are not independent expert labels, official clause annotations, or evidence of regulatory validation.
 
 ## Validation Summary
 

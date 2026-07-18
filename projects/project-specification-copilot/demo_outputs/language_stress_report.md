@@ -2,7 +2,7 @@
 
 **Data status:** synthetic
 
-**Label source:** candidate-authored, not blinded or independently validated
+**Label source:** manually labeled, not blinded or independently validated
 
 The fixed set contains 33 single-message cases: 25 positive requirement forms and 8 negative controls.
 

@@ -30,7 +30,7 @@ Singapore public-source evaluation for the AEC Code Compliance RAG.
 - Unsupported answer sentence rate: 0.0
 - Hit@1: 0.952
 - Hit@3: 1.0
-- Candidate-authored exact evidence targets: 21
+- Manually labeled exact evidence targets: 21
 - Exact evidence target Hit@1: 0.81
 - Exact evidence target Hit@3: 0.952
 - Exact evidence target MRR: 0.881

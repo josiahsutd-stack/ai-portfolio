@@ -55,7 +55,7 @@ projects:
     summary: Converts role-tagged synthetic project messages into a requirement ledger, conflict register, authorized approvals, audit trace, and source-linked draft clauses, with a separate direct/paraphrase/negative language stress audit.
     skills: [requirements extraction, language stress evaluation, workflow state, conflict detection, approval gates, auditability]
     status: supporting
-    data_mode: "Five bundled synthetic workflow conversations plus 33 candidate-authored single-message stress cases"
+    data_mode: "Five bundled synthetic workflow conversations plus 33 manually labeled single-message stress cases"
     implementation_mode: "Deterministic phrase extraction with documented paraphrase variants and context abstention, typed requirement lifecycle, role matrix, and append-only SQLite events"
     boundary: "Stress labels are not blinded or independent; not open-domain language understanding, authenticated authority, or a professional project specification"
     readme_path: projects/project-specification-copilot/README.md

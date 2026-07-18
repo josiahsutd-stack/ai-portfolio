@@ -314,7 +314,7 @@ def draw_page_one(pdf: canvas.Canvas, context: dict[str, Any]) -> None:
             f"n={aec['answerable_cases']}."
         ),
         boundary=(
-            "Candidate-authored fixed snapshot. Document assistance only; no compliance "
+            "Manually labeled fixed snapshot. Document assistance only; no compliance "
             "certification or professional sign-off."
         ),
         url=project_urls["aec"],

@@ -145,7 +145,7 @@ def _write_markdown_report(
         f"- Unsupported answer sentence rate: {summary['unsupported_sentence_rate']}",
         f"- Hit@1: {summary['retrieval_hit_at_1']}",
         f"- Hit@3: {summary['retrieval_hit_at_3']}",
-        f"- Candidate-authored exact evidence targets: {summary['evidence_target_case_count']}",
+        f"- Manually labeled exact evidence targets: {summary['evidence_target_case_count']}",
         f"- Exact evidence target Hit@1: {summary['evidence_target_hit_at_1']}",
         f"- Exact evidence target Hit@3: {summary['evidence_target_hit_at_3']}",
         f"- Exact evidence target MRR: {summary['evidence_target_mean_reciprocal_rank']}",
@@ -575,7 +575,7 @@ def _target_label_audit_payload(
     return {
         "artifact_schema_version": "1.0",
         "label_boundary": (
-            "Targets were authored by the portfolio candidate from the fixed local public-source "
+            "Targets were manually selected by the project author from the fixed local public-source "
             "snapshot. They are not independent expert labels, official clause annotations, or "
             "evidence of regulatory validation."
         ),
@@ -648,7 +648,7 @@ def _write_granularity_svg(
             summary["evidence_target_hit_at_1"],
             summary["evidence_target_hit_at_3"],
             summary["evidence_target_mean_reciprocal_rank"],
-            "Requires a candidate-authored supporting chunk",
+            "Requires a manually labeled supporting chunk",
         ),
         (
             "Source + target page",
@@ -667,11 +667,11 @@ def _write_granularity_svg(
     elements = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img" aria-labelledby="title desc">',
         '<title id="title">AEC retrieval granularity comparison</title>',
-        '<desc id="desc">Document, exact chunk, and source-page retrieval metrics on a fixed candidate-authored public-source evaluation.</desc>',
+        '<desc id="desc">Document, exact chunk, and source-page retrieval metrics on a manually labeled fixed public-source evaluation.</desc>',
         '<rect width="1200" height="720" fill="#fbfcfe"/>',
         '<rect x="28" y="28" width="1144" height="664" rx="8" fill="#ffffff" stroke="#d8dee8"/>',
         '<text x="72" y="86" fill="#12233f" font-family="Arial, sans-serif" font-size="30" font-weight="700">Document match is not evidence match</text>',
-        f'<text x="72" y="118" fill="#536174" font-family="Arial, sans-serif" font-size="16">{escape(corpus_label)} fixed snapshot; candidate-authored evidence targets</text>',
+        f'<text x="72" y="118" fill="#536174" font-family="Arial, sans-serif" font-size="16">{escape(corpus_label)} fixed snapshot; manually labeled evidence targets</text>',
         '<text x="72" y="151" fill="#0d6f69" font-family="Arial, sans-serif" font-size="14" font-weight="700">THREE RETRIEVAL GRANULARITIES, REPORTED SEPARATELY</text>',
     ]
     legend_x = 720
@@ -714,7 +714,7 @@ def _write_granularity_svg(
     elements.extend(
         [
             '<rect x="72" y="620" width="1056" height="44" rx="5" fill="#f3f6f9" stroke="#d8dee8"/>',
-            '<text x="94" y="647" fill="#536174" font-family="Arial, sans-serif" font-size="14">Targets are candidate-authored from the fixed snapshot, not independent expert labels or regulatory validation.</text>',
+            '<text x="94" y="647" fill="#536174" font-family="Arial, sans-serif" font-size="14">Targets are manually labeled from the fixed snapshot, not independent expert labels or regulatory validation.</text>',
             "</svg>",
         ]
     )

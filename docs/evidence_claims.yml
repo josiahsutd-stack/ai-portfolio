@@ -90,11 +90,11 @@ claims:
       - path: README.md
         contains:
           - "Public {case_count}-case snapshot over {document_count} validated documents: `Hit@1 {hit_at_1}`, `MRR {mrr}`, paraphrase `MRR {paraphrase_mrr}`, and no-answer accuracy `{no_answer}`."
-          - "Candidate-authored exact-target check: Hit@1 `{exact_hit_at_1}`, Hit@3 `{exact_hit_at_3}`, and MRR `{exact_mrr}` across `{evidence_target_case_count}` labeled answerable cases; source-page Hit@1 `{page_hit_at_1}` and MRR `{page_mrr}` across `{page_target_case_count}` page-labeled cases."
+          - "Manually labeled exact-target check: Hit@1 `{exact_hit_at_1}`, Hit@3 `{exact_hit_at_3}`, and MRR `{exact_mrr}` across `{evidence_target_case_count}` labeled answerable cases; source-page Hit@1 `{page_hit_at_1}` and MRR `{page_mrr}` across `{page_target_case_count}` page-labeled cases."
       - path: projects/aec-code-compliance-rag/README.md
         contains:
           - "| Singapore public-source snapshot | {case_count} cases over {document_count} downloaded documents | Hit@1 `{hit_at_1}`; MRR `{mrr}`; paraphrase MRR `{paraphrase_mrr}`; no-answer `{no_answer}` |"
-          - "Candidate-authored exact-target check: Hit@1 `{exact_hit_at_1}`, Hit@3 `{exact_hit_at_3}`, and MRR `{exact_mrr}` across `{evidence_target_case_count}` labeled answerable cases; source-page Hit@1 `{page_hit_at_1}` and MRR `{page_mrr}` across `{page_target_case_count}` page-labeled cases."
+          - "Manually labeled exact-target check: Hit@1 `{exact_hit_at_1}`, Hit@3 `{exact_hit_at_3}`, and MRR `{exact_mrr}` across `{evidence_target_case_count}` labeled answerable cases; source-page Hit@1 `{page_hit_at_1}` and MRR `{page_mrr}` across `{page_target_case_count}` page-labeled cases."
       - path: projects/aec-code-compliance-rag/EVAL.md
         contains:
           - "| Documents | `{document_count}` |"
@@ -203,24 +203,24 @@ claims:
         contains:
           - "Uncertainty check: public Hit@1 `{hit_at_1}` has a 95% Wilson interval of `[{hit_lower}, {hit_upper}]` over `{answerable_case_count}` answerable cases; MRR `{mrr}` has a 95% bootstrap interval of `[{mrr_lower}, {mrr_upper}]`; no-answer `{no_answer}` is `{no_answer_case_count}/{no_answer_case_count}` with a Wilson interval of `[{no_answer_lower}, {no_answer_upper}]`."
           - "Hybrid versus BM25 MRR delta is `{bm25_mrr_delta}` with a 95% paired interval of `[{bm25_mrr_lower}, {bm25_mrr_upper}]`; the interval includes zero, so mode superiority is inconclusive on this authored set."
-          - "Exact-target uncertainty: Hit@1 `{exact_hit_at_1}` has a 95% interval of `[{exact_hit_lower}, {exact_hit_upper}]`, and exact-target MRR `{exact_mrr}` has a 95% interval of `[{exact_mrr_lower}, {exact_mrr_upper}]` across `{answerable_case_count}` candidate-authored targets."
+          - "Exact-target uncertainty: Hit@1 `{exact_hit_at_1}` has a 95% interval of `[{exact_hit_lower}, {exact_hit_upper}]`, and exact-target MRR `{exact_mrr}` has a 95% interval of `[{exact_mrr_lower}, {exact_mrr_upper}]` across `{answerable_case_count}` manually labeled targets."
       - path: projects/aec-code-compliance-rag/README.md
         contains:
           - "Uncertainty check: public Hit@1 `{hit_at_1}` has a 95% Wilson interval of `[{hit_lower}, {hit_upper}]` over `{answerable_case_count}` answerable cases; MRR `{mrr}` has a 95% bootstrap interval of `[{mrr_lower}, {mrr_upper}]`; no-answer `{no_answer}` is `{no_answer_case_count}/{no_answer_case_count}` with a Wilson interval of `[{no_answer_lower}, {no_answer_upper}]`."
           - "Hybrid versus BM25 MRR delta is `{bm25_mrr_delta}` with a 95% paired interval of `[{bm25_mrr_lower}, {bm25_mrr_upper}]`; `{bm25_conclusion}`."
-          - "Exact-target uncertainty: Hit@1 `{exact_hit_at_1}` has a 95% interval of `[{exact_hit_lower}, {exact_hit_upper}]`, and exact-target MRR `{exact_mrr}` has a 95% interval of `[{exact_mrr_lower}, {exact_mrr_upper}]` across `{answerable_case_count}` candidate-authored targets."
+          - "Exact-target uncertainty: Hit@1 `{exact_hit_at_1}` has a 95% interval of `[{exact_hit_lower}, {exact_hit_upper}]`, and exact-target MRR `{exact_mrr}` has a 95% interval of `[{exact_mrr_lower}, {exact_mrr_upper}]` across `{answerable_case_count}` manually labeled targets."
       - path: projects/aec-code-compliance-rag/EVAL.md
         contains:
           - "| Hybrid Hit@1 | `{hit_at_1}` | `[{hit_lower}, {hit_upper}]` | `{answerable_case_count}` answerable cases | Wilson score |"
           - "| Hybrid MRR | `{mrr}` | `[{mrr_lower}, {mrr_upper}]` | `{answerable_case_count}` answerable cases | Percentile bootstrap |"
           - "| No-answer accuracy | `{no_answer}` | `[{no_answer_lower}, {no_answer_upper}]` | `{no_answer_case_count}` no-evidence cases | Wilson score |"
-          - "| Exact evidence target Hit@1 | `{exact_hit_at_1}` | `[{exact_hit_lower}, {exact_hit_upper}]` | `{answerable_case_count}` candidate-authored targets | Wilson score |"
-          - "| Exact evidence target MRR | `{exact_mrr}` | `[{exact_mrr_lower}, {exact_mrr_upper}]` | `{answerable_case_count}` candidate-authored targets | Percentile bootstrap |"
+          - "| Exact evidence target Hit@1 | `{exact_hit_at_1}` | `[{exact_hit_lower}, {exact_hit_upper}]` | `{answerable_case_count}` manually labeled targets | Wilson score |"
+          - "| Exact evidence target MRR | `{exact_mrr}` | `[{exact_mrr_lower}, {exact_mrr_upper}]` | `{answerable_case_count}` manually labeled targets | Percentile bootstrap |"
           - "Hybrid versus BM25 MRR delta is `{bm25_mrr_delta}` with a 95% paired interval of `[{bm25_mrr_lower}, {bm25_mrr_upper}]`; `{bm25_conclusion}`."
       - path: portfolio-site/index.html
         contains:
           - "Public Hit@1 {hit_at_1} has a 95% Wilson interval of [{hit_lower}, {hit_upper}] over {answerable_case_count} answerable cases; MRR {mrr} has a 95% bootstrap interval of [{mrr_lower}, {mrr_upper}]. No-answer {no_answer} is {no_answer_case_count}/{no_answer_case_count} with a Wilson interval of [{no_answer_lower}, {no_answer_upper}]."
-          - "Exact-target uncertainty: Hit@1 {exact_hit_at_1} [{exact_hit_lower}, {exact_hit_upper}] and MRR {exact_mrr} [{exact_mrr_lower}, {exact_mrr_upper}] across {answerable_case_count} candidate-authored targets."
+          - "Exact-target uncertainty: Hit@1 {exact_hit_at_1} [{exact_hit_lower}, {exact_hit_upper}] and MRR {exact_mrr} [{exact_mrr_lower}, {exact_mrr_upper}] across {answerable_case_count} manually labeled targets."
       - path: portfolio-site/pages/aec-rag.html
         contains:
           - "95% Wilson interval [{hit_lower}, {hit_upper}], n={answerable_case_count}"
@@ -393,7 +393,7 @@ claims:
     ledger_label: Project Communication and Specification Assistant - Language Stress
     artifact: projects/project-specification-copilot/demo_outputs/language_stress_summary.json
     command: python projects/project-specification-copilot/evaluate_specification.py
-    evaluation_scope: Candidate-authored fixed single-message coverage set with direct forms, paraphrases, and negative controls; not blinded or independently labeled
+    evaluation_scope: Manually labeled fixed single-message coverage set with direct forms, paraphrases, and negative controls; not blinded or independently labeled
     metrics:
       case_count:
         json_path: case_count
@@ -438,7 +438,7 @@ claims:
           - "<article><span>Negative-control accuracy</span><strong>{negative_accuracy}</strong>"
       - path: projects/project-specification-copilot/README.md
         contains:
-          - "contains `{case_count}` candidate-authored single-message cases"
+          - "contains `{case_count}` manually labeled single-message cases"
           - "preserves `{failure_count}` misses involving number words"
           - "| Requirement precision | `{stress_precision}` |"
           - "| Requirement recall | `{stress_recall}` |"
@@ -448,7 +448,7 @@ claims:
           - "| Paraphrase exact-case accuracy | `{paraphrase_exact}` |"
       - path: projects/project-specification-copilot/EVAL.md
         contains:
-          - "covers `{case_count}` candidate-authored single-message cases"
+          - "covers `{case_count}` manually labeled single-message cases"
           - "| Requirement F1 | `{stress_f1}` |"
           - "| Exact-case accuracy | `{exact_accuracy}` |"
           - "| Negative-control accuracy | `{negative_accuracy}` |"

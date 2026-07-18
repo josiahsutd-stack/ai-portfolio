@@ -151,7 +151,7 @@ def validate_retrieval_eval_targets(
     *,
     require_answerable_targets: bool = False,
 ) -> dict[str, object]:
-    """Validate candidate-authored target IDs against the indexed corpus."""
+    """Validate manually labeled target IDs against the indexed corpus."""
     chunks_by_id = {chunk.chunk_id: chunk for chunk in chunks}
     if len(chunks_by_id) != len(chunks):
         raise ValueError("Indexed chunks must have unique chunk IDs for target validation.")

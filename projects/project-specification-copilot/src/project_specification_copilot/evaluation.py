@@ -154,7 +154,7 @@ def evaluate_language_stress_cases(
         "failure_count": len(cases) - exact_cases,
         "case_results": case_results,
         "boundaries": [
-            "Cases and labels are candidate-authored and are not blinded or independently validated.",
+            "Cases and labels are manually labeled and are not blinded or independently validated.",
             "The set measures documented single-message forms, not open-domain conversation understanding.",
             "No result establishes professional specification quality or stakeholder acceptance.",
         ],
@@ -188,11 +188,11 @@ def _language_stress_svg(summary: dict[str, Any]) -> str:
     metrics = summary["metrics"]
     return f"""<svg xmlns="http://www.w3.org/2000/svg" width="860" height="500" viewBox="0 0 860 500" role="img" aria-labelledby="title desc">
   <title id="title">Language stress exact-case accuracy</title>
-  <desc id="desc">Exact-case accuracy for direct forms, paraphrases, and negative controls in a candidate-authored synthetic stress set.</desc>
+  <desc id="desc">Exact-case accuracy for direct forms, paraphrases, and negative controls in an manually labeled synthetic stress set.</desc>
   <rect width="860" height="500" fill="#f7f8f6"/>
   <text x="56" y="48" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#e85d3f">LANGUAGE COVERAGE STRESS AUDIT · SYNTHETIC</text>
   <text x="56" y="86" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#17231f">Exact-case accuracy by wording group</text>
-  <text x="56" y="116" font-family="Arial, sans-serif" font-size="14" fill="#58645f">{summary['case_count']} candidate-authored cases · not blinded or independently labeled</text>
+  <text x="56" y="116" font-family="Arial, sans-serif" font-size="14" fill="#58645f">{summary['case_count']} manually labeled cases · not blinded or independently labeled</text>
   {''.join(rows)}
   <line x1="56" y1="438" x2="804" y2="438" stroke="#c9d1cd"/>
   <text x="56" y="470" font-family="Arial, sans-serif" font-size="14" fill="#17231f">Overall extraction F1 {metrics['requirement_f1']:.3f} · Negative-control accuracy {metrics['negative_control_accuracy']:.3f} · {summary['failure_count']} exact-case misses retained</text>
@@ -222,7 +222,7 @@ def write_language_stress_artifacts(
 
 **Data status:** synthetic
 
-**Label source:** candidate-authored, not blinded or independently validated
+**Label source:** manually labeled, not blinded or independently validated
 
 The fixed set contains {summary['case_count']} single-message cases: {summary['positive_case_count']} positive requirement forms and {summary['negative_control_case_count']} negative controls.
 

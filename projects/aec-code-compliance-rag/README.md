@@ -68,17 +68,17 @@ The downloaded PDFs/HTML text and generated manifest stay in `public_sources/dow
 | --- | --- | --- | --- |
 | Synthetic regression | 51 bundled cases | Recall@4 `1.000`; MRR `0.906`; Hit@3 `1.000` | Small authored corpus; useful for deterministic regression only. |
 | Singapore public-source snapshot | 24 cases over 15 downloaded documents | Hit@1 `0.952`; MRR `0.976`; paraphrase MRR `0.917`; no-answer `1.000` | Documents were downloaded and validated on 18 July 2026; no authority or expert applicability review. |
-| Public retrieval granularity | 21 exact-chunk targets; 18 source-page targets | Exact Hit@1 `0.810`; exact MRR `0.881`; page Hit@1 `0.778` | Candidate-authored fixed-snapshot labels; no independent expert review. |
+| Public retrieval granularity | 21 exact-chunk targets; 18 source-page targets | Exact Hit@1 `0.810`; exact MRR `0.881`; page Hit@1 `0.778` | Manually labeled fixed-snapshot targets; no independent expert review. |
 | Local service contract | 12 in-process ASGI checks | 12/12 checks passed; 9 requests and 3 client errors observed before the metrics response | Synthetic corpus; no external deployment, traffic, load, availability, or security assessment. |
 | Local reliability evaluation | 48 requests at maximum concurrency 8 | 48/48 responses returned 200; 0 server errors; P95 at or below 500 ms; 48 durable query rows survived app reconstruction | Warmed in-process ASGI workload on one local machine; not network, sustained-load, uptime, or capacity evidence. |
 
 The public run includes 15 direct questions, six paraphrases, two project-specific no-evidence cases, and one professional-review refusal. Two paraphrase cases retrieve the correct source but miss one expected phrase within the top four chunks; those cases remain in [`failure_analysis.md`](demo_outputs/public_sources/failure_analysis.md).
 
-Candidate-authored exact-target check: Hit@1 `0.810`, Hit@3 `0.952`, and MRR `0.881` across `21` labeled answerable cases; source-page Hit@1 `0.778` and MRR `0.861` across `18` page-labeled cases. These targets were selected from the fixed local public-source snapshot. They are not independent expert labels, official clause annotations, or regulatory validation.
+Manually labeled exact-target check: Hit@1 `0.810`, Hit@3 `0.952`, and MRR `0.881` across `21` labeled answerable cases; source-page Hit@1 `0.778` and MRR `0.861` across `18` page-labeled cases. These targets were selected from the fixed local public-source snapshot. They are not independent expert labels, official clause annotations, or regulatory validation.
 
 Uncertainty check: public Hit@1 `0.952` has a 95% Wilson interval of `[0.773, 0.992]` over `21` answerable cases; MRR `0.976` has a 95% bootstrap interval of `[0.929, 1.000]`; no-answer `1.000` is `2/2` with a Wilson interval of `[0.342, 1.000]`. Hybrid versus BM25 MRR delta is `0.012` with a 95% paired interval of `[0.000, 0.036]`; `inconclusive_interval_includes_zero`.
 
-Exact-target uncertainty: Hit@1 `0.810` has a 95% interval of `[0.600, 0.923]`, and exact-target MRR `0.881` has a 95% interval of `[0.762, 0.976]` across `21` candidate-authored targets.
+Exact-target uncertainty: Hit@1 `0.810` has a 95% interval of `[0.600, 0.923]`, and exact-target MRR `0.881` has a 95% interval of `[0.762, 0.976]` across `21` manually labeled targets.
 
 ![Document-level, exact-chunk, and source-page retrieval results](demo_outputs/public_sources/retrieval_granularity_comparison.svg)
 
@@ -124,7 +124,7 @@ Generated evaluation artifacts are in [`demo_outputs/`](demo_outputs/):
 - [`service_reliability_summary.json`](demo_outputs/service_reliability_summary.json)
 - [`service_reliability_report.md`](demo_outputs/service_reliability_report.md)
 - [`public_sources/`](demo_outputs/public_sources/) for optional Singapore public-source eval outputs after running the public corpus command.
-- [`public_sources/target_label_report.md`](demo_outputs/public_sources/target_label_report.md) for candidate-authored target coverage and per-case ranks.
+- [`public_sources/target_label_report.md`](demo_outputs/public_sources/target_label_report.md) for manually labeled target coverage and per-case ranks.
 - [`public_sources/retrieval_granularity_comparison.svg`](demo_outputs/public_sources/retrieval_granularity_comparison.svg) for document-versus-evidence retrieval results.
 
 Regenerate them with:
@@ -149,7 +149,7 @@ python projects/aec-code-compliance-rag/evaluate_service_reliability.py
 - Local TF-IDF, BM25, dense LSA, and hybrid retrieval modes, with optional sentence-transformer embedding and cross-encoder reranking modes.
 - Retrieval ablation report comparing modes over the same synthetic eval set.
 - Fixed-seed uncertainty report with Wilson intervals for binary outcomes, bootstrap intervals for mean metrics, and paired mode deltas.
-- Candidate-authored exact-chunk and source-page targets with fail-closed corpus validation and a generated label audit.
+- Manually labeled exact-chunk and source-page targets with fail-closed corpus validation and a generated label audit.
 - Deterministic no-API answer mode plus optional OpenAI-compatible provider through shared portfolio utilities.
 - Citation formatting with references like `[C1] mock_aec_guidance.md > Accessible Routes`.
 - Source-status analysis that flags retrieved evidence requiring version/jurisdiction review.
@@ -243,7 +243,7 @@ The first evaluator checks interface behavior. The second warms the index, sends
 
 - The default corpus is synthetic and intentionally small.
 - The optional Singapore public corpus downloads official public documents locally, but it is still not a validated compliance engine.
-- Its exact chunk/page labels are candidate-authored from one fixed snapshot and have not been independently reviewed; document Hit@1 is higher than exact-target Hit@1.
+- Its exact chunk/page labels were manually selected from one fixed snapshot and have not been independently reviewed; document Hit@1 is higher than exact-target Hit@1.
 - PDF ingestion is text-based and page-aware, but it does not handle scanned PDFs, OCR, table reconstruction, or layout geometry.
 - TF-IDF, BM25, dense LSA, and hybrid modes are transparent and local. Optional embedding/reranking modes require `requirements-embeddings.txt` and model downloads.
 - The local answer mode is deterministic and extractive; it is not a real expert model.

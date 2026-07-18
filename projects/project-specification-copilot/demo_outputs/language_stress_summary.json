@@ -1,7 +1,7 @@
 {
   "artifact_schema_version": 1,
   "boundaries": [
-    "Cases and labels are candidate-authored and are not blinded or independently validated.",
+    "Cases and labels are manually labeled and are not blinded or independently validated.",
     "The set measures documented single-message forms, not open-domain conversation understanding.",
     "No result establishes professional specification quality or stakeholder acceptance."
   ],

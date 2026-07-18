@@ -35,7 +35,7 @@ The checked-in benchmark contains `5` synthetic conversations and `35` messages.
 
 The cases include budget revision, an unresolved facade conflict, three unauthorized approval attempts, a prompt-like instruction that must not change state, a no-requirement conversation, and direct requirement-ID approval.
 
-A separate fixed language stress set contains `33` candidate-authored single-message cases. It is not blinded or independently labeled. Unlike the grammar regression, it preserves `2` misses involving number words.
+A separate fixed language stress set contains `33` manually labeled single-message cases. It is not blinded or independently labeled. Unlike the grammar regression, it preserves `2` misses involving number words.
 
 | Language stress metric | Result |
 | --- | ---: |
@@ -89,7 +89,7 @@ The generated system map above is the visual index. [`ARCHITECTURE.md`](ARCHITEC
 - Role labels and permissions are supplied by the interface; there is no identity provider or cryptographic signature.
 - The draft is not a construction specification, tender document, employer's requirement, contract record, or statutory submission.
 - Conflicting wording that maps to different keys may not be detected; matching keys are a deliberate narrow boundary.
-- Five synthetic workflow cases and 33 candidate-authored language checks do not establish performance on real meetings, email threads, transcriptions, or multilingual content.
+- Five synthetic workflow cases and 33 manually labeled language checks do not establish performance on real meetings, email threads, transcriptions, or multilingual content.
 
 See [`LIMITATIONS.md`](LIMITATIONS.md) for additional failure modes and deployment requirements.
 

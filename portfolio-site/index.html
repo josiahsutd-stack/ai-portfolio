@@ -120,8 +120,9 @@
         <a href="#work">Work</a>
         <a href="#workflow">AEC journey</a>
         <a href="#capabilities">Capabilities</a>
-        <a href="#architecture">Background</a>
-        <a href="#directory">Project index</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#experience">Experience</a>
+        <a href="#directory">All projects</a>
         <a href="#contact">Contact</a>
       </nav>
     </header>
@@ -130,7 +131,7 @@
       <section class="hero" aria-label="Portfolio introduction">
         <div class="hero__media" aria-hidden="true"></div>
         <div class="hero__content">
-          <p class="eyebrow">Portfolio / 2026</p>
+          <p class="eyebrow">Applied AI / Built Environment / 2026</p>
           <h1>Josiah Lau</h1>
           <p class="hero-role">
             Applied AI for the decisions that shape buildings and construction.
@@ -145,7 +146,7 @@
             <div><span>Evidence</span><strong>Runnable code + evals + visible limits</strong></div>
           </div>
           <div class="hero__actions">
-            <a class="button button--primary" href="#portfolio-map">Explore the portfolio</a>
+            <a class="button button--primary" href="#portfolio-map">Explore the project journey</a>
             <a class="button" href="assets/Josiah_Lau_Applied_AI_Portfolio_Brief.pdf" download>Download portfolio brief</a>
             <a
               class="button"
@@ -224,7 +225,7 @@
               <h3>AEC Code Compliance RAG</h3>
               <p>Public-source ingestion, four retrieval modes, citations, abstention, evals, and focused tests.</p>
               <strong>Document retrieval is stronger than exact evidence retrieval</strong>
-              <small>Document Hit@1 0.952 / MRR 0.976; exact-target Hit@1 0.810 / MRR 0.881; page Hit@1 0.778 on fixed candidate-authored labels.</small>
+              <small>Document Hit@1 0.952 / MRR 0.976; exact-target Hit@1 0.810 / MRR 0.881; page Hit@1 0.778 on manually labeled fixed-snapshot targets.</small>
               <small>Public Hit@1 95% interval [0.773, 0.992], n=21. No-answer is 2/2; this is not compliance certification or broad accuracy evidence.</small>
               <a href="pages/aec-rag.html">Read visual case study</a>
             </article>
@@ -292,7 +293,7 @@
               <h3>Communication and Specification Assistant</h3>
               <p>Shared role-tagged chat, versioned requirements, conflict detection, scoped approvals, audit events, and source-linked draft clauses.</p>
               <strong>33-case language stress: 0.958 F1 / 0.939 exact</strong>
-              <small>5 conversations / 35 messages / 1.000 fixture F1; 2 number-word misses are retained. Candidate-authored synthetic labels, not open-domain chat or a professional specification.</small>
+              <small>5 conversations / 35 messages / 1.000 fixture F1; 2 number-word misses are retained. Manually labeled synthetic cases, not open-domain chat or a professional specification.</small>
               <a href="pages/specification-assistant.html">Read visual case study</a>
             </article>
             <article class="project-card project-card--visual">
@@ -374,7 +375,7 @@
             <dl class="fact-list">
               <div><dt>Evaluation</dt><dd>51 synthetic cases plus 24 authored public-source cases over a fingerprinted 15-document snapshot</dd></div>
               <div><dt>Synthetic check</dt><dd>51-case synthetic set: Recall@4 1.000 / MRR 0.906 / Hit@3 1.000</dd></div>
-              <div><dt>Evidence location</dt><dd>Document Hit@1 0.952 versus exact candidate-authored target Hit@1 0.810; source-page Hit@1 0.778</dd></div>
+              <div><dt>Evidence location</dt><dd>Document Hit@1 0.952 versus exact manually labeled target Hit@1 0.810; source-page Hit@1 0.778</dd></div>
               <div><dt>Uncertainty</dt><dd>Public Hit@1 0.952 [0.773, 0.992], n=21; MRR 0.976 [0.929, 1.000]. Hybrid-vs-BM25 MRR delta 0.012 [0.000, 0.036], inconclusive</dd></div>
               <div><dt>Service</dt><dd>12/12 local contract checks passed; 9 requests observed before metrics response. The fixed workload returned 48/48 HTTP 200 responses, 0 server errors, and P95 at or below 500 ms</dd></div>
               <div><dt>Persistence</dt><dd>48 payload-free query telemetry rows remained after app reconstruction</dd></div>
@@ -416,7 +417,7 @@
             <img src="assets/retrieval-uncertainty.svg" alt="Point estimates and 95 percent intervals for the authored AEC public-source retrieval snapshot" width="1200" height="760" loading="lazy" decoding="async" />
             <figcaption>
               Public Hit@1 0.952 has a 95% Wilson interval of [0.773, 0.992] over 21 answerable cases; MRR 0.976 has a 95% bootstrap interval of [0.929, 1.000]. No-answer 1.000 is 2/2 with a Wilson interval of [0.342, 1.000]. The intervals resample this fixed authored set; they are not external-validity claims.
-              Exact-target uncertainty: Hit@1 0.810 [0.600, 0.923] and MRR 0.881 [0.762, 0.976] across 21 candidate-authored targets.
+              Exact-target uncertainty: Hit@1 0.810 [0.600, 0.923] and MRR 0.881 [0.762, 0.976] across 21 manually labeled targets.
             </figcaption>
           </figure>
         </div>

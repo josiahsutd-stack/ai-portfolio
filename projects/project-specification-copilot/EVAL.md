@@ -30,7 +30,7 @@ All listed metrics are `1.000` over `35` messages in `5` synthetic cases. The re
 
 ## Language Stress Audit
 
-A separate fixed set covers `33` candidate-authored single-message cases: 8 direct forms, 17 paraphrases, and 8 negative controls. The labels are not blinded, independent, or expert-authored.
+A separate fixed set covers `33` manually labeled single-message cases: 8 direct forms, 17 paraphrases, and 8 negative controls. The labels are not blinded, independent, or expert-authored.
 
 | Metric | Result |
 | --- | ---: |

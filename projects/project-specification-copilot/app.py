@@ -191,7 +191,7 @@ with language_tab:
     ]
     st.dataframe(stress_failures, hide_index=True, width="stretch")
     st.caption(
-        "Candidate-authored synthetic labels; not blinded, independently validated, or representative of open-domain project communication."
+        "Manually labeled synthetic cases; not blinded, independently validated, or representative of open-domain project communication."
     )
 
 with audit_tab:

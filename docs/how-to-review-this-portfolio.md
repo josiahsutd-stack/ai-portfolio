@@ -34,7 +34,7 @@ python projects/aec-code-compliance-rag/scripts/download_public_sources.py
 python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py --corpus public
 ```
 
-This path downloads official Singapore sources locally. It demonstrates provenance-aware ingestion and separates document, exact-chunk, and source-page retrieval. The chunk/page labels are candidate-authored; this is not document-currency validation, independent expert annotation, or authority approval.
+This path downloads official Singapore sources locally. It demonstrates provenance-aware ingestion and separates document, exact-chunk, and source-page retrieval. The chunk/page labels were manually selected from the fixed snapshot and have not been independently reviewed; this is not document-currency validation, expert annotation, or authority approval.
 
 ## Evidence Hierarchy
 

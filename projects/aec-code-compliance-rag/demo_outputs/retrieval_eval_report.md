@@ -30,7 +30,7 @@ Synthetic demo evaluation for the AEC Code Compliance RAG.
 - Unsupported answer sentence rate: 0.0
 - Hit@1: 0.829
 - Hit@3: 1.0
-- Candidate-authored exact evidence targets: 0
+- Manually labeled exact evidence targets: 0
 - Exact evidence target Hit@1: None
 - Exact evidence target Hit@3: None
 - Exact evidence target MRR: None

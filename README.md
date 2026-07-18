@@ -1,12 +1,18 @@
 # Josiah Lau | Applied AI Engineer
 
-[**Open the visual portfolio**](https://josiahsutd-stack.github.io/ai-portfolio/) | [Download the two-page portfolio brief](https://josiahsutd-stack.github.io/ai-portfolio/assets/Josiah_Lau_Applied_AI_Portfolio_Brief.pdf) | [GitHub profile](https://github.com/josiahsutd-stack) | [System maps](docs/architecture-diagrams.md) | [Five-minute evidence path](docs/how-to-review-this-portfolio.md) | [Evidence ledger](docs/EVIDENCE_LEDGER.md)
+## Visual Portfolio
 
-[AEC RAG case study](https://josiahsutd-stack.github.io/ai-portfolio/pages/aec-rag.html) | [Specification Assistant case study](https://josiahsutd-stack.github.io/ai-portfolio/pages/specification-assistant.html) | [Massing Explorer case study](https://josiahsutd-stack.github.io/ai-portfolio/pages/massing-explorer.html) | [QS Workbench case study](https://josiahsutd-stack.github.io/ai-portfolio/pages/qs-takeoff.html) | [Embodied AI case study](https://josiahsutd-stack.github.io/ai-portfolio/pages/embodied-ai.html)
+[**Open the visual portfolio**](https://josiahsutd-stack.github.io/ai-portfolio/)
 
 [![Josiah Lau applied AI engineering visual portfolio home page](portfolio-site/assets/portfolio-home-preview.jpg)](https://josiahsutd-stack.github.io/ai-portfolio/)
 
 *Homepage preview. The construction-robot backdrop is a generated concept image; measured project evidence and explicit boundaries begin below.*
+
+The visual portfolio is the primary guide through the work. It connects five implemented AEC systems, visual case studies, project evaluations, architecture experience, and the source repository in one narrative.
+
+[Download the two-page portfolio brief](https://josiahsutd-stack.github.io/ai-portfolio/assets/Josiah_Lau_Applied_AI_Portfolio_Brief.pdf) | [GitHub profile](https://github.com/josiahsutd-stack) | [System maps](docs/architecture-diagrams.md) | [Five-minute evidence path](docs/how-to-review-this-portfolio.md) | [Evidence ledger](docs/EVIDENCE_LEDGER.md)
+
+[AEC RAG case study](https://josiahsutd-stack.github.io/ai-portfolio/pages/aec-rag.html) | [Specification Assistant case study](https://josiahsutd-stack.github.io/ai-portfolio/pages/specification-assistant.html) | [Massing Explorer case study](https://josiahsutd-stack.github.io/ai-portfolio/pages/massing-explorer.html) | [QS Workbench case study](https://josiahsutd-stack.github.io/ai-portfolio/pages/qs-takeoff.html) | [Embodied AI case study](https://josiahsutd-stack.github.io/ai-portfolio/pages/embodied-ai.html)
 
 I build evaluated AI systems for design and construction decisions. My background in architecture informs the domain models, constraints, review gates, and visual communication in this portfolio; the engineering evidence comes from runnable code, tests, evaluation datasets, and reproducible outputs.
 
@@ -41,9 +47,9 @@ This non-mutating check validates public claims, documentation commands, generat
 
 Public 24-case snapshot over 15 validated documents: `Hit@1 0.952`, `MRR 0.976`, paraphrase `MRR 0.917`, and no-answer accuracy `1.000`. Fixed local workload: 48/48 responses returned 200, zero server errors, and P95 at or below 500 ms.
 
-The practical finding is that document discovery is stronger than evidence localization. A correct publication does not count as a correct supporting passage unless the candidate-authored chunk or page target is retrieved.
+The practical finding is that document discovery is stronger than evidence localization. A correct publication does not count as a correct supporting passage unless the manually labeled chunk or page target is retrieved.
 
-Candidate-authored exact-target check: Hit@1 `0.810`, Hit@3 `0.952`, and MRR `0.881` across `21` labeled answerable cases; source-page Hit@1 `0.778` and MRR `0.861` across `18` page-labeled cases. Exact-target uncertainty: Hit@1 `0.810` has a 95% interval of `[0.600, 0.923]`, and exact-target MRR `0.881` has a 95% interval of `[0.762, 0.976]` across `21` candidate-authored targets.
+Manually labeled exact-target check: Hit@1 `0.810`, Hit@3 `0.952`, and MRR `0.881` across `21` labeled answerable cases; source-page Hit@1 `0.778` and MRR `0.861` across `18` page-labeled cases. Exact-target uncertainty: Hit@1 `0.810` has a 95% interval of `[0.600, 0.923]`, and exact-target MRR `0.881` has a 95% interval of `[0.762, 0.976]` across `21` manually labeled targets.
 
 Uncertainty check: public Hit@1 `0.952` has a 95% Wilson interval of `[0.773, 0.992]` over `21` answerable cases; MRR `0.976` has a 95% bootstrap interval of `[0.929, 1.000]`; no-answer `1.000` is `2/2` with a Wilson interval of `[0.342, 1.000]`. Hybrid versus BM25 MRR delta is `0.012` with a 95% paired interval of `[0.000, 0.036]`; the interval includes zero, so mode superiority is inconclusive on this authored set.
 
@@ -80,7 +86,7 @@ Two supporting projects complete that workflow:
 
 | Project | Implemented evidence | Current result | Boundary |
 | --- | --- | --- | --- |
-| [Project Communication and Specification Assistant](projects/project-specification-copilot/README.md) | Shared role-tagged chat, requirement versions, conflict detection, approval scopes, SQLite audit events, source ids, and draft clauses. | All authored workflow checks pass across 5 synthetic conversations and 35 messages; a separate 33-case language stress set records F1 `0.958`, exact-case accuracy `0.939`, negative-control accuracy `1.000`, and 2 retained number-word misses. | Candidate-authored deterministic language checks; not open-domain understanding, a multi-user messaging service, or a professional specification. |
+| [Project Communication and Specification Assistant](projects/project-specification-copilot/README.md) | Shared role-tagged chat, requirement versions, conflict detection, approval scopes, SQLite audit events, source ids, and draft clauses. | All authored workflow checks pass across 5 synthetic conversations and 35 messages; a separate 33-case language stress set records F1 `0.958`, exact-case accuracy `0.939`, negative-control accuracy `1.000`, and 2 retained number-word misses. | Manually labeled deterministic language checks; not open-domain understanding, a multi-user messaging service, or a professional specification. |
 | [QS Takeoff and Tender Analysis Workbench](projects/qs-takeoff-tender-analysis/README.md) | Shared-wall geometry, opening deductions, quantity formulas, rate provenance, uncertainty bands, and line-level tender exceptions. | 21/21 authored quantities and all 5 tender exceptions reproduced; naive perimeter baseline wall MAE `6.333 m`, implemented estimator `0.000 m`. | Synthetic vector plans, rates, and tenders; no PDF/CAD/BIM parsing, market pricing, professional QS output, or award recommendation. |
 
 ![Role-tagged project communication converted into auditable requirements and draft clauses](docs/assets/screenshots/specification-copilot-demo.png)
@@ -148,7 +154,7 @@ The downloader targets official BCA, URA, NEA, SCDF, LTA, PUB, and NParks source
 
 ![Document-level, exact-chunk, and source-page retrieval results](portfolio-site/assets/retrieval-granularity.svg)
 
-*A correct source document does not count as an exact evidence hit unless a candidate-authored target chunk is retrieved. The labels come from the fixed local snapshot and have not been independently reviewed.*
+*A correct source document does not count as an exact evidence hit unless a manually labeled target chunk is retrieved. The labels come from the fixed local snapshot and have not been independently reviewed.*
 
 ![Public-source retrieval point estimates and 95% fixed-case uncertainty intervals](portfolio-site/assets/retrieval-uncertainty.svg)
 

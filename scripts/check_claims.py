@@ -51,6 +51,11 @@ DEPRECATED_PUBLIC_PHRASES = [
     "project brief and specification copilot",
     "visual qa provider contract",
 ]
+EXTERNAL_EVALUATOR_PHRASES = [
+    "candidate-authored",
+    "portfolio candidate",
+    "the candidate's",
+]
 SELF_SCORE_PATTERN = re.compile(r"\b\d+(?:\.\d+)?/10\b")
 ALLOWED_CONTEXT = [
     "do not claim",
@@ -108,6 +113,9 @@ def line_issues(path: Path, lineno: int, line: str) -> list[str]:
     for phrase in DEPRECATED_PUBLIC_PHRASES:
         if phrase in lowered:
             issues.append(f"{relative}:{lineno}: deprecated public project name `{phrase}`")
+    for phrase in EXTERNAL_EVALUATOR_PHRASES:
+        if phrase in lowered:
+            issues.append(f"{relative}:{lineno}: third-person evaluator language `{phrase}`")
     if SELF_SCORE_PATTERN.search(line):
         issues.append(
             f"{relative}:{lineno}: candidate-authored numeric portfolio score is not evidence"

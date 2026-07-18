@@ -245,7 +245,7 @@ def build_specs() -> dict[str, SystemMap]:
                     "language stress set",
                     f"F1 {language_metrics['requirement_f1']:.3f}",
                     (
-                        f"{language['case_count']} candidate-authored cases",
+                        f"{language['case_count']} manually labeled cases",
                         f"recall {language_metrics['requirement_recall']:.3f}; two misses retained",
                     ),
                     "#F2B134",

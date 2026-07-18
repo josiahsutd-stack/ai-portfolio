@@ -28,5 +28,5 @@
 
 - Five synthetic fixtures were authored around the implemented grammar.
 - Perfect fixture scores indicate deterministic regression consistency only.
-- The separate 33-case language stress set is also candidate-authored and not blinded or independently labeled; it retains 2 number-word misses.
+- The separate 33-case language stress set is also manually labeled and not blinded or independently labeled; it retains 2 number-word misses.
 - Real-project performance, stakeholder acceptance, security, and workflow impact remain untested.

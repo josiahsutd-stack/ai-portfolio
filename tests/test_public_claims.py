@@ -35,6 +35,16 @@ def test_claim_scan_rejects_simulated_hiring_verdict() -> None:
     assert any("i would hire" in issue for issue in issues)
 
 
+def test_claim_scan_rejects_third_person_evaluator_language() -> None:
+    issues = line_issues(
+        ROOT / "README.md",
+        1,
+        "The portfolio candidate created a candidate-authored test set.",
+    )
+
+    assert any("third-person evaluator language" in issue for issue in issues)
+
+
 def test_current_public_surfaces_pass_claim_scan() -> None:
     assert collect_issues() == []
 

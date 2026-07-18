@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
 <title id="title">AEC retrieval granularity comparison</title>
-<desc id="desc">Document, exact chunk, and source-page retrieval metrics on a fixed candidate-authored public-source evaluation.</desc>
+<desc id="desc">Document, exact chunk, and source-page retrieval metrics on a manually labeled fixed public-source evaluation.</desc>
 <rect width="1200" height="720" fill="#fbfcfe"/>
 <rect x="28" y="28" width="1144" height="664" rx="8" fill="#ffffff" stroke="#d8dee8"/>
 <text x="72" y="86" fill="#12233f" font-family="Arial, sans-serif" font-size="30" font-weight="700">Document match is not evidence match</text>
-<text x="72" y="118" fill="#536174" font-family="Arial, sans-serif" font-size="16">Singapore public-source fixed snapshot; candidate-authored evidence targets</text>
+<text x="72" y="118" fill="#536174" font-family="Arial, sans-serif" font-size="16">Singapore public-source fixed snapshot; manually labeled evidence targets</text>
 <text x="72" y="151" fill="#0d6f69" font-family="Arial, sans-serif" font-size="14" font-weight="700">THREE RETRIEVAL GRANULARITIES, REPORTED SEPARATELY</text>
 <circle cx="720" cy="150" r="6" fill="#0d7f78"/>
 <text x="732" y="155" fill="#536174" font-family="Arial, sans-serif" font-size="13">Hit@1</text>
@@ -33,7 +33,7 @@
 <rect x="345" y="282" width="644.2" height="12" rx="3" fill="#214a79"/>
 <text x="999.2" y="293" fill="#24344d" font-family="Arial, sans-serif" font-size="13" font-weight="700">0.976</text>
 <text x="72" y="360" fill="#24344d" font-family="Arial, sans-serif" font-size="18" font-weight="700">Exact evidence chunk</text>
-<text x="72" y="383" fill="#68768a" font-family="Arial, sans-serif" font-size="13">n=21 - Requires a candidate-authored supporting chunk</text>
+<text x="72" y="383" fill="#68768a" font-family="Arial, sans-serif" font-size="13">n=21 - Requires a manually labeled supporting chunk</text>
 <rect x="345" y="353" width="534.6" height="12" rx="3" fill="#0d7f78"/>
 <text x="889.6" y="364" fill="#24344d" font-family="Arial, sans-serif" font-size="13" font-weight="700">0.810</text>
 <rect x="345" y="380" width="628.3" height="12" rx="3" fill="#d65f4a"/>
@@ -49,5 +49,5 @@
 <rect x="345" y="532" width="568.3" height="12" rx="3" fill="#214a79"/>
 <text x="923.3" y="543" fill="#24344d" font-family="Arial, sans-serif" font-size="13" font-weight="700">0.861</text>
 <rect x="72" y="620" width="1056" height="44" rx="5" fill="#f3f6f9" stroke="#d8dee8"/>
-<text x="94" y="647" fill="#536174" font-family="Arial, sans-serif" font-size="14">Targets are candidate-authored from the fixed snapshot, not independent expert labels or regulatory validation.</text>
+<text x="94" y="647" fill="#536174" font-family="Arial, sans-serif" font-size="14">Targets are manually labeled from the fixed snapshot, not independent expert labels or regulatory validation.</text>
 </svg>

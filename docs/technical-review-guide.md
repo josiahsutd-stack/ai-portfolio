@@ -10,7 +10,7 @@ The selected set contains one flagship, two role-defining primary projects, and 
 
 **Technical question:** How does provenance move from a downloaded document into a cited answer, and when does the system abstain?
 
-**Boundary:** The 51-case default set is synthetic. The 24-case public result describes one fingerprinted 15-document snapshot, not current-code validation or professional compliance advice. Its 21 chunk targets and 18 page targets are candidate-authored, not independent expert labels. Document Hit@1 is `0.952`, exact-target Hit@1 is `0.810`, and page-target Hit@1 is `0.778`. Intervals resample the same cases and do not establish external validity; no-answer is only 2/2. The service suites are in-process ASGI evidence, not external deployment, sustained capacity, uptime, security-assessment, or usage evidence.
+**Boundary:** The 51-case default set is synthetic. The 24-case public result describes one fingerprinted 15-document snapshot, not current-code validation or professional compliance advice. Its 21 chunk targets and 18 page targets were manually labeled from that snapshot, not independently reviewed by experts. Document Hit@1 is `0.952`, exact-target Hit@1 is `0.810`, and page-target Hit@1 is `0.778`. Intervals resample the same cases and do not establish external validity; no-answer is only 2/2. The service suites are in-process ASGI evidence, not external deployment, sustained capacity, uptime, security-assessment, or usage evidence.
 
 ## 2. Construction Embodied Agent Simulator - Primary
 
@@ -38,7 +38,7 @@ The selected set contains one flagship, two role-defining primary projects, and 
 
 **Evidence:** `engine.py`, `extractor.py`, `store.py`, `EVAL.md`, `demo_outputs/language_stress_summary.json`, `demo_outputs/language_stress_failures.md`, `demo_outputs/sample_specification.md`, and `tests/test_project_specification_copilot.py`.
 
-**Boundary:** Perfect workflow-fixture metrics are regression results over an authored deterministic grammar. The separate candidate-authored 33-case language audit records F1 `0.958`, exact-case accuracy `0.939`, and 2 number-word misses; it is not blinded, independent, open-domain, or professional-specification evidence.
+**Boundary:** Perfect workflow-fixture metrics are regression results over an authored deterministic grammar. The separate manually labeled 33-case language audit records F1 `0.958`, exact-case accuracy `0.939`, and 2 number-word misses; it is not blinded, independent, open-domain, or professional-specification evidence.
 
 ## 5. QS Takeoff and Tender Analysis Workbench - Supporting
 
