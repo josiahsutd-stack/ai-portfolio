@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Josiah Lau's applied AI portfolio: retrieval systems, embodied-agent simulation, and evaluated machine-learning workflows."
+      content="Josiah Lau's applied AI portfolio: source-grounded AEC intelligence, embodied-agent simulation, computational design, and quantity-surveying automation."
     />
     <title>Josiah Lau | Applied AI Engineering</title>
     <link rel="icon" href="data:," />
@@ -16,6 +16,7 @@
       <a class="brand" href="#top">Josiah Lau</a>
       <nav aria-label="Main navigation">
         <a href="#evidence">Work</a>
+        <a href="#workflow">AEC Workflow</a>
         <a href="#flagship">AEC RAG</a>
         <a href="#embodied">Embodied</a>
         <a href="#architecture">Architecture</a>
@@ -31,11 +32,11 @@
           <p class="eyebrow">Applied AI Engineer</p>
           <h1>Josiah Lau</h1>
           <p class="hero-role">
-            Retrieval systems, embodied-agent simulation, and evaluated ML workflows.
+            Source-grounded AEC intelligence, embodied AI, and computational design.
           </p>
           <p class="lede">
-            I bring a background in architecture and the built environment to work in
-            document intelligence, construction robotics simulation, and machine learning.
+            I build evaluated systems for public AEC documents, project requirements,
+            massing decisions, quantity takeoff, and construction robotics simulation.
           </p>
           <div class="hero__actions">
             <a class="button button--primary" href="#evidence">View selected work</a>
@@ -51,10 +52,10 @@
         <div class="container">
           <div class="section-heading">
             <p class="eyebrow">Selected Work</p>
-            <h2>Retrieval, embodied AI, and model development</h2>
+            <h2>Source-grounded AI, construction robotics, and computational design</h2>
             <p class="section-copy">
               These three projects best represent my current work. The reported numbers come
-              from bundled evaluation datasets and simulator scenarios, with limits stated beside them.
+              from bundled evaluations, public-source snapshots, and simulator scenarios, with limits stated beside them.
             </p>
           </div>
           <div class="evidence-grid">
@@ -75,19 +76,19 @@
               <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/vla-embodied-agent-simulator">View project</a>
             </article>
             <article class="evidence-card">
-              <span>03 / Model Training</span>
-              <h3>Local Text Classification Lab</h3>
-              <p>Local fitting, source-traceable splits, a dummy baseline, held-out metrics, a confusion matrix, and generated weights.</p>
-              <strong>0.950 test accuracy and macro-F1</strong>
-              <small>Compact UCI SMS subset with 40 test rows; classical ML.</small>
-              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/real-model-finetune-lab">View project</a>
+              <span>03 / Computational Design</span>
+              <h3>Constraint-Aware Massing Explorer</h3>
+              <p>Seeded geometric options, hard constraints, Pareto ranking, editable objectives, and transparent environmental and access proxies.</p>
+              <strong>0.977 feasible rate / 0.19% mean best GFA error</strong>
+              <small>864 candidates per method across synthetic sites; rectangular proxy model, not approvable design.</small>
+              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/constraint-aware-massing-explorer">View project</a>
             </article>
           </div>
           <div class="command-panel" aria-label="Local verification commands">
             <p class="eyebrow">Reproduce Locally</p>
             <code>python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py</code>
             <code>python projects/vla-embodied-agent-simulator/evaluate_vla.py</code>
-            <code>python projects/real-model-finetune-lab/evaluate_model.py</code>
+            <code>python projects/constraint-aware-massing-explorer/evaluate_massing.py</code>
             <code>python scripts/verify.py</code>
             <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/docs/EVIDENCE_LEDGER.md">View the artifact ledger</a>
           </div>
@@ -104,6 +105,47 @@
               <span class="flow-connector" aria-hidden="true"></span>
               <div class="flow-node"><span>05</span><strong>Drift gate</strong><small>CI fails when values disagree</small></div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="band band--ink" id="workflow">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">AEC Design-To-Delivery Workflow</p>
+            <h2>Requirements, constrained options, and commercial review</h2>
+            <p class="section-copy">
+              Three bounded local systems connect design-team communication to spatial options and
+              quantity evidence. All bundled conversations, sites, rates, and tenders are synthetic.
+            </p>
+          </div>
+          <div class="support-grid support-grid--three">
+            <article class="project-card project-card--visual">
+              <img src="assets/specification-copilot-demo.png" alt="Role-tagged project messages, requirement ledger, and source-linked draft clauses" />
+              <span>Requirements Intelligence</span>
+              <h3>Project Brief and Specification Copilot</h3>
+              <p>Versioned requirements, conflict detection, scoped approvals, audit events, and source-linked draft clauses.</p>
+              <strong>5 conversations / 35 messages / 1.000 fixture F1</strong>
+              <small>Synthetic authored fixtures; deterministic phrase grammar, not a professional specification.</small>
+              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/project-specification-copilot">View project</a>
+            </article>
+            <article class="project-card project-card--visual">
+              <img src="assets/massing-explorer-demo.png" alt="Constraint-aware massing plan, isometric option, and proxy metrics" />
+              <span>Computational Design</span>
+              <h3>Constraint-Aware Massing Explorer</h3>
+              <p>Hard geometry checks, baseline comparison, Pareto ranking, and inspectable proxy scores.</p>
+              <small>No code inference, internal egress, calibrated simulation, structure, or professional design output.</small>
+              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/constraint-aware-massing-explorer">View project</a>
+            </article>
+            <article class="project-card project-card--visual">
+              <img src="assets/qs-takeoff-tender-demo.png" alt="Vector quantity takeoff, cost build-up, and synthetic tender comparison" />
+              <span>QS Automation</span>
+              <h3>Takeoff and Tender Analysis Workbench</h3>
+              <p>Shared-wall measurement, opening deductions, rate provenance, uncertainty bands, and line-level tender exceptions.</p>
+              <strong>21/21 quantities / 5/5 tender exceptions</strong>
+              <small>No PDF/CAD/BIM parsing, live pricing, professional QS output, or award recommendation.</small>
+              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/qs-takeoff-tender-analysis">View project</a>
+            </article>
           </div>
         </div>
       </section>
@@ -228,32 +270,17 @@
         </div>
       </section>
 
-      <section class="band band--ink" id="supporting">
+      <section class="band" id="supporting">
         <div class="container">
           <div class="section-heading">
-            <p class="eyebrow">Supporting Systems</p>
-            <h2>Additional systems</h2>
-          </div>
-          <div class="support-grid">
-            <article class="project-card">
-              <span>Agent Workflow</span>
-              <h3>Deterministic Research Workflow</h3>
-              <p>Permissioned tools, deterministic planning, local citations, retries, approval gates, SQLite traces, and trace evaluation.</p>
-              <small>Not autonomous research or live web access.</small>
-              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/agentic-research-ops-assistant">View project</a>
-            </article>
-            <article class="project-card">
-              <span>ML Operations</span>
-              <h3>Local Model Serving and Monitoring</h3>
-              <p>Training, schema validation, generated model metadata, prediction logs, drift calculations, and monitoring reports.</p>
-              <small>Synthetic churn data and local infrastructure only.</small>
-              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/mlops-model-serving-monitoring">View project</a>
-            </article>
+            <p class="eyebrow">Experiment Archive</p>
+            <h2>Narrow baselines remain available</h2>
+            <p class="section-copy">Generic model-training, workflow, MLOps, vision, ranking, and time-series studies remain runnable and tested outside the selected project set.</p>
           </div>
           <p class="archive-note">
-            Narrow baseline studies are separated under
+            The complete evidence and limitations remain under
             <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/experiments">experiments/</a>.
-            They remain runnable and tested, but are excluded from selected work.
+            These studies do not carry first-screen portfolio claims.
           </p>
         </div>
       </section>
@@ -266,10 +293,10 @@
           </div>
           <div class="boundary-list">
             <p><strong>Implementation:</strong> runnable code, tests, fitted classical models, persistence, metrics, and simulation.</p>
-            <p><strong>Data:</strong> project pages identify synthetic data, public subsets, and locally downloaded sources.</p>
+            <p><strong>Data:</strong> project pages identify synthetic conversations, sites, rates, tenders, public subsets, and locally downloaded sources.</p>
             <p><strong>Mock providers:</strong> deterministic LLM and VLM substitutes test interface contracts, not model quality.</p>
             <p><strong>Simulation:</strong> robotics results do not imply hardware, perception, or physical safety validation.</p>
-            <p><strong>Production:</strong> no customer adoption, deployed reliability, or professional compliance outcome is claimed.</p>
+            <p><strong>Professional work:</strong> no customer adoption, deployed reliability, compliance outcome, QS sign-off, tender advice, or approvable design is claimed.</p>
           </div>
         </div>
       </section>

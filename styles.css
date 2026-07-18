@@ -379,6 +379,10 @@ h3 {
   gap: 18px;
 }
 
+.support-grid--three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .project-card {
   min-height: 250px;
   display: flex;
@@ -434,6 +438,19 @@ h3 {
 
 .flagship {
   background: var(--white);
+}
+
+.project-card--visual {
+  overflow: hidden;
+}
+
+.project-card--visual img {
+  width: calc(100% + 48px);
+  height: 180px;
+  margin: -24px -24px 22px;
+  border-bottom: 1px solid var(--line);
+  object-fit: cover;
+  object-position: top center;
 }
 
 .flagship__grid,
