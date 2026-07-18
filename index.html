@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Josiah Lau's applied AI engineering portfolio: source-grounded RAG, embodied-agent simulation, and measurable local ML systems."
+      content="Josiah Lau's applied AI portfolio: retrieval systems, embodied-agent simulation, and evaluated machine-learning workflows."
     />
     <title>Josiah Lau | Applied AI Engineering</title>
     <link rel="icon" href="data:," />
@@ -15,11 +15,12 @@
     <header class="site-header">
       <a class="brand" href="#top">Josiah Lau</a>
       <nav aria-label="Main navigation">
-        <a href="#evidence">Evidence</a>
-        <a href="#flagship">Flagship</a>
-        <a href="#supporting">Supporting</a>
-        <a href="#boundaries">Boundaries</a>
-        <a href="pages/recruiter-view.html">Role View</a>
+        <a href="#evidence">Work</a>
+        <a href="#flagship">AEC RAG</a>
+        <a href="#embodied">Embodied</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#boundaries">Scope</a>
+        <a href="pages/recruiter-view.html">Project Guide</a>
       </nav>
     </header>
 
@@ -27,21 +28,21 @@
       <section class="hero" aria-label="Portfolio introduction">
         <div class="hero__media" aria-hidden="true"></div>
         <div class="hero__content">
-          <p class="eyebrow">Applied AI Engineering Portfolio</p>
+          <p class="eyebrow">Applied AI Engineer</p>
           <h1>Josiah Lau</h1>
           <p class="hero-role">
-            Source-grounded AI, embodied-agent simulation, and measurable local ML systems.
+            Retrieval systems, embodied-agent simulation, and evaluated ML workflows.
           </p>
           <p class="lede">
-            Architecture and built-environment domain experience applied to retrieval,
-            construction robotics simulation, agent workflows, and ML engineering.
+            I bring a background in architecture and the built environment to work in
+            document intelligence, construction robotics simulation, and machine learning.
           </p>
           <div class="hero__actions">
-            <a class="button button--primary" href="#evidence">Review the evidence</a>
+            <a class="button button--primary" href="#evidence">View selected work</a>
             <a
               class="button"
               href="https://github.com/josiahsutd-stack/ai-portfolio"
-            >Open repository</a>
+            >GitHub repository</a>
           </div>
         </div>
       </section>
@@ -49,46 +50,60 @@
       <section class="band band--tight" id="evidence">
         <div class="container">
           <div class="section-heading">
-            <p class="eyebrow">15-Minute Review</p>
-            <h2>Three projects, three kinds of evidence</h2>
+            <p class="eyebrow">Selected Work</p>
+            <h2>Retrieval, embodied AI, and model development</h2>
             <p class="section-copy">
-              The numbers below come from bundled regression sets and simulated scenarios.
-              Each result is paired with the boundary that limits its interpretation.
+              These three projects best represent my current work. The reported numbers come
+              from bundled evaluation datasets and simulator scenarios, with limits stated beside them.
             </p>
           </div>
           <div class="evidence-grid">
             <article class="evidence-card evidence-card--primary">
-              <span>01 · Flagship</span>
+              <span>01 / Flagship</span>
               <h3>AEC Code Compliance RAG</h3>
               <p>Public-source ingestion, four retrieval modes, citations, abstention, evals, and focused tests.</p>
-              <strong>Recall@4 1.000 · MRR 0.906</strong>
+              <strong>Recall@4 1.000 / MRR 0.906</strong>
               <small>Synthetic 51-case regression set; not compliance certification.</small>
-              <a href="#flagship">Inspect flagship evidence</a>
+              <a href="#flagship">View project</a>
             </article>
             <article class="evidence-card">
-              <span>02 · Embodied AI</span>
+              <span>02 / Embodied AI</span>
               <h3>Construction Embodied Agent Simulator</h3>
-              <p>Expert demonstrations, real behavior cloning, disjoint holdout grids, action filtering, and failure analysis.</p>
-              <strong>0.625 holdout success · 0.000 unsafe-action rate</strong>
+              <p>Expert demonstrations, fitted behavior cloning, disjoint holdout grids, action filtering, and failure analysis.</p>
+              <strong>0.625 holdout success / 0.000 unsafe-action rate</strong>
               <small>24 unseen structured-grid scenarios; not a foundation VLA or hardware result.</small>
-              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/vla-embodied-agent-simulator">Open evidence</a>
+              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/vla-embodied-agent-simulator">View project</a>
             </article>
             <article class="evidence-card">
-              <span>03 · Model Training</span>
+              <span>03 / Model Training</span>
               <h3>Local Text Classification Lab</h3>
-              <p>Real local fitting, source-traceable splits, dummy baseline, held-out metrics, confusion matrix, and generated weights.</p>
+              <p>Local fitting, source-traceable splits, a dummy baseline, held-out metrics, a confusion matrix, and generated weights.</p>
               <strong>0.950 test accuracy and macro-F1</strong>
               <small>Compact UCI SMS subset with 40 test rows; classical ML.</small>
-              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/real-model-finetune-lab">Open evidence</a>
+              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/real-model-finetune-lab">View project</a>
             </article>
           </div>
           <div class="command-panel" aria-label="Local verification commands">
-            <p class="eyebrow">Run Evidence Locally</p>
+            <p class="eyebrow">Reproduce Locally</p>
             <code>python projects/aec-code-compliance-rag/scripts/evaluate_retrieval.py</code>
             <code>python projects/vla-embodied-agent-simulator/evaluate_vla.py</code>
             <code>python projects/real-model-finetune-lab/evaluate_model.py</code>
             <code>python scripts/verify.py</code>
-            <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/docs/EVIDENCE_LEDGER.md">Trace displayed metrics to versioned JSON evidence</a>
+            <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/docs/EVIDENCE_LEDGER.md">View the artifact ledger</a>
+          </div>
+          <div class="flow-section" aria-label="Evidence generation flow">
+            <p class="eyebrow">Evidence Chain</p>
+            <div class="flow-track">
+              <div class="flow-node"><span>01</span><strong>Code and fixtures</strong><small>Implemented systems and labeled inputs</small></div>
+              <span class="flow-connector" aria-hidden="true"></span>
+              <div class="flow-node"><span>02</span><strong>Evaluation scripts</strong><small>Fixed protocols and local commands</small></div>
+              <span class="flow-connector" aria-hidden="true"></span>
+              <div class="flow-node"><span>03</span><strong>Versioned JSON</strong><small>Machine-readable results in Git</small></div>
+              <span class="flow-connector" aria-hidden="true"></span>
+              <div class="flow-node"><span>04</span><strong>Public metrics</strong><small>README and site values</small></div>
+              <span class="flow-connector" aria-hidden="true"></span>
+              <div class="flow-node"><span>05</span><strong>Drift gate</strong><small>CI fails when values disagree</small></div>
+            </div>
           </div>
         </div>
       </section>
@@ -99,9 +114,9 @@
             <p class="eyebrow">Primary Project</p>
             <h2>AEC Code Compliance RAG</h2>
             <p class="section-copy">
-              The strongest project connects built-environment domain knowledge to an
-              inspectable retrieval system. It supports Markdown and page-aware PDF chunks,
-              Singapore public-source manifests, source filters, TF-IDF, BM25, dense LSA,
+              This is the most developed project in the portfolio. It applies built-environment
+              domain knowledge to Markdown and page-aware PDF ingestion, Singapore public-source
+              manifests, source filters, TF-IDF, BM25, dense LSA,
               hybrid retrieval, citation checks, and unsupported-scope handling.
             </p>
             <dl class="fact-list">
@@ -123,13 +138,101 @@
             <figcaption>Actual local Streamlit run using labeled demo data.</figcaption>
           </figure>
         </div>
+        <div class="container flow-section flow-section--separated" aria-label="AEC retrieval pipeline">
+          <p class="eyebrow">AEC Retrieval Pipeline</p>
+          <div class="flow-track">
+            <div class="flow-node"><span>01</span><strong>Sources</strong><small>Synthetic guidance or local public documents</small></div>
+            <span class="flow-connector" aria-hidden="true"></span>
+            <div class="flow-node"><span>02</span><strong>Ingestion</strong><small>Page-aware text and source manifests</small></div>
+            <span class="flow-connector" aria-hidden="true"></span>
+            <div class="flow-node"><span>03</span><strong>Retrieval</strong><small>TF-IDF, BM25, dense LSA, or hybrid</small></div>
+            <span class="flow-connector" aria-hidden="true"></span>
+            <div class="flow-node"><span>04</span><strong>Response</strong><small>Citations, warnings, or abstention</small></div>
+            <span class="flow-connector" aria-hidden="true"></span>
+            <div class="flow-node"><span>05</span><strong>Evaluation</strong><small>51 synthetic cases and failure outputs</small></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="band embodied-band" id="embodied">
+        <div class="container embodied__grid">
+          <figure class="visual-figure">
+            <img src="assets/embodied-ai-concept.webp" alt="Concept illustration of a construction robot following a planned safe route" />
+            <figcaption>Generated concept image. It is not a simulator screenshot or hardware evidence.</figcaption>
+          </figure>
+          <div>
+            <p class="eyebrow">Embodied AI</p>
+            <h2>Language, state, action, and visible failure</h2>
+            <p class="section-copy">
+              The simulator maps task instructions and structured construction grids to closed-loop actions.
+              It compares A* planning with a fitted behavior-cloning policy, then measures how an explicit
+              action filter changes unsafe attempts, interventions, and task completion.
+            </p>
+            <dl class="fact-list">
+              <div><dt>Policy</dt><dd>Random-forest action classifier fitted from simulator expert trajectories</dd></div>
+              <div><dt>Holdout</dt><dd>24 disjoint procedural scenarios with raw and filtered rollouts</dd></div>
+              <div><dt>Limit</dt><dd>Structured 2D state only; no perception, ROS, physics, hardware, or physical-safety validation</dd></div>
+            </dl>
+            <div class="inline-links">
+              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/vla-embodied-agent-simulator">Project</a>
+              <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/projects/vla-embodied-agent-simulator/EVAL.md">Evaluation</a>
+              <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/tests/test_vla_embodied_agent.py">Tests</a>
+            </div>
+          </div>
+        </div>
+        <div class="container flow-section flow-section--separated" aria-label="Embodied-agent evaluation loop">
+          <p class="eyebrow">Evaluation Loop</p>
+          <div class="flow-track">
+            <div class="flow-node"><span>01</span><strong>Task and grid</strong><small>Language instruction plus structured state</small></div>
+            <span class="flow-connector" aria-hidden="true"></span>
+            <div class="flow-node"><span>02</span><strong>Policy features</strong><small>Parser output and engineered state</small></div>
+            <span class="flow-connector" aria-hidden="true"></span>
+            <div class="flow-node"><span>03</span><strong>Learned action</strong><small>Ranked classifier probabilities</small></div>
+            <span class="flow-connector" aria-hidden="true"></span>
+            <div class="flow-node"><span>04</span><strong>Safety filter</strong><small>Optional rejection of invalid actions</small></div>
+            <span class="flow-connector" aria-hidden="true"></span>
+            <div class="flow-node"><span>05</span><strong>Trace and metrics</strong><small>Success, unsafe attempts, and failures</small></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="band architecture-band" id="architecture">
+        <div class="container architecture__intro">
+          <div>
+            <p class="eyebrow">Architecture Background</p>
+            <h2>Design discipline carried into AI engineering</h2>
+            <p class="section-copy">
+              Architecture provides the domain context for the AEC and embodied-AI work: requirements,
+              constrained alternatives, versioned information, human review, and accountable handoff.
+              It does not replace software evaluation or robotics validation.
+            </p>
+            <a class="text-link" href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/docs/ARCHITECTURE_BACKGROUND.md">Read the project statuses and image provenance</a>
+          </div>
+          <figure class="architecture-map">
+            <img src="assets/architecture-ai-transfer-map.webp" alt="Architecture-to-AI transfer map" />
+          </figure>
+        </div>
+        <div class="container architecture-gallery">
+          <figure class="architecture-tile">
+            <img src="assets/bamboo-factory-thesis.webp" alt="Bamboo Factory thesis visualization" />
+            <figcaption><strong>Bamboo Factory</strong><span>2019 M.Arch thesis; AI-assisted visualization anchored to original drawings.</span></figcaption>
+          </figure>
+          <figure class="architecture-tile">
+            <img src="assets/tideline-commons-concept.webp" alt="Tideline Commons adaptive-reuse concept" />
+            <figcaption><strong>Tideline Commons</strong><span>Self-initiated 2026 concept; generic context, not commissioned or built.</span></figcaption>
+          </figure>
+          <figure class="architecture-tile">
+            <img src="assets/monsoon-works-concept.webp" alt="Monsoon Works steel-hall concept" />
+            <figcaption><strong>Monsoon Works</strong><span>Self-initiated concept; not structural design or a fabrication package.</span></figcaption>
+          </figure>
+        </div>
       </section>
 
       <section class="band band--ink" id="supporting">
         <div class="container">
           <div class="section-heading">
             <p class="eyebrow">Supporting Systems</p>
-            <h2>Useful depth without pretending every project is a flagship</h2>
+            <h2>Additional systems</h2>
           </div>
           <div class="support-grid">
             <article class="project-card">
@@ -137,19 +240,19 @@
               <h3>Deterministic Research Workflow</h3>
               <p>Permissioned tools, deterministic planning, local citations, retries, approval gates, SQLite traces, and trace evaluation.</p>
               <small>Not autonomous research or live web access.</small>
-              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/agentic-research-ops-assistant">Open evidence</a>
+              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/agentic-research-ops-assistant">View project</a>
             </article>
             <article class="project-card">
               <span>ML Operations</span>
               <h3>Local Model Serving and Monitoring</h3>
               <p>Training, schema validation, generated model metadata, prediction logs, drift calculations, and monitoring reports.</p>
               <small>Synthetic churn data and local infrastructure only.</small>
-              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/mlops-model-serving-monitoring">Open evidence</a>
+              <a href="https://github.com/josiahsutd-stack/ai-portfolio/tree/main/projects/mlops-model-serving-monitoring">View project</a>
             </article>
           </div>
           <p class="archive-note">
-            Fourteen smaller workflows remain in the repository as explicitly tiered
-            experiments and baselines. They show breadth but are not presented as equal-depth systems.
+            The repository also contains smaller experiments in time-series modeling,
+            recommendations, computer vision, and AEC automation. Each project documents its status and limits.
           </p>
         </div>
       </section>
@@ -157,13 +260,13 @@
       <section class="band" id="boundaries">
         <div class="container boundary-grid">
           <div>
-            <p class="eyebrow">Evidence Policy</p>
-            <h2>Claims stop where the evidence stops</h2>
+            <p class="eyebrow">Project Scope</p>
+            <h2>What this portfolio does and does not show</h2>
           </div>
           <div class="boundary-list">
-            <p><strong>Real implementation:</strong> runnable code, tests, fitted classical models, persistence, metrics, or simulation.</p>
-            <p><strong>Synthetic or public subset:</strong> every dataset and corpus is labeled at the project level.</p>
-            <p><strong>Mock provider:</strong> deterministic LLM/VLM substitutes test workflow contracts, not model intelligence.</p>
+            <p><strong>Implementation:</strong> runnable code, tests, fitted classical models, persistence, metrics, and simulation.</p>
+            <p><strong>Data:</strong> project pages identify synthetic data, public subsets, and locally downloaded sources.</p>
+            <p><strong>Mock providers:</strong> deterministic LLM and VLM substitutes test interface contracts, not model quality.</p>
             <p><strong>Simulation:</strong> robotics results do not imply hardware, perception, or physical safety validation.</p>
             <p><strong>Production:</strong> no customer adoption, deployed reliability, or professional compliance outcome is claimed.</p>
           </div>
@@ -173,13 +276,13 @@
       <section class="band contact" id="review-links">
         <div class="container contact__grid">
           <div>
-            <p class="eyebrow">Review Links</p>
-            <h2>Code, evaluations, and limitations are all public.</h2>
+            <p class="eyebrow">More Detail</p>
+            <h2>Code, evaluation notes, and limitations</h2>
           </div>
           <div class="contact__links">
             <a href="https://github.com/josiahsutd-stack/ai-portfolio">Repository</a>
-            <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/docs/REVIEWER_GUIDE.md">Reviewer Guide</a>
-            <a href="pages/skills-matrix.html">Evidence Matrix</a>
+            <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/docs/REVIEWER_GUIDE.md">Project Guide</a>
+            <a href="pages/skills-matrix.html">Skills Matrix</a>
             <a href="https://www.linkedin.com/in/josiah-lau-8041822b6/">LinkedIn</a>
           </div>
         </div>
