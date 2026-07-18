@@ -6,10 +6,13 @@ Local, chat-style collaboration workflow for client, architect, consultant, QS, 
 
 ![Generated trace from synthetic messages to approved specification clauses](demo_outputs/sample_trace.svg)
 
+![Exact-case accuracy across direct forms, paraphrases, and negative controls](demo_outputs/language_stress_comparison.svg)
+
 ## Implemented System
 
 - Shared, role-tagged project conversation with immutable message IDs and a Streamlit chat interface.
-- Deterministic extraction for documented programme, site, budget, schedule, access, structure, facade, and performance requirement forms.
+- Deterministic extraction for documented programme, site, budget, schedule, access, structure, facade, and performance requirement forms, including named paraphrase variants.
+- Fail-closed abstention for documented questions, rejected values, historical schemes, and ignored references.
 - Requirement lifecycle: proposed, approved, superseded.
 - Numeric and categorical conflict detection without silent merging.
 - Category-specific approval permissions for client and consultant roles.
@@ -31,6 +34,19 @@ The checked-in benchmark contains `5` synthetic conversations and `35` messages.
 | Draft-status accuracy | `1.000` |
 
 The cases include budget revision, an unresolved facade conflict, three unauthorized approval attempts, a prompt-like instruction that must not change state, a no-requirement conversation, and direct requirement-ID approval.
+
+A separate fixed language stress set contains `33` candidate-authored single-message cases. It is not blinded or independently labeled. Unlike the grammar regression, it preserves `2` misses involving number words.
+
+| Language stress metric | Result |
+| --- | ---: |
+| Requirement precision | `1.000` |
+| Requirement recall | `0.920` |
+| Requirement F1 | `0.958` |
+| Exact-case accuracy | `0.939` |
+| Negative-control accuracy | `1.000` |
+| Paraphrase exact-case accuracy | `0.882` |
+
+The retained misses are “four thousand two hundred square metres” and “a dozen consultation rooms.” These results bound documented single-message coverage; they do not establish open-domain conversation understanding.
 
 ## Run Locally
 
@@ -56,7 +72,7 @@ No paid API, hosted model, or private data is required.
 python -m pytest tests/test_project_specification_copilot.py
 ```
 
-Tests cover extraction, duplicate evidence merging, conflicts, authorization, supersession, clause gating, no-result handling, SQLite audit persistence, evaluation metrics, SVG provenance, and deterministic artifacts.
+Tests cover extraction, paraphrase variants, question and historical-context abstention, duplicate evidence merging, conflicts, authorization, supersession, clause gating, no-result handling, SQLite audit persistence, stress metrics, SVG provenance, and deterministic artifacts.
 
 ## Architecture
 
@@ -84,7 +100,7 @@ See [`ARCHITECTURE.md`](ARCHITECTURE.md) for state transitions and trust boundar
 - Role labels and permissions are supplied by the interface; there is no identity provider or cryptographic signature.
 - The draft is not a construction specification, tender document, employer's requirement, contract record, or statutory submission.
 - Conflicting wording that maps to different keys may not be detected; matching keys are a deliberate narrow boundary.
-- Five synthetic cases do not establish performance on real meetings, email threads, transcriptions, or multilingual content.
+- Five synthetic workflow cases and 33 candidate-authored language checks do not establish performance on real meetings, email threads, transcriptions, or multilingual content.
 
 See [`LIMITATIONS.md`](LIMITATIONS.md) for additional failure modes and deployment requirements.
 
@@ -99,7 +115,7 @@ See [`LIMITATIONS.md`](LIMITATIONS.md) for additional failure modes and deployme
 
 ## Reviewer Guide
 
-1. Run `evaluate_specification.py` and inspect the fixture-level comparison.
+1. Run `evaluate_specification.py` and inspect both the workflow regression and [`language_stress_failures.md`](demo_outputs/language_stress_failures.md).
 2. Open [`demo_outputs/sample_audit_trace.json`](demo_outputs/sample_audit_trace.json) and follow the budget revision from message to conflict to approved replacement.
 3. Compare [`demo_outputs/sample_specification.md`](demo_outputs/sample_specification.md) with the cited message IDs.
 4. Run the focused tests, then send an approval from an unauthorized role in the app and verify the clause set does not change.

@@ -52,12 +52,12 @@ projects:
     demo_command: streamlit run projects/project-specification-copilot/app.py
     test_command: pytest tests/test_project_specification_copilot.py
     tech_stack: [Python, Streamlit, FastAPI, SQLite]
-    summary: Converts role-tagged synthetic project messages into a requirement ledger, conflict register, authorized approvals, audit trace, and source-linked draft clauses.
-    skills: [requirements extraction, workflow state, conflict detection, approval gates, auditability]
+    summary: Converts role-tagged synthetic project messages into a requirement ledger, conflict register, authorized approvals, audit trace, and source-linked draft clauses, with a separate direct/paraphrase/negative language stress audit.
+    skills: [requirements extraction, language stress evaluation, workflow state, conflict detection, approval gates, auditability]
     status: supporting
-    data_mode: "Five bundled synthetic conversations with authored labels"
-    implementation_mode: "Deterministic phrase extraction, typed requirement lifecycle, role matrix, and append-only SQLite events"
-    boundary: "Not open-domain language understanding, authenticated authority, or a professional project specification"
+    data_mode: "Five bundled synthetic workflow conversations plus 33 candidate-authored single-message stress cases"
+    implementation_mode: "Deterministic phrase extraction with documented paraphrase variants and context abstention, typed requirement lifecycle, role matrix, and append-only SQLite events"
+    boundary: "Stress labels are not blinded or independent; not open-domain language understanding, authenticated authority, or a professional project specification"
     readme_path: projects/project-specification-copilot/README.md
   - name: Building Energy Regression Experiment
     slug: building-energy-ml-pipeline

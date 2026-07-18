@@ -235,8 +235,9 @@ def render_ledger(contexts: list[ClaimContext]) -> str:
         artifact = str(claim["artifact"])
         artifact_link = f"../{artifact}"
         project_link = f"../{context.project_readme}"
+        ledger_label = str(claim.get("ledger_label", context.project_name))
         row = [
-            f"[{context.project_name}]({project_link})",
+            f"[{ledger_label}]({project_link})",
             render_template(str(claim["evaluation_scope"]), context.values),
             result,
             f"[`{Path(artifact).name}`]({artifact_link})",

@@ -1,0 +1,241 @@
+{
+  "schema_version": 1,
+  "data_status": "synthetic",
+  "label_source": "candidate_authored_not_independently_validated",
+  "evaluation_scope": "Fixed single-message language coverage checks; not blinded, expert-labeled, or representative of real project communication",
+  "cases": [
+    {
+      "case_id": "direct-site-area",
+      "group": "direct_form",
+      "role": "client",
+      "text": "The site area is 3,600 m2.",
+      "expected_requirements": [{"key": "site_area_m2", "value": 3600.0}]
+    },
+    {
+      "case_id": "direct-gfa",
+      "group": "direct_form",
+      "role": "architect",
+      "text": "The GFA target is 4,200 sqm.",
+      "expected_requirements": [{"key": "gross_floor_area_m2", "value": 4200.0}]
+    },
+    {
+      "case_id": "direct-storeys",
+      "group": "direct_form",
+      "role": "architect",
+      "text": "The building is to be 4 storeys.",
+      "expected_requirements": [{"key": "storey_count", "value": 4}]
+    },
+    {
+      "case_id": "direct-budget",
+      "group": "direct_form",
+      "role": "client",
+      "text": "The budget cap is SGD 6.5 million.",
+      "expected_requirements": [{"key": "budget_cap_sgd", "value": 6500000}]
+    },
+    {
+      "case_id": "direct-occupancy",
+      "group": "direct_form",
+      "role": "client",
+      "text": "The occupancy target is 250 people.",
+      "expected_requirements": [{"key": "occupancy_count", "value": 250}]
+    },
+    {
+      "case_id": "direct-consultation-rooms",
+      "group": "direct_form",
+      "role": "client",
+      "text": "The clinic needs 12 consultation rooms.",
+      "expected_requirements": [{"key": "consultation_room_count", "value": 12}]
+    },
+    {
+      "case_id": "direct-loading-bays",
+      "group": "direct_form",
+      "role": "client",
+      "text": "Provide 3 loading bays.",
+      "expected_requirements": [{"key": "loading_bay_count", "value": 3}]
+    },
+    {
+      "case_id": "direct-step-free",
+      "group": "direct_form",
+      "role": "architect",
+      "text": "Step-free access is required at the main entrance.",
+      "expected_requirements": [{"key": "step_free_access", "value": true}]
+    },
+    {
+      "case_id": "paraphrase-plot-size",
+      "group": "paraphrase",
+      "role": "client",
+      "text": "The plot size is 3,600 square metres.",
+      "expected_requirements": [{"key": "site_area_m2", "value": 3600.0}]
+    },
+    {
+      "case_id": "paraphrase-floor-space",
+      "group": "paraphrase",
+      "role": "architect",
+      "text": "Keep the total floor space to 4,200 sqm.",
+      "expected_requirements": [{"key": "gross_floor_area_m2", "value": 4200.0}]
+    },
+    {
+      "case_id": "paraphrase-number-words-gfa",
+      "group": "paraphrase",
+      "role": "architect",
+      "text": "The gross floor area should be four thousand two hundred square metres.",
+      "expected_requirements": [{"key": "gross_floor_area_m2", "value": 4200.0}]
+    },
+    {
+      "case_id": "paraphrase-levels",
+      "group": "paraphrase",
+      "role": "architect",
+      "text": "Keep the development to 4 levels.",
+      "expected_requirements": [{"key": "storey_count", "value": 4}]
+    },
+    {
+      "case_id": "paraphrase-maximum-spend",
+      "group": "paraphrase",
+      "role": "client",
+      "text": "The maximum spend is SGD 6.5 million.",
+      "expected_requirements": [{"key": "budget_cap_sgd", "value": 6500000}]
+    },
+    {
+      "case_id": "paraphrase-visitors",
+      "group": "paraphrase",
+      "role": "client",
+      "text": "Design the venue for 250 visitors.",
+      "expected_requirements": [{"key": "occupancy_count", "value": 250}]
+    },
+    {
+      "case_id": "paraphrase-dozen-rooms",
+      "group": "paraphrase",
+      "role": "client",
+      "text": "We need a dozen consultation rooms.",
+      "expected_requirements": [{"key": "consultation_room_count", "value": 12}]
+    },
+    {
+      "case_id": "paraphrase-service-docks",
+      "group": "paraphrase",
+      "role": "client",
+      "text": "Allow 3 service docks for deliveries.",
+      "expected_requirements": [{"key": "loading_bay_count", "value": 3}]
+    },
+    {
+      "case_id": "paraphrase-car-lots",
+      "group": "paraphrase",
+      "role": "client",
+      "text": "Provide 80 car lots.",
+      "expected_requirements": [{"key": "parking_space_count", "value": 80}]
+    },
+    {
+      "case_id": "paraphrase-without-steps",
+      "group": "paraphrase",
+      "role": "architect",
+      "text": "The main entrance must work without steps.",
+      "expected_requirements": [{"key": "step_free_access", "value": true}]
+    },
+    {
+      "case_id": "paraphrase-structure",
+      "group": "paraphrase",
+      "role": "structural_engineer",
+      "text": "Use steel frame for the primary structure.",
+      "expected_requirements": [{"key": "structural_system", "value": "steel frame"}]
+    },
+    {
+      "case_id": "paraphrase-envelope",
+      "group": "paraphrase",
+      "role": "architect",
+      "text": "Terracotta rainscreen is preferred for the envelope.",
+      "expected_requirements": [{"key": "facade_material", "value": "terracotta rainscreen"}]
+    },
+    {
+      "case_id": "paraphrase-energy-intensity",
+      "group": "paraphrase",
+      "role": "mep_engineer",
+      "text": "Target operational energy intensity at 110 kWh per square metre annually.",
+      "expected_requirements": [
+        {"key": "energy_use_intensity_kwh_m2_year", "value": 110.0}
+      ]
+    },
+    {
+      "case_id": "paraphrase-keys-quarter",
+      "group": "paraphrase",
+      "role": "client",
+      "text": "We need the keys before the third quarter of 2028.",
+      "expected_requirements": [{"key": "handover_target", "value": "Q3 2028"}]
+    },
+    {
+      "case_id": "paraphrase-community-room",
+      "group": "paraphrase",
+      "role": "client",
+      "text": "Include a multipurpose community room.",
+      "expected_requirements": [{"key": "community_hall", "value": true}]
+    },
+    {
+      "case_id": "paraphrase-day-care",
+      "group": "paraphrase",
+      "role": "client",
+      "text": "A day-care facility is required.",
+      "expected_requirements": [{"key": "childcare_centre", "value": true}]
+    },
+    {
+      "case_id": "paraphrase-rooftop-garden",
+      "group": "paraphrase",
+      "role": "client",
+      "text": "Do not provide a rooftop garden.",
+      "expected_requirements": [{"key": "roof_garden", "value": false}]
+    },
+    {
+      "case_id": "negative-budget-question",
+      "group": "negative_control",
+      "role": "client",
+      "text": "Could the budget cap be SGD 6 million?",
+      "expected_requirements": []
+    },
+    {
+      "case_id": "negative-historical-storeys",
+      "group": "negative_control",
+      "role": "architect",
+      "text": "The previous scheme had 4 storeys, for historical context only.",
+      "expected_requirements": []
+    },
+    {
+      "case_id": "negative-ignore-site-area",
+      "group": "negative_control",
+      "role": "client",
+      "text": "Ignore the site area figure of 3,600 m2 in the old email.",
+      "expected_requirements": []
+    },
+    {
+      "case_id": "negative-access-question",
+      "group": "negative_control",
+      "role": "architect",
+      "text": "Can we discuss step-free access next week?",
+      "expected_requirements": []
+    },
+    {
+      "case_id": "negative-meeting-date",
+      "group": "negative_control",
+      "role": "project_manager",
+      "text": "The coordination meeting is in March 2029.",
+      "expected_requirements": []
+    },
+    {
+      "case_id": "negative-invoice",
+      "group": "negative_control",
+      "role": "quantity_surveyor",
+      "text": "The invoice total is SGD 6 million.",
+      "expected_requirements": []
+    },
+    {
+      "case_id": "negative-furniture-count",
+      "group": "negative_control",
+      "role": "architect",
+      "text": "The meeting room currently contains 12 chairs.",
+      "expected_requirements": []
+    },
+    {
+      "case_id": "negative-rejected-budget",
+      "group": "negative_control",
+      "role": "client",
+      "text": "The client rejected a budget cap of SGD 6 million.",
+      "expected_requirements": []
+    }
+  ]
+}

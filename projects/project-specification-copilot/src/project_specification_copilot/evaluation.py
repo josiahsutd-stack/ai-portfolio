@@ -5,7 +5,11 @@ from pathlib import Path
 from typing import Any
 
 from .engine import SpecificationEngine
+from .extractor import extract_requirements
+from .models import Message
 from .rendering import render_specification_trace_svg
+
+LANGUAGE_STRESS_GROUPS = ("direct_form", "paraphrase", "negative_control")
 
 
 def load_evaluation_cases(path: str | Path) -> list[dict[str, Any]]:
@@ -18,11 +22,234 @@ def load_evaluation_cases(path: str | Path) -> list[dict[str, Any]]:
     return [dict(case) for case in payload]
 
 
+def load_language_stress_cases(
+    path: str | Path,
+) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+    payload = json.loads(Path(path).read_text(encoding="utf-8"))
+    if not isinstance(payload, dict) or not isinstance(payload.get("cases"), list):
+        raise ValueError("Language stress file must contain an object with a `cases` list.")
+    metadata = {
+        "schema_version": int(payload.get("schema_version", 1)),
+        "data_status": str(payload.get("data_status", "synthetic")),
+        "label_source": str(payload.get("label_source", "")),
+        "evaluation_scope": str(payload.get("evaluation_scope", "")),
+    }
+    if metadata["data_status"] != "synthetic":
+        raise ValueError("Language stress data must remain explicitly labeled synthetic.")
+    if not metadata["label_source"]:
+        raise ValueError("Language stress data requires a label_source.")
+    cases = [dict(case) for case in payload["cases"]]
+    case_ids = [str(case.get("case_id", "")) for case in cases]
+    if not all(case_ids) or len(case_ids) != len(set(case_ids)):
+        raise ValueError("Language stress case ids must be present and unique.")
+    for case in cases:
+        if case.get("group") not in LANGUAGE_STRESS_GROUPS:
+            raise ValueError(f"Unsupported language stress group: {case.get('group')}")
+        if not str(case.get("text", "")).strip():
+            raise ValueError(f"Language stress case {case['case_id']} has no text.")
+        if not isinstance(case.get("expected_requirements"), list):
+            raise ValueError(
+                f"Language stress case {case['case_id']} requires expected_requirements."
+            )
+    return metadata, cases
+
+
 def _f1(true_positive: int, predicted: int, expected: int) -> tuple[float, float, float]:
     precision = true_positive / predicted if predicted else (1.0 if expected == 0 else 0.0)
     recall = true_positive / expected if expected else 1.0
     f1 = 2 * precision * recall / (precision + recall) if precision + recall else 0.0
     return round(precision, 6), round(recall, 6), round(f1, 6)
+
+
+def _requirement_pairs(items: list[dict[str, Any]]) -> set[tuple[str, str]]:
+    return {(str(item["key"]), str(item["value"]).strip().lower()) for item in items}
+
+
+def evaluate_language_stress_cases(
+    cases: list[dict[str, Any]], metadata: dict[str, Any]
+) -> dict[str, Any]:
+    group_counts = {
+        group: {"true_positive": 0, "predicted": 0, "expected": 0, "exact": 0, "count": 0}
+        for group in LANGUAGE_STRESS_GROUPS
+    }
+    total_true_positive = total_predicted = total_expected = exact_cases = 0
+    negative_case_count = clean_negative_count = 0
+    case_results: list[dict[str, Any]] = []
+
+    for index, case in enumerate(cases, start=1):
+        message = Message(
+            message_id=f"STRESS-{index:03d}",
+            sequence=index,
+            role=str(case.get("role", "client")),
+            author="Synthetic participant",
+            text=str(case["text"]),
+            data_status="synthetic",
+        )
+        predicted = {
+            (item.key, str(item.value).strip().lower()) for item in extract_requirements(message)
+        }
+        expected = _requirement_pairs(case["expected_requirements"])
+        group = str(case["group"])
+        true_positive = len(predicted & expected)
+        exact = predicted == expected
+
+        total_true_positive += true_positive
+        total_predicted += len(predicted)
+        total_expected += len(expected)
+        exact_cases += int(exact)
+        group_counts[group]["true_positive"] += true_positive
+        group_counts[group]["predicted"] += len(predicted)
+        group_counts[group]["expected"] += len(expected)
+        group_counts[group]["exact"] += int(exact)
+        group_counts[group]["count"] += 1
+        if not expected:
+            negative_case_count += 1
+            clean_negative_count += int(not predicted)
+
+        case_results.append(
+            {
+                "case_id": case["case_id"],
+                "group": group,
+                "text": case["text"],
+                "expected_requirements": sorted([list(item) for item in expected]),
+                "predicted_requirements": sorted([list(item) for item in predicted]),
+                "missing_requirements": sorted([list(item) for item in expected - predicted]),
+                "unexpected_requirements": sorted([list(item) for item in predicted - expected]),
+                "exact_match": exact,
+            }
+        )
+
+    precision, recall, f1 = _f1(total_true_positive, total_predicted, total_expected)
+    group_metrics: dict[str, dict[str, Any]] = {}
+    for group, counts in group_counts.items():
+        group_precision, group_recall, group_f1 = _f1(
+            counts["true_positive"], counts["predicted"], counts["expected"]
+        )
+        group_metrics[group] = {
+            "case_count": counts["count"],
+            "precision": group_precision,
+            "recall": group_recall,
+            "f1": group_f1,
+            "exact_case_accuracy": round(counts["exact"] / counts["count"], 6),
+        }
+
+    return {
+        "artifact_schema_version": 1,
+        "data_status": metadata["data_status"],
+        "label_source": metadata["label_source"],
+        "evaluation_scope": metadata["evaluation_scope"],
+        "case_count": len(cases),
+        "positive_case_count": sum(bool(case["expected_requirements"]) for case in cases),
+        "negative_control_case_count": negative_case_count,
+        "metrics": {
+            "requirement_precision": precision,
+            "requirement_recall": recall,
+            "requirement_f1": f1,
+            "exact_case_accuracy": round(exact_cases / len(cases), 6),
+            "negative_control_accuracy": round(
+                clean_negative_count / negative_case_count if negative_case_count else 1.0, 6
+            ),
+        },
+        "group_metrics": group_metrics,
+        "failure_count": len(cases) - exact_cases,
+        "case_results": case_results,
+        "boundaries": [
+            "Cases and labels are candidate-authored and are not blinded or independently validated.",
+            "The set measures documented single-message forms, not open-domain conversation understanding.",
+            "No result establishes professional specification quality or stakeholder acceptance.",
+        ],
+    }
+
+
+def _language_stress_svg(summary: dict[str, Any]) -> str:
+    labels = {
+        "direct_form": "Direct forms",
+        "paraphrase": "Paraphrases",
+        "negative_control": "Negative controls",
+    }
+    colors = {
+        "direct_form": "#167d6d",
+        "paraphrase": "#e85d3f",
+        "negative_control": "#d6a226",
+    }
+    rows: list[str] = []
+    for row_index, group in enumerate(LANGUAGE_STRESS_GROUPS):
+        metric = summary["group_metrics"][group]["exact_case_accuracy"]
+        y = 170 + row_index * 92
+        width = round(500 * metric, 1)
+        rows.extend(
+            [
+                f'<text x="56" y="{y + 8}" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#17231f">{labels[group]}</text>',
+                f'<rect x="250" y="{y - 18}" width="500" height="34" rx="4" fill="#e7ece9"/>',
+                f'<rect x="250" y="{y - 18}" width="{width}" height="34" rx="4" fill="{colors[group]}"/>',
+                f'<text x="770" y="{y + 8}" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#17231f">{metric:.3f}</text>',
+            ]
+        )
+    metrics = summary["metrics"]
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" width="860" height="500" viewBox="0 0 860 500" role="img" aria-labelledby="title desc">
+  <title id="title">Language stress exact-case accuracy</title>
+  <desc id="desc">Exact-case accuracy for direct forms, paraphrases, and negative controls in a candidate-authored synthetic stress set.</desc>
+  <rect width="860" height="500" fill="#f7f8f6"/>
+  <text x="56" y="48" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#e85d3f">LANGUAGE COVERAGE STRESS AUDIT · SYNTHETIC</text>
+  <text x="56" y="86" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#17231f">Exact-case accuracy by wording group</text>
+  <text x="56" y="116" font-family="Arial, sans-serif" font-size="14" fill="#58645f">{summary['case_count']} candidate-authored cases · not blinded or independently labeled</text>
+  {''.join(rows)}
+  <line x1="56" y1="438" x2="804" y2="438" stroke="#c9d1cd"/>
+  <text x="56" y="470" font-family="Arial, sans-serif" font-size="14" fill="#17231f">Overall extraction F1 {metrics['requirement_f1']:.3f} · Negative-control accuracy {metrics['negative_control_accuracy']:.3f} · {summary['failure_count']} exact-case misses retained</text>
+</svg>
+"""
+
+
+def write_language_stress_artifacts(
+    cases: list[dict[str, Any]], metadata: dict[str, Any], output_dir: str | Path
+) -> dict[str, Any]:
+    output = Path(output_dir)
+    output.mkdir(parents=True, exist_ok=True)
+    summary = evaluate_language_stress_cases(cases, metadata)
+    (output / "language_stress_summary.json").write_text(
+        json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    rows = []
+    for group in LANGUAGE_STRESS_GROUPS:
+        metric = summary["group_metrics"][group]
+        rows.append(
+            f"| {group.replace('_', ' ').title()} | {metric['case_count']} | "
+            f"{metric['precision']:.3f} | {metric['recall']:.3f} | {metric['f1']:.3f} | "
+            f"{metric['exact_case_accuracy']:.3f} |"
+        )
+    metrics = summary["metrics"]
+    report = f"""# Language Coverage Stress Audit
+
+**Data status:** synthetic
+
+**Label source:** candidate-authored, not blinded or independently validated
+
+The fixed set contains {summary['case_count']} single-message cases: {summary['positive_case_count']} positive requirement forms and {summary['negative_control_case_count']} negative controls.
+
+| Group | Cases | Precision | Recall | F1 | Exact-case accuracy |
+| --- | ---: | ---: | ---: | ---: | ---: |
+{chr(10).join(rows)}
+
+Overall requirement extraction F1 is `{metrics['requirement_f1']:.3f}`; exact-case accuracy is `{metrics['exact_case_accuracy']:.3f}`; negative-control accuracy is `{metrics['negative_control_accuracy']:.3f}`.
+
+This is a repository-authored coverage audit over documented forms. It is not evidence of open-domain conversation understanding, expert agreement, or professional specification quality.
+"""
+    (output / "language_stress_report.md").write_text(report, encoding="utf-8")
+    failures = [result for result in summary["case_results"] if not result["exact_match"]]
+    failure_lines = [
+        f"- `{result['case_id']}`: missing `{result['missing_requirements']}`; unexpected `{result['unexpected_requirements']}`. Text: {result['text']}"
+        for result in failures
+    ]
+    (output / "language_stress_failures.md").write_text(
+        "# Language Stress Failures\n\n**Data status:** synthetic\n\n"
+        + ("\n".join(failure_lines) if failure_lines else "No exact-case misses were recorded.")
+        + "\n\nThese misses are retained to bound the documented language coverage.\n",
+        encoding="utf-8",
+    )
+    (output / "language_stress_comparison.svg").write_text(
+        _language_stress_svg(summary), encoding="utf-8"
+    )
+    return summary
 
 
 def evaluate_cases(cases: list[dict[str, Any]]) -> tuple[dict[str, Any], list[SpecificationEngine]]:

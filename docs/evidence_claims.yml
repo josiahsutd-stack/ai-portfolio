@@ -378,6 +378,70 @@ claims:
         contains:
           - "over `{message_count}` messages in `{case_count}` synthetic cases"
 
+  - id: specification-language-stress
+    project_slug: project-specification-copilot
+    ledger_label: Project Communication and Specification Assistant - Language Stress
+    artifact: projects/project-specification-copilot/demo_outputs/language_stress_summary.json
+    command: python projects/project-specification-copilot/evaluate_specification.py
+    evaluation_scope: Candidate-authored fixed single-message coverage set with direct forms, paraphrases, and negative controls; not blinded or independently labeled
+    metrics:
+      case_count:
+        json_path: case_count
+      positive_count:
+        json_path: positive_case_count
+      negative_count:
+        json_path: negative_control_case_count
+      stress_precision:
+        json_path: metrics.requirement_precision
+        decimals: 3
+      stress_recall:
+        json_path: metrics.requirement_recall
+        decimals: 3
+      stress_f1:
+        json_path: metrics.requirement_f1
+        decimals: 3
+      exact_accuracy:
+        json_path: metrics.exact_case_accuracy
+        decimals: 3
+      negative_accuracy:
+        json_path: metrics.negative_control_accuracy
+        decimals: 3
+      paraphrase_exact:
+        json_path: group_metrics.paraphrase.exact_case_accuracy
+        decimals: 3
+      failure_count:
+        json_path: failure_count
+    result_template: "Language stress F1 {stress_f1}; exact-case accuracy {exact_accuracy}; negative-control accuracy {negative_accuracy}; {failure_count} retained misses across {case_count} synthetic cases"
+    public_surfaces:
+      - path: README.md
+        contains:
+          - "33-case language stress set records F1 `{stress_f1}`, exact-case accuracy `{exact_accuracy}`, negative-control accuracy `{negative_accuracy}`, and {failure_count} retained number-word misses"
+      - path: portfolio-site/index.html
+        contains:
+          - "{case_count}-case language stress: {stress_f1} F1 / {exact_accuracy} exact"
+          - "{failure_count} number-word misses are retained"
+      - path: projects/project-specification-copilot/README.md
+        contains:
+          - "contains `{case_count}` candidate-authored single-message cases"
+          - "preserves `{failure_count}` misses involving number words"
+          - "| Requirement precision | `{stress_precision}` |"
+          - "| Requirement recall | `{stress_recall}` |"
+          - "| Requirement F1 | `{stress_f1}` |"
+          - "| Exact-case accuracy | `{exact_accuracy}` |"
+          - "| Negative-control accuracy | `{negative_accuracy}` |"
+          - "| Paraphrase exact-case accuracy | `{paraphrase_exact}` |"
+      - path: projects/project-specification-copilot/EVAL.md
+        contains:
+          - "covers `{case_count}` candidate-authored single-message cases"
+          - "| Requirement F1 | `{stress_f1}` |"
+          - "| Exact-case accuracy | `{exact_accuracy}` |"
+          - "| Negative-control accuracy | `{negative_accuracy}` |"
+          - "| Paraphrase exact-case accuracy | `{paraphrase_exact}` |"
+          - "`{failure_count}` number-word cases remain unsupported"
+      - path: docs/technical-review-guide.md
+        contains:
+          - "33-case language audit records F1 `{stress_f1}`, exact-case accuracy `{exact_accuracy}`, and {failure_count} number-word misses"
+
   - id: qs-takeoff-tender-fixtures
     project_slug: qs-takeoff-tender-analysis
     artifact: projects/qs-takeoff-tender-analysis/demo_outputs/evaluation_summary.json

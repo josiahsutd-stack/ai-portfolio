@@ -34,11 +34,11 @@ The selected set contains one flagship, two role-defining primary projects, and 
 
 ## 4. Project Communication and Specification Assistant - Supporting
 
-**Implemented:** immutable role-tagged messages, requirement versions, conflict records, approval scopes, SQLite audit events, source ids, open decisions, and clauses generated only from approved requirements.
+**Implemented:** immutable role-tagged messages, documented direct and paraphrase extraction, question/historical-context abstention, requirement versions, conflict records, approval scopes, SQLite audit events, source ids, open decisions, and clauses generated only from approved requirements.
 
-**Evidence:** `engine.py`, `extractor.py`, `store.py`, `EVAL.md`, `demo_outputs/sample_specification.md`, and `tests/test_project_specification_copilot.py`.
+**Evidence:** `engine.py`, `extractor.py`, `store.py`, `EVAL.md`, `demo_outputs/language_stress_summary.json`, `demo_outputs/language_stress_failures.md`, `demo_outputs/sample_specification.md`, and `tests/test_project_specification_copilot.py`.
 
-**Boundary:** Perfect fixture metrics are regression results over an authored deterministic grammar, not open-domain language understanding or a professional specification.
+**Boundary:** Perfect workflow-fixture metrics are regression results over an authored deterministic grammar. The separate candidate-authored 33-case language audit records F1 `0.958`, exact-case accuracy `0.939`, and 2 number-word misses; it is not blinded, independent, open-domain, or professional-specification evidence.
 
 ## 5. QS Takeoff and Tender Analysis Workbench - Supporting
 

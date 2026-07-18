@@ -105,6 +105,16 @@ def test_ledger_scope_is_rendered_from_artifact_values(tmp_path: Path) -> None:
     assert "Synthetic fixture at 0.750 accuracy" in render_ledger(contexts)
 
 
+def test_ledger_can_distinguish_multiple_evaluations_for_one_project(tmp_path: Path) -> None:
+    config = write_fixture_repo(tmp_path)
+    config["claims"][0]["ledger_label"] = "Demo Classifier - Stress Audit"
+    contexts, issues = materialize_claims(config, tmp_path)
+
+    assert not issues
+    ledger = render_ledger(contexts)
+    assert "[Demo Classifier - Stress Audit](../projects/demo/README.md)" in ledger
+
+
 def test_ledger_uses_manifest_readme_path_for_experiments(tmp_path: Path) -> None:
     config = write_fixture_repo(tmp_path)
     manifest_path = tmp_path / "projects" / "projects.yml"

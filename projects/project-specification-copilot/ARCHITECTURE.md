@@ -13,10 +13,10 @@ The Streamlit interface presents one shared project conversation. Each message r
 | Component | Responsibility | Boundary |
 | --- | --- | --- |
 | `models.py` | Messages, requirements, conflicts, clauses, drafts, and snapshots. | Typed local records; no external identity. |
-| `extractor.py` | Documented deterministic phrase and value extraction. | No open-domain language understanding. |
+| `extractor.py` | Documented deterministic phrase/value extraction plus question and historical-context abstention. | Named variants only; no open-domain language understanding. |
 | `engine.py` | Requirement lifecycle, conflicts, role gates, clause generation, and completeness. | No autonomous approval or professional judgment. |
 | `store.py` | Append-only SQLite audit events. | Local trace, not tamper-proof or multi-user infrastructure. |
-| `evaluation.py` | Synthetic fixture scoring and evidence artifacts. | Repository-authored labels only. |
+| `evaluation.py` | Workflow regression plus direct/paraphrase/negative language stress scoring and evidence artifacts. | Repository-authored labels only; stress cases are not blinded. |
 | `rendering.py` | Trace SVG generated from messages, ledger records, and clauses. | Explanatory output, not a project document. |
 | `app.py` | Conversation, ledger, approval action, draft, and audit views. | Local single-session interface. |
 

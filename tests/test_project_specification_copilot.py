@@ -1,17 +1,22 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
+import pytest
 from project_specification_copilot import (
     ROLES,
     AuditStore,
     Message,
     SpecificationEngine,
     evaluate_cases,
+    evaluate_language_stress_cases,
     extract_requirements,
     load_evaluation_cases,
+    load_language_stress_cases,
     render_specification_trace_svg,
     write_evaluation_artifacts,
+    write_language_stress_artifacts,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -22,6 +27,7 @@ CASE_PATH = (
     / "sample_data"
     / "synthetic_conversations.json"
 )
+STRESS_PATH = CASE_PATH.with_name("language_stress_cases.json")
 
 
 def test_extractor_handles_multiple_numeric_requirements() -> None:
@@ -104,6 +110,34 @@ def test_unsupported_chatter_produces_no_requirement_or_clause() -> None:
     assert not engine.draft_specification().clauses
 
 
+def test_extractor_abstains_on_questions_history_and_rejected_values() -> None:
+    messages = [
+        "Could the budget cap be SGD 6 million?",
+        "The previous scheme had 4 storeys, for historical context only.",
+        "Ignore the site area figure of 3,600 m2 in the old email.",
+        "The client rejected a budget cap of SGD 6 million.",
+    ]
+
+    for sequence, text in enumerate(messages, start=1):
+        message = Message(f"MSG-{sequence:03d}", sequence, "client", "Client", text)
+        assert extract_requirements(message) == []
+
+
+def test_extractor_handles_documented_paraphrase_variants() -> None:
+    examples = [
+        ("The plot size is 3,600 square metres.", ("site_area_m2", 3600.0)),
+        ("Keep the total floor space to 4,200 sqm.", ("gross_floor_area_m2", 4200.0)),
+        ("Allow 3 service docks for deliveries.", ("loading_bay_count", 3)),
+        ("Use steel frame for the primary structure.", ("structural_system", "steel frame")),
+        ("Do not provide a rooftop garden.", ("roof_garden", False)),
+    ]
+
+    for sequence, (text, expected) in enumerate(examples, start=1):
+        message = Message(f"MSG-{sequence:03d}", sequence, "client", "Client", text)
+        observed = {(item.key, item.value) for item in extract_requirements(message)}
+        assert expected in observed
+
+
 def test_multi_party_conversation_preserves_roles_and_gates_draft_clauses() -> None:
     engine = SpecificationEngine()
     messages = [
@@ -162,6 +196,36 @@ def test_bundled_evaluation_matches_all_synthetic_labels() -> None:
     assert summary["observed_denied_approvals"] == 5
 
 
+def test_bundled_language_stress_evaluation_retains_known_misses() -> None:
+    metadata, cases = load_language_stress_cases(STRESS_PATH)
+    summary = evaluate_language_stress_cases(cases, metadata)
+
+    assert summary["case_count"] == 33
+    assert summary["positive_case_count"] == 25
+    assert summary["negative_control_case_count"] == 8
+    assert summary["metrics"] == {
+        "requirement_precision": 1.0,
+        "requirement_recall": 0.92,
+        "requirement_f1": 0.958333,
+        "exact_case_accuracy": 0.939394,
+        "negative_control_accuracy": 1.0,
+    }
+    failures = {
+        result["case_id"] for result in summary["case_results"] if not result["exact_match"]
+    }
+    assert failures == {"paraphrase-number-words-gfa", "paraphrase-dozen-rooms"}
+
+
+def test_language_stress_loader_rejects_duplicate_ids(tmp_path: Path) -> None:
+    payload = json.loads(STRESS_PATH.read_text(encoding="utf-8"))
+    payload["cases"][1]["case_id"] = payload["cases"][0]["case_id"]
+    path = tmp_path / "duplicate-stress.json"
+    path.write_text(json.dumps(payload), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="present and unique"):
+        load_language_stress_cases(path)
+
+
 def test_generated_trace_references_real_records() -> None:
     cases = load_evaluation_cases(CASE_PATH)
     _summary, engines = evaluate_cases(cases)
@@ -183,6 +247,20 @@ def test_evaluation_artifacts_are_deterministic(tmp_path: Path) -> None:
     second = tmp_path / "second"
     write_evaluation_artifacts(cases, first)
     write_evaluation_artifacts(cases, second)
+
+    first_files = sorted(path.name for path in first.iterdir())
+    second_files = sorted(path.name for path in second.iterdir())
+    assert first_files == second_files
+    for name in first_files:
+        assert (first / name).read_bytes() == (second / name).read_bytes()
+
+
+def test_language_stress_artifacts_are_deterministic(tmp_path: Path) -> None:
+    metadata, cases = load_language_stress_cases(STRESS_PATH)
+    first = tmp_path / "first"
+    second = tmp_path / "second"
+    write_language_stress_artifacts(cases, metadata, first)
+    write_language_stress_artifacts(cases, metadata, second)
 
     first_files = sorted(path.name for path in first.iterdir())
     second_files = sorted(path.name for path in second.iterdir())

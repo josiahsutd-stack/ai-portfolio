@@ -1,0 +1,627 @@
+{
+  "artifact_schema_version": 1,
+  "boundaries": [
+    "Cases and labels are candidate-authored and are not blinded or independently validated.",
+    "The set measures documented single-message forms, not open-domain conversation understanding.",
+    "No result establishes professional specification quality or stakeholder acceptance."
+  ],
+  "case_count": 33,
+  "case_results": [
+    {
+      "case_id": "direct-site-area",
+      "exact_match": true,
+      "expected_requirements": [
+        [
+          "site_area_m2",
+          "3600.0"
+        ]
+      ],
+      "group": "direct_form",
+      "missing_requirements": [],
+      "predicted_requirements": [
+        [
+          "site_area_m2",
+          "3600.0"
+        ]
+      ],
+      "text": "The site area is 3,600 m2.",
+      "unexpected_requirements": []
+    },
+    {
+      "case_id": "direct-gfa",
+      "exact_match": true,
+      "expected_requirements": [
+        [
+          "gross_floor_area_m2",
+          "4200.0"
+        ]
+      ],
+      "group": "direct_form",
+      "missing_requirements": [],
+      "predicted_requirements": [
+        [
+          "gross_floor_area_m2",
+          "4200.0"
+        ]
+      ],
+      "text": "The GFA target is 4,200 sqm.",
+      "unexpected_requirements": []
+    },
+    {
+      "case_id": "direct-storeys",
+      "exact_match": true,
+      "expected_requirements": [
+        [
+          "storey_count",
+          "4"
+        ]
+      ],
+      "group": "direct_form",
+      "missing_requirements": [],
+      "predicted_requirements": [
+        [
+          "storey_count",
+          "4"
+        ]
+      ],
+      "text": "The building is to be 4 storeys.",
+      "unexpected_requirements": []
+    },
+    {
+      "case_id": "direct-budget",
+      "exact_match": true,
+      "expected_requirements": [
+        [
+          "budget_cap_sgd",
+          "6500000"
+        ]
+      ],
+      "group": "direct_form",
+      "missing_requirements": [],
+      "predicted_requirements": [
+        [
+          "budget_cap_sgd",
+          "6500000"
+        ]
+      ],
+      "text": "The budget cap is SGD 6.5 million.",
+      "unexpected_requirements": []
+    },
+    {
+      "case_id": "direct-occupancy",
+      "exact_match": true,
+      "expected_requirements": [
+        [
+          "occupancy_count",
+          "250"
+        ]
+      ],
+      "group": "direct_form",
+      "missing_requirements": [],
+      "predicted_requirements": [
+        [
+          "occupancy_count",
+          "250"
+        ]
+      ],
+      "text": "The occupancy target is 250 people.",
+      "unexpected_requirements": []
+    },
+    {
+      "case_id": "direct-consultation-rooms",
+      "exact_match": true,
+      "expected_requirements": [
+        [
+          "consultation_room_count",
+          "12"
+        ]
+      ],
+      "group": "direct_form",
+      "missing_requirements": [],
+      "predicted_requirements": [
+        [
+          "consultation_room_count",
+          "12"
+        ]
+      ],
+      "text": "The clinic needs 12 consultation rooms.",
+      "unexpected_requirements": []
+    },
+    {
+      "case_id": "direct-loading-bays",
+      "exact_match": true,
+      "expected_requirements": [
+        [
+          "loading_bay_count",
+          "3"
+        ]
+      ],
+      "group": "direct_form",
+      "missing_requirements": [],
+      "predicted_requirements": [
+        [
+          "loading_bay_count",
+          "3"
+        ]
+      ],
+      "text": "Provide 3 loading bays.",
+      "unexpected_requirements": []
+    },
+    {
+      "case_id": "direct-step-free",
+      "exact_match": true,
+      "expected_requirements": [
+        [
+          "step_free_access",
+          "true"
+        ]
+      ],
+      "group": "direct_form",
+      "missing_requirements": [],
+      "predicted_requirements": [
+        [
+          "step_free_access",
+          "true"
+        ]
+      ],
+      "text": "Step-free access is required at the main entrance.",
+      "unexpected_requirements": []
+    },
+    {
+      "case_id": "paraphrase-plot-size",
+      "exact_match": true,
+      "expected_requirements": [
+        [
+          "site_area_m2",
+          "3600.0"
+        ]
+      ],
+      "group": "paraphrase",
+      "missing_requirements": [],
+      "predicted_requirements": [
+        [
+          "site_area_m2",
+          "3600.0"
+        ]
+      ],
+      "text": "The plot size is 3,600 square metres.",
+      "unexpected_requirements": []
+    },
+    {
+      "case_id": "paraphrase-floor-space",
+      "exact_match": true,
+      "expected_requirements": [
+        [
+          "gross_floor_area_m2",
+          "4200.0"
+        ]
+      ],
+      "group": "paraphrase",
+      "missing_requirements": [],
+      "predicted_requirements": [
+        [
+          "gross_floor_area_m2",
+          "4200.0"
+        ]
+      ],
+      "text": "Keep the total floor space to 4,200 sqm.",
+      "unexpected_requirements": []
+    },
+    {
+      "case_id": "paraphrase-number-words-gfa",
+      "exact_match": false,
+      "expected_requirements": [
+        [
+          "gross_floor_area_m2",
+          "4200.0"
+        ]
+      ],
+      "group": "paraphrase",
+      "missing_requirements": [
+        [
+          "gross_floor_area_m2",
+          "4200.0"
+        ]
+      ],
+      "predicted_requirements": [],
+      "text": "The gross floor area should be four thousand two hundred square metres.",
+      "unexpected_requirements": []
+    },
+    {
+      "case_id": "paraphrase-levels",
+      "exact_match": true,
+      "expected_requirements": [
+        [
+          "storey_count",
+          "4"
+        ]
+      ],
+      "group": "paraphrase",
+      "missing_requirements": [],
+      "predicted_requirements": [
+        [
+          "storey_count",
+          "4"
+        ]
+      ],
+      "text": "Keep the development to 4 levels.",
+      "unexpected_requirements": []
+    },
+    {
+      "case_id": "paraphrase-maximum-spend",
+      "exact_match": true,
+      "expected_requirements": [
+        [
+          "budget_cap_sgd",
+          "6500000"
+        ]
+      ],
+      "group": "paraphrase",
+      "missing_requirements": [],
+      "predicted_requirements": [
+        [
+          "budget_cap_sgd",
+          "6500000"
+        ]
+      ],
+      "text": "The maximum spend is SGD 6.5 million.",
+      "unexpected_requirements": []
+    },
+    {
+      "case_id": "paraphrase-visitors",
+      "exact_match": true,
+      "expected_requirements": [
+        [
+          "occupancy_count",
+          "250"
+        ]
+      ],
+      "group": "paraphrase",
+      "missing_requirements": [],
+      "predicted_requirements": [
+        [
+          "occupancy_count",
+          "250"
+        ]
+      ],
+      "text": "Design the venue for 250 visitors.",
+      "unexpected_requirements": []
+    },
+    {
+      "case_id": "paraphrase-dozen-rooms",
+      "exact_match": false,
+      "expected_requirements": [
+        [
+          "consultation_room_count",
+          "12"
+        ]
+      ],
+      "group": "paraphrase",
+      "missing_requirements": [
+        [
+          "consultation_room_count",
+          "12"
+        ]
+      ],
+      "predicted_requirements": [],
+      "text": "We need a dozen consultation rooms.",
+      "unexpected_requirements": []
+    },
+    {
+      "case_id": "paraphrase-service-docks",
+      "exact_match": true,
+      "expected_requirements": [
+        [
+          "loading_bay_count",
+          "3"
+        ]
+      ],
+      "group": "paraphrase",
+      "missing_requirements": [],
+      "predicted_requirements": [
+        [
+          "loading_bay_count",
+          "3"
+        ]
+      ],
+      "text": "Allow 3 service docks for deliveries.",
+      "unexpected_requirements": []
+    },
+    {
+      "case_id": "paraphrase-car-lots",
+      "exact_match": true,
+      "expected_requirements": [
+        [
+          "parking_space_count",
+          "80"
+        ]
+      ],
+      "group": "paraphrase",
+      "missing_requirements": [],
+      "predicted_requirements": [
+        [
+          "parking_space_count",
+          "80"
+        ]
+      ],
+      "text": "Provide 80 car lots.",
+      "unexpected_requirements": []
+    },
+    {
+      "case_id": "paraphrase-without-steps",
+      "exact_match": true,
+      "expected_requirements": [
+        [
+          "step_free_access",
+          "true"
+        ]
+      ],
+      "group": "paraphrase",
+      "missing_requirements": [],
+      "predicted_requirements": [
+        [
+          "step_free_access",
+          "true"
+        ]
+      ],
+      "text": "The main entrance must work without steps.",
+      "unexpected_requirements": []
+    },
+    {
+      "case_id": "paraphrase-structure",
+      "exact_match": true,
+      "expected_requirements": [
+        [
+          "structural_system",
+          "steel frame"
+        ]
+      ],
+      "group": "paraphrase",
+      "missing_requirements": [],
+      "predicted_requirements": [
+        [
+          "structural_system",
+          "steel frame"
+        ]
+      ],
+      "text": "Use steel frame for the primary structure.",
+      "unexpected_requirements": []
+    },
+    {
+      "case_id": "paraphrase-envelope",
+      "exact_match": true,
+      "expected_requirements": [
+        [
+          "facade_material",
+          "terracotta rainscreen"
+        ]
+      ],
+      "group": "paraphrase",
+      "missing_requirements": [],
+      "predicted_requirements": [
+        [
+          "facade_material",
+          "terracotta rainscreen"
+        ]
+      ],
+      "text": "Terracotta rainscreen is preferred for the envelope.",
+      "unexpected_requirements": []
+    },
+    {
+      "case_id": "paraphrase-energy-intensity",
+      "exact_match": true,
+      "expected_requirements": [
+        [
+          "energy_use_intensity_kwh_m2_year",
+          "110.0"
+        ]
+      ],
+      "group": "paraphrase",
+      "missing_requirements": [],
+      "predicted_requirements": [
+        [
+          "energy_use_intensity_kwh_m2_year",
+          "110.0"
+        ]
+      ],
+      "text": "Target operational energy intensity at 110 kWh per square metre annually.",
+      "unexpected_requirements": []
+    },
+    {
+      "case_id": "paraphrase-keys-quarter",
+      "exact_match": true,
+      "expected_requirements": [
+        [
+          "handover_target",
+          "q3 2028"
+        ]
+      ],
+      "group": "paraphrase",
+      "missing_requirements": [],
+      "predicted_requirements": [
+        [
+          "handover_target",
+          "q3 2028"
+        ]
+      ],
+      "text": "We need the keys before the third quarter of 2028.",
+      "unexpected_requirements": []
+    },
+    {
+      "case_id": "paraphrase-community-room",
+      "exact_match": true,
+      "expected_requirements": [
+        [
+          "community_hall",
+          "true"
+        ]
+      ],
+      "group": "paraphrase",
+      "missing_requirements": [],
+      "predicted_requirements": [
+        [
+          "community_hall",
+          "true"
+        ]
+      ],
+      "text": "Include a multipurpose community room.",
+      "unexpected_requirements": []
+    },
+    {
+      "case_id": "paraphrase-day-care",
+      "exact_match": true,
+      "expected_requirements": [
+        [
+          "childcare_centre",
+          "true"
+        ]
+      ],
+      "group": "paraphrase",
+      "missing_requirements": [],
+      "predicted_requirements": [
+        [
+          "childcare_centre",
+          "true"
+        ]
+      ],
+      "text": "A day-care facility is required.",
+      "unexpected_requirements": []
+    },
+    {
+      "case_id": "paraphrase-rooftop-garden",
+      "exact_match": true,
+      "expected_requirements": [
+        [
+          "roof_garden",
+          "false"
+        ]
+      ],
+      "group": "paraphrase",
+      "missing_requirements": [],
+      "predicted_requirements": [
+        [
+          "roof_garden",
+          "false"
+        ]
+      ],
+      "text": "Do not provide a rooftop garden.",
+      "unexpected_requirements": []
+    },
+    {
+      "case_id": "negative-budget-question",
+      "exact_match": true,
+      "expected_requirements": [],
+      "group": "negative_control",
+      "missing_requirements": [],
+      "predicted_requirements": [],
+      "text": "Could the budget cap be SGD 6 million?",
+      "unexpected_requirements": []
+    },
+    {
+      "case_id": "negative-historical-storeys",
+      "exact_match": true,
+      "expected_requirements": [],
+      "group": "negative_control",
+      "missing_requirements": [],
+      "predicted_requirements": [],
+      "text": "The previous scheme had 4 storeys, for historical context only.",
+      "unexpected_requirements": []
+    },
+    {
+      "case_id": "negative-ignore-site-area",
+      "exact_match": true,
+      "expected_requirements": [],
+      "group": "negative_control",
+      "missing_requirements": [],
+      "predicted_requirements": [],
+      "text": "Ignore the site area figure of 3,600 m2 in the old email.",
+      "unexpected_requirements": []
+    },
+    {
+      "case_id": "negative-access-question",
+      "exact_match": true,
+      "expected_requirements": [],
+      "group": "negative_control",
+      "missing_requirements": [],
+      "predicted_requirements": [],
+      "text": "Can we discuss step-free access next week?",
+      "unexpected_requirements": []
+    },
+    {
+      "case_id": "negative-meeting-date",
+      "exact_match": true,
+      "expected_requirements": [],
+      "group": "negative_control",
+      "missing_requirements": [],
+      "predicted_requirements": [],
+      "text": "The coordination meeting is in March 2029.",
+      "unexpected_requirements": []
+    },
+    {
+      "case_id": "negative-invoice",
+      "exact_match": true,
+      "expected_requirements": [],
+      "group": "negative_control",
+      "missing_requirements": [],
+      "predicted_requirements": [],
+      "text": "The invoice total is SGD 6 million.",
+      "unexpected_requirements": []
+    },
+    {
+      "case_id": "negative-furniture-count",
+      "exact_match": true,
+      "expected_requirements": [],
+      "group": "negative_control",
+      "missing_requirements": [],
+      "predicted_requirements": [],
+      "text": "The meeting room currently contains 12 chairs.",
+      "unexpected_requirements": []
+    },
+    {
+      "case_id": "negative-rejected-budget",
+      "exact_match": true,
+      "expected_requirements": [],
+      "group": "negative_control",
+      "missing_requirements": [],
+      "predicted_requirements": [],
+      "text": "The client rejected a budget cap of SGD 6 million.",
+      "unexpected_requirements": []
+    }
+  ],
+  "data_status": "synthetic",
+  "evaluation_scope": "Fixed single-message language coverage checks; not blinded, expert-labeled, or representative of real project communication",
+  "failure_count": 2,
+  "group_metrics": {
+    "direct_form": {
+      "case_count": 8,
+      "exact_case_accuracy": 1.0,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    "negative_control": {
+      "case_count": 8,
+      "exact_case_accuracy": 1.0,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    "paraphrase": {
+      "case_count": 17,
+      "exact_case_accuracy": 0.882353,
+      "f1": 0.9375,
+      "precision": 1.0,
+      "recall": 0.882353
+    }
+  },
+  "label_source": "candidate_authored_not_independently_validated",
+  "metrics": {
+    "exact_case_accuracy": 0.939394,
+    "negative_control_accuracy": 1.0,
+    "requirement_f1": 0.958333,
+    "requirement_precision": 1.0,
+    "requirement_recall": 0.92
+  },
+  "negative_control_case_count": 8,
+  "positive_case_count": 25
+}

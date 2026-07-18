@@ -19,6 +19,9 @@ from project_specification_copilot import (
 CASES = json.loads(
     (PROJECT_ROOT / "sample_data" / "synthetic_conversations.json").read_text(encoding="utf-8")
 )
+STRESS_SUMMARY = json.loads(
+    (PROJECT_ROOT / "demo_outputs" / "language_stress_summary.json").read_text(encoding="utf-8")
+)
 
 
 def load_case(case_index: int) -> SpecificationEngine:
@@ -73,8 +76,14 @@ metric_columns[3].metric(
 )
 metric_columns[4].metric("Denied approvals", snapshot.denied_approval_count)
 
-conversation_tab, ledger_tab, specification_tab, audit_tab = st.tabs(
-    ["Conversation", "Requirement ledger", "Specification draft", "Audit trace"]
+conversation_tab, ledger_tab, specification_tab, language_tab, audit_tab = st.tabs(
+    [
+        "Conversation",
+        "Requirement ledger",
+        "Specification draft",
+        "Language audit",
+        "Audit trace",
+    ]
 )
 
 with conversation_tab:
@@ -84,7 +93,7 @@ with conversation_tab:
     for message in snapshot.messages:
         with st.chat_message("user" if message.role == "client" else "assistant"):
             st.markdown(
-                f"**{message.author} · {message.role.replace('_', ' ').title()} · {message.message_id}**"
+                f"**{message.author} | {message.role.replace('_', ' ').title()} | {message.message_id}**"
             )
             st.write(message.text)
     new_message = st.chat_input("Add a project message")
@@ -118,7 +127,7 @@ with ledger_tab:
             "Requirement action",
             [requirement.requirement_id for requirement in proposed],
             format_func=lambda requirement_id: next(
-                f"{item.requirement_id} · {item.statement} · {item.status}"
+                f"{item.requirement_id} | {item.statement} | {item.status}"
                 for item in proposed
                 if item.requirement_id == requirement_id
             ),
@@ -152,6 +161,38 @@ with specification_tab:
         unsafe_allow_html=True,
     )
     st.markdown(draft.markdown)
+
+with language_tab:
+    stress_metrics = STRESS_SUMMARY["metrics"]
+    stress_columns = st.columns(4)
+    stress_columns[0].metric("Cases", STRESS_SUMMARY["case_count"])
+    stress_columns[1].metric("Extraction F1", f"{stress_metrics['requirement_f1']:.3f}")
+    stress_columns[2].metric("Exact cases", f"{stress_metrics['exact_case_accuracy']:.3f}")
+    stress_columns[3].metric(
+        "Negative controls", f"{stress_metrics['negative_control_accuracy']:.3f}"
+    )
+    stress_svg = (PROJECT_ROOT / "demo_outputs" / "language_stress_comparison.svg").read_text(
+        encoding="utf-8"
+    )
+    st.markdown(
+        f'<div class="language-stress">{stress_svg}</div>'
+        "<style>.language-stress svg{width:100%;height:auto;display:block}</style>",
+        unsafe_allow_html=True,
+    )
+    stress_failures = [
+        {
+            "case": result["case_id"],
+            "text": result["text"],
+            "missing": json.dumps(result["missing_requirements"]),
+            "unexpected": json.dumps(result["unexpected_requirements"]),
+        }
+        for result in STRESS_SUMMARY["case_results"]
+        if not result["exact_match"]
+    ]
+    st.dataframe(stress_failures, hide_index=True, width="stretch")
+    st.caption(
+        "Candidate-authored synthetic labels; not blinded, independently validated, or representative of open-domain project communication."
+    )
 
 with audit_tab:
     audit_rows = [

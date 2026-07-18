@@ -10,7 +10,7 @@ Evidence levels refer to code, tests, evaluation fixtures, and generated artifac
 | Embodied-agent simulation | Construction Embodied Agent: engineered, semantic-raster, egocentric-state, and rendered-RGB imitation with held-out appearance shift and planar MuJoCo contact replay | Grid Route Planner, Telemetry Monitor | RGB pixels and filter rules come from simulator state; physics uses a planar body and static proxies, with no physical-camera perception, mobile-robot dynamics, ROS, or hardware. |
 | Computational geometry | Massing Explorer, QS Workbench | BIM schedule rules | Rectangular schemas only; no CAD/BIM kernel. |
 | Multi-objective search | Massing Explorer |  | Proxy objectives are not calibrated simulation. |
-| Requirements workflow | Communication and Specification Assistant | AEC RAG source boundaries | Deterministic phrase grammar, no authenticated production authority. |
+| Requirements workflow | Communication and Specification Assistant | AEC RAG source boundaries | Candidate-authored language stress set and deterministic grammar; no authenticated production authority. |
 | Quantity and cost provenance | QS Workbench |  | Synthetic rates and simplified quantities, not professional QS output. |
 | Cross-project contract design | AEC design-to-cost integration | Specification, Massing, and QS interfaces | One synthetic fixture; no professional-tool interoperability. |
 | Classical model training | Construction Embodied Agent | Text Classification, Model Monitoring, Energy Regression | No large-scale or transformer training. |
