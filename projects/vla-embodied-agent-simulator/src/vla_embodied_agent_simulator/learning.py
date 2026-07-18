@@ -776,13 +776,15 @@ def evaluate_behavior_cloning(
         train_scenarios=train_scenarios,
         holdout_scenarios=holdout_scenarios,
     )
+    egocentric_raw_policy = make_egocentric_policy(egocentric_model, safety_filter=False)
+    egocentric_shielded_policy = make_egocentric_policy(egocentric_model, safety_filter=True)
     policies: list[PolicyFn] = [
         make_behavior_cloning_policy(model, safety_filter=False),
         make_behavior_cloning_policy(model, safety_filter=True),
         make_semantic_raster_policy(raster_model, safety_filter=False),
         make_semantic_raster_policy(raster_model, safety_filter=True),
-        make_egocentric_policy(egocentric_model, safety_filter=False),
-        make_egocentric_policy(egocentric_model, safety_filter=True),
+        egocentric_raw_policy,
+        egocentric_shielded_policy,
         make_synthetic_rgb_policy(rgb_model, safety_filter=False),
         make_synthetic_rgb_policy(rgb_model, safety_filter=True),
         make_synthetic_rgb_policy(
@@ -835,6 +837,17 @@ def evaluate_behavior_cloning(
     egocentric_shielded = metrics["egocentric_mlp_shielded"]
     rgb_shielded = metrics["synthetic_rgb_mlp_shielded"]
     rgb_shifted_shielded = metrics["synthetic_rgb_mlp_shifted_shielded"]
+    from .physics_replay import evaluate_physics_replay
+
+    physics_scenarios = [
+        *holdout_scenarios[0:4],
+        *holdout_scenarios[HOLDOUT_SCENARIOS_PER_TASK : HOLDOUT_SCENARIOS_PER_TASK + 4],
+        *holdout_scenarios[2 * HOLDOUT_SCENARIOS_PER_TASK : 2 * HOLDOUT_SCENARIOS_PER_TASK + 4],
+    ]
+    physics_replay = evaluate_physics_replay(
+        physics_scenarios,
+        [egocentric_raw_policy, egocentric_shielded_policy, safety_shielded_policy],
+    )
     return {
         "evaluation_type": "fixed-seed procedural construction-site holdout",
         "training": asdict(training),
@@ -895,6 +908,7 @@ def evaluate_behavior_cloning(
             "scenario_id_overlap": sorted(train_ids & holdout_ids),
         },
         "policies": metrics,
+        "physics_replay": physics_replay,
         "episodes": [
             {
                 "scenario_id": episode.scenario_id,
@@ -918,12 +932,14 @@ def write_behavior_cloning_artifacts(
     *,
     model_output_dir: str | Path | None = None,
     site_asset_path: str | Path | None = None,
+    physics_site_asset_path: str | Path | None = None,
 ) -> dict[str, object]:
     target = Path(output_dir)
     target.mkdir(parents=True, exist_ok=True)
     payload = evaluate_behavior_cloning(model_output_dir=model_output_dir)
+    behavior_payload = {key: value for key, value in payload.items() if key != "physics_replay"}
     (target / "behavior_cloning_eval_summary.json").write_text(
-        json.dumps(payload, indent=2) + "\n",
+        json.dumps(behavior_payload, indent=2) + "\n",
         encoding="utf-8",
     )
     (target / "behavior_cloning_eval_report.md").write_text(
@@ -949,6 +965,15 @@ def write_behavior_cloning_artifacts(
     (target / "behavior_cloning_failure_analysis.md").write_text(
         _behavior_cloning_failure_analysis(payload),
         encoding="utf-8",
+    )
+    from .physics_replay import write_physics_replay_artifacts
+
+    physics_payload = payload["physics_replay"]
+    assert isinstance(physics_payload, dict)
+    write_physics_replay_artifacts(
+        physics_payload,
+        target,
+        site_asset_path=physics_site_asset_path,
     )
     example_scenario = generate_behavior_cloning_scenarios(
         "holdout", count_per_task=HOLDOUT_SCENARIOS_PER_TASK
@@ -1270,7 +1295,7 @@ def _behavior_cloning_model_card(payload: dict[str, object]) -> str:
         "- Train and holdout scenario seeds and IDs are disjoint.\n"
         "- The joblib binary is generated locally and ignored by Git; deterministic metrics and reports are versioned.\n\n"
         "## Not Demonstrated\n\n"
-        "This model is not a foundation VLA, does not consume pixels or free-form language embeddings, and has no physics, ROS, sim-to-real, hardware, or physical-safety validation.\n"
+        "This model is not a foundation VLA and does not consume pixels, free-form language embeddings, or physics state. A separate downstream MuJoCo adapter replays selected commands; it does not add ROS, sim-to-real, hardware, or physical-safety validation.\n"
     )
 
 
@@ -1299,7 +1324,7 @@ def _semantic_raster_model_card(payload: dict[str, object]) -> str:
         f"- Shielded closed-loop success rate: {shielded['success_rate']}.\n"
         "- This is weaker than the engineered-state random forest on the shared holdout. The likely contributors are limited demonstrations, flattening of the grid, and the absence of convolutional spatial bias.\n\n"
         "## Not Demonstrated\n\n"
-        "This model does not establish camera perception, visual grounding, language embeddings, a convolutional policy, a multimodal transformer, reinforcement learning, a foundation VLA, physics, ROS, sim-to-real transfer, hardware control, or physical-safety validation.\n"
+        "This model does not establish camera perception, visual grounding, language embeddings, a convolutional policy, a multimodal transformer, reinforcement learning, or a foundation VLA. It does not consume physics state; the separate downstream MuJoCo command replay is not ROS, sim-to-real, hardware-control, or physical-safety validation.\n"
     )
 
 
@@ -1333,7 +1358,7 @@ def _egocentric_model_card(payload: dict[str, object]) -> str:
         f"- Filter interventions: {shielded['intervention_count']}.\n"
         "- Agent-centered encoding improves substantially over the world-frame flattened raster. The filtered result also depends heavily on hand-authored simulator constraints and is not attributable to the classifier alone.\n\n"
         "## Not Demonstrated\n\n"
-        "This model has no camera input, learned perception, convolution, recurrence, memory, uncertainty model, language embedding, reinforcement learning, physics, ROS, sim-to-real transfer, hardware control, or physical-safety validation.\n"
+        "This model has no camera input, learned perception, convolution, recurrence, memory, uncertainty model, language embedding, reinforcement learning, or physics-state input. The separate downstream MuJoCo command replay is not ROS, sim-to-real, hardware-control, or physical-safety validation.\n"
     )
 
 
@@ -1373,7 +1398,7 @@ def _synthetic_rgb_model_card(payload: dict[str, object]) -> str:
         f"- Shifted raw / filtered success: {shifted_raw['success_rate']} / {shifted_filtered['success_rate']}.\n"
         f"- Standard / shifted filter interventions: {standard_filtered['intervention_count']} / {shifted_filtered['intervention_count']}.\n\n"
         "## Not Demonstrated\n\n"
-        "This model does not establish physical-camera perception, object detection, segmentation, depth estimation, calibration, occlusion handling, realistic sensor noise, convolutional visual learning, language grounding, a foundation VLA, physics, ROS, sim-to-real transfer, hardware control, or physical-safety validation.\n"
+        "This model does not establish physical-camera perception, object detection, segmentation, depth estimation, calibration, occlusion handling, realistic sensor noise, convolutional visual learning, language grounding, or a foundation VLA. It does not consume physics state; the separate downstream MuJoCo command replay is not ROS, sim-to-real, hardware-control, or physical-safety validation.\n"
     )
 
 

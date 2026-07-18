@@ -2,7 +2,7 @@
 
 ## System Boundary
 
-The system accepts a natural-language task and structured grid state, then emits discrete simulator actions. It does not accept physical sensor streams or command hardware. Two learned policies receive only a local agent-centered crop plus relative subgoal geometry: one receives semantic channels and one receives rendered RGB pixels. Both observations still originate from privileged simulator state rather than a perception subsystem.
+The system accepts a natural-language task and structured grid state, then emits discrete simulator actions. It does not accept physical sensor streams or command hardware. Two learned policies receive only a local agent-centered crop plus relative subgoal geometry: one receives semantic channels and one receives rendered RGB pixels. Both observations still originate from privileged simulator state rather than a perception subsystem. A separate MuJoCo adapter replays a fixed subset of movement commands as continuous planar motion; it does not feed physics state back into policy training or task evaluation.
 
 ## Components
 
@@ -22,6 +22,7 @@ The system accepts a natural-language task and structured grid state, then emits
 | Synthetic RGB MLP | Standardizes 300 pixel values plus ten task/navigation values and classifies actions. | One 64-unit hidden layer; no convolution or visual foundation model. |
 | Action filter | Re-ranks actions after rejecting unsafe or task-invalid choices using full simulator rules. | Can see hazards hidden from the egocentric classifier; no expert task route or completion guarantee. |
 | Evaluator | Measures expert-state classification and closed-loop holdout behavior. | Fixed-seed local regression protocol. |
+| MuJoCo replay model | Maps grid cells to meter-scale targets, drives a cylindrical body with two slide joints, and records named rigid contacts and target error. | Planar command-boundary regression only; no mobile-base kinematics, realistic controller, perception, ROS, or safety validation. |
 
 ## Training And Evaluation Flow
 
@@ -51,6 +52,11 @@ flowchart LR
   P --> J
   Q --> J
   J --> K["Success, safety, intervention, and failure artifacts"]
+  H --> R["Balanced 12-scenario subset"]
+  M --> R
+  R --> S["Raw, filtered, and A* movement traces"]
+  S --> T["Headless MuJoCo planar replay"]
+  T --> U["Contacts, target reach, alignment error"]
 ```
 
 ## Runtime Flow
@@ -62,6 +68,7 @@ flowchart LR
 5. In filtered mode, select the highest-ranked action that passes movement and task-context checks. Battery-reserve recovery may route only to a charger.
 6. Record transitions and interventions.
 7. Stop on completion or the scenario action limit.
+8. For the fixed physics subset, replay recorded movement targets in MuJoCo and keep physics metrics separate from discrete task metrics.
 
 ## Design Decisions
 
@@ -73,4 +80,5 @@ flowchart LR
 - A mean-pixel ablation retains the ten telemetry values while replacing every pixel with its training-set mean; the resulting accuracy drop tests whether the image contributes predictive information.
 - Closed-loop evaluation sits beside action accuracy because imitation errors shift later states.
 - A* remains separate from learned policies and is never used for task-goal fallback.
+- MuJoCo receives already-generated movement commands. Failed commands return to the discrete result cell before the next replay step, which preserves comparison alignment but is not a recovery controller.
 - Generated model binaries are ignored; deterministic metrics, cards, reports, and diagrams are versioned.

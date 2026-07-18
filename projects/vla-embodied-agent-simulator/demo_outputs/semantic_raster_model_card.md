@@ -24,4 +24,4 @@ One-hidden-layer neural action classifier trained on the same fixed-seed A* demo
 
 ## Not Demonstrated
 
-This model does not establish camera perception, visual grounding, language embeddings, a convolutional policy, a multimodal transformer, reinforcement learning, a foundation VLA, physics, ROS, sim-to-real transfer, hardware control, or physical-safety validation.
+This model does not establish camera perception, visual grounding, language embeddings, a convolutional policy, a multimodal transformer, reinforcement learning, or a foundation VLA. It does not consume physics state; the separate downstream MuJoCo command replay is not ROS, sim-to-real, hardware-control, or physical-safety validation.

@@ -13,17 +13,21 @@ from vla_embodied_agent_simulator import (
     SYNTHETIC_RGB_SHIFTED_PALETTE,
     TRAIN_SCENARIOS_PER_TASK,
     GridWorldEnv,
+    MuJoCoPlanarReplay,
     PolicyPlan,
     default_construction_scenarios,
     encode_egocentric_local_state,
     encode_semantic_raster_state,
     encode_synthetic_rgb_observation,
+    evaluate_physics_replay,
     evaluate_policy_suite,
     generate_behavior_cloning_scenarios,
     make_behavior_cloning_policy,
     make_synthetic_rgb_policy,
+    naive_language_policy,
     parse_instruction,
     render_synthetic_rgb_observation,
+    replay_policy_in_physics,
     run_episode,
     safety_shielded_policy,
     train_behavior_cloning_policy,
@@ -133,6 +137,52 @@ def test_embodied_agent_evaluation_artifacts_are_written(tmp_path: Path) -> None
     assert (tmp_path / "vla_eval_report.md").exists()
     assert (tmp_path / "sample_episode_trace.json").exists()
     assert (tmp_path / "sample_episode_replay.md").exists()
+
+
+def test_mujoco_replay_maps_grid_start_to_continuous_geometry() -> None:
+    scenario = default_construction_scenarios()[0]
+    replay = MuJoCoPlanarReplay(scenario)
+
+    assert replay.position_xy == (0.0, 0.0)
+    assert replay.model.nu == 2
+    assert replay.model.ngeom >= len(scenario.obstacles) + 6
+
+
+def test_mujoco_replay_detects_contacts_for_unfiltered_commands() -> None:
+    result = replay_policy_in_physics(
+        default_construction_scenarios()[0],
+        naive_language_policy,
+    )
+
+    assert result.contact_command_count >= 1
+    assert "obstacle_3_4" in result.unique_contact_geometries
+    assert result.reached_movement_target_count < result.movement_command_count
+    assert result.final_alignment_error_m <= 0.08
+
+
+def test_mujoco_replay_shielded_route_reaches_targets_without_contact() -> None:
+    result = replay_policy_in_physics(
+        default_construction_scenarios()[0],
+        safety_shielded_policy,
+    )
+
+    assert result.discrete_success
+    assert result.contact_command_count == 0
+    assert result.reached_movement_target_count == result.movement_command_count
+    assert result.max_command_target_error_m <= 0.08
+    assert result.final_alignment_error_m <= 0.08
+
+
+def test_mujoco_replay_aggregate_is_deterministic() -> None:
+    scenarios = default_construction_scenarios()
+    policies = [naive_language_policy, safety_shielded_policy]
+
+    first = evaluate_physics_replay(scenarios, policies)
+    second = evaluate_physics_replay(scenarios, policies)
+
+    assert first == second
+    assert first["policies"]["naive_language"]["contact_command_count"] == 4
+    assert first["policies"]["safety_shielded"]["contact_command_count"] == 0
 
 
 def test_behavior_cloning_scenario_splits_are_deterministic_and_disjoint() -> None:
@@ -353,7 +403,14 @@ def test_behavior_cloning_holdout_reports_failures_and_safety_effect(tmp_path: P
     assert (tmp_path / "synthetic_rgb_observation_worklight.png").exists()
     assert (tmp_path / "semantic_raster_comparison.svg").exists()
     assert (tmp_path / "behavior_cloning_failure_analysis.md").exists()
+    assert (tmp_path / "physics_replay_summary.json").exists()
+    assert (tmp_path / "physics_replay_report.md").exists()
+    assert (tmp_path / "physics_replay_comparison.svg").exists()
     assert (tmp_path / "site" / "semantic-raster-comparison.svg").exists()
+    physics = payload["physics_replay"]["policies"]
+    assert physics["egocentric_mlp_raw"]["contact_command_count"] > 0
+    assert physics["egocentric_mlp_shielded"]["contact_command_count"] == 0
+    assert physics["egocentric_mlp_shielded"]["reached_movement_target_rate"] == 1.0
 
 
 def test_behavior_cloning_filter_preserves_safe_demo_completion() -> None:

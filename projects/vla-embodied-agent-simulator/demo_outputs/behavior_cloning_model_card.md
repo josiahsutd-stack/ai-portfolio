@@ -20,4 +20,4 @@ Random-forest action classifier trained on fixed-seed expert A* demonstrations f
 
 ## Not Demonstrated
 
-This model is not a foundation VLA, does not consume pixels or free-form language embeddings, and has no physics, ROS, sim-to-real, hardware, or physical-safety validation.
+This model is not a foundation VLA and does not consume pixels, free-form language embeddings, or physics state. A separate downstream MuJoCo adapter replays selected commands; it does not add ROS, sim-to-real, hardware, or physical-safety validation.

@@ -7,7 +7,7 @@ Evidence levels refer to code, tests, evaluation fixtures, and generated artifac
 | Python engineering | All five selected projects | Fourteen experiment modules | No large production multi-service system. |
 | RAG and retrieval evaluation | AEC RAG | Research-workflow experiment | Hosted embedding and reranking quality is not evaluated. |
 | Citations and abstention | AEC RAG | Specification source ids and research traces | Deterministic support checks are not full factual verification. |
-| Embodied-agent simulation | Construction Embodied Agent: engineered, semantic-raster, egocentric-state, and rendered-RGB imitation with held-out appearance shift | Grid Route Planner, Telemetry Monitor | RGB pixels and filter rules come from simulator state; no physical-camera perception, foundation VLA, physics, ROS, or hardware. |
+| Embodied-agent simulation | Construction Embodied Agent: engineered, semantic-raster, egocentric-state, and rendered-RGB imitation with held-out appearance shift and planar MuJoCo contact replay | Grid Route Planner, Telemetry Monitor | RGB pixels and filter rules come from simulator state; physics uses a planar body and static proxies, with no physical-camera perception, mobile-robot dynamics, ROS, or hardware. |
 | Computational geometry | Massing Explorer, QS Workbench | BIM schedule rules | Rectangular schemas only; no CAD/BIM kernel. |
 | Multi-objective search | Massing Explorer |  | Proxy objectives are not calibrated simulation. |
 | Requirements workflow | Specification Copilot | AEC RAG source boundaries | Deterministic phrase grammar, no authenticated production authority. |

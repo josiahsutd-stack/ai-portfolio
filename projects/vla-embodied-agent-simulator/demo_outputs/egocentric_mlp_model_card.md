@@ -27,4 +27,4 @@ One-hidden-layer neural action classifier trained on the same fixed-seed A* demo
 
 ## Not Demonstrated
 
-This model has no camera input, learned perception, convolution, recurrence, memory, uncertainty model, language embedding, reinforcement learning, physics, ROS, sim-to-real transfer, hardware control, or physical-safety validation.
+This model has no camera input, learned perception, convolution, recurrence, memory, uncertainty model, language embedding, reinforcement learning, or physics-state input. The separate downstream MuJoCo command replay is not ROS, sim-to-real, hardware-control, or physical-safety validation.

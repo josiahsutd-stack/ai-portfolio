@@ -18,7 +18,8 @@
 ## Environment Boundary
 
 - The environment is discrete. The egocentric classifier has partial spatial observability, but relative subgoal geometry remains globally available and its action filter retains full-state rule access.
-- There is no physical-camera perception, detection, segmentation, depth, calibration, blur, occlusion, realistic sensor noise, temporal memory, dynamics, physics, localization, mapping, manipulation, communication delay, or moving-worker model.
+- MuJoCo replays planar position targets with rigid contacts for a 12-scenario holdout subset. It is not the learned policy environment and has no mobile-base kinematics, actuator identification, contact-force safety model, localization, mapping, manipulation, communication delay, or moving-worker model.
+- There is no physical-camera perception, detection, segmentation, depth, calibration, blur, occlusion, or realistic sensor noise.
 - Safety checks are hand-authored simulator constraints.
 - Evaluation does not establish physical safety or compliance with robotics standards.
 
@@ -37,7 +38,10 @@
 - Standard and shifted RGB require 965 and 3,315 interventions respectively. The shifted result shows that the filter can partially mask severe appearance brittleness.
 - A* has full map access and is an oracle-style reference.
 - These metrics are not comparable to standard robotics benchmarks without a shared environment and protocol.
+- In planar replay, the raw egocentric policy contacts named rigid geometry on 51 of 150 movement commands (`0.340`); filtered egocentric and A* traces record zero contacts and reach all targets on 148 and 98 movement commands respectively.
+- Restricted and worker cells are rigid collision proxies. Contact counts do not model human impact, injury, force limits, or site dynamics.
+- Blocked commands are returned to the discrete result cell before the next command. That alignment reset is not autonomous recovery or closed-loop physics control.
 
 ## Deployment Boundary
 
-No ROS, Isaac Sim, Gazebo, SLAM, motion control, robot hardware, sim-to-real transfer, field test, deployment, or physical-safety evidence is claimed.
+No ROS, Isaac Sim, Gazebo, mobile-base controller, SLAM, robot hardware, sim-to-real transfer, field test, deployment, or physical-safety evidence is claimed.

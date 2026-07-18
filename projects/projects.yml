@@ -156,13 +156,13 @@ projects:
     flagship: false
     demo_command: streamlit run projects/vla-embodied-agent-simulator/app.py
     test_command: python -m pytest tests/test_vla_embodied_agent.py
-    tech_stack: [Python, scikit-learn, Streamlit]
-    summary: Compares engineered-state, semantic-raster, egocentric-state, and rendered-RGB imitation on shared construction-grid splits, including an unseen appearance shift and raw/filtered rollouts.
-    skills: [embodied AI simulation, behavior cloning, synthetic RGB observations, appearance-shift evaluation, egocentric observation encoding, partial spatial observability, neural baseline evaluation, task parsing, action masks, safety constraints, holdout policy evaluation]
+    tech_stack: [Python, scikit-learn, MuJoCo, Streamlit]
+    summary: Compares engineered-state, semantic-raster, egocentric-state, and rendered-RGB imitation on shared construction-grid splits, then replays a fixed learned-policy subset through planar MuJoCo contacts.
+    skills: [embodied AI simulation, behavior cloning, synthetic RGB observations, appearance-shift evaluation, egocentric observation encoding, partial spatial observability, neural baseline evaluation, planar physics replay, contact telemetry, task parsing, action masks, safety constraints, holdout policy evaluation]
     status: primary
     data_mode: "Fixed-seed procedural construction grids"
-    implementation_mode: "Random-forest plus world-raster, egocentric-state, and rendered-RGB MLP behavior cloning, A* reference, appearance shift, and deterministic safety filter"
-    boundary: "Pixels are rendered from simulator state and the filter has full rules; no physical-camera perception, foundation VLA, physics, ROS, hardware, or physical-safety validation"
+    implementation_mode: "Random-forest plus world-raster, egocentric-state, and rendered-RGB MLP behavior cloning, A* reference, appearance shift, deterministic safety filter, and headless planar MuJoCo command replay"
+    boundary: "Pixels are rendered from simulator state and the filter has full rules; MuJoCo uses a planar body and static proxies, with no physical-camera perception, foundation VLA, mobile-robot dynamics, ROS, hardware, or physical-safety validation"
     readme_path: projects/vla-embodied-agent-simulator/README.md
   - name: Sequential Decision Simulation Baselines
     slug: reinforcement-learning-portfolio

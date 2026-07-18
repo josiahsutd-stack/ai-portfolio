@@ -1,8 +1,8 @@
 # Construction Embodied Agent Simulator
 
-A local 2D construction-site simulator for evaluating how task parsing, observation design, imitation learning, appearance shift, and action filtering affect closed-loop behavior. Four learned policy families share the same expert demonstrations and disjoint holdout layouts: an engineered-state random forest, a world-frame semantic-raster MLP, an egocentric local-state MLP, and an MLP over rendered egocentric RGB pixels plus bounded task telemetry.
+A local construction-site agent testbed for evaluating how task parsing, observation design, imitation learning, appearance shift, action filtering, and a continuous command boundary affect behavior. Four learned policy families share the same expert demonstrations and disjoint holdout layouts: an engineered-state random forest, a world-frame semantic-raster MLP, an egocentric local-state MLP, and an MLP over rendered egocentric RGB pixels plus bounded task telemetry. A separate headless MuJoCo adapter replays selected policy commands as continuous planar rigid-body motion.
 
-**Claim boundary:** the semantic observations and RGB renderer are generated directly from privileged simulator state. The RGB classifier consumes actual pixel values, but not images from a physical or photorealistic simulated camera. All local classifiers see a 5x5 crop plus relative subgoal geometry; the safety filter still has full simulator-rule access. This project does not establish object detection, depth, realistic sensor handling, language grounding, a foundation vision-language-action model, robot control, or physical safety.
+**Claim boundary:** the semantic observations and RGB renderer are generated directly from privileged simulator state. The RGB classifier consumes actual pixel values, but not images from a physical or photorealistic simulated camera. All local classifiers see a 5x5 crop plus relative subgoal geometry; the safety filter still has full simulator-rule access. MuJoCo replays planar cell targets against rigid obstacle and exclusion proxies; it is not a mobile-robot model or controller validation. This project does not establish object detection, depth, realistic sensor handling, learned language grounding, a foundation vision-language-action model, ROS integration, hardware control, or physical safety.
 
 ![Semantic raster and measured representation comparison](demo_outputs/semantic_raster_comparison.svg)
 
@@ -26,6 +26,20 @@ The evaluator generates 192 training and 96 holdout scenarios across delivery, i
 
 The world-frame MLP result is retained as negative evidence. Agent-centered local encoding recovers `0.356` action accuracy and `0.468` filtered success over that baseline. It reaches filtered success `0.062` above the random forest while trailing the random forest's action accuracy by `0.021`. Replacing all RGB pixels with their training-set means reduces action accuracy from `0.813` to `0.474`, showing that the image contributes beyond the ten telemetry values. The unseen palette then reduces action accuracy by `0.396` and filtered success by `0.292`. Success requires a task-specific terminal event; timeout and nonterminal battery recovery are failures. These are synthetic observation and robustness results, not physical-camera perception or autonomous robot safety.
 
+## Physics Command Replay
+
+The evaluator selects four delivery, four inspection, and four charging scenarios from the unseen split. It replays the raw egocentric policy, its full-state filtered variant, and the A* reference through a MuJoCo body with two planar slide joints and bounded position actuators. Floor contact is ignored; contacts with named rigid obstacles, boundaries, restricted-area proxies, and worker proxies are recorded.
+
+| Policy | Physics scenarios | Movement commands | Reached target | Contact commands | Contact rate | Max final alignment error |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Egocentric MLP, raw | 12 | 150 | `0.660` | 51 | `0.340` | `0.0290 m` |
+| Egocentric MLP, filtered | 12 | 148 | `1.000` | 0 | `0.000` | `0.0290 m` |
+| A* reference | 12 | 98 | `1.000` | 0 | `0.000` | `0.0290 m` |
+
+![Measured MuJoCo planar command replay comparison](demo_outputs/physics_replay_comparison.svg)
+
+The contact difference confirms that the command adapter and rigid collision geometry expose blocked raw actions and that the existing rule filter suppresses them on this fixed subset. It does not validate wheel dynamics, acceleration limits, localization, moving workers, or real collision avoidance. Blocked commands are returned to the discrete result cell before the next command to preserve trace alignment; that reset is not a learned or engineered recovery controller.
+
 ## Implemented Scope
 
 - Rule-based parsing for delivery, inspection, and charging instructions.
@@ -37,8 +51,9 @@ The world-frame MLP result is retained as negative evidence. Agent-centered loca
 - A deterministic 10x10 RGB renderer over the same 5x5 local crop, two training appearances, and a held-out work-light appearance.
 - A 64-unit MLP over 300 normalized RGB values plus ten task/navigation values.
 - Raw and safety-filtered closed-loop evaluation for all four learned policy families, including the unseen RGB appearance.
+- Headless MuJoCo planar command replay with bounded actuators, rigid contacts, trace alignment, and a balanced 12-scenario learned-policy subset.
 - Versioned metrics, model cards, failure analysis, replay traces, and generated visual evidence.
-- Focused tests for parsing, simulation safety, terminal success semantics, split isolation, observation schemas, training, filtering, and artifact generation.
+- Focused tests for parsing, simulation safety, terminal success semantics, split isolation, observation schemas, training, filtering, rigid contacts, replay determinism, and artifact generation.
 
 ## Run Locally
 
@@ -77,6 +92,8 @@ The generated `joblib` models are written under `.artifacts/vla-embodied-agent-s
 | Egocentric observation contract and filter dependence | [`demo_outputs/egocentric_mlp_model_card.md`](demo_outputs/egocentric_mlp_model_card.md) |
 | Rendered-pixel contract and appearance-shift result | [`demo_outputs/synthetic_rgb_mlp_model_card.md`](demo_outputs/synthetic_rgb_mlp_model_card.md) |
 | Standard and shifted RGB inputs | [`day`](demo_outputs/synthetic_rgb_observation_day.png) / [`work-light`](demo_outputs/synthetic_rgb_observation_worklight.png) |
+| MuJoCo command/contact metrics | [`demo_outputs/physics_replay_summary.json`](demo_outputs/physics_replay_summary.json) |
+| Physics replay interpretation and diagram | [`report`](demo_outputs/physics_replay_report.md) / [`comparison`](demo_outputs/physics_replay_comparison.svg) |
 | Architecture and data flow | [`ARCHITECTURE.md`](ARCHITECTURE.md) |
 | Evaluation protocol and leakage controls | [`EVAL.md`](EVAL.md) |
 | Failure and deployment boundaries | [`LIMITATIONS.md`](LIMITATIONS.md) |
@@ -107,6 +124,9 @@ flowchart LR
   R --> J
   J --> K["Environment transition"]
   K --> L["Trace, success, safety, and intervention metrics"]
+  J --> S["12-scenario command subset"]
+  S --> T["Headless MuJoCo planar replay"]
+  T --> U["Contact, target, and alignment metrics"]
 ```
 
 See [`ARCHITECTURE.md`](ARCHITECTURE.md) for component responsibilities and the runtime boundary.
@@ -122,7 +142,7 @@ See [`ARCHITECTURE.md`](ARCHITECTURE.md) for component responsibilities and the 
 
 ## Limitations
 
-- The environment is a fully observable discrete grid, not a physics simulator.
+- The policy environment is a fully observable discrete grid. MuJoCo is a separate planar command replay, not a coupled training environment or mobile-robot dynamics model.
 - Semantic channels are privileged state, not sensed or predicted observations. The egocentric classifier hides off-window hazards, but its filter does not.
 - All three MLPs are small supervised baselines without convolution, recurrence, attention, memory, uncertainty estimation, or learned language conditioning.
 - The RGB renderer produces clean categorical colors from privileged state. It does not model detection, depth, calibration, blur, occlusion, or realistic sensor noise.
@@ -130,7 +150,7 @@ See [`ARCHITECTURE.md`](ARCHITECTURE.md) for component responsibilities and the 
 - Expert labels come from the same simulator's A* planner.
 - Fixed-seed procedural layouts provide reproducible regression evidence, not benchmark-scale robotics coverage.
 - Simulator-rule filtering cannot establish real-world robot safety.
-- There is no ROS, SLAM, motion control, manipulation, sim-to-real transfer, field testing, or hardware validation.
+- There is no wheel or leg kinematics, actuator identification, ROS, SLAM, manipulation, sim-to-real transfer, field testing, or hardware validation.
 
 ## Next Steps
 
@@ -138,4 +158,4 @@ See [`ARCHITECTURE.md`](ARCHITECTURE.md) for component responsibilities and the 
 2. Compare the flat RGB MLP with a convolutional encoder under the same split and parameter budget.
 3. Add out-of-distribution layouts and dynamic worker trajectories.
 4. Introduce a Gymnasium interface and an RL baseline without changing the holdout protocol.
-5. Add offline ROS 2 or Isaac Sim adapters before making any middleware or robotics-integration claim.
+5. Replace the planar command body with a kinematically accurate mobile base and offline ROS 2 interface before making a robot-controller or middleware claim.

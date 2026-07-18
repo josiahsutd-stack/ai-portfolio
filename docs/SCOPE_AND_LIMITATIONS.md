@@ -17,7 +17,7 @@ This is a local-first applied AI engineering portfolio for the built environment
 - No real users, customers, deployments, adoption, benchmark wins, or paid-client outcomes are claimed.
 - AEC outputs are not legal, code, engineering, architectural, QS, tender, or professional compliance advice.
 - Mock LLM/VLM paths validate workflow behavior, not model intelligence.
-- Robotics results come from structured simulation, not robot hardware.
+- Robotics results come from structured simulation and bounded planar MuJoCo command replay, not robot hardware.
 - Massing options do not include statutory inference, internal egress, calibrated daylight/CFD, structure, or constructability.
 - Specification fixtures use a deterministic phrase grammar and do not prove open-domain conversation understanding.
 - QS fixtures do not parse PDF/CAD/BIM drawings or use live market rates.
@@ -33,6 +33,7 @@ This is a local-first applied AI engineering portfolio for the built environment
 - Do not infer a bill of quantities, market estimate, or tender recommendation from synthetic QS fixtures.
 - Do not infer that the integration cost covers the approved project budget: it measures one schematic ground-floor envelope and intentionally performs no budget comparison.
 - Do not infer physical safety from embodied-agent, route-planning, or telemetry simulations.
+- Do not infer a mobile-robot controller or ROS integration from the planar rigid-contact replay.
 - Do not infer deep visual reasoning or transformer training from the bounded experiments.
 
 ## Strongest Evidence Locations

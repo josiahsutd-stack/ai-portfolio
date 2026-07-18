@@ -22,9 +22,14 @@ def main() -> None:
         output_dir,
         model_output_dir=model_output_dir,
         site_asset_path=REPO_ROOT / "portfolio-site" / "assets" / "semantic-raster-comparison.svg",
+        physics_site_asset_path=REPO_ROOT
+        / "portfolio-site"
+        / "assets"
+        / "physics-replay-comparison.svg",
     )
     print(json.dumps(payload["policies"], indent=2))
     print(json.dumps(behavior_payload["policies"], indent=2))
+    print(json.dumps(behavior_payload["physics_replay"]["policies"], indent=2))
     print(f"Wrote embodied-agent artifacts to {PROJECT_ROOT / 'demo_outputs'}")
 
 

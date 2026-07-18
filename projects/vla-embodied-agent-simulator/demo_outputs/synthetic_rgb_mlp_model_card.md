@@ -29,4 +29,4 @@ One-hidden-layer action classifier fitted to rendered egocentric RGB crops and t
 
 ## Not Demonstrated
 
-This model does not establish physical-camera perception, object detection, segmentation, depth estimation, calibration, occlusion handling, realistic sensor noise, convolutional visual learning, language grounding, a foundation VLA, physics, ROS, sim-to-real transfer, hardware control, or physical-safety validation.
+This model does not establish physical-camera perception, object detection, segmentation, depth estimation, calibration, occlusion handling, realistic sensor noise, convolutional visual learning, language grounding, or a foundation VLA. It does not consume physics state; the separate downstream MuJoCo command replay is not ROS, sim-to-real, hardware-control, or physical-safety validation.

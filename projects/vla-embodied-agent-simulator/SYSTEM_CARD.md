@@ -2,12 +2,12 @@
 
 ## Intended Use
 
-This local simulator supports inspection of task parsing, observation encoding, supervised imitation, constrained route planning, action filtering, reward design, and trace-based evaluation.
+This local simulator supports inspection of task parsing, observation encoding, supervised imitation, constrained route planning, action filtering, reward design, trace-based evaluation, and a bounded planar command replay through MuJoCo.
 
 ## Not Intended For
 
 - Real robot operation or physical safety decisions.
-- Physical-camera perception, ROS, SLAM, hardware, or sim-to-real claims.
+- Mobile-base dynamics, controller tuning, contact-force assessment, ROS, SLAM, hardware, or sim-to-real claims.
 - Proof that a learned policy works on a construction site.
 - Foundation vision-language-action evaluation.
 
@@ -27,10 +27,11 @@ The fourth model consumes image pixels, but they are rendered directly from priv
 - Battery and timeout handling.
 - Ranked-action filtering with intervention counts.
 - Repeatable evaluation across fixed-seed procedural train and holdout splits.
+- Named rigid-contact and target-error regression for a balanced 12-scenario command subset.
 
 ## Evaluation
 
-All four learned policy families train on 192 synthetic scenarios and are evaluated on the same 96 disjoint holdout scenarios. The RGB model sees two appearance variants during training and a separate unseen palette at evaluation. Reports separate expert-state action accuracy from closed-loop success, unsafe-action rate, task-error rate, interventions, and failure traces. A deterministic A* planner is retained as a full-map reference, not a learned baseline.
+All four learned policy families train on 192 synthetic scenarios and are evaluated on the same 96 disjoint holdout scenarios. The RGB model sees two appearance variants during training and a separate unseen palette at evaluation. Reports separate expert-state action accuracy from closed-loop success, unsafe-action rate, task-error rate, interventions, and failure traces. A deterministic A* planner is retained as a full-map reference, not a learned baseline. MuJoCo replays movement commands for four holdout scenarios per task family; contacts are planar regression events against static proxies, not real collision-risk estimates.
 
 ## Main Risk
 

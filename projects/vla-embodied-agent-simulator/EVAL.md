@@ -9,6 +9,7 @@
 5. What changes when an action filter is applied?
 6. Does the deterministic A* reference solve the same holdout scenarios?
 7. How much does a rendered-pixel policy degrade under an unseen appearance palette?
+8. Do raw and filtered learned-policy movement commands produce different rigid-contact outcomes when replayed continuously?
 
 ## Shared Split
 
@@ -50,6 +51,18 @@ The world raster contains eight 7x7 channels plus six global values. The egocent
 
 The world-frame neural baseline is materially worse. Agent-centered local encoding recovers `0.356` action accuracy and `0.468` filtered success over it. Mean-pixel ablation reduces standard RGB action accuracy by `0.340`, from `0.813` to `0.474`, so the image is not merely decorative beside telemetry. The unseen palette then loses `0.396` action accuracy and `0.292` filtered success. Its raw completion falls from `0.635` to `0.000`, while the filter intervenes 3,315 times to recover `0.427`. This is controlled synthetic-rendering evidence, not physical-camera perception or robot-safety evidence.
 
+## MuJoCo Planar Command Replay
+
+Four holdout scenarios per task family are selected by fixed position from the same disjoint holdout split. The raw egocentric policy, filtered egocentric policy, and A* reference generate discrete traces. Movement commands are then replayed through MuJoCo `3.10.0` using a cylindrical body constrained by two planar slide joints, bounded position actuators, a `1.0 m` cell scale, and a `0.08 m` target tolerance. Obstacles, boundaries, restricted cells, and worker cells are represented by static rigid geometry; the last two are explicitly collision-test proxies rather than physical site models.
+
+| Policy | Episodes | Discrete success | Move commands | Reached target | Contact commands | Contact rate | Max final alignment error |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Egocentric MLP, raw | 12 | `0.833` | 150 | `0.660` | 51 | `0.340` | `0.0290 m` |
+| Egocentric MLP, filtered | 12 | `0.917` | 148 | `1.000` | 0 | `0.000` | `0.0290 m` |
+| A* reference | 12 | `1.000` | 98 | `1.000` | 0 | `0.000` | `0.0290 m` |
+
+The raw policy's 51 contact commands correspond to movement targets rejected by discrete rules. Both filtered traces reach every commanded movement target without named rigid contact on this subset. A blocked command is driven back to the discrete result cell before replay continues, so the test measures command-boundary consistency rather than physical closed-loop task execution. No claim is made about mobile-base kinematics, realistic control, contact-force safety, perception, localization, or hardware.
+
 ## Metric Definitions
 
 | Metric | Meaning | Boundary |
@@ -63,6 +76,8 @@ The world-frame neural baseline is materially worse. Agent-centered local encodi
 | Reward and steps | Local efficiency indicators. | Reward design has no external validation. |
 | Appearance-shift delta | Difference between the standard and held-out RGB palettes for the same states and labels. | Tests only one hand-authored color shift; it is not a broad visual-robustness benchmark. |
 | Mean-pixel ablation | Holdout score after every RGB value is replaced with its training-set mean while telemetry remains unchanged. | Shows pixel dependence, but not which visual categories were learned or whether perception transfers. |
+| Physics contact-command rate | Movement commands that contact named non-floor rigid geometry divided by movement commands. | Restricted and worker cells are static proxies; the rate is not collision probability on a real site. |
+| Physics reached-target rate | Commands ending within `0.08 m` of their continuous target before trace-alignment recovery. | Tests one planar position-control adapter, not a mobile-robot controller. |
 
 ## Leakage Controls
 
@@ -74,6 +89,7 @@ The world-frame neural baseline is materially worse. Agent-centered local encodi
 - Learned policies do not call the A* expert for task-goal routing during rollout.
 - The safety filter does not insert an expert task route. A reserve controller may route only to a charger.
 - Tests fail if IDs overlap, observation schemas drift, the RGB holdout palette appears in training, filtered unsafe-action rates become nonzero, timeout or recovery is counted as task success, or generated artifacts disappear.
+- Physics replay tests cover grid-to-world geometry, named contact detection, safe-target completion, exact deterministic aggregation, and generated artifacts.
 
 ## Reproduce
 
@@ -82,4 +98,4 @@ python projects/vla-embodied-agent-simulator/evaluate_vla.py
 python -m pytest tests/test_vla_embodied_agent.py
 ```
 
-The machine-readable source of record is [`demo_outputs/behavior_cloning_eval_summary.json`](demo_outputs/behavior_cloning_eval_summary.json).
+The machine-readable sources of record are [`demo_outputs/behavior_cloning_eval_summary.json`](demo_outputs/behavior_cloning_eval_summary.json) and [`demo_outputs/physics_replay_summary.json`](demo_outputs/physics_replay_summary.json).
