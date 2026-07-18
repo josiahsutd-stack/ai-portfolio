@@ -4,6 +4,8 @@ I build evaluated AI systems for design and construction decisions. My backgroun
 
 The selected projects form one technical journey: source-grounded AEC knowledge, approved project requirements, constrained design options, traceable quantities, and embodied-agent simulation. Every project runs locally without paid APIs and labels synthetic, public-source, simulated, and generated evidence explicitly.
 
+[Visual portfolio](https://josiahsutd-stack.github.io/ai-portfolio/) | [System maps](docs/architecture-diagrams.md) | [Five-minute evidence path](docs/how-to-review-this-portfolio.md) | [Evidence ledger](docs/EVIDENCE_LEDGER.md)
+
 ## Selected Work
 
 These three projects carry the clearest technical and domain evidence.
