@@ -3,12 +3,16 @@ from pathlib import Path
 
 import pytest
 from vla_embodied_agent_simulator import (
+    EGOCENTRIC_FEATURE_COUNT,
+    EGOCENTRIC_WINDOW_SIZE,
     HOLDOUT_SCENARIOS_PER_TASK,
     SEMANTIC_RASTER_FEATURE_COUNT,
     SEMANTIC_RASTER_SIZE,
     TRAIN_SCENARIOS_PER_TASK,
     GridWorldEnv,
+    PolicyPlan,
     default_construction_scenarios,
+    encode_egocentric_local_state,
     encode_semantic_raster_state,
     evaluate_policy_suite,
     generate_behavior_cloning_scenarios,
@@ -17,6 +21,7 @@ from vla_embodied_agent_simulator import (
     run_episode,
     safety_shielded_policy,
     train_behavior_cloning_policy,
+    train_egocentric_policy,
     train_semantic_raster_policy,
     write_behavior_cloning_artifacts,
     write_evaluation_artifacts,
@@ -55,6 +60,62 @@ def test_embodied_agent_policy_suite_reports_safety_metrics() -> None:
     assert shielded["unsafe_action_rate"] == 0.0
     assert naive["blocked_action_count"] >= 1
     assert payload["scenario_count"] == 3
+
+
+def test_non_charge_task_cannot_claim_success_by_charging() -> None:
+    scenario = replace(default_construction_scenarios()[0], battery=30.0)
+    env = GridWorldEnv.from_scenario(scenario)
+
+    _state, reward, done, info = env.step("charge")
+
+    assert not done
+    assert reward < 0
+    assert info["error"] == "charge_not_needed"
+    assert "success" not in info
+
+
+def test_low_battery_recovery_is_nonterminal_for_delivery_task() -> None:
+    scenario = replace(default_construction_scenarios()[0], battery=5.0)
+    env = GridWorldEnv.from_scenario(scenario)
+
+    _state, reward, done, info = env.step("charge")
+
+    assert not done
+    assert reward == 0.5
+    assert env.battery == 30.0
+    assert info["event"] == "battery_recovered"
+    assert "success" not in info
+
+
+def test_delivery_destination_is_not_an_implicit_charging_point() -> None:
+    scenario = replace(default_construction_scenarios()[0], battery=5.0)
+    env = GridWorldEnv.from_scenario(scenario)
+    env.agent = scenario.zones["level_2_staging"]
+
+    _state, reward, done, info = env.step("charge")
+
+    assert not done
+    assert reward < 0
+    assert env.battery == 5.0
+    assert info["error"] == "not_at_charger"
+
+
+def test_charge_loop_timeout_is_not_counted_as_task_success() -> None:
+    scenario = replace(default_construction_scenarios()[0], max_steps=4)
+
+    def charge_loop(env: GridWorldEnv, instruction: str) -> PolicyPlan:
+        return PolicyPlan(
+            policy_name="charge_loop",
+            actions=["charge"] * env.max_steps,
+            task=parse_instruction(instruction, env),
+        )
+
+    episode = run_episode(scenario, charge_loop)
+
+    assert not episode.success
+    assert episode.steps == scenario.max_steps
+    assert episode.trace[-1]["info"]["timeout"] is True
+    assert "success" not in episode.trace[-1]["info"]
 
 
 def test_embodied_agent_evaluation_artifacts_are_written(tmp_path: Path) -> None:
@@ -132,6 +193,44 @@ def test_semantic_raster_policy_fits_neural_action_classifier(tmp_path: Path) ->
     assert (tmp_path / result.model_file).exists()
 
 
+def test_egocentric_encoder_has_local_observation_contract() -> None:
+    scenario = default_construction_scenarios()[0]
+    env = GridWorldEnv.from_scenario(scenario)
+
+    features = encode_egocentric_local_state(env)
+    channel_size = EGOCENTRIC_WINDOW_SIZE**2
+    out_of_bounds = features[7 * channel_size : 8 * channel_size]
+
+    assert len(features) == EGOCENTRIC_FEATURE_COUNT
+    assert sum(out_of_bounds) == 16.0
+    assert features[-10] == 1.0
+    assert features == encode_egocentric_local_state(env)
+
+
+def test_egocentric_encoder_hides_hazards_outside_local_window() -> None:
+    scenario = default_construction_scenarios()[0]
+    distant_hazard = replace(scenario, obstacles=scenario.obstacles | {(6, 5)})
+
+    base = encode_egocentric_local_state(GridWorldEnv.from_scenario(scenario))
+    changed = encode_egocentric_local_state(GridWorldEnv.from_scenario(distant_hazard))
+
+    assert base == changed
+
+
+def test_egocentric_policy_fits_local_state_classifier(tmp_path: Path) -> None:
+    model, result = train_egocentric_policy(model_output_dir=tmp_path)
+
+    assert result.train_scenario_count == 192
+    assert result.holdout_scenario_count == 96
+    assert result.feature_count == EGOCENTRIC_FEATURE_COUNT
+    assert result.window_size == 5
+    assert result.holdout_action_accuracy >= 0.8
+    assert result.holdout_action_macro_f1 >= 0.85
+    assert {"pick", "drop", "inspect", "charge"}.issubset(result.classes)
+    assert len(model.classes_) == len(result.classes)
+    assert (tmp_path / result.model_file).exists()
+
+
 def test_behavior_cloning_holdout_reports_failures_and_safety_effect(tmp_path: Path) -> None:
     payload = write_behavior_cloning_artifacts(
         tmp_path,
@@ -142,6 +241,8 @@ def test_behavior_cloning_holdout_reports_failures_and_safety_effect(tmp_path: P
     shielded = payload["policies"]["behavior_cloning_shielded"]
     raster_raw = payload["policies"]["semantic_raster_mlp_raw"]
     raster_shielded = payload["policies"]["semantic_raster_mlp_shielded"]
+    egocentric_raw = payload["policies"]["egocentric_mlp_raw"]
+    egocentric_shielded = payload["policies"]["egocentric_mlp_shielded"]
     comparison = payload["representation_comparison"]
 
     assert payload["split"]["scenario_id_overlap"] == []
@@ -153,12 +254,20 @@ def test_behavior_cloning_holdout_reports_failures_and_safety_effect(tmp_path: P
     assert raster_shielded["unsafe_action_rate"] == 0.0
     assert raster_shielded["success_rate"] >= raster_raw["success_rate"]
     assert shielded["success_rate"] > raster_shielded["success_rate"]
+    assert egocentric_raw["unsafe_action_rate"] > 0
+    assert egocentric_shielded["unsafe_action_rate"] == 0.0
+    assert egocentric_shielded["success_rate"] > shielded["success_rate"]
+    assert egocentric_shielded["success_rate"] > raster_shielded["success_rate"]
+    assert egocentric_shielded["intervention_count"] > 0
     assert comparison["expert_action_accuracy_delta_structured_minus_raster"] > 0
     assert comparison["shielded_success_delta_structured_minus_raster"] > 0
+    assert comparison["expert_action_accuracy_delta_egocentric_minus_raster"] > 0
+    assert comparison["shielded_success_delta_egocentric_minus_structured"] > 0
     assert (tmp_path / "behavior_cloning_eval_summary.json").exists()
     assert (tmp_path / "behavior_cloning_eval_report.md").exists()
     assert (tmp_path / "behavior_cloning_model_card.md").exists()
     assert (tmp_path / "semantic_raster_model_card.md").exists()
+    assert (tmp_path / "egocentric_mlp_model_card.md").exists()
     assert (tmp_path / "semantic_raster_comparison.svg").exists()
     assert (tmp_path / "behavior_cloning_failure_analysis.md").exists()
     assert (tmp_path / "site" / "semantic-raster-comparison.svg").exists()

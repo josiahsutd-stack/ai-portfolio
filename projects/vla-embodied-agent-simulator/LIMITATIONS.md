@@ -2,9 +2,9 @@
 
 ## Model Boundary
 
-- The learned policies are a random forest over 24 engineered state features and a one-hidden-layer MLP over 398 semantic-raster values.
+- The learned policies are a random forest over 24 engineered values, a one-hidden-layer MLP over 398 world-raster values, and a one-hidden-layer MLP over 210 egocentric local-state values.
 - The semantic raster is produced from fully observable simulator state. It is not image input or a perception output.
-- Neither model is a foundation VLA, multimodal transformer, convolutional visual policy, or reinforcement-learning agent.
+- None of the models is a foundation VLA, multimodal transformer, convolutional visual policy, or reinforcement-learning agent.
 - Language parsing is rule-based and covers three task families.
 - Expert labels come from the simulator's deterministic A* planner.
 
@@ -17,8 +17,8 @@
 
 ## Environment Boundary
 
-- The environment is fully observable and discrete.
-- There is no perception noise, partial observability, dynamics, physics, localization, mapping, manipulation, communication delay, or moving-worker model.
+- The environment is discrete. The egocentric classifier has partial spatial observability, but relative subgoal geometry remains globally available and its action filter retains full-state rule access.
+- There is no camera perception, observation noise, temporal memory, dynamics, physics, localization, mapping, manipulation, communication delay, or moving-worker model.
 - Safety checks are hand-authored simulator constraints.
 - Evaluation does not establish physical safety or compliance with robotics standards.
 
@@ -27,8 +27,10 @@
 - Expert-state action accuracy overestimates closed-loop reliability for both models.
 - The raw random forest succeeds on `0.646` of holdout layouts and attempts unsafe actions at a `0.674` rate.
 - The raw raster MLP succeeds on `0.031` and attempts unsafe actions at a `0.682` rate.
-- Filtering reduces observed unsafe-action rates to `0.000`, but completion remains `0.698` for the random forest and `0.469` for the MLP.
-- The raster MLP requires 3,617 interventions; its filtered result depends heavily on hand-authored constraints.
+- The raw egocentric MLP succeeds on `0.573` and attempts unsafe actions at a `0.595` rate.
+- Filtering reduces observed unsafe-action rates to `0.000`; completion is `0.698` for the random forest, `0.292` for the world-raster MLP, and `0.760` for the egocentric MLP.
+- The raster MLP requires 3,529 interventions; its filtered result depends heavily on hand-authored constraints.
+- The egocentric MLP requires 943 interventions. Its best learned-policy completion also depends on full-state hand-authored constraints.
 - A* has full map access and is an oracle-style reference.
 - These metrics are not comparable to standard robotics benchmarks without a shared environment and protocol.
 

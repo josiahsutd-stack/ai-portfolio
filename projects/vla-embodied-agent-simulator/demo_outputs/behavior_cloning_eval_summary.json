@@ -64,12 +64,65 @@
     "model_file": "semantic_raster_mlp_policy.joblib",
     "random_seed": 73
   },
+  "egocentric_training": {
+    "train_scenario_count": 192,
+    "holdout_scenario_count": 96,
+    "training_step_count": 1830,
+    "holdout_expert_step_count": 948,
+    "holdout_action_accuracy": 0.834,
+    "holdout_action_macro_f1": 0.904,
+    "classes": [
+      "charge",
+      "drop",
+      "inspect",
+      "move_down",
+      "move_left",
+      "move_right",
+      "move_up",
+      "pick"
+    ],
+    "feature_count": 210,
+    "window_size": 5,
+    "radius": 2,
+    "channel_names": [
+      "obstacle",
+      "restricted_zone",
+      "worker_zone",
+      "slow_zone",
+      "object",
+      "named_zone",
+      "current_subgoal_in_view",
+      "out_of_bounds"
+    ],
+    "global_feature_names": [
+      "task_deliver",
+      "task_inspect",
+      "task_charge",
+      "carrying",
+      "battery_ratio",
+      "step_ratio",
+      "relative_subgoal_x",
+      "relative_subgoal_y",
+      "subgoal_distance_x",
+      "subgoal_distance_y"
+    ],
+    "hidden_layer_sizes": [
+      64
+    ],
+    "model_file": "egocentric_mlp_policy.joblib",
+    "random_seed": 91
+  },
   "representation_comparison": {
     "structured_feature_count": 24,
     "semantic_raster_feature_count": 398,
+    "egocentric_feature_count": 210,
     "expert_action_accuracy_delta_structured_minus_raster": 0.377,
-    "shielded_success_delta_structured_minus_raster": 0.229,
-    "interpretation": "The flattened semantic-raster MLP underperforms the engineered-state random forest on this holdout. It is retained as negative evidence about data scale and spatial inductive bias, not promoted as a vision capability."
+    "expert_action_accuracy_delta_egocentric_minus_raster": 0.356,
+    "expert_action_accuracy_delta_structured_minus_egocentric": 0.021,
+    "shielded_success_delta_structured_minus_raster": 0.406,
+    "shielded_success_delta_egocentric_minus_raster": 0.468,
+    "shielded_success_delta_egocentric_minus_structured": 0.062,
+    "interpretation": "The agent-centered local-state MLP recovers most expert-action accuracy lost by the world-frame flattened raster and has the highest filtered learned-policy success. Its raw failures and intervention count remain visible; this is an observation-design result, not a perception or physical-safety claim."
   },
   "split": {
     "train_scenario_ids": [
@@ -387,6 +440,26 @@
       "blocked_action_count": 0,
       "intervention_count": 692
     },
+    "egocentric_mlp_raw": {
+      "episode_count": 96,
+      "success_rate": 0.573,
+      "average_steps": 28.969,
+      "average_reward": -16.891,
+      "unsafe_action_rate": 0.595,
+      "task_error_rate": 0.064,
+      "blocked_action_count": 1654,
+      "intervention_count": 0
+    },
+    "egocentric_mlp_shielded": {
+      "episode_count": 96,
+      "success_rate": 0.76,
+      "average_steps": 23.198,
+      "average_reward": 0.14,
+      "unsafe_action_rate": 0.0,
+      "task_error_rate": 0.0,
+      "blocked_action_count": 0,
+      "intervention_count": 943
+    },
     "safety_shielded": {
       "episode_count": 96,
       "success_rate": 1.0,
@@ -409,13 +482,13 @@
     },
     "semantic_raster_mlp_shielded": {
       "episode_count": 96,
-      "success_rate": 0.469,
-      "average_steps": 44.375,
-      "average_reward": 9.504,
+      "success_rate": 0.292,
+      "average_steps": 43.531,
+      "average_reward": -4.773,
       "unsafe_action_rate": 0.0,
       "task_error_rate": 0.0,
       "blocked_action_count": 0,
-      "intervention_count": 3617
+      "intervention_count": 3529
     }
   },
   "episodes": [
@@ -459,13 +532,37 @@
       "scenario_id": "bc_holdout_deliver_00",
       "task_type": "deliver",
       "policy_name": "semantic_raster_mlp_shielded",
-      "success": true,
+      "success": false,
       "steps": 55,
-      "total_reward": 20.8,
+      "total_reward": -6.5,
       "unsafe_action_count": 0,
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 41
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_00",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 19,
+      "total_reward": 4.1,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_00",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 19,
+      "total_reward": 4.1,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
     },
     {
       "scenario_id": "bc_holdout_deliver_00",
@@ -519,13 +616,37 @@
       "scenario_id": "bc_holdout_deliver_01",
       "task_type": "deliver",
       "policy_name": "semantic_raster_mlp_shielded",
-      "success": true,
+      "success": false,
       "steps": 55,
-      "total_reward": 88.0,
+      "total_reward": -6.5,
       "unsafe_action_count": 0,
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 55
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_01",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 13,
+      "total_reward": 4.9,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_01",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 13,
+      "total_reward": 4.9,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
     },
     {
       "scenario_id": "bc_holdout_deliver_01",
@@ -590,6 +711,30 @@
     {
       "scenario_id": "bc_holdout_deliver_02",
       "task_type": "deliver",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 13,
+      "total_reward": 4.7,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_02",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 13,
+      "total_reward": 4.7,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_02",
+      "task_type": "deliver",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 11,
@@ -646,6 +791,30 @@
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 1
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_03",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -22.2,
+      "unsafe_action_count": 0,
+      "task_error_count": 42,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_03",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": false,
+      "steps": 55,
+      "total_reward": -5.4,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 42
     },
     {
       "scenario_id": "bc_holdout_deliver_03",
@@ -710,6 +879,30 @@
     {
       "scenario_id": "bc_holdout_deliver_04",
       "task_type": "deliver",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -55.0,
+      "unsafe_action_count": 55,
+      "task_error_count": 0,
+      "blocked_action_count": 55,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_04",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": false,
+      "steps": 55,
+      "total_reward": -6.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 38
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_04",
+      "task_type": "deliver",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 15,
@@ -766,6 +959,30 @@
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 50
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_05",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -51.2,
+      "unsafe_action_count": 52,
+      "task_error_count": 0,
+      "blocked_action_count": 52,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_05",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 26,
+      "total_reward": 3.4,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 7
     },
     {
       "scenario_id": "bc_holdout_deliver_05",
@@ -830,6 +1047,30 @@
     {
       "scenario_id": "bc_holdout_deliver_06",
       "task_type": "deliver",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 13,
+      "total_reward": 4.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_06",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 13,
+      "total_reward": 4.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_06",
+      "task_type": "deliver",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 13,
@@ -890,6 +1131,30 @@
     {
       "scenario_id": "bc_holdout_deliver_07",
       "task_type": "deliver",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 8,
+      "total_reward": 5.4,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_07",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 8,
+      "total_reward": 5.4,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_07",
+      "task_type": "deliver",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 8,
@@ -939,13 +1204,37 @@
       "scenario_id": "bc_holdout_deliver_08",
       "task_type": "deliver",
       "policy_name": "semantic_raster_mlp_shielded",
-      "success": true,
+      "success": false,
       "steps": 55,
-      "total_reward": 67.0,
+      "total_reward": -6.5,
       "unsafe_action_count": 0,
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 47
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_08",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -54.1,
+      "unsafe_action_count": 54,
+      "task_error_count": 0,
+      "blocked_action_count": 54,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_08",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 11,
+      "total_reward": 5.1,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 1
     },
     {
       "scenario_id": "bc_holdout_deliver_08",
@@ -1010,6 +1299,30 @@
     {
       "scenario_id": "bc_holdout_deliver_09",
       "task_type": "deliver",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 11,
+      "total_reward": 5.1,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_09",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 11,
+      "total_reward": 5.1,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_09",
+      "task_type": "deliver",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 11,
@@ -1066,6 +1379,30 @@
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 44
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_10",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -46.9,
+      "unsafe_action_count": 47,
+      "task_error_count": 0,
+      "blocked_action_count": 47,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_10",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": false,
+      "steps": 55,
+      "total_reward": -10.2,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 41
     },
     {
       "scenario_id": "bc_holdout_deliver_10",
@@ -1130,6 +1467,30 @@
     {
       "scenario_id": "bc_holdout_deliver_11",
       "task_type": "deliver",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 16,
+      "total_reward": 4.6,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_11",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 16,
+      "total_reward": 4.6,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_11",
+      "task_type": "deliver",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 16,
@@ -1190,6 +1551,30 @@
     {
       "scenario_id": "bc_holdout_deliver_12",
       "task_type": "deliver",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 15,
+      "total_reward": 4.7,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_12",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 15,
+      "total_reward": 4.7,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_12",
+      "task_type": "deliver",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 13,
@@ -1239,13 +1624,37 @@
       "scenario_id": "bc_holdout_deliver_13",
       "task_type": "deliver",
       "policy_name": "semantic_raster_mlp_shielded",
-      "success": true,
+      "success": false,
       "steps": 55,
-      "total_reward": 48.8,
+      "total_reward": -7.9,
       "unsafe_action_count": 0,
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 49
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_13",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 10,
+      "total_reward": 5.2,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_13",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 10,
+      "total_reward": 5.2,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
     },
     {
       "scenario_id": "bc_holdout_deliver_13",
@@ -1310,6 +1719,30 @@
     {
       "scenario_id": "bc_holdout_deliver_14",
       "task_type": "deliver",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 14,
+      "total_reward": 4.8,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_14",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 14,
+      "total_reward": 4.8,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_14",
+      "task_type": "deliver",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 14,
@@ -1366,6 +1799,30 @@
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 45
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_15",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 14,
+      "total_reward": 4.8,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_15",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 14,
+      "total_reward": 4.8,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
     },
     {
       "scenario_id": "bc_holdout_deliver_15",
@@ -1430,6 +1887,30 @@
     {
       "scenario_id": "bc_holdout_deliver_16",
       "task_type": "deliver",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -13.8,
+      "unsafe_action_count": 0,
+      "task_error_count": 21,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_16",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 46,
+      "total_reward": 1.4,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 9
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_16",
+      "task_type": "deliver",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 18,
@@ -1479,13 +1960,37 @@
       "scenario_id": "bc_holdout_deliver_17",
       "task_type": "deliver",
       "policy_name": "semantic_raster_mlp_shielded",
-      "success": true,
+      "success": false,
       "steps": 55,
-      "total_reward": 79.6,
+      "total_reward": -6.5,
       "unsafe_action_count": 0,
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 55
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_17",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 8,
+      "total_reward": 5.4,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_17",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 8,
+      "total_reward": 5.4,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
     },
     {
       "scenario_id": "bc_holdout_deliver_17",
@@ -1539,13 +2044,37 @@
       "scenario_id": "bc_holdout_deliver_18",
       "task_type": "deliver",
       "policy_name": "semantic_raster_mlp_shielded",
-      "success": true,
+      "success": false,
       "steps": 55,
-      "total_reward": 96.4,
+      "total_reward": -6.5,
       "unsafe_action_count": 0,
       "task_error_count": 0,
       "blocked_action_count": 0,
-      "intervention_count": 52
+      "intervention_count": 47
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_18",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -55.0,
+      "unsafe_action_count": 55,
+      "task_error_count": 0,
+      "blocked_action_count": 55,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_18",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": false,
+      "steps": 55,
+      "total_reward": -6.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 32
     },
     {
       "scenario_id": "bc_holdout_deliver_18",
@@ -1599,13 +2128,37 @@
       "scenario_id": "bc_holdout_deliver_19",
       "task_type": "deliver",
       "policy_name": "semantic_raster_mlp_shielded",
-      "success": true,
+      "success": false,
       "steps": 55,
-      "total_reward": 100.6,
+      "total_reward": -6.5,
       "unsafe_action_count": 0,
       "task_error_count": 0,
       "blocked_action_count": 0,
-      "intervention_count": 53
+      "intervention_count": 51
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_19",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -47.8,
+      "unsafe_action_count": 47,
+      "task_error_count": 0,
+      "blocked_action_count": 47,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_19",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": false,
+      "steps": 55,
+      "total_reward": -6.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 33
     },
     {
       "scenario_id": "bc_holdout_deliver_19",
@@ -1660,12 +2213,36 @@
       "task_type": "deliver",
       "policy_name": "semantic_raster_mlp_shielded",
       "success": true,
-      "steps": 55,
-      "total_reward": 73.3,
+      "steps": 18,
+      "total_reward": 1.3,
       "unsafe_action_count": 0,
       "task_error_count": 0,
       "blocked_action_count": 0,
-      "intervention_count": 46
+      "intervention_count": 9
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_20",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 11,
+      "total_reward": 5.1,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_20",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 11,
+      "total_reward": 5.1,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
     },
     {
       "scenario_id": "bc_holdout_deliver_20",
@@ -1730,6 +2307,30 @@
     {
       "scenario_id": "bc_holdout_deliver_21",
       "task_type": "deliver",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -48.5,
+      "unsafe_action_count": 49,
+      "task_error_count": 0,
+      "blocked_action_count": 49,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_21",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": false,
+      "steps": 55,
+      "total_reward": -5.4,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 39
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_21",
+      "task_type": "deliver",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 17,
@@ -1786,6 +2387,30 @@
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 50
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_22",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -12.9,
+      "unsafe_action_count": 0,
+      "task_error_count": 16,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_22",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": false,
+      "steps": 55,
+      "total_reward": -6.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 16
     },
     {
       "scenario_id": "bc_holdout_deliver_22",
@@ -1850,6 +2475,30 @@
     {
       "scenario_id": "bc_holdout_deliver_23",
       "task_type": "deliver",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -46.7,
+      "unsafe_action_count": 47,
+      "task_error_count": 0,
+      "blocked_action_count": 47,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_23",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 17,
+      "total_reward": 4.3,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 1
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_23",
+      "task_type": "deliver",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 15,
@@ -1906,6 +2555,30 @@
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 45
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_24",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -52.3,
+      "unsafe_action_count": 52,
+      "task_error_count": 0,
+      "blocked_action_count": 52,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_24",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 27,
+      "total_reward": 3.3,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 7
     },
     {
       "scenario_id": "bc_holdout_deliver_24",
@@ -1970,6 +2643,30 @@
     {
       "scenario_id": "bc_holdout_deliver_25",
       "task_type": "deliver",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -46.9,
+      "unsafe_action_count": 47,
+      "task_error_count": 0,
+      "blocked_action_count": 47,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_25",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": false,
+      "steps": 55,
+      "total_reward": -5.6,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 41
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_25",
+      "task_type": "deliver",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 13,
@@ -2020,12 +2717,36 @@
       "task_type": "deliver",
       "policy_name": "semantic_raster_mlp_shielded",
       "success": true,
-      "steps": 55,
-      "total_reward": 87.8,
+      "steps": 11,
+      "total_reward": 1.8,
       "unsafe_action_count": 0,
       "task_error_count": 0,
       "blocked_action_count": 0,
-      "intervention_count": 47
+      "intervention_count": 3
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_26",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 14,
+      "total_reward": 4.4,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_26",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 14,
+      "total_reward": 4.4,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
     },
     {
       "scenario_id": "bc_holdout_deliver_26",
@@ -2079,13 +2800,37 @@
       "scenario_id": "bc_holdout_deliver_27",
       "task_type": "deliver",
       "policy_name": "semantic_raster_mlp_shielded",
-      "success": true,
+      "success": false,
       "steps": 55,
-      "total_reward": 25.6,
+      "total_reward": -8.0,
       "unsafe_action_count": 0,
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 42
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_27",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 13,
+      "total_reward": 4.9,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_27",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 13,
+      "total_reward": 4.9,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
     },
     {
       "scenario_id": "bc_holdout_deliver_27",
@@ -2150,6 +2895,30 @@
     {
       "scenario_id": "bc_holdout_deliver_28",
       "task_type": "deliver",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -18.1,
+      "unsafe_action_count": 0,
+      "task_error_count": 29,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_28",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 46,
+      "total_reward": -1.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 19
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_28",
+      "task_type": "deliver",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 13,
@@ -2199,13 +2968,37 @@
       "scenario_id": "bc_holdout_deliver_29",
       "task_type": "deliver",
       "policy_name": "semantic_raster_mlp_shielded",
-      "success": true,
+      "success": false,
       "steps": 55,
-      "total_reward": 92.2,
+      "total_reward": -6.5,
       "unsafe_action_count": 0,
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 54
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_29",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -49.4,
+      "unsafe_action_count": 50,
+      "task_error_count": 0,
+      "blocked_action_count": 50,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_29",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": false,
+      "steps": 55,
+      "total_reward": -5.4,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 41
     },
     {
       "scenario_id": "bc_holdout_deliver_29",
@@ -2270,6 +3063,30 @@
     {
       "scenario_id": "bc_holdout_deliver_30",
       "task_type": "deliver",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 13,
+      "total_reward": 4.9,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_30",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 13,
+      "total_reward": 4.9,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_30",
+      "task_type": "deliver",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 13,
@@ -2326,6 +3143,30 @@
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 49
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_31",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -53.2,
+      "unsafe_action_count": 53,
+      "task_error_count": 0,
+      "blocked_action_count": 53,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_deliver_31",
+      "task_type": "deliver",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": false,
+      "steps": 55,
+      "total_reward": -6.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 40
     },
     {
       "scenario_id": "bc_holdout_deliver_31",
@@ -2390,6 +3231,30 @@
     {
       "scenario_id": "bc_holdout_inspect_00",
       "task_type": "inspect",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 7,
+      "total_reward": 2.4,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_00",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 7,
+      "total_reward": 2.4,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_00",
+      "task_type": "inspect",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 7,
@@ -2446,6 +3311,30 @@
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 1
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_01",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 10,
+      "total_reward": 2.1,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_01",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 10,
+      "total_reward": 2.1,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
     },
     {
       "scenario_id": "bc_holdout_inspect_01",
@@ -2510,6 +3399,30 @@
     {
       "scenario_id": "bc_holdout_inspect_02",
       "task_type": "inspect",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 6,
+      "total_reward": 2.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_02",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 6,
+      "total_reward": 2.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_02",
+      "task_type": "inspect",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 6,
@@ -2570,6 +3483,30 @@
     {
       "scenario_id": "bc_holdout_inspect_03",
       "task_type": "inspect",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -51.6,
+      "unsafe_action_count": 51,
+      "task_error_count": 0,
+      "blocked_action_count": 51,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_03",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 12,
+      "total_reward": 1.7,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 1
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_03",
+      "task_type": "inspect",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 8,
@@ -2619,13 +3556,37 @@
       "scenario_id": "bc_holdout_inspect_04",
       "task_type": "inspect",
       "policy_name": "semantic_raster_mlp_shielded",
-      "success": true,
+      "success": false,
       "steps": 55,
-      "total_reward": 20.8,
+      "total_reward": -6.5,
       "unsafe_action_count": 0,
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 50
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_04",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -50.5,
+      "unsafe_action_count": 50,
+      "task_error_count": 0,
+      "blocked_action_count": 50,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_04",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 12,
+      "total_reward": 1.9,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 2
     },
     {
       "scenario_id": "bc_holdout_inspect_04",
@@ -2690,6 +3651,30 @@
     {
       "scenario_id": "bc_holdout_inspect_05",
       "task_type": "inspect",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -48.7,
+      "unsafe_action_count": 48,
+      "task_error_count": 0,
+      "blocked_action_count": 48,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_05",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": false,
+      "steps": 55,
+      "total_reward": -6.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 45
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_05",
+      "task_type": "inspect",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 6,
@@ -2750,6 +3735,30 @@
     {
       "scenario_id": "bc_holdout_inspect_06",
       "task_type": "inspect",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 7,
+      "total_reward": 2.4,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_06",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 7,
+      "total_reward": 2.4,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_06",
+      "task_type": "inspect",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 7,
@@ -2799,13 +3808,37 @@
       "scenario_id": "bc_holdout_inspect_07",
       "task_type": "inspect",
       "policy_name": "semantic_raster_mlp_shielded",
-      "success": true,
+      "success": false,
       "steps": 55,
-      "total_reward": 53.8,
+      "total_reward": -7.1,
       "unsafe_action_count": 0,
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 47
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_07",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -51.6,
+      "unsafe_action_count": 51,
+      "task_error_count": 0,
+      "blocked_action_count": 51,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_07",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 9,
+      "total_reward": 2.0,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 1
     },
     {
       "scenario_id": "bc_holdout_inspect_07",
@@ -2866,6 +3899,30 @@
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 1
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_08",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -39.7,
+      "unsafe_action_count": 38,
+      "task_error_count": 0,
+      "blocked_action_count": 38,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_08",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": false,
+      "steps": 55,
+      "total_reward": -6.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 32
     },
     {
       "scenario_id": "bc_holdout_inspect_08",
@@ -2930,6 +3987,30 @@
     {
       "scenario_id": "bc_holdout_inspect_09",
       "task_type": "inspect",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 8,
+      "total_reward": 2.3,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_09",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 8,
+      "total_reward": 2.3,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_09",
+      "task_type": "inspect",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 8,
@@ -2986,6 +4067,30 @@
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 50
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_10",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 8,
+      "total_reward": 2.1,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_10",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 8,
+      "total_reward": 2.1,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
     },
     {
       "scenario_id": "bc_holdout_inspect_10",
@@ -3050,6 +4155,30 @@
     {
       "scenario_id": "bc_holdout_inspect_11",
       "task_type": "inspect",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 8,
+      "total_reward": 2.3,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_11",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 8,
+      "total_reward": 2.3,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_11",
+      "task_type": "inspect",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 8,
@@ -3110,6 +4239,30 @@
     {
       "scenario_id": "bc_holdout_inspect_12",
       "task_type": "inspect",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -50.5,
+      "unsafe_action_count": 50,
+      "task_error_count": 0,
+      "blocked_action_count": 50,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_12",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": false,
+      "steps": 55,
+      "total_reward": -6.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 40
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_12",
+      "task_type": "inspect",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 12,
@@ -3159,13 +4312,37 @@
       "scenario_id": "bc_holdout_inspect_13",
       "task_type": "inspect",
       "policy_name": "semantic_raster_mlp_shielded",
-      "success": true,
+      "success": false,
       "steps": 55,
-      "total_reward": 37.0,
+      "total_reward": -7.1,
       "unsafe_action_count": 0,
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 53
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_13",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -51.4,
+      "unsafe_action_count": 51,
+      "task_error_count": 0,
+      "blocked_action_count": 51,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_13",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": false,
+      "steps": 55,
+      "total_reward": -6.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 32
     },
     {
       "scenario_id": "bc_holdout_inspect_13",
@@ -3230,6 +4407,30 @@
     {
       "scenario_id": "bc_holdout_inspect_14",
       "task_type": "inspect",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -54.1,
+      "unsafe_action_count": 54,
+      "task_error_count": 0,
+      "blocked_action_count": 54,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_14",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 52,
+      "total_reward": -2.1,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 34
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_14",
+      "task_type": "inspect",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 6,
@@ -3286,6 +4487,30 @@
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 51
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_15",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 13,
+      "total_reward": 1.8,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_15",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 13,
+      "total_reward": 1.8,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
     },
     {
       "scenario_id": "bc_holdout_inspect_15",
@@ -3350,6 +4575,30 @@
     {
       "scenario_id": "bc_holdout_inspect_16",
       "task_type": "inspect",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 10,
+      "total_reward": 2.1,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_16",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 10,
+      "total_reward": 2.1,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_16",
+      "task_type": "inspect",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 10,
@@ -3399,13 +4648,37 @@
       "scenario_id": "bc_holdout_inspect_17",
       "task_type": "inspect",
       "policy_name": "semantic_raster_mlp_shielded",
-      "success": true,
+      "success": false,
       "steps": 55,
-      "total_reward": 83.8,
+      "total_reward": -9.7,
       "unsafe_action_count": 0,
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 50
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_17",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": 8.2,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_17",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": false,
+      "steps": 55,
+      "total_reward": -6.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 45
     },
     {
       "scenario_id": "bc_holdout_inspect_17",
@@ -3459,13 +4732,37 @@
       "scenario_id": "bc_holdout_inspect_18",
       "task_type": "inspect",
       "policy_name": "semantic_raster_mlp_shielded",
-      "success": true,
+      "success": false,
       "steps": 55,
-      "total_reward": 20.8,
+      "total_reward": -6.9,
       "unsafe_action_count": 0,
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 51
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_18",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 11,
+      "total_reward": 1.8,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_18",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 11,
+      "total_reward": 1.8,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
     },
     {
       "scenario_id": "bc_holdout_inspect_18",
@@ -3530,6 +4827,30 @@
     {
       "scenario_id": "bc_holdout_inspect_19",
       "task_type": "inspect",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 7,
+      "total_reward": 2.4,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_19",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 7,
+      "total_reward": 2.4,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_19",
+      "task_type": "inspect",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 7,
@@ -3582,6 +4903,30 @@
       "success": true,
       "steps": 7,
       "total_reward": 2.2,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_20",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 11,
+      "total_reward": 1.8,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_20",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 11,
+      "total_reward": 1.8,
       "unsafe_action_count": 0,
       "task_error_count": 0,
       "blocked_action_count": 0,
@@ -3650,6 +4995,30 @@
     {
       "scenario_id": "bc_holdout_inspect_21",
       "task_type": "inspect",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 6,
+      "total_reward": 2.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_21",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 6,
+      "total_reward": 2.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_21",
+      "task_type": "inspect",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 6,
@@ -3706,6 +5075,30 @@
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 45
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_22",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 8,
+      "total_reward": 2.3,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_22",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 8,
+      "total_reward": 2.3,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
     },
     {
       "scenario_id": "bc_holdout_inspect_22",
@@ -3770,6 +5163,30 @@
     {
       "scenario_id": "bc_holdout_inspect_23",
       "task_type": "inspect",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 9,
+      "total_reward": 2.0,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_23",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 9,
+      "total_reward": 2.0,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_23",
+      "task_type": "inspect",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 9,
@@ -3819,13 +5236,37 @@
       "scenario_id": "bc_holdout_inspect_24",
       "task_type": "inspect",
       "policy_name": "semantic_raster_mlp_shielded",
-      "success": true,
+      "success": false,
       "steps": 55,
-      "total_reward": 88.0,
+      "total_reward": -10.5,
       "unsafe_action_count": 0,
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 49
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_24",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 7,
+      "total_reward": 2.4,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_24",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 7,
+      "total_reward": 2.4,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
     },
     {
       "scenario_id": "bc_holdout_inspect_24",
@@ -3879,13 +5320,37 @@
       "scenario_id": "bc_holdout_inspect_25",
       "task_type": "inspect",
       "policy_name": "semantic_raster_mlp_shielded",
-      "success": true,
+      "success": false,
       "steps": 55,
-      "total_reward": 71.2,
+      "total_reward": -10.3,
       "unsafe_action_count": 0,
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 50
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_25",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -1.9,
+      "unsafe_action_count": 0,
+      "task_error_count": 2,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_25",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 55,
+      "total_reward": -2.4,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 20
     },
     {
       "scenario_id": "bc_holdout_inspect_25",
@@ -3950,6 +5415,30 @@
     {
       "scenario_id": "bc_holdout_inspect_26",
       "task_type": "inspect",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -47.1,
+      "unsafe_action_count": 46,
+      "task_error_count": 0,
+      "blocked_action_count": 46,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_26",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": false,
+      "steps": 55,
+      "total_reward": -6.7,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 34
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_26",
+      "task_type": "inspect",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 6,
@@ -4006,6 +5495,30 @@
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 2
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_27",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -55.0,
+      "unsafe_action_count": 55,
+      "task_error_count": 0,
+      "blocked_action_count": 55,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_27",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 12,
+      "total_reward": 1.9,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 1
     },
     {
       "scenario_id": "bc_holdout_inspect_27",
@@ -4070,6 +5583,30 @@
     {
       "scenario_id": "bc_holdout_inspect_28",
       "task_type": "inspect",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -53.2,
+      "unsafe_action_count": 53,
+      "task_error_count": 0,
+      "blocked_action_count": 53,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_28",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": false,
+      "steps": 55,
+      "total_reward": -6.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 27
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_28",
+      "task_type": "inspect",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 8,
@@ -4119,13 +5656,37 @@
       "scenario_id": "bc_holdout_inspect_29",
       "task_type": "inspect",
       "policy_name": "semantic_raster_mlp_shielded",
-      "success": true,
+      "success": false,
       "steps": 55,
-      "total_reward": 92.2,
+      "total_reward": -6.5,
       "unsafe_action_count": 0,
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 52
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_29",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 13,
+      "total_reward": 1.8,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_29",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 13,
+      "total_reward": 1.8,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
     },
     {
       "scenario_id": "bc_holdout_inspect_29",
@@ -4190,6 +5751,30 @@
     {
       "scenario_id": "bc_holdout_inspect_30",
       "task_type": "inspect",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 6,
+      "total_reward": 2.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_30",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 6,
+      "total_reward": 2.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_30",
+      "task_type": "inspect",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 6,
@@ -4250,6 +5835,30 @@
     {
       "scenario_id": "bc_holdout_inspect_31",
       "task_type": "inspect",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -53.2,
+      "unsafe_action_count": 53,
+      "task_error_count": 0,
+      "blocked_action_count": 53,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_31",
+      "task_type": "inspect",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": false,
+      "steps": 55,
+      "total_reward": -6.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 40
+    },
+    {
+      "scenario_id": "bc_holdout_inspect_31",
+      "task_type": "inspect",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 7,
@@ -4306,6 +5915,30 @@
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 50
+    },
+    {
+      "scenario_id": "bc_holdout_charge_00",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 6,
+      "total_reward": 1.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_00",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 6,
+      "total_reward": 1.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
     },
     {
       "scenario_id": "bc_holdout_charge_00",
@@ -4370,6 +6003,30 @@
     {
       "scenario_id": "bc_holdout_charge_01",
       "task_type": "charge",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 7,
+      "total_reward": 1.4,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_01",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 7,
+      "total_reward": 1.4,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_01",
+      "task_type": "charge",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 7,
@@ -4426,6 +6083,30 @@
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 15
+    },
+    {
+      "scenario_id": "bc_holdout_charge_02",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 6,
+      "total_reward": 1.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_02",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 6,
+      "total_reward": 1.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
     },
     {
       "scenario_id": "bc_holdout_charge_02",
@@ -4490,6 +6171,30 @@
     {
       "scenario_id": "bc_holdout_charge_03",
       "task_type": "charge",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 9,
+      "total_reward": 1.2,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_03",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 9,
+      "total_reward": 1.2,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_03",
+      "task_type": "charge",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 9,
@@ -4546,6 +6251,30 @@
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 50
+    },
+    {
+      "scenario_id": "bc_holdout_charge_04",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 11,
+      "total_reward": 0.8,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_04",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 11,
+      "total_reward": 0.8,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
     },
     {
       "scenario_id": "bc_holdout_charge_04",
@@ -4610,6 +6339,30 @@
     {
       "scenario_id": "bc_holdout_charge_05",
       "task_type": "charge",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 13,
+      "total_reward": 0.8,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_05",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 13,
+      "total_reward": 0.8,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_05",
+      "task_type": "charge",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 7,
@@ -4670,6 +6423,30 @@
     {
       "scenario_id": "bc_holdout_charge_06",
       "task_type": "charge",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 6,
+      "total_reward": 1.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_06",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 6,
+      "total_reward": 1.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_06",
+      "task_type": "charge",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 6,
@@ -4726,6 +6503,30 @@
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 49
+    },
+    {
+      "scenario_id": "bc_holdout_charge_07",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -54.1,
+      "unsafe_action_count": 54,
+      "task_error_count": 0,
+      "blocked_action_count": 54,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_07",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": false,
+      "steps": 55,
+      "total_reward": -6.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 38
     },
     {
       "scenario_id": "bc_holdout_charge_07",
@@ -4790,6 +6591,30 @@
     {
       "scenario_id": "bc_holdout_charge_08",
       "task_type": "charge",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 7,
+      "total_reward": 1.4,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_08",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 7,
+      "total_reward": 1.4,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_08",
+      "task_type": "charge",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 7,
@@ -4846,6 +6671,30 @@
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 45
+    },
+    {
+      "scenario_id": "bc_holdout_charge_09",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 7,
+      "total_reward": 1.4,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_09",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 7,
+      "total_reward": 1.4,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
     },
     {
       "scenario_id": "bc_holdout_charge_09",
@@ -4910,6 +6759,30 @@
     {
       "scenario_id": "bc_holdout_charge_10",
       "task_type": "charge",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -53.2,
+      "unsafe_action_count": 53,
+      "task_error_count": 0,
+      "blocked_action_count": 53,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_10",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 8,
+      "total_reward": 1.3,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 1
+    },
+    {
+      "scenario_id": "bc_holdout_charge_10",
+      "task_type": "charge",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 8,
@@ -4966,6 +6839,30 @@
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 6
+    },
+    {
+      "scenario_id": "bc_holdout_charge_11",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 7,
+      "total_reward": 1.4,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_11",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 7,
+      "total_reward": 1.4,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
     },
     {
       "scenario_id": "bc_holdout_charge_11",
@@ -5030,6 +6927,30 @@
     {
       "scenario_id": "bc_holdout_charge_12",
       "task_type": "charge",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 6,
+      "total_reward": 1.3,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_12",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 6,
+      "total_reward": 1.3,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_12",
+      "task_type": "charge",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 6,
@@ -5086,6 +7007,30 @@
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 47
+    },
+    {
+      "scenario_id": "bc_holdout_charge_13",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 8,
+      "total_reward": 1.3,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_13",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 8,
+      "total_reward": 1.3,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
     },
     {
       "scenario_id": "bc_holdout_charge_13",
@@ -5150,6 +7095,30 @@
     {
       "scenario_id": "bc_holdout_charge_14",
       "task_type": "charge",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 6,
+      "total_reward": 1.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_14",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 6,
+      "total_reward": 1.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_14",
+      "task_type": "charge",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 6,
@@ -5206,6 +7175,30 @@
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 44
+    },
+    {
+      "scenario_id": "bc_holdout_charge_15",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -32.5,
+      "unsafe_action_count": 30,
+      "task_error_count": 0,
+      "blocked_action_count": 30,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_15",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 40,
+      "total_reward": -1.9,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 8
     },
     {
       "scenario_id": "bc_holdout_charge_15",
@@ -5270,6 +7263,30 @@
     {
       "scenario_id": "bc_holdout_charge_16",
       "task_type": "charge",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 9,
+      "total_reward": 1.0,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_16",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 9,
+      "total_reward": 1.0,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_16",
+      "task_type": "charge",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 9,
@@ -5326,6 +7343,30 @@
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 44
+    },
+    {
+      "scenario_id": "bc_holdout_charge_17",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 10,
+      "total_reward": 0.9,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_17",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 10,
+      "total_reward": 0.9,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
     },
     {
       "scenario_id": "bc_holdout_charge_17",
@@ -5390,6 +7431,30 @@
     {
       "scenario_id": "bc_holdout_charge_18",
       "task_type": "charge",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -55.0,
+      "unsafe_action_count": 55,
+      "task_error_count": 0,
+      "blocked_action_count": 55,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_18",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": false,
+      "steps": 55,
+      "total_reward": -7.9,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 41
+    },
+    {
+      "scenario_id": "bc_holdout_charge_18",
+      "task_type": "charge",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 10,
@@ -5446,6 +7511,30 @@
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 47
+    },
+    {
+      "scenario_id": "bc_holdout_charge_19",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 7,
+      "total_reward": 1.4,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_19",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 7,
+      "total_reward": 1.4,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
     },
     {
       "scenario_id": "bc_holdout_charge_19",
@@ -5510,6 +7599,30 @@
     {
       "scenario_id": "bc_holdout_charge_20",
       "task_type": "charge",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -18.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 30,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_20",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": false,
+      "steps": 55,
+      "total_reward": -6.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 25
+    },
+    {
+      "scenario_id": "bc_holdout_charge_20",
+      "task_type": "charge",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 8,
@@ -5566,6 +7679,30 @@
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 52
+    },
+    {
+      "scenario_id": "bc_holdout_charge_21",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -55.0,
+      "unsafe_action_count": 55,
+      "task_error_count": 0,
+      "blocked_action_count": 55,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_21",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 10,
+      "total_reward": 1.1,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 1
     },
     {
       "scenario_id": "bc_holdout_charge_21",
@@ -5630,6 +7767,30 @@
     {
       "scenario_id": "bc_holdout_charge_22",
       "task_type": "charge",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 7,
+      "total_reward": 1.4,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_22",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 7,
+      "total_reward": 1.4,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_22",
+      "task_type": "charge",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 7,
@@ -5686,6 +7847,30 @@
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 19
+    },
+    {
+      "scenario_id": "bc_holdout_charge_23",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -52.3,
+      "unsafe_action_count": 52,
+      "task_error_count": 0,
+      "blocked_action_count": 52,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_23",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 12,
+      "total_reward": 0.9,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 1
     },
     {
       "scenario_id": "bc_holdout_charge_23",
@@ -5750,6 +7935,30 @@
     {
       "scenario_id": "bc_holdout_charge_24",
       "task_type": "charge",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 8,
+      "total_reward": 1.3,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_24",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 8,
+      "total_reward": 1.3,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_24",
+      "task_type": "charge",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 8,
@@ -5806,6 +8015,30 @@
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 44
+    },
+    {
+      "scenario_id": "bc_holdout_charge_25",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 8,
+      "total_reward": 1.3,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_25",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 8,
+      "total_reward": 1.3,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
     },
     {
       "scenario_id": "bc_holdout_charge_25",
@@ -5870,6 +8103,30 @@
     {
       "scenario_id": "bc_holdout_charge_26",
       "task_type": "charge",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -52.3,
+      "unsafe_action_count": 52,
+      "task_error_count": 0,
+      "blocked_action_count": 52,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_26",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": false,
+      "steps": 55,
+      "total_reward": -6.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 28
+    },
+    {
+      "scenario_id": "bc_holdout_charge_26",
+      "task_type": "charge",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 7,
@@ -5926,6 +8183,30 @@
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 2
+    },
+    {
+      "scenario_id": "bc_holdout_charge_27",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -43.3,
+      "unsafe_action_count": 42,
+      "task_error_count": 0,
+      "blocked_action_count": 42,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_27",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 23,
+      "total_reward": -0.2,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 4
     },
     {
       "scenario_id": "bc_holdout_charge_27",
@@ -5990,6 +8271,30 @@
     {
       "scenario_id": "bc_holdout_charge_28",
       "task_type": "charge",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 12,
+      "total_reward": 0.9,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_28",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 12,
+      "total_reward": 0.9,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_28",
+      "task_type": "charge",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 12,
@@ -6050,6 +8355,30 @@
     {
       "scenario_id": "bc_holdout_charge_29",
       "task_type": "charge",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -21.3,
+      "unsafe_action_count": 0,
+      "task_error_count": 37,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_29",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": false,
+      "steps": 55,
+      "total_reward": -6.5,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 29
+    },
+    {
+      "scenario_id": "bc_holdout_charge_29",
+      "task_type": "charge",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 10,
@@ -6110,6 +8439,30 @@
     {
       "scenario_id": "bc_holdout_charge_30",
       "task_type": "charge",
+      "policy_name": "egocentric_mlp_raw",
+      "success": false,
+      "steps": 55,
+      "total_reward": -53.2,
+      "unsafe_action_count": 53,
+      "task_error_count": 0,
+      "blocked_action_count": 53,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_30",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 18,
+      "total_reward": 0.3,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 6
+    },
+    {
+      "scenario_id": "bc_holdout_charge_30",
+      "task_type": "charge",
       "policy_name": "safety_shielded",
       "success": true,
       "steps": 6,
@@ -6166,6 +8519,30 @@
       "task_error_count": 0,
       "blocked_action_count": 0,
       "intervention_count": 53
+    },
+    {
+      "scenario_id": "bc_holdout_charge_31",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_raw",
+      "success": true,
+      "steps": 6,
+      "total_reward": 1.3,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
+    },
+    {
+      "scenario_id": "bc_holdout_charge_31",
+      "task_type": "charge",
+      "policy_name": "egocentric_mlp_shielded",
+      "success": true,
+      "steps": 6,
+      "total_reward": 1.3,
+      "unsafe_action_count": 0,
+      "task_error_count": 0,
+      "blocked_action_count": 0,
+      "intervention_count": 0
     },
     {
       "scenario_id": "bc_holdout_charge_31",

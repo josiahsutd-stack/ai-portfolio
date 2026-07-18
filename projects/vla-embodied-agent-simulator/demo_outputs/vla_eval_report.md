@@ -7,7 +7,7 @@ Local construction-site simulation metrics. This is not a real robot deployment.
 | Policy | Success rate | Avg steps | Avg reward | Unsafe action rate | Task error rate | Blocked actions | Safety interventions |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | naive_language | 0.667 | 10.333 | -0.467 | 0.129 | 0.032 | 4 | 0 |
-| random | 0.0 | 18 | -3.8 | 0.111 | 0.259 | 6 | 0 |
+| random | 0.0 | 18 | -4.8 | 0.111 | 0.259 | 6 | 0 |
 | safety_shielded | 1.0 | 11 | 2.567 | 0.0 | 0.0 | 0 | 0 |
 
 ## Interpretation

@@ -14,13 +14,13 @@ The selected set contains one flagship, two role-defining primary projects, and 
 
 ## 2. Construction Embodied Agent Simulator - Primary
 
-**Implemented:** language-to-task parsing, procedural train/holdout grids, shared expert A* demonstrations, engineered-state random-forest imitation, semantic state-raster MLP imitation, raw and filtered rollouts, intervention logs, closed-loop metrics, failure analysis, and replay traces.
+**Implemented:** language-to-task parsing, procedural train/holdout grids, shared expert A* demonstrations, engineered-state random-forest imitation, world-raster MLP imitation, egocentric 5x5 local-state MLP imitation, raw and filtered rollouts, intervention logs, closed-loop metrics, failure analysis, and replay traces.
 
 **Evidence:** `environment.py`, `policies.py`, `learning.py`, `EVAL.md`, `demo_outputs/behavior_cloning_failure_analysis.md`, and `tests/test_vla_embodied_agent.py`.
 
-**Technical question:** Why does the flattened semantic-raster MLP underperform engineered features, which failures does the action filter prevent, and which physical risks are absent from the simulator?
+**Technical question:** Why does agent-centered local encoding recover the world-raster MLP's performance, what information does its full-state filter add, and which physical risks remain absent?
 
-**Boundary:** Both classifiers consume fully observable simulator state. The raster is not camera input; the project is not a foundation VLA and has no perception, physics, ROS, or hardware validation.
+**Boundary:** All semantic values come from simulator state. The egocentric classifier hides off-window hazards but retains relative subgoal geometry, and its filter applies full-state rules. This is not camera perception, a foundation VLA, physics, ROS, or hardware validation.
 
 ## 3. Constraint-Aware Massing Explorer - Primary
 

@@ -23,12 +23,12 @@
 | --- | ---: | --- |
 | Domain differentiation | 9.0/10 | Architecture, AEC documents, massing, QS, and construction robotics form a credible specialization. |
 | Evidence and reproducibility | 8.7/10 | Strong local tests, evaluators, artifacts, baselines, claim checks, and a deterministic cross-project contract; several datasets remain small and authored. |
-| Applied AI engineering | 8.3/10 | Good retrieval, workflow state, controlled classical-versus-neural policy evaluation, geometry, typed handoffs, and local interfaces. Neural depth remains limited, and the embodied MLP is intentionally weak. |
-| Visual and reviewer clarity | 9.2/10 | Actual generated outputs, a measured representation-comparison visual, and an executed workflow trace explain the systems; project hierarchy is explicit. |
+| Applied AI engineering | 8.5/10 | Good retrieval, workflow state, controlled three-representation policy evaluation, partial spatial observability, geometry, typed handoffs, and local interfaces. Neural depth remains modest, and no policy consumes sensed data. |
+| Visual and reviewer clarity | 9.3/10 | Actual generated outputs, a measured observation-comparison visual, and an executed workflow trace explain the systems; project hierarchy is explicit. |
 | Production evidence | 4.5/10 | No users, cloud deployment, auth, observability at scale, service reliability, or customer data. |
 | Professional AEC validation | 4.0/10 | No authority, architect, engineer, or QS validation on live project outputs. |
 
-**Overall junior/applied interview readiness: 8.6/10.**
+**Overall junior/applied interview readiness: 8.7/10.**
 
 **Mid-level production AI readiness based on this repository alone: 5.5/10.**
 
@@ -36,5 +36,5 @@
 
 1. One permissioned public or partner AEC dataset with expert labels and a held-out evaluation protocol.
 2. One deployed selected project with authentication, monitoring, latency/error budgets, and usage evidence.
-3. One robotics integration beyond structured grids, such as perception input, ROS 2 simulation, or a physics-based environment.
+3. One robotics integration beyond synthetic semantic state, such as perception input, ROS 2 simulation, or a physics-based environment.
 4. Professional review of a bounded massing, specification, or QS output with documented disagreement and corrections.

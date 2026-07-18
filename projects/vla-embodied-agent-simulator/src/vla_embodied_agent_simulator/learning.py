@@ -71,6 +71,33 @@ SEMANTIC_RASTER_GLOBAL_FEATURES = (
 SEMANTIC_RASTER_FEATURE_COUNT = SEMANTIC_RASTER_SIZE * SEMANTIC_RASTER_SIZE * len(
     SEMANTIC_RASTER_CHANNELS
 ) + len(SEMANTIC_RASTER_GLOBAL_FEATURES)
+EGOCENTRIC_WINDOW_SIZE = 5
+EGOCENTRIC_RADIUS = EGOCENTRIC_WINDOW_SIZE // 2
+EGOCENTRIC_CHANNELS = (
+    "obstacle",
+    "restricted_zone",
+    "worker_zone",
+    "slow_zone",
+    "object",
+    "named_zone",
+    "current_subgoal_in_view",
+    "out_of_bounds",
+)
+EGOCENTRIC_GLOBAL_FEATURES = (
+    "task_deliver",
+    "task_inspect",
+    "task_charge",
+    "carrying",
+    "battery_ratio",
+    "step_ratio",
+    "relative_subgoal_x",
+    "relative_subgoal_y",
+    "subgoal_distance_x",
+    "subgoal_distance_y",
+)
+EGOCENTRIC_FEATURE_COUNT = EGOCENTRIC_WINDOW_SIZE * EGOCENTRIC_WINDOW_SIZE * len(
+    EGOCENTRIC_CHANNELS
+) + len(EGOCENTRIC_GLOBAL_FEATURES)
 
 PolicyFn = Callable[[GridWorldEnv, str], PolicyPlan]
 
@@ -100,6 +127,25 @@ class SemanticRasterTrainingResult:
     classes: list[str]
     feature_count: int
     raster_size: int
+    channel_names: list[str]
+    global_feature_names: list[str]
+    hidden_layer_sizes: list[int]
+    model_file: str
+    random_seed: int
+
+
+@dataclass(frozen=True)
+class EgocentricTrainingResult:
+    train_scenario_count: int
+    holdout_scenario_count: int
+    training_step_count: int
+    holdout_expert_step_count: int
+    holdout_action_accuracy: float
+    holdout_action_macro_f1: float
+    classes: list[str]
+    feature_count: int
+    window_size: int
+    radius: int
     channel_names: list[str]
     global_feature_names: list[str]
     hidden_layer_sizes: list[int]
@@ -196,6 +242,53 @@ def encode_semantic_raster_state(env: GridWorldEnv) -> list[float]:
     )
     if len(features) != SEMANTIC_RASTER_FEATURE_COUNT:
         raise RuntimeError("semantic raster feature schema changed unexpectedly")
+    return features
+
+
+def encode_egocentric_local_state(env: GridWorldEnv) -> list[float]:
+    task = env.task or parse_instruction("wait", env)
+    subgoal = _current_subgoal(env)
+    channel_points = (
+        set(env.obstacles),
+        set(env.restricted_zones),
+        set(env.worker_zones),
+        set(env.slow_zones),
+        set(env.objects.values()),
+        set(env.zones.values()),
+        {subgoal},
+    )
+    offsets = range(-EGOCENTRIC_RADIUS, EGOCENTRIC_RADIUS + 1)
+    features = [
+        float((env.agent[0] + dx, env.agent[1] + dy) in points)
+        for points in channel_points
+        for dy in offsets
+        for dx in offsets
+    ]
+    features.extend(
+        float(not (0 <= env.agent[0] + dx < env.width and 0 <= env.agent[1] + dy < env.height))
+        for dy in offsets
+        for dx in offsets
+    )
+    width_scale = max(1, env.width - 1)
+    height_scale = max(1, env.height - 1)
+    dx = subgoal[0] - env.agent[0]
+    dy = subgoal[1] - env.agent[1]
+    features.extend(
+        [
+            float(task.task_type == "deliver"),
+            float(task.task_type == "inspect"),
+            float(task.task_type == "charge"),
+            float(env.carrying is not None),
+            min(1.0, max(0.0, env.battery / 70.0)),
+            min(1.0, env.step_count / max(1, env.max_steps)),
+            dx / width_scale,
+            dy / height_scale,
+            abs(dx) / width_scale,
+            abs(dy) / height_scale,
+        ]
+    )
+    if len(features) != EGOCENTRIC_FEATURE_COUNT:
+        raise RuntimeError("egocentric feature schema changed unexpectedly")
     return features
 
 
@@ -308,6 +401,67 @@ def train_semantic_raster_policy(
     return model, result
 
 
+def train_egocentric_policy(
+    *,
+    model_output_dir: str | Path | None = None,
+    train_scenarios: list[SiteScenario] | None = None,
+    holdout_scenarios: list[SiteScenario] | None = None,
+) -> tuple[Pipeline, EgocentricTrainingResult]:
+    train_set = train_scenarios or generate_behavior_cloning_scenarios(
+        "train", count_per_task=TRAIN_SCENARIOS_PER_TASK
+    )
+    holdout_set = holdout_scenarios or generate_behavior_cloning_scenarios(
+        "holdout", count_per_task=HOLDOUT_SCENARIOS_PER_TASK
+    )
+    train_features, train_actions = _expert_examples(
+        train_set, encoder=encode_egocentric_local_state
+    )
+    holdout_features, holdout_actions = _expert_examples(
+        holdout_set, encoder=encode_egocentric_local_state
+    )
+    model = make_pipeline(
+        StandardScaler(),
+        MLPClassifier(
+            hidden_layer_sizes=(64,),
+            activation="relu",
+            solver="lbfgs",
+            alpha=0.001,
+            max_iter=1500,
+            random_state=91,
+        ),
+    )
+    model.fit(train_features, train_actions)
+    holdout_predictions = model.predict(holdout_features)
+    model_file = "egocentric_mlp_policy.joblib"
+    if model_output_dir is not None:
+        model_path = Path(model_output_dir) / model_file
+        model_path.parent.mkdir(parents=True, exist_ok=True)
+        joblib.dump(model, model_path)
+    result = EgocentricTrainingResult(
+        train_scenario_count=len(train_set),
+        holdout_scenario_count=len(holdout_set),
+        training_step_count=len(train_actions),
+        holdout_expert_step_count=len(holdout_actions),
+        holdout_action_accuracy=round(
+            float(accuracy_score(holdout_actions, holdout_predictions)), 3
+        ),
+        holdout_action_macro_f1=round(
+            float(f1_score(holdout_actions, holdout_predictions, average="macro")),
+            3,
+        ),
+        classes=sorted(str(value) for value in model.classes_),
+        feature_count=EGOCENTRIC_FEATURE_COUNT,
+        window_size=EGOCENTRIC_WINDOW_SIZE,
+        radius=EGOCENTRIC_RADIUS,
+        channel_names=list(EGOCENTRIC_CHANNELS),
+        global_feature_names=list(EGOCENTRIC_GLOBAL_FEATURES),
+        hidden_layer_sizes=[64],
+        model_file=model_file,
+        random_seed=91,
+    )
+    return model, result
+
+
 def make_behavior_cloning_policy(
     model: RandomForestClassifier,
     *,
@@ -332,6 +486,20 @@ def make_semantic_raster_policy(
         encoder=encode_semantic_raster_state,
         raw_policy_name="semantic_raster_mlp_raw",
         shielded_policy_name="semantic_raster_mlp_shielded",
+        safety_filter=safety_filter,
+    )
+
+
+def make_egocentric_policy(
+    model: Pipeline,
+    *,
+    safety_filter: bool,
+) -> PolicyFn:
+    return _make_classifier_policy(
+        model,
+        encoder=encode_egocentric_local_state,
+        raw_policy_name="egocentric_mlp_raw",
+        shielded_policy_name="egocentric_mlp_shielded",
         safety_filter=safety_filter,
     )
 
@@ -420,11 +588,18 @@ def evaluate_behavior_cloning(
         train_scenarios=train_scenarios,
         holdout_scenarios=holdout_scenarios,
     )
+    egocentric_model, egocentric_training = train_egocentric_policy(
+        model_output_dir=model_output_dir,
+        train_scenarios=train_scenarios,
+        holdout_scenarios=holdout_scenarios,
+    )
     policies: list[PolicyFn] = [
         make_behavior_cloning_policy(model, safety_filter=False),
         make_behavior_cloning_policy(model, safety_filter=True),
         make_semantic_raster_policy(raster_model, safety_filter=False),
         make_semantic_raster_policy(raster_model, safety_filter=True),
+        make_egocentric_policy(egocentric_model, safety_filter=False),
+        make_egocentric_policy(egocentric_model, safety_filter=True),
         safety_shielded_policy,
     ]
     episodes = [
@@ -462,25 +637,47 @@ def evaluate_behavior_cloning(
             task_types[scenario.scenario_id] = task.task_type
     structured_shielded = metrics["behavior_cloning_shielded"]
     raster_shielded = metrics["semantic_raster_mlp_shielded"]
+    egocentric_shielded = metrics["egocentric_mlp_shielded"]
     return {
         "evaluation_type": "fixed-seed procedural construction-site holdout",
         "training": asdict(training),
         "semantic_raster_training": asdict(raster_training),
+        "egocentric_training": asdict(egocentric_training),
         "representation_comparison": {
             "structured_feature_count": training.feature_count,
             "semantic_raster_feature_count": raster_training.feature_count,
+            "egocentric_feature_count": egocentric_training.feature_count,
             "expert_action_accuracy_delta_structured_minus_raster": round(
                 training.holdout_action_accuracy - raster_training.holdout_action_accuracy,
+                3,
+            ),
+            "expert_action_accuracy_delta_egocentric_minus_raster": round(
+                egocentric_training.holdout_action_accuracy
+                - raster_training.holdout_action_accuracy,
+                3,
+            ),
+            "expert_action_accuracy_delta_structured_minus_egocentric": round(
+                training.holdout_action_accuracy - egocentric_training.holdout_action_accuracy,
                 3,
             ),
             "shielded_success_delta_structured_minus_raster": round(
                 float(structured_shielded["success_rate"]) - float(raster_shielded["success_rate"]),
                 3,
             ),
+            "shielded_success_delta_egocentric_minus_raster": round(
+                float(egocentric_shielded["success_rate"]) - float(raster_shielded["success_rate"]),
+                3,
+            ),
+            "shielded_success_delta_egocentric_minus_structured": round(
+                float(egocentric_shielded["success_rate"])
+                - float(structured_shielded["success_rate"]),
+                3,
+            ),
             "interpretation": (
-                "The flattened semantic-raster MLP underperforms the engineered-state random "
-                "forest on this holdout. It is retained as negative evidence about data scale "
-                "and spatial inductive bias, not promoted as a vision capability."
+                "The agent-centered local-state MLP recovers most expert-action accuracy lost "
+                "by the world-frame flattened raster and has the highest filtered learned-policy "
+                "success. Its raw failures and intervention count remain visible; this is an "
+                "observation-design result, not a perception or physical-safety claim."
             ),
         },
         "split": {
@@ -530,6 +727,10 @@ def write_behavior_cloning_artifacts(
     )
     (target / "semantic_raster_model_card.md").write_text(
         _semantic_raster_model_card(payload),
+        encoding="utf-8",
+    )
+    (target / "egocentric_mlp_model_card.md").write_text(
+        _egocentric_model_card(payload),
         encoding="utf-8",
     )
     (target / "behavior_cloning_failure_analysis.md").write_text(
@@ -673,12 +874,9 @@ def _action_is_context_valid(env: GridWorldEnv, action: str) -> bool:
         return bool(task and env.agent == env.zones.get(task.target_zone or ""))
     if action == "charge":
         return bool(
-            env.agent
-            in {
-                env.zones.get("base"),
-                env.zones.get("charging_dock"),
-                env.zones.get(task.target_zone or "") if task else None,
-            }
+            task
+            and task.task_type == "charge"
+            and env.agent == env.zones.get(task.target_zone or "")
         )
     return True
 
@@ -715,10 +913,12 @@ def _distance(start: Position, goal: Position) -> int:
 def _behavior_cloning_report(payload: dict[str, object]) -> str:
     training = payload["training"]
     raster_training = payload["semantic_raster_training"]
+    egocentric_training = payload["egocentric_training"]
     comparison = payload["representation_comparison"]
     policies = payload["policies"]
     assert isinstance(training, dict)
     assert isinstance(raster_training, dict)
+    assert isinstance(egocentric_training, dict)
     assert isinstance(comparison, dict)
     assert isinstance(policies, dict)
     policy_labels = {
@@ -726,12 +926,14 @@ def _behavior_cloning_report(payload: dict[str, object]) -> str:
         "behavior_cloning_shielded": "Engineered-state RF, filtered",
         "semantic_raster_mlp_raw": "Semantic-raster MLP, raw",
         "semantic_raster_mlp_shielded": "Semantic-raster MLP, filtered",
+        "egocentric_mlp_raw": "Egocentric local-state MLP, raw",
+        "egocentric_mlp_shielded": "Egocentric local-state MLP, filtered",
         "safety_shielded": "Deterministic A* reference",
     }
     lines = [
         "# Imitation-Policy Holdout Evaluation",
         "",
-        "Fixed-seed procedural construction-site simulation. Both learned policies use the same expert demonstrations and disjoint holdout scenarios. This is not a learned foundation VLA or robot deployment.",
+        "Fixed-seed procedural construction-site simulation. All three learned models use the same expert demonstrations and disjoint holdout scenarios. This is not a learned foundation VLA or robot deployment.",
         "",
         "## Shared Evaluation Protocol",
         "",
@@ -748,8 +950,9 @@ def _behavior_cloning_report(payload: dict[str, object]) -> str:
         "| --- | ---: | ---: | ---: |",
         f"| Engineered state + random forest | {training['feature_count']} | {training['holdout_action_accuracy']} | {training['holdout_action_macro_f1']} |",
         f"| Flattened semantic raster + 64-unit MLP | {raster_training['feature_count']} | {raster_training['holdout_action_accuracy']} | {raster_training['holdout_action_macro_f1']} |",
+        f"| Egocentric 5x5 local state + 64-unit MLP | {egocentric_training['feature_count']} | {egocentric_training['holdout_action_accuracy']} | {egocentric_training['holdout_action_macro_f1']} |",
         "",
-        f"The engineered-state baseline leads action accuracy by {comparison['expert_action_accuracy_delta_structured_minus_raster']}. The raster channels are generated from fully observable simulator state; they are not camera pixels or learned perception features.",
+        f"Agent-centered local encoding recovers {comparison['expert_action_accuracy_delta_egocentric_minus_raster']} action accuracy over the world-frame raster and trails the engineered-state model by {comparison['expert_action_accuracy_delta_structured_minus_egocentric']}. Both semantic encodings are generated from simulator state; they are not camera pixels or learned perception features.",
         "",
         "## Closed-Loop Holdout Results",
         "",
@@ -779,7 +982,9 @@ def _behavior_cloning_report(payload: dict[str, object]) -> str:
             "- Each raw learned policy exposes model errors without repair.",
             "- Each shielded variant rejects unsafe or task-invalid actions but does not receive an expert route toward the task goal; charger-only recovery is separate.",
             "- The flattened-raster MLP underperforms the engineered-state random forest. This negative result is retained because it shows that adding a neural network does not automatically improve a small-data spatial-control problem.",
-            "- The MLP has no convolutional spatial inductive bias and does not establish visual perception, multimodal reasoning, or VLA capability.",
+            "- Centering a local semantic window on the agent recovers most of the raster MLP's action accuracy and produces the strongest filtered learned-policy success, despite hiding hazards outside the 5x5 window.",
+            "- The egocentric policy still has weaker raw completion than the engineered-state policy and depends on many filter interventions. Filtered success is not model-only safety or control evidence.",
+            "- Neither MLP has convolution, temporal memory, camera input, or learned perception; neither establishes multimodal reasoning or VLA capability.",
             "- The deterministic A* policy is an oracle-style planning reference, not a learned baseline.",
             "- Results apply only to this small 2D procedural simulator.",
         ]
@@ -837,6 +1042,40 @@ def _semantic_raster_model_card(payload: dict[str, object]) -> str:
     )
 
 
+def _egocentric_model_card(payload: dict[str, object]) -> str:
+    training = payload["egocentric_training"]
+    policies = payload["policies"]
+    assert isinstance(training, dict)
+    assert isinstance(policies, dict)
+    raw = policies["egocentric_mlp_raw"]
+    shielded = policies["egocentric_mlp_shielded"]
+    assert isinstance(raw, dict)
+    assert isinstance(shielded, dict)
+    return (
+        "# Egocentric Local-State MLP Model Card\n\n"
+        "One-hidden-layer neural action classifier trained on the same fixed-seed A* demonstrations and evaluated on the same disjoint holdout as the other learned policies.\n\n"
+        "## Observation Contract\n\n"
+        f"- Agent-centered {training['window_size']}x{training['window_size']} local window with channels for {', '.join(training['channel_names'])}.\n"
+        f"- Global task and navigation values: {', '.join(training['global_feature_names'])}.\n"
+        f"- {training['feature_count']} numeric inputs in total.\n"
+        "- Obstacles and zones outside the local window are hidden from the classifier, while relative subgoal geometry remains available.\n"
+        "- Inputs come directly from simulator state, not cameras or a learned perception model.\n\n"
+        "## Model And Output\n\n"
+        f"- StandardScaler followed by an MLPClassifier with hidden layers {training['hidden_layer_sizes']}.\n"
+        f"- Action classes: {', '.join(training['classes'])}.\n"
+        "- The optional safety filter applies full simulator rules after classification; it can therefore reject hazards that the local observation did not expose.\n\n"
+        "## Measured Result\n\n"
+        f"- Holdout expert-action accuracy: {training['holdout_action_accuracy']}.\n"
+        f"- Holdout expert-action macro-F1: {training['holdout_action_macro_f1']}.\n"
+        f"- Raw closed-loop success rate: {raw['success_rate']}.\n"
+        f"- Filtered closed-loop success rate: {shielded['success_rate']}.\n"
+        f"- Filter interventions: {shielded['intervention_count']}.\n"
+        "- Agent-centered encoding improves substantially over the world-frame flattened raster. The filtered result also depends heavily on hand-authored simulator constraints and is not attributable to the classifier alone.\n\n"
+        "## Not Demonstrated\n\n"
+        "This model has no camera input, learned perception, convolution, recurrence, memory, uncertainty model, language embedding, reinforcement learning, physics, ROS, sim-to-real transfer, hardware control, or physical-safety validation.\n"
+    )
+
+
 def _behavior_cloning_failure_analysis(payload: dict[str, object]) -> str:
     episodes = payload["episodes"]
     assert isinstance(episodes, list)
@@ -845,6 +1084,8 @@ def _behavior_cloning_failure_analysis(payload: dict[str, object]) -> str:
         "behavior_cloning_shielded",
         "semantic_raster_mlp_raw",
         "semantic_raster_mlp_shielded",
+        "egocentric_mlp_raw",
+        "egocentric_mlp_shielded",
     }
     failures = [
         row
@@ -889,7 +1130,7 @@ def _behavior_cloning_failure_analysis(payload: dict[str, object]) -> str:
     lines.extend(
         [
             "",
-            "Neither learned policy has an expert fallback toward the task goal. Failures therefore remain visible as evidence of compounding imitation error, representation limits, and a small training distribution.",
+            "No learned policy has an expert fallback toward the task goal. Failures therefore remain visible as evidence of compounding imitation error, representation limits, and a small training distribution.",
         ]
     )
     return "\n".join(lines) + "\n"

@@ -11,7 +11,7 @@ These three projects carry the clearest technical and domain evidence.
 | Project | Engineering focus | Current result | Evidence boundary |
 | --- | --- | --- | --- |
 | [AEC Code Compliance RAG](projects/aec-code-compliance-rag/README.md) | Public-source ingestion, page-aware metadata, four retrieval modes, citations, abstention, and retrieval evaluation. | Public 24-case snapshot over 15 validated documents: `Hit@1 0.952`, `MRR 0.976`, paraphrase `MRR 0.917`, and no-answer accuracy `1.000`. | Document assistance only; not compliance certification, legal advice, or proof that downloaded documents remain current. |
-| [Construction Embodied Agent Simulator](projects/vla-embodied-agent-simulator/README.md) | Shared expert demonstrations, engineered and semantic-raster observations, supervised imitation, closed-loop holdout evaluation, and action filtering. | On 96 unseen grids, filtered success is `0.698` for the engineered-state random forest and `0.469` for the raster MLP; both record `0.000` unsafe-action rate after filtering. | Raster channels come from simulator state; no camera perception, foundation VLA, physics, ROS, hardware, or physical-safety validation. |
+| [Construction Embodied Agent Simulator](projects/vla-embodied-agent-simulator/README.md) | Shared expert demonstrations, engineered, world-raster, and egocentric local observations, supervised imitation, closed-loop holdout evaluation, and action filtering. | On 96 unseen grids, filtered success is `0.760` for the egocentric MLP, `0.698` for the random forest, and `0.292` for the world-raster MLP; the egocentric result uses 943 interventions. | Semantic inputs come from simulator state and the filter sees full rules; no camera perception, foundation VLA, physics, ROS, hardware, or physical-safety validation. |
 | [Constraint-Aware Massing Explorer](projects/constraint-aware-massing-explorer/README.md) | Parametric geometry, hard constraints, Pareto ranking, editable objectives, and transparent environmental/access proxies. | Across 864 candidates per method: feasible rate `0.977` versus `0.052` for the unconstrained baseline; mean best GFA error `0.19%` versus `34.47%`. | Rectangular proxy model; no code inference, internal egress, calibrated daylight/CFD, structure, or approvable design. |
 
 For a 15-minute technical screen, these three links contain the highest-signal code, evaluation design, failure boundaries, and generated evidence. The [evidence ledger](docs/EVIDENCE_LEDGER.md) records the artifact and command behind each headline metric.
@@ -103,11 +103,11 @@ The downloader targets official BCA, URA, NEA, SCDF, LTA, PUB, and NParks source
 
 ### Construction Embodied Agent Simulator
 
-The simulator converts a language task and structured construction grid into closed-loop actions. Two learned policies share 192 training scenarios and a 96-scenario disjoint holdout: a random forest over 24 engineered features and a 64-unit MLP over a flattened 398-value semantic state raster. The neural baseline performs worse and is retained as negative evidence about representation choice and data scale.
+The simulator converts a language task and structured construction grid into closed-loop actions. Three learned models share 192 training scenarios and a 96-scenario disjoint holdout: a random forest over 24 engineered features, a 64-unit MLP over a flattened 398-value world raster, and a 64-unit MLP over 210 agent-centered local-state values. The local MLP recovers most action accuracy lost by world-frame flattening and records the highest filtered learned-policy completion, while its raw failures and 943 filter interventions remain visible.
 
-![Fully observable semantic state raster and measured policy comparison](portfolio-site/assets/semantic-raster-comparison.svg)
+![Synthetic construction grid, egocentric local window, and measured policy comparison](portfolio-site/assets/semantic-raster-comparison.svg)
 
-*Generated from the evaluator's actual holdout metrics. The raster contains privileged simulator state, not camera pixels or learned perception.*
+*Generated from the evaluator's actual holdout metrics. Both semantic observations contain simulator state, not camera pixels or learned perception. The egocentric classifier hides off-window hazards; its filter does not.*
 
 ![Generated concept image of a construction robot following a planned route](portfolio-site/assets/embodied-ai-concept.webp)
 

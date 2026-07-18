@@ -16,12 +16,14 @@ from vla_embodied_agent_simulator import (
     default_construction_scenarios,
     evaluate_policy_suite,
     make_behavior_cloning_policy,
+    make_egocentric_policy,
     make_semantic_raster_policy,
     naive_language_policy,
     random_policy,
     run_episode,
     safety_shielded_policy,
     train_behavior_cloning_policy,
+    train_egocentric_policy,
     train_semantic_raster_policy,
 )
 
@@ -34,6 +36,8 @@ POLICY_NAMES = [
     "Safety shielded",
     "Engineered-state RF + safety filter",
     "Engineered-state RF raw",
+    "Egocentric local-state MLP + safety filter",
+    "Egocentric local-state MLP raw",
     "Semantic state-raster MLP + safety filter",
     "Semantic state-raster MLP raw",
     "Naive language",
@@ -45,6 +49,7 @@ POLICY_NAMES = [
 def learned_policies():
     structured_model, _structured_result = train_behavior_cloning_policy()
     raster_model, _raster_result = train_semantic_raster_policy()
+    egocentric_model, _egocentric_result = train_egocentric_policy()
     return {
         "Engineered-state RF + safety filter": make_behavior_cloning_policy(
             structured_model,
@@ -52,6 +57,14 @@ def learned_policies():
         ),
         "Engineered-state RF raw": make_behavior_cloning_policy(
             structured_model,
+            safety_filter=False,
+        ),
+        "Egocentric local-state MLP + safety filter": make_egocentric_policy(
+            egocentric_model,
+            safety_filter=True,
+        ),
+        "Egocentric local-state MLP raw": make_egocentric_policy(
+            egocentric_model,
             safety_filter=False,
         ),
         "Semantic state-raster MLP + safety filter": make_semantic_raster_policy(
@@ -78,7 +91,7 @@ scenario_by_name = {scenario.name: scenario for scenario in scenarios}
 selected_scenario = scenario_by_name[
     st.sidebar.selectbox("Scenario", list(scenario_by_name), index=0)
 ]
-policy_name = st.sidebar.selectbox("Policy", POLICY_NAMES, index=0)
+policy_name = st.sidebar.selectbox("Policy", POLICY_NAMES, index=3)
 instruction = st.text_area("Instruction", selected_scenario.instruction, height=80)
 
 scenario = selected_scenario
@@ -135,7 +148,8 @@ if behavior_path.exists():
     st.caption(
         "Fixed-seed procedural holdout. Train and holdout scenario IDs are disjoint; "
         "failures remain in the published evaluation artifacts. The semantic raster is "
-        "generated from fully observable simulator state, not camera input."
+        "generated from simulator state, not camera input. The egocentric policy sees local "
+        "hazards within a 5x5 window plus relative subgoal geometry."
     )
     behavior_metrics = [
         {"policy": name, **values} for name, values in behavior_payload["policies"].items()
@@ -146,6 +160,7 @@ if behavior_path.exists():
             {
                 "engineered_state_random_forest": behavior_payload["training"],
                 "semantic_raster_mlp": behavior_payload["semantic_raster_training"],
+                "egocentric_local_state_mlp": behavior_payload["egocentric_training"],
                 "scenario_id_overlap": behavior_payload["split"]["scenario_id_overlap"],
             }
         )

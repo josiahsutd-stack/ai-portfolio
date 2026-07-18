@@ -19,7 +19,7 @@ One-hidden-layer neural action classifier trained on the same fixed-seed A* demo
 
 - Holdout expert-action accuracy: 0.478.
 - Holdout expert-action macro-F1: 0.454.
-- Shielded closed-loop success rate: 0.469.
+- Shielded closed-loop success rate: 0.292.
 - This is weaker than the engineered-state random forest on the shared holdout. The likely contributors are limited demonstrations, flattening of the grid, and the absence of convolutional spatial bias.
 
 ## Not Demonstrated

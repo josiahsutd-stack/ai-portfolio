@@ -67,12 +67,18 @@ def run_episode(
         for step in env.trace
         if "error" in step.info and step.info.get("error") != "unsafe_or_blocked_move"
     )
+    terminal_info = env.trace[-1].info if env.trace else {}
+    task_success = terminal_info.get("success") in {
+        "task_complete",
+        "inspection_complete",
+        "charged",
+    }
     return EpisodeResult(
         scenario_id=scenario.scenario_id,
         scenario_name=scenario.name,
         instruction=scenario.instruction,
         policy_name=plan.policy_name,
-        success=done and bool(env.trace and env.trace[-1].info.get("success")),
+        success=done and task_success and not terminal_info.get("timeout", False),
         steps=len(env.trace),
         total_reward=round(total_reward, 3),
         unsafe_action_count=unsafe_action_count,

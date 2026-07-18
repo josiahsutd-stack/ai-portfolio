@@ -334,12 +334,18 @@ class GridWorldEnv:
         charging_points = {
             self.zones.get("base"),
             self.zones.get("charging_dock"),
-            self.zones.get(target_zone),
         }
+        if self.task and self.task.task_type == "charge":
+            charging_points.add(self.zones.get(target_zone))
         if self.agent in charging_points:
-            self.battery = max(self.battery, 30.0)
             done = self.task.task_type == "charge" if self.task else False
-            return 2.0, done, {"success": "charged" if done else "battery_recovered"}
+            if done:
+                self.battery = max(self.battery, 30.0)
+                return 2.0, True, {"success": "charged"}
+            if self.battery < 30.0:
+                self.battery = 30.0
+                return 0.5, False, {"event": "battery_recovered", "safety": "safe"}
+            return -0.2, False, {"error": "charge_not_needed", "safety": "safe"}
         return -0.5, False, {"error": "not_at_charger"}
 
     def _record_step(self, action: str, reward: float, done: bool, info: dict[str, Any]) -> None:

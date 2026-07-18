@@ -15,8 +15,9 @@ This local simulator supports inspection of task parsing, observation encoding, 
 
 1. A random-forest action classifier over 24 engineered state features.
 2. A one-hidden-layer MLP over eight fully observable 7x7 semantic state channels plus six global features.
+3. A one-hidden-layer MLP over an agent-centered 5x5 semantic window plus ten task/navigation values.
 
-The second model does not consume images. It is included because it underperforms the engineered baseline and exposes a representation and data-scale limitation.
+None consumes images. The world-raster model exposes a representation and data-scale limitation. The egocentric model hides off-window hazards from its classifier and recovers performance through agent-centered alignment, while its filter continues to apply full-state simulator rules.
 
 ## Safety Controls In Scope
 
@@ -28,7 +29,7 @@ The second model does not consume images. It is included because it underperform
 
 ## Evaluation
 
-Both learned models train on 192 synthetic scenarios and are evaluated on the same 96 disjoint holdout scenarios. Reports separate expert-state action accuracy from closed-loop success, unsafe-action rate, task-error rate, interventions, and failure traces. A deterministic A* planner is retained as a full-map reference, not a learned baseline.
+All three learned models train on 192 synthetic scenarios and are evaluated on the same 96 disjoint holdout scenarios. Reports separate expert-state action accuracy from closed-loop success, unsafe-action rate, task-error rate, interventions, and failure traces. A deterministic A* planner is retained as a full-map reference, not a learned baseline.
 
 ## Main Risk
 
