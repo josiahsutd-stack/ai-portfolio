@@ -3,6 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from project_specification_copilot import (
+    ROLES,
     AuditStore,
     Message,
     SpecificationEngine,
@@ -101,6 +102,33 @@ def test_unsupported_chatter_produces_no_requirement_or_clause() -> None:
     assert not engine.snapshot().requirements
     assert engine.draft_specification().status == "needs_review"
     assert not engine.draft_specification().clauses
+
+
+def test_multi_party_conversation_preserves_roles_and_gates_draft_clauses() -> None:
+    engine = SpecificationEngine()
+    messages = [
+        ("client", "The project needs a community hall."),
+        ("architect", "The entrance shall be step-free."),
+        ("structural_engineer", "The structural system shall be steel frame."),
+        ("quantity_surveyor", "The budget cap is SGD 6 million."),
+        ("project_manager", "The completion target is 18 months."),
+        ("contractor", "Please coordinate temporary access at the next meeting."),
+    ]
+    for role, text in messages:
+        engine.submit_message(role, text)
+    engine.submit_message("client", "I approve the community hall.")
+
+    snapshot = engine.snapshot()
+    draft = engine.draft_specification()
+
+    assert {message.role for message in snapshot.messages}.issubset(set(ROLES))
+    assert [message.sequence for message in snapshot.messages] == list(
+        range(1, len(snapshot.messages) + 1)
+    )
+    assert len({message.message_id for message in snapshot.messages}) == len(snapshot.messages)
+    assert len(draft.clauses) == 1
+    assert draft.clauses[0].approved_by_role == "client"
+    assert draft.unapproved_requirement_ids
 
 
 def test_sqlite_audit_events_persist_in_order(tmp_path: Path) -> None:

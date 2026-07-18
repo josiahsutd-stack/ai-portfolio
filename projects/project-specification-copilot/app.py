@@ -34,11 +34,13 @@ def load_case(case_index: int) -> SpecificationEngine:
 
 
 st.set_page_config(
-    page_title="Project Brief and Specification Copilot", page_icon="PS", layout="wide"
+    page_title="Project Communication and Specification Assistant",
+    page_icon="PS",
+    layout="wide",
 )
-st.title("Project Brief and Specification Copilot")
+st.title("Project Communication and Specification Assistant")
 st.caption(
-    "Synthetic conversations · deterministic extraction · role-authorized approvals · draft for human review"
+    "Shared role-tagged conversation · synthetic data · deterministic extraction · human-reviewed draft"
 )
 
 with st.sidebar:
@@ -76,6 +78,9 @@ conversation_tab, ledger_tab, specification_tab, audit_tab = st.tabs(
 )
 
 with conversation_tab:
+    st.caption(
+        "Messages remain in the audit record even when the deterministic extractor finds no requirement."
+    )
     for message in snapshot.messages:
         with st.chat_message("user" if message.role == "client" else "assistant"):
             st.markdown(

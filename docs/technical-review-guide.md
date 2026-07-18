@@ -32,7 +32,7 @@ The selected set contains one flagship, two role-defining primary projects, and 
 
 **Boundary:** No code inference, internal egress model, calibrated daylight/CFD, structure, constructability, or approvable design.
 
-## 4. Project Brief and Specification Copilot - Supporting
+## 4. Project Communication and Specification Assistant - Supporting
 
 **Implemented:** immutable role-tagged messages, requirement versions, conflict records, approval scopes, SQLite audit events, source ids, open decisions, and clauses generated only from approved requirements.
 

@@ -6,7 +6,7 @@ The massing, specification, and QS projects now have focused tests, deterministi
 
 ## Decision
 
-Keep AEC Code Compliance RAG as the sole flagship. Select the Construction Embodied Agent Simulator and Constraint-Aware Massing Explorer as primary projects. Select the Project Brief and Specification Copilot and QS Takeoff and Tender Analysis Workbench as supporting AEC workflow projects.
+Keep AEC Code Compliance RAG as the sole flagship. Select the Construction Embodied Agent Simulator and Constraint-Aware Massing Explorer as primary projects. Select the Project Communication and Specification Assistant and QS Takeoff and Tender Analysis Workbench as supporting AEC workflow projects.
 
 Move the generic text-classification, research-workflow, and MLOps systems to `experiments/` while retaining their code, tests, and evidence.
 

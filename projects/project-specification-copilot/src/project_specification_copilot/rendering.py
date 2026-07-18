@@ -53,10 +53,10 @@ def render_specification_trace_svg(snapshot: ProjectSnapshot, draft: Specificati
             f'<line x1="825" y1="{y + 27}" x2="1150" y2="{y + 27}" stroke="#d8ddd8"/>'
         )
     return f"""<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="590" viewBox="0 0 1200 590" role="img" aria-labelledby="title desc">
-  <title id="title">Role-aware project specification trace</title>
+  <title id="title">Role-aware project communication and specification trace</title>
   <desc id="desc">Synthetic conversation messages linked to extracted requirements and approved specification clauses.</desc>
   <rect width="1200" height="590" fill="#f4f1e9"/>
-  <text x="34" y="38" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#e85d3f">PROJECT BRIEF AND SPECIFICATION COPILOT · SYNTHETIC TRACE</text>
+  <text x="34" y="38" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#e85d3f">PROJECT COMMUNICATION AND SPECIFICATION ASSISTANT · SYNTHETIC TRACE</text>
   <text x="34" y="72" font-family="Arial, sans-serif" font-size="29" font-weight="700" fill="#17231f">Conversation evidence becomes a reviewable draft</text>
   <text x="34" y="99" font-family="Arial, sans-serif" font-size="12" fill="#66736c">No approved clause without a source message and authorized role action.</text>
   <line x1="390" y1="116" x2="390" y2="530" stroke="#cbd2cc"/>

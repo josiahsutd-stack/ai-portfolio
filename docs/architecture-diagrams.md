@@ -41,11 +41,11 @@ flowchart LR
   D --> F["Issue report"]
 ```
 
-## Project Brief and Specification Copilot
+## Project Communication and Specification Assistant
 
 ```mermaid
 flowchart LR
-  A["Role-tagged project messages"] --> B["Requirement extraction"]
+  A["Shared role-tagged project chat"] --> B["Requirement extraction"]
   B --> C["Versioned requirement ledger"]
   C --> D["Conflict register"]
   C --> E["Role authorization gate"]

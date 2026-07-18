@@ -4,6 +4,10 @@
 
 The system treats project communication as evidence, not as permission to write authoritative specifications. Messages may propose requirements. Only authorized approval events can move a requirement into the draft clause set.
 
+## Conversation Model
+
+The Streamlit interface presents one shared project conversation. Each message records an author, project role, sequence number, immutable message ID, and data-status label before extraction runs. Client and team messages use the same event path; role changes affect approval authority, not whether a message is retained. This is a local single-session demonstration, not a multi-user messaging service, authenticated collaboration platform, or open-domain chatbot.
+
 ## Components
 
 | Component | Responsibility | Boundary |

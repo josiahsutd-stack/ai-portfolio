@@ -46,7 +46,7 @@ This path downloads official Singapore sources locally. It demonstrates provenan
 1. AEC Code Compliance RAG: sole flagship and deepest retrieval/evaluation surface.
 2. Construction Embodied Agent Simulator: strongest embodied-AI evidence.
 3. Constraint-Aware Massing Explorer: strongest computational-design evidence.
-4. Project Specification Copilot and QS Takeoff/Tender Workbench: supporting AEC workflow systems.
+4. Project Communication and Specification Assistant and QS Takeoff/Tender Workbench: supporting AEC workflow systems.
 5. AEC design-to-cost integration: cross-project contract evidence, not a sixth project.
 6. Work under [`experiments/`](../experiments/README.md): narrower generic and AEC baselines.
 

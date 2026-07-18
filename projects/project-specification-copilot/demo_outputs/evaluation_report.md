@@ -1,4 +1,4 @@
-# Project Specification Copilot Evaluation
+# Project Communication and Specification Assistant Evaluation
 
 **Data status:** synthetic
 

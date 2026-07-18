@@ -1,6 +1,6 @@
-# Project Brief and Specification Copilot
+# Project Communication and Specification Assistant
 
-Local collaboration workflow that converts role-tagged client, architect, consultant, QS, project-manager, and contractor messages into a provenance-linked requirement ledger and a human-review specification draft.
+Local, chat-style collaboration workflow for client, architect, consultant, QS, project-manager, and contractor communication. It converts role-tagged messages into a provenance-linked requirement ledger and a human-review specification draft.
 
 **Data status:** all bundled conversations, roles, requirements, and evaluation labels are synthetic. No client correspondence or project specification is included.
 
@@ -8,7 +8,7 @@ Local collaboration workflow that converts role-tagged client, architect, consul
 
 ## Implemented System
 
-- Role-tagged project conversation with immutable message IDs.
+- Shared, role-tagged project conversation with immutable message IDs and a Streamlit chat interface.
 - Deterministic extraction for documented programme, site, budget, schedule, access, structure, facade, and performance requirement forms.
 - Requirement lifecycle: proposed, approved, superseded.
 - Numeric and categorical conflict detection without silent merging.

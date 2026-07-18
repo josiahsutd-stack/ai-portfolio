@@ -44,7 +44,7 @@ projects:
     implementation_mode: "Deterministic rule engine with optional mock or hosted explanation provider"
     boundary: "Not BIM model parsing, geometric clash detection, or professional QA"
     readme_path: experiments/bim-issue-detection-agent/README.md
-  - name: Project Brief and Specification Copilot
+  - name: Project Communication and Specification Assistant
     slug: project-specification-copilot
     category: AI for the Built Environment
     skill_area: Requirements intelligence and workflow automation

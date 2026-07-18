@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field
 
 from .engine import SpecificationEngine
 
-app = FastAPI(title="Project Brief and Specification Copilot")
+app = FastAPI(title="Project Communication and Specification Assistant")
 
 
 class ConversationMessage(BaseModel):

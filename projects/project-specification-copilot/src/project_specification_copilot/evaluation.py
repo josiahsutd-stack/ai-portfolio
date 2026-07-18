@@ -160,7 +160,7 @@ def write_evaluation_artifacts(
         json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
     metrics = summary["metrics"]
-    report = f"""# Project Specification Copilot Evaluation
+    report = f"""# Project Communication and Specification Assistant Evaluation
 
 **Data status:** synthetic
 
