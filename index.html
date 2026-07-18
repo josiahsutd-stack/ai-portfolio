@@ -63,8 +63,10 @@
               <span>01 / Flagship</span>
               <h3>AEC Code Compliance RAG</h3>
               <p>Public-source ingestion, four retrieval modes, citations, abstention, evals, and focused tests.</p>
-              <strong>Public Hit@1 0.952 / MRR 0.976</strong>
-              <small>Public 24-case snapshot over 15 local documents. Synthetic 51-case regression set: Recall@4 1.000 / MRR 0.906. Not compliance certification.</small>
+              <strong>Exact evidence Hit@1 0.810 / MRR 0.881 on 21 candidate-authored targets</strong>
+              <small>Public Hit@1 0.952 / MRR 0.976 at document level. Public 24-case snapshot over 15 local documents.</small>
+              <small>Source-page Hit@1 0.778 / MRR 0.861 on 18 page-labeled cases. Labels are not independent expert annotations.</small>
+              <small>Synthetic 51-case regression set: Recall@4 1.000 / MRR 0.906. Not compliance certification.</small>
               <small>95% intervals: Hit@1 [0.773, 0.992], n=21; MRR [0.929, 1.000]. No-answer is 2/2, not a broad accuracy claim.</small>
               <a href="#flagship">View project</a>
             </article>
@@ -181,6 +183,7 @@
             </p>
             <dl class="fact-list">
               <div><dt>Evaluation</dt><dd>51 synthetic cases plus 24 authored public-source cases over a fingerprinted 15-document snapshot</dd></div>
+              <div><dt>Evidence location</dt><dd>Document Hit@1 0.952 versus exact candidate-authored target Hit@1 0.810; source-page Hit@1 0.778</dd></div>
               <div><dt>Uncertainty</dt><dd>Public Hit@1 0.952 [0.773, 0.992], n=21; MRR 0.976 [0.929, 1.000]. Hybrid-vs-BM25 MRR delta 0.012 [0.000, 0.036], inconclusive</dd></div>
               <div><dt>Service</dt><dd>12/12 local contract checks passed; 9 requests observed before metrics response. The fixed workload returned 48/48 HTTP 200 responses, 0 server errors, and P95 at or below 500 ms</dd></div>
               <div><dt>Persistence</dt><dd>48 payload-free query telemetry rows remained after app reconstruction</dd></div>
@@ -195,6 +198,7 @@
               <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/projects/aec-code-compliance-rag/demo_outputs/service_contract_report.md">Service contract</a>
               <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/projects/aec-code-compliance-rag/demo_outputs/service_reliability_report.md">Reliability evidence</a>
               <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/projects/aec-code-compliance-rag/demo_outputs/public_sources/retrieval_uncertainty_report.md">Uncertainty evidence</a>
+              <a href="https://github.com/josiahsutd-stack/ai-portfolio/blob/main/projects/aec-code-compliance-rag/demo_outputs/public_sources/target_label_report.md">Target-label audit</a>
             </div>
           </div>
           <figure class="evidence-shot">
@@ -221,9 +225,16 @@
         </div>
         <div class="container">
           <figure class="workflow-proof workflow-proof--light">
+            <img src="assets/retrieval-granularity.svg" alt="Document-level, exact-chunk, and source-page retrieval metrics for the fixed AEC public-source snapshot" />
+            <figcaption>
+              Finding the expected publication is easier than retrieving the labeled supporting passage. Exact targets were authored from the fixed local snapshot and have not been independently reviewed.
+            </figcaption>
+          </figure>
+          <figure class="workflow-proof workflow-proof--light">
             <img src="assets/retrieval-uncertainty.svg" alt="Point estimates and 95 percent intervals for the authored AEC public-source retrieval snapshot" />
             <figcaption>
               Public Hit@1 0.952 has a 95% Wilson interval of [0.773, 0.992] over 21 answerable cases; MRR 0.976 has a 95% bootstrap interval of [0.929, 1.000]. No-answer 1.000 is 2/2 with a Wilson interval of [0.342, 1.000]. The intervals resample this fixed authored set; they are not external-validity claims.
+              Exact-target uncertainty: Hit@1 0.810 [0.600, 0.923] and MRR 0.881 [0.762, 0.976] across 21 candidate-authored targets.
             </figcaption>
           </figure>
         </div>

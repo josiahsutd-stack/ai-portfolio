@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+<title id="title">AEC retrieval granularity comparison</title>
+<desc id="desc">Document, exact chunk, and source-page retrieval metrics on a fixed candidate-authored public-source evaluation.</desc>
+<rect width="1200" height="720" fill="#fbfcfe"/>
+<rect x="28" y="28" width="1144" height="664" rx="8" fill="#ffffff" stroke="#d8dee8"/>
+<text x="72" y="86" fill="#12233f" font-family="Arial, sans-serif" font-size="30" font-weight="700">Document match is not evidence match</text>
+<text x="72" y="118" fill="#536174" font-family="Arial, sans-serif" font-size="16">Singapore public-source fixed snapshot; candidate-authored evidence targets</text>
+<text x="72" y="151" fill="#0d6f69" font-family="Arial, sans-serif" font-size="14" font-weight="700">THREE RETRIEVAL GRANULARITIES, REPORTED SEPARATELY</text>
+<circle cx="720" cy="150" r="6" fill="#0d7f78"/>
+<text x="732" y="155" fill="#536174" font-family="Arial, sans-serif" font-size="13">Hit@1</text>
+<circle cx="845" cy="150" r="6" fill="#d65f4a"/>
+<text x="857" y="155" fill="#536174" font-family="Arial, sans-serif" font-size="13">Hit@3</text>
+<circle cx="970" cy="150" r="6" fill="#214a79"/>
+<text x="982" y="155" fill="#536174" font-family="Arial, sans-serif" font-size="13">MRR</text>
+<line x1="345.0" y1="190" x2="345.0" y2="570" stroke="#e7ebf1"/>
+<text x="345.0" y="592" text-anchor="middle" fill="#68768a" font-family="Arial, sans-serif" font-size="13">0.0</text>
+<line x1="477.0" y1="190" x2="477.0" y2="570" stroke="#e7ebf1"/>
+<text x="477.0" y="592" text-anchor="middle" fill="#68768a" font-family="Arial, sans-serif" font-size="13">0.2</text>
+<line x1="609.0" y1="190" x2="609.0" y2="570" stroke="#e7ebf1"/>
+<text x="609.0" y="592" text-anchor="middle" fill="#68768a" font-family="Arial, sans-serif" font-size="13">0.4</text>
+<line x1="741.0" y1="190" x2="741.0" y2="570" stroke="#e7ebf1"/>
+<text x="741.0" y="592" text-anchor="middle" fill="#68768a" font-family="Arial, sans-serif" font-size="13">0.6</text>
+<line x1="873.0" y1="190" x2="873.0" y2="570" stroke="#e7ebf1"/>
+<text x="873.0" y="592" text-anchor="middle" fill="#68768a" font-family="Arial, sans-serif" font-size="13">0.8</text>
+<line x1="1005.0" y1="190" x2="1005.0" y2="570" stroke="#e7ebf1"/>
+<text x="1005.0" y="592" text-anchor="middle" fill="#68768a" font-family="Arial, sans-serif" font-size="13">1.0</text>
+<text x="72" y="235" fill="#24344d" font-family="Arial, sans-serif" font-size="18" font-weight="700">Document source</text>
+<text x="72" y="258" fill="#68768a" font-family="Arial, sans-serif" font-size="13">n=21 - Finds any chunk from the expected document</text>
+<rect x="345" y="228" width="628.3" height="12" rx="3" fill="#0d7f78"/>
+<text x="983.3" y="239" fill="#24344d" font-family="Arial, sans-serif" font-size="13" font-weight="700">0.952</text>
+<rect x="345" y="255" width="660.0" height="12" rx="3" fill="#d65f4a"/>
+<text x="1015.0" y="266" fill="#24344d" font-family="Arial, sans-serif" font-size="13" font-weight="700">1.000</text>
+<rect x="345" y="282" width="644.2" height="12" rx="3" fill="#214a79"/>
+<text x="999.2" y="293" fill="#24344d" font-family="Arial, sans-serif" font-size="13" font-weight="700">0.976</text>
+<text x="72" y="360" fill="#24344d" font-family="Arial, sans-serif" font-size="18" font-weight="700">Exact evidence chunk</text>
+<text x="72" y="383" fill="#68768a" font-family="Arial, sans-serif" font-size="13">n=21 - Requires a candidate-authored supporting chunk</text>
+<rect x="345" y="353" width="534.6" height="12" rx="3" fill="#0d7f78"/>
+<text x="889.6" y="364" fill="#24344d" font-family="Arial, sans-serif" font-size="13" font-weight="700">0.810</text>
+<rect x="345" y="380" width="628.3" height="12" rx="3" fill="#d65f4a"/>
+<text x="983.3" y="391" fill="#24344d" font-family="Arial, sans-serif" font-size="13" font-weight="700">0.952</text>
+<rect x="345" y="407" width="581.5" height="12" rx="3" fill="#214a79"/>
+<text x="936.5" y="418" fill="#24344d" font-family="Arial, sans-serif" font-size="13" font-weight="700">0.881</text>
+<text x="72" y="485" fill="#24344d" font-family="Arial, sans-serif" font-size="18" font-weight="700">Source + target page</text>
+<text x="72" y="508" fill="#68768a" font-family="Arial, sans-serif" font-size="13">n=18 - Requires the expected source and labeled page</text>
+<rect x="345" y="478" width="513.5" height="12" rx="3" fill="#0d7f78"/>
+<text x="868.5" y="489" fill="#24344d" font-family="Arial, sans-serif" font-size="13" font-weight="700">0.778</text>
+<rect x="345" y="505" width="623.0" height="12" rx="3" fill="#d65f4a"/>
+<text x="978.0" y="516" fill="#24344d" font-family="Arial, sans-serif" font-size="13" font-weight="700">0.944</text>
+<rect x="345" y="532" width="568.3" height="12" rx="3" fill="#214a79"/>
+<text x="923.3" y="543" fill="#24344d" font-family="Arial, sans-serif" font-size="13" font-weight="700">0.861</text>
+<rect x="72" y="620" width="1056" height="44" rx="5" fill="#f3f6f9" stroke="#d8dee8"/>
+<text x="94" y="647" fill="#536174" font-family="Arial, sans-serif" font-size="14">Targets are candidate-authored from the fixed snapshot, not independent expert labels or regulatory validation.</text>
+</svg>
